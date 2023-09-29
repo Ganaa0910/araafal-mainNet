@@ -6,6 +6,7 @@ import transparentLogo from "../../public/transparentLogo.png";
 import twitterIcon from "../../public/twitterIcon.svg";
 
 import ConnectWalletButton from "./ConnectWalletButton";
+import Link from "next/link";
 
 export default function Navbar() {
   return (
@@ -13,24 +14,22 @@ export default function Navbar() {
       <nav className="bg-[#000000] bg-opacity-30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-20 px-8">
+            <Link href={'/'}>
             <div className="flex items-center h-12 select-none">
               <Image
                 className="h-8 w-8 cursor-pointer"
                 src={transparentLogo}
                 alt="Logo"
-                onClick={() => {
-                  window.location.href = "https://www.satoshipunks.art/";
-                }}
+
               />
               <Image
                 src={logoType}
                 className="ml-2.5 cursor-pointer"
-                onClick={() => {
-                  window.location.href = "https://www.satoshipunks.art/";
-                }}
+
                 alt="Logo type"
               />
             </div>
+            </Link>
             <div className="hidden md:block">
               <div className="flex items-center gap-8">
                 <div className="flex flex-row">

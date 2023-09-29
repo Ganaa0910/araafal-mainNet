@@ -5,15 +5,18 @@ import { verifyMessage } from '@unisat/wallet-utils'
 import { Buffer } from 'buffer'
 import crypto from 'crypto'
 import moment from 'moment'
-
+import Link from 'next/link'
 import { setAddress, setConnected } from '../slices/mainSlice'
+import { User } from '@/lib/types/dbTypes'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { loginHandler } from '@/lib/fetcherFunctions'
 
 function ConnectWalletButton() {
+    const queryClient = useQueryClient();
     const account = useSelector((state) => state.account)
     const dispatch = useDispatch()
     const dropdownRef = useRef()
-
-    const [details, setDetails] = useState({})
+    const [details, setDetails] = useState<User | null>(null)
 
     const [isOpen, setIsOpen] = useState(false)
 
@@ -30,6 +33,19 @@ function ConnectWalletButton() {
             window.removeEventListener('click', handleOutsideClick)
         }
     }, [])
+
+    const { data, error, isLoading, mutateAsync } = useMutation({
+        mutationFn: loginHandler,
+        onError: () => {
+          console.log(error);
+        },
+        onSuccess: () => {
+          queryClient.invalidateQueries({ queryKey: ['cart'] });
+        },
+      });
+    console.log("🚀 ~ file: ConnectWalletButton.tsx:46 ~ ConnectWalletButton ~ data:", data)
+
+
 
     useEffect(() => {
         const connectWalletOnLoad = async () => {
@@ -70,6 +86,8 @@ function ConnectWalletButton() {
 
             const matching = verifyMessage(pubkey, message, signature)
             if (matching) {
+                console.log("🚀 ~ file: ConnectWalletButton.tsx:89 ~ sign ~ matching:", matching)
+                await mutateAsync({walletData: account})
                 dispatch(setAddress(account))
                 dispatch(setConnected(true))
                 const item = {
@@ -86,6 +104,7 @@ function ConnectWalletButton() {
             console.log(error)
         }
     }
+
 
     const handleLogin = async () => {
         try {
@@ -176,19 +195,19 @@ function ConnectWalletButton() {
                                 aria-orientation="vertical"
                                 aria-labelledby="options-menu"
                             >
+                                <Link href={`/profile/${account.address}`}>
                                 <span
-                                    href="#"
+
                                     className="select-none block px-4 py-2 text-base bg-darkerLightGray hover:bg-defaultGray cursor-pointer rounded-t-lg border-none"
                                     role="menuitem"
-                                    onClick={() => {
-                                        window.location.href = `/profile/${account.address}`
-                                    }}
+
                                 >
                                     Profile
                                 </span>
+                                </Link>
                                 <hr className="border-defaultGray" />
                                 <span
-                                    href="#"
+                                    // href="#"
                                     className="select-none block px-4 py-2 text-base bg-darkerLightGray hover:bg-defaultGray cursor-pointer rounded-b-lg"
                                     role="menuitem"
                                     onClick={handleLogout}
@@ -212,3 +231,4 @@ function ConnectWalletButton() {
 }
 
 export default ConnectWalletButton
+

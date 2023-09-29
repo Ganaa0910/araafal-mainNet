@@ -1,3 +1,9 @@
+declare global {
+  interface Window {
+    unisat: any; // Replace 'any' with the actual type if you know it
+  }
+}
+
 export enum RaffleStatus {
   RAFFLE_ONHOLD,
   RAFFLE_RUNNING,

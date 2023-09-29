@@ -11,11 +11,12 @@ import InfoSection from '../components/InfoSection'
 import raffle from '../../raffleDetails.json'
 import { useQuery } from '@tanstack/react-query'
 import { fetchRaffles } from '@/lib/fetcherFunctions'
+import Link from 'next/link'
 
 function App() {
     const [tokens, setTokens] = useState([])
     const { isLoading, isError, data, error } = useQuery({
-        queryKey: ['todos'],
+        queryKey: ['raffles'],
         queryFn: fetchRaffles,
     })
     console.log('🚀 ~ file: index.js:21 ~ App ~ data:', data)
@@ -133,6 +134,13 @@ function App() {
     return (
         <div className="max-w-[1400px] mx-auto">
             <div className="py-[48px] md:py-[64px] px-4 md:px-[40px] w-full grid grid-cols-1 gap-8 justify-start items-center">
+              {data?.map((ins)=> (
+                <Link key={ins.id} href={`/raffles/${ins.id}`}>
+                <div >
+                  {ins.name},{ins.inscriptionId}, {ins.price}
+                </div>
+                </Link>
+              ))}
                 <div className="flex flex-col md:flex-row gap-9">
                     <ViewInscription />
                     <InfoSection />
