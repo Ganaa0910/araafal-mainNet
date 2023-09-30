@@ -7,6 +7,8 @@ import InfoSection from "@/components/InfoSection";
 import InscriptionDetails from "@/components/InscriptionDetails";
 import BuyPanel from "@/components/BuyPanel";
 import Leaderboard from "@/components/Leaderboard";
+import axios from "axios";
+import moment from "moment";
 
 export default function Detail() {
   const router = useRouter();
@@ -27,7 +29,7 @@ export default function Detail() {
     enabled: !!slug,
   });
   const { data: tickets } = useQuery({
-    queryKey: ["raffleTitle", slug],
+    queryKey: ["tickets", slug],
     queryFn: () => {
       if (typeof slug === "string") {
         return getTicketsByRaffle(slug);
@@ -35,7 +37,7 @@ export default function Detail() {
     },
     enabled: !!slug,
   });
-  console.log("🚀 ~ file: [id].tsx:15 ~ Detail ~ data:", raffleDetail);
+  console.log("🚀 ~ file: [id].tsx:38 ~ Detail ~ tickets:", tickets);
 
   async function getAddressDetail() {
     try {
@@ -68,7 +70,7 @@ export default function Detail() {
             if (userExists) {
               userExists.amount += amount;
               userExists.ticket = Math.floor(
-                userExists.amount / raffle.ticketPrice
+                userExists.amount / raffle.ticketPrice,
               );
             } else {
               result.push({
@@ -133,7 +135,7 @@ export default function Detail() {
       <div className="py-[48px] md:py-[64px] px-4 md:px-[40px] w-full grid grid-cols-1 gap-8 justify-start items-center">
         <div className="flex flex-col md:flex-row gap-9">
           <ViewInscription />
-          <InfoSection />
+          <InfoSection raffleDetail={raffleDetail} />
         </div>
 
         <div className="flex flex-col gap-8 md:flex-row">
@@ -143,7 +145,11 @@ export default function Detail() {
             raffleDetail={raffleDetail}
             tickets={tickets}
           />
-          <Leaderboard tokens={tokens} getAddressDetail={getAddressDetail} />
+          <Leaderboard
+            tokens={tokens}
+            getAddressDetail={getAddressDetail}
+            tickets={tickets}
+          />
         </div>
       </div>
     </div>

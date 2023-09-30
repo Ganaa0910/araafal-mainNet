@@ -3,6 +3,11 @@ import raffle from "../../raffleDetails.json";
 import moment from "moment";
 import Button from "./Button";
 import { Ticket } from "@/lib/types/dbTypes";
+import {
+  TransactionWithTicket,
+  getTicketsByRaffle,
+} from "@/lib/fetcherFunctions";
+import { useQuery } from "@tanstack/react-query";
 
 export default function Leaderboard({
   tokens,
@@ -11,6 +16,7 @@ export default function Leaderboard({
 }: {
   tickets: Ticket[];
 }) {
+  console.log("🚀 ~ file: Leaderboard.tsx:19 ~ tickets:", tickets);
   const [lastUpdated, setLastUpdated] = useState(moment());
   const [timeDifference, setTimeDifference] = useState("");
   const [copiedIndex, setCopiedIndex] = useState(-1);
@@ -63,33 +69,32 @@ export default function Leaderboard({
     setLastUpdated(moment());
   };
 
+  // // Group transactions by transactionId and count them
+  // const groupedTransactions: Record<
+  //   string,
+  //   { ticket: TransactionWithTicket[]; count: number }
+  // > = tickets?.reduce((grouped, ticket) => {
+  //   const transactionId = ticket.Transaction?.transactionId;
+  //   if (!grouped[transactionId]) {
+  //     grouped[transactionId] = {
+  //       transactions: [],
+  //       count: 0,
+  //     };
+  //   }
+  //   grouped[transactionId].transactions.push(ticket);
+  //   grouped[transactionId].count++;
+  //   return grouped;
+  // }, {});
+
+  // // Sort the grouped transactions by transactionId
+  // const sortedTransactionIds = Object.keys(groupedTransactions).sort();
+
   return (
     <>
       <div className="rounded-lg flex flex-col gap-[24px] p-[24px] border border-lightGray bg-defaultGray">
         <h1 className="text-3xl">Participants</h1>
 
-        <div className="flex items-center justify-between">
-          <p className="text-base">Last updated: {timeDifference}</p>
-          <button
-            onClick={handleRefreshButtonClick}
-            className="bg-inherit p-0 border-none"
-          >
-            <svg
-              width="20"
-              height="20"
-              viewBox="0 0 20 20"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M16.5374 17.5674C14.7844 19.0831 12.4993 20 10 20C4.47715 20 0 15.5228 0 10C0 4.47715 4.47715 0 10 0C15.5228 0 20 4.47715 20 10C20 12.1361 19.3302 14.1158 18.1892 15.7406L15 10H18C18 5.58172 14.4183 2 10 2C5.58172 2 2 5.58172 2 10C2 14.4183 5.58172 18 10 18C12.1502 18 14.1022 17.1517 15.5398 15.7716L16.5374 17.5674Z"
-                fill="white"
-              />
-            </svg>
-          </button>
-        </div>
-
-        <div className="flex flex-col md:flex-row gap-4">
+        {/* <div className="flex flex-col md:flex-row gap-4">
           <input
             type="text"
             name="searchWallet"
@@ -103,20 +108,20 @@ export default function Leaderboard({
           >
             Search
           </button>
-        </div>
+        </div> */}
         <div>
           <div className="border border-lightGray flex flex-col divide-y-2 divide-lightGray rounded-lg">
             <div className="flex justify-between text-white px-6 py-4 text-lg">
               <h5>Wallet</h5>
               <h5>Tickets</h5>
             </div>
-            <div className="h-[270px] overflow-y-auto">
+            <div className="h-[270px] w-[160px] overflow-y-auto">
               {tickets?.length > 0 &&
                 tickets
                   .filter((token) =>
                     token.userId
                       .toLowerCase()
-                      .includes(searchWallet.toLowerCase())
+                      .includes(searchWallet.toLowerCase()),
                   )
                   .map((token, key) => (
                     <li
@@ -133,7 +138,7 @@ export default function Leaderboard({
                           "..." +
                           token.userId.substring(token.userId.length - 4)}
                       </a>
-                      <p>{/* {token.ticket} */}1</p>
+                      {/* <p>{token.ticket}1</p> */}
                       {copiedIndex === key && (
                         <div className="absolute top-2 right-2">
                           <div className="alert alert-success">

@@ -63,7 +63,7 @@ export async function getUserRaffles(id: string): Promise<Raffle[]> {
 }
 
 export async function getTicketsByRaffle(id: string) {
-  const response = await fetch(`${APIURL}/api/tickets/raffle/${id}`);
+  const response = await fetch(`${APIURL}/api/raffles/${id}/tickets`);
   if (!response.ok) {
     throw new Error("Network response was not ok");
   }

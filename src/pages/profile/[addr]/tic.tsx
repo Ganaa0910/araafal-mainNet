@@ -41,17 +41,6 @@ const Tic = () => {
   });
   console.log("🚀 ~ file: [id].tsx:15 ~ Detail ~ raffles:", tickets);
 
-  tickets?.forEach((ticket) => {
-    if (ticket?.Transaction) {
-      const { transactionId } = ticket?.Transaction;
-      if (ticketCounts[transactionId]) {
-        ticketCounts[transactionId] += 1;
-      } else {
-        ticketCounts[transactionId] = 1;
-      }
-    }
-  });
-
   // Group transactions by transactionId and count them
   const groupedTransactions: Record<
     string,
@@ -68,17 +57,9 @@ const Tic = () => {
     grouped[transactionId].count++;
     return grouped;
   }, {});
-  console.log(
-    "🚀 ~ file: tic.tsx:57 ~ Tic ~ groupedTransactions:",
-    groupedTransactions,
-  );
 
   // Sort the grouped transactions by transactionId
   const sortedTransactionIds = Object.keys(groupedTransactions).sort();
-  console.log(
-    "🚀 ~ file: tic.tsx:74 ~ Tic ~ sortedTransactionIds:",
-    sortedTransactionIds,
-  );
 
   return (
     <div className="max-w-[1216px] mx-auto flex flex-row">

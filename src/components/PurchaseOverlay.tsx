@@ -154,7 +154,7 @@ const PurchaseOverlay = ({
   async function transferInscription(inscriptionId: string) {
     try {
       let { txid } = await window.unisat.sendInscription(
-        raffle.userAddress,
+        raffleDetail.ticketDepositAddress,
         inscriptionId,
       );
       const variables: TransactionType = {

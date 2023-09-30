@@ -13,7 +13,7 @@ const MyInscriptions = () => {
   const slug = router.query.addr;
 
   const { data: inscriptions } = useQuery({
-    queryKey: ["inscriptions", slug],
+    queryKey: ["raffleTitle", slug],
     queryFn: () => {
       if (typeof slug === "string") {
         return getInscriptions(slug);
