@@ -4,7 +4,6 @@ import { useRouter } from 'next/router'
 
 import Button from '@/components/Button'
 // import MyInscriptions from '@/components/MyInscriptions'
-import MyCreatedRaffles from '@/components/tabs/MyCreatedRaffles'
 import axios from 'axios'
 import Image from 'next/image'
 
@@ -13,15 +12,15 @@ export default function Profile() {
     const Buttons = [
         {
             title: `My Inscriptions`,
-            href: `/ins`,
+            href: `/profile/ins`,
         },
         {
             title: `My Created Raffles`,
-            href: `/raf`,
+            href: `/profile/raf`,
         },
         {
             title: `My Tickets`,
-            href: `/tic`,
+            href: `/profile/tic`,
         },
     ]
     //profile routing ends
@@ -127,7 +126,7 @@ export default function Profile() {
                 </div>
 
                 {/* <MyInscriptions></MyInscriptions> */}
-                <MyCreatedRaffles></MyCreatedRaffles>
+                {/* <MyCreatedRaffles></MyCreatedRaffles> */}
 
                 {/* <myProfile></myProfile> */}
                 {/* <div className="flex flex-col md:flex-row gap-8">
