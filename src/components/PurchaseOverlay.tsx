@@ -62,17 +62,17 @@ const PurchaseOverlay = ({
               let tokenExists = result.find((obj) => obj.token === token);
               if (tokenExists) {
                 tokenExists.balance += parseInt(
-                  balanceDatas[i].balanceList[k].balance
+                  balanceDatas[i].balanceList[k].balance,
                 );
               } else {
                 result.push({
                   token: token,
                   balance: parseInt(balanceDatas[i].balanceList[k].balance),
                   availableBalance: parseInt(
-                    balanceDatas[i].balanceList[k].availableBalance
+                    balanceDatas[i].balanceList[k].availableBalance,
                   ),
                   transferBalance: parseInt(
-                    balanceDatas[i].balanceList[k].transferBalance
+                    balanceDatas[i].balanceList[k].transferBalance,
                   ),
                 });
               }
@@ -144,7 +144,7 @@ const PurchaseOverlay = ({
     try {
       const tx = await window.unisat.inscribeTransfer(
         selectedToken,
-        inscribeAmount
+        inscribeAmount,
       );
     } catch (error) {
       console.log(error);
@@ -154,8 +154,8 @@ const PurchaseOverlay = ({
   async function transferInscription(inscriptionId: string) {
     try {
       let { txid } = await window.unisat.sendInscription(
-        raffle.userAddress,
-        inscriptionId
+        raffleDetail.ticketDepositAddress,
+        inscriptionId,
       );
       const variables: TransactionType = {
         transactionId: txid,
@@ -219,25 +219,25 @@ const PurchaseOverlay = ({
           <div className="w-[300px] pt-2 flex flex-col gap-2">
             <div className="flex justify-between">
               <div>Raffle name:</div>
-              <div>{raffleDetail.name}</div>
+              <div>{raffleDetail?.name}</div>
             </div>
             <div className="flex justify-between">
               <div>Ticket price:</div>
               <div>
-                {raffleDetail.price} {raffleDetail.sellingTokenTicker}
+                {raffleDetail?.price} {raffleDetail?.sellingTokenTicker}
               </div>
             </div>
 
             <div className="flex justify-between">
               <div>Total:</div>
               <div>
-                {ticket.amount * raffleDetail?.price}{" "}
-                {raffleDetail.sellingTokenTicker}
+                {ticket?.amount * raffleDetail?.price}{" "}
+                {raffleDetail?.sellingTokenTicker}
               </div>
             </div>
             <button
               className="flex flex-col items-center w-full"
-              onClick={() => transferInscription(raffleDetail.inscriptionId)}
+              onClick={() => transferInscription(raffleDetail?.inscriptionId)}
             >
               Confirm
             </button>

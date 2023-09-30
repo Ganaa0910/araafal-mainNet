@@ -75,11 +75,7 @@ export default function BuyPanel({
         </div>
         <div className="pb-6">
           <p className="text-base pb-2">Tickets purchased</p>
-          <h2 className="text-3xl">
-            {tickets?.length > 0
-              ? tickets?.reduce((a, b) => a + (b["ticket"] || 0), 0)
-              : 0}
-          </h2>
+          <h2 className="text-3xl">{tickets?.length}</h2>
         </div>
         <div className="flex justify-start w-full" role="group">
           <div className="flex flex-col w-full md:w-auto">
@@ -125,15 +121,6 @@ export default function BuyPanel({
         </div>
         {raffleActive && (
           <div className="flex flex-col">
-            <div className="flex flex-row text-base text-lighterGray pb-2">
-              Deposit Address
-              <div
-                className="flex pl-2 items-center cursor-pointer"
-                onClick={handleCopyDepositAddressButton}
-              >
-                <AiOutlineCopy />
-              </div>
-            </div>
             <p className="w-full select-all text-base bg-defaultGray break-all inline-block text-start pb-6">
               {raffleDetail?.ownerId}
             </p>

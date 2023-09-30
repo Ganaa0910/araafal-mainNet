@@ -24,12 +24,6 @@ export default function ViewInscription() {
         >
           View Inscription
         </button>
-        {/* <Button
-          onClick={() => window.open("https://www.satoshipunks.art/","_self")}
-          customStyle={'w-72'}
-      >
-          Website 
-        </Button> */}
       </div>
     </div>
   );

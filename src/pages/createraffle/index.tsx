@@ -1,20 +1,106 @@
-import { useState } from 'react'
-import DatePicker from 'react-datepicker'
-import 'react-datepicker/dist/react-datepicker.css'
+import { useEffect, useState } from "react";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
-import Choose from '@/components/create-raffle/choose'
-import Image from 'next/image'
+import Choose from "@/components/create-raffle/choose";
+import Image from "next/image";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { createRaffle } from "@/lib/fetcherFunctions";
+import { useSelector } from "react-redux";
 export default function CreateRaffle() {
-  const [showInscriptions, setShowInscriptions] = useState(false)
+  const queryClient = useQueryClient();
+  const account = useSelector((state) => state.account);
+  const [showInscriptions, setShowInscriptions] = useState(false);
+  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [selectedTime, setSelectedTime] = useState("12:00");
+  const [combinedDateTime, setCombinedDateTime] = useState("");
+  const [desc, setDesc] = useState("");
+  const [price, setPrice] = useState("");
+  const [walletInfo, setWalletInfo] = useState({});
+  console.log(
+    "🚀 ~ file: index.tsx:20 ~ CreateRaffle ~ walletInfo:",
+    walletInfo,
+  );
+
+  const { data, error, isLoading, mutateAsync } = useMutation({
+    mutationFn: createRaffle,
+    onError: () => {
+      console.log(error);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["cart"] });
+    },
+  });
 
   const toggleInscriptions = () => {
-    setShowInscriptions(!showInscriptions)
-  }
-  const [selectedDate, setSelectedDate] = useState(null)
+    setShowInscriptions(!showInscriptions);
+  };
 
   const handleDateChange = (date) => {
-    setSelectedDate(date)
-  }
+    setSelectedDate(date);
+  };
+  const handleTimeChange = (time) => {
+    setSelectedTime(time);
+    // updateCombinedDateTime(selectedDate, time);
+  };
+
+  // const updateCombinedDateTime = (date, time) => {
+  //   const formattedDate = date.toISOString().split("T")[0];
+  //   const combinedDateTimeString = `${formattedDate}T${time}:00Z`;
+  //   setCombinedDateTime(combinedDateTimeString);
+  // };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // Make an API request or fetch data from a source
+        const response = await fetch(
+          "http://localhost:3001/api/raffles/generateWallet",
+          {
+            method: "POST",
+          },
+        );
+
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+
+        const data = await response.json();
+
+        // Update the state with the fetched data
+        setWalletInfo(data);
+        // setLoading(false);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        // setLoading(false);
+      }
+    };
+
+    // Call the fetchData function when the component mounts
+    fetchData();
+  }, []);
+
+  const handleSubmit = async () => {
+    const newRaffleData = {
+      name: "Raffle by wallet my address",
+      description: desc,
+      price: price,
+      sellingTokenTicker: "BTC",
+      featured: false,
+      endDate: selectedDate,
+      startDate: "2023-09-27T00:00:00Z",
+      inscriptionId: "12345",
+      inscriptionPreviewUrl: "https://example.com/inscription",
+      ownerId: account,
+      nftDepositTransactionId: "1",
+
+      nftDepositAddress: "1",
+      nftPrivateKey: "1",
+      ticketDepositAddress: "1",
+      ticketPrivateKey: "1",
+    };
+    await mutateAsync({ newRaffleData });
+  };
   return (
     <div className="max-w-[1216px] mx-auto h-auto flex flex-col">
       <Choose show={showInscriptions} handleClose={toggleInscriptions}></Choose>
@@ -24,7 +110,7 @@ export default function CreateRaffle() {
           className="w-1/3 flex flex-col justify-center items-center h-5/6 border-2 border-lightGray rounded-xl"
           onClick={toggleInscriptions}
         >
-          <Image src={'/nft.svg'} width={96} height={96}></Image>
+          <Image src={"/nft.svg"} width={96} height={96}></Image>
           <h1 className=" text-2xl text-center">
             Click here to <br /> choose inscription
           </h1>
@@ -48,6 +134,8 @@ export default function CreateRaffle() {
                   <input
                     type="text"
                     placeholder="Enter an amount"
+                    value={price}
+                    onChange={(e) => setPrice(e.target.value)}
                     className="border border-gray-300 rounded px-4 py-2 mt-2 bg-black"
                   />
                 </div>
@@ -55,7 +143,11 @@ export default function CreateRaffle() {
             </div>
             <div className="w-full h-2/3  flex flex-col p-10 border-2 border-lightGray rounded-xl gap-4">
               <h1 className="text-2xl">Description</h1>
-              <input className="w-full h-full bg-transparent border-2 rounded-xl"></input>
+              <input
+                className="w-full h-full bg-transparent border-2 rounded-xl"
+                value={desc}
+                onChange={(e) => setDesc(e.target.value)}
+              />
             </div>
           </div>
           <div className="w-1/3 h-full flex flex-col gap-8">
@@ -68,17 +160,18 @@ export default function CreateRaffle() {
                   dateFormat="dd/MM/yyyy"
                   className="border p-2 rounded w-full"
                 />
-                <DatePicker
+                {/* <DatePicker
                   selected={selectedDate}
-                  onChange={handleDateChange}
-                  dateFormat="dd/MM/yyyy"
+                  onChange={handleTimeChange}
+                  format="hh:mm"
                   className="border p-2 rounded w-full"
-                />
+                /> */}
               </div>
             </div>
             <div className="w-full h-1/8 ">
               <button
                 className={`text-base w-full h-full bg-defaultGray border-lightGray px-[16px] py-[12px] h-[48px] hover:border-white`}
+                onClick={() => handleSubmit()}
               >
                 Submit
               </button>
@@ -87,5 +180,5 @@ export default function CreateRaffle() {
         </div>
       </div>
     </div>
-  )
+  );
 }

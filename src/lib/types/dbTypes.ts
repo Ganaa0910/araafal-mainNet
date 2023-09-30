@@ -33,27 +33,29 @@ export type EmailAddress = {
 };
 
 export type Raffle = {
-  id: string;
+  id: string | undefined;
   name: string;
   description: string;
-  createdAt: Date;
+  createdAt: Date | null;
   price: number;
-  sellingTokenTicker: string;
+  sellingTokenTicker: string | undefined;
   sellingTicketLimit: number;
   featured: boolean;
   endDate: Date;
   startDate: Date;
-  status: RaffleStatus;
+  status: RaffleStatus | undefined;
   inscriptionId: string;
   inscriptionPreviewUrl: string;
   ownerId: string;
   winnerId: string | null;
   featuredTransanctionId: string | null;
+  nftDepositTransactionId: string | null;
   nftDepositAddress: string | null;
   nftPrivateKey: string | null;
   ticketDepositAddress: string | null;
   ticketPrivateKey: string | null;
-  transaction: Transaction | null;
+  featuredTransaction: Transaction | null;
+  nftTransaction: Transaction | null;
   owner: User;
   winner: User | null;
   Ticket: Ticket[];
