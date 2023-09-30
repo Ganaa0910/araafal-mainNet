@@ -1,4 +1,4 @@
-import { Raffle, User } from "../types/dbTypes";
+import { Raffle, Transaction, User } from "../types/dbTypes";
 import axios from "axios";
 
 const apiKey = process.env.UNISAT_API_KEY;
@@ -19,6 +19,15 @@ export interface TransactionType {
   };
 }
 
+export interface TransactionWithTicket {
+  id: string;
+  userId: string;
+  raffleId?: string; // This is an optional field, as you mentioned
+  createdAt: Date;
+  Transaction: Transaction;
+  raffle: Raffle;
+}
+
 export async function fetchRaffles(): Promise<Raffle[]> {
   const response = await fetch(`${APIURL}/api/raffles`);
   if (!response.ok) {
@@ -35,8 +44,18 @@ export async function fetchRaffleById(id: string): Promise<Raffle> {
   return response.json();
 }
 
-export async function getTicketsByUser(id: string) {
+export async function getTicketsByUser(
+  id: string,
+): Promise<TransactionWithTicket[]> {
   const response = await fetch(`${APIURL}/api/tickets/user/${id}`);
+  if (!response.ok) {
+    throw new Error("Network response was not ok");
+  }
+  return response.json();
+}
+
+export async function getUserRaffles(id: string): Promise<Raffle[]> {
+  const response = await fetch(`${APIURL}/api/users/${id}/myRaffles`);
   if (!response.ok) {
     throw new Error("Network response was not ok");
   }
@@ -84,6 +103,10 @@ export async function getInscriptions(address: string) {
       },
     });
 
+    console.log(
+      "🚀 ~ file: index.tsx:102 ~ getInscriptions ~ response:",
+      response,
+    );
     const utxo = response.data.utxo;
 
     for (let i = 0; i < utxo.length; i++) {
@@ -106,7 +129,7 @@ export async function createRaffle({
   try {
     const { data, status } = await makePostRequest<Raffle>(
       `${APIURL}/api/raffles`,
-      newRaffleData
+      newRaffleData,
     );
 
     if (!data || status !== 200) {
@@ -187,7 +210,7 @@ export async function loginHandler({
 
 async function makePostRequest<T>(
   url: string,
-  data: T
+  data: T,
 ): Promise<{ data: T; status: number }> {
   try {
     // Create a new request object
@@ -218,7 +241,7 @@ async function makePostRequest<T>(
 
 async function makePutRequest<T>(
   url: string,
-  data: T
+  data: T,
 ): Promise<{ data: T; status: number }> {
   try {
     // Create a new request object

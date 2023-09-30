@@ -10,7 +10,7 @@ import InfoSection from "../components/InfoSection";
 
 import raffle from "../../raffleDetails.json";
 import { useQuery } from "@tanstack/react-query";
-import { fetchRaffles } from "@/lib/fetcherFunctions";
+import { fetchRaffles, getInscriptions } from "@/lib/fetcherFunctions";
 import Link from "next/link";
 
 function App() {
@@ -20,6 +20,16 @@ function App() {
     queryFn: fetchRaffles,
   });
   console.log("🚀 ~ file: index.js:21 ~ App ~ data:", data);
+  const { data: inscriptions } = useQuery({
+    queryKey: ["inscriptions"],
+    queryFn: () => {
+      return getInscriptions("2MxQAQmFGcWAmwjJwHkD2RwaAY4D4DgkdfJ");
+    },
+  });
+  console.log(
+    "🚀 ~ file: ins.tsx:24 ~ MyInscriptions ~ inscriptions:",
+    inscriptions,
+  );
   // useEffect(() => {
   //     getAddressDetail()
   // }, [])
@@ -63,7 +73,7 @@ function App() {
             if (userExists) {
               userExists.amount += amount;
               userExists.ticket = Math.floor(
-                userExists.amount / raffle.ticketPrice
+                userExists.amount / raffle.ticketPrice,
               );
             } else {
               result.push({
