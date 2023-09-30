@@ -1,23 +1,30 @@
-import raffle from "../../raffleDetails.json";
+// import raffle from "../../raffleDetails.json";
+import { Raffle } from "@/lib/types/dbTypes";
 
-export default function InscriptionDetails() {
+export default function InscriptionDetails({
+  raffleDetail,
+}: {
+  raffleDetail: Raffle | undefined;
+}) {
   return (
     <div className="border bg-defaultGray rounded-lg border-lightGray w-full md:w-[324px] ">
       <div className="p-6 flex flex-col divide-y-2 divide-lightGray gap-6 w-full h-auto">
         <div className=" ">
           <h1 className="text-3xl ">Inscription Details</h1>
-          <p className="text-base pt-6">{raffle.prize.description}</p>
+          <p className="text-base pt-6">{raffleDetail?.name}</p>
         </div>
         <div className="text-base flex flex-col gap-6 pt-6">
           <div className="flex justify-between">
             <h5>ID</h5>
             <a
               className="flex gap-2 text-white hover:text-blue-400 items-center"
-              href={`https://ordinals.com/inscription/${raffle.prize.id}`}
+              href={`https://ordinals.com/inscription/${raffleDetail?.inscriptionId}`}
             >
-              {raffle.prize.id.substring(0, 8) +
+              {raffleDetail?.inscriptionId.substring(0, 8) +
                 "..." +
-                raffle.prize.id.substring(raffle.prize.id.length - 2)}
+                raffleDetail?.inscriptionId.substring(
+                  raffleDetail?.inscriptionId.length - 2
+                )}
               <svg
                 width="16"
                 height="16"
@@ -34,18 +41,18 @@ export default function InscriptionDetails() {
               </svg>
             </a>
           </div>
-          <div className="flex justify-between">
+          {/* <div className="flex justify-between">
             <h5>Number</h5>
             <p>{raffle.prize.number}</p>
-          </div>
+          </div> */}
           {/* <div className="py-4 px-6 flex justify-between">
                 <h5>Owner</h5>
                 <p>0x...C544</p>
               </div> */}
-          <div className=" flex justify-between">
+          {/* <div className=" flex justify-between">
             <h5>Sat Rarity</h5>
             <p>{raffle.prize.rarity}</p>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

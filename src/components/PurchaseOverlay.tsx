@@ -7,18 +7,30 @@ import CloseImg from "../../public/close.svg";
 import raffle from "../../raffleDetails.json";
 
 import axios from "axios";
+import { Raffle } from "@/lib/types/dbTypes";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { TransactionType, createTicket } from "@/lib/fetcherFunctions";
 
-const PurchaseOverlay = ({ isOpen, onClose }) => {
+const PurchaseOverlay = ({
+  isOpen,
+  onClose,
+  raffleDetail,
+}: {
+  isOpen: Boolean;
+  onClose: () => void;
+  raffleDetail: Raffle;
+}) => {
+  const ticket = useSelector((state) => state.ticket);
+  const queryClient = useQueryClient();
+  const account = useSelector((state) => state.account);
+  const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
   const [inscriptions, setInscriptions] = useState([]);
 
-  const [selectedToken, setSelectedToken] = useState(null);
+  const [selectedToken, setSelectedToken] = useState("BTC");
   const [transferableInscriptions, setTransferableInscriptions] = useState([]);
 
   const [inscribeAmount, setInscribeAmount] = useState(0);
-
-  const account = useSelector((state) => state.account);
-  const dispatch = useDispatch();
 
   useEffect(() => {
     if (isOpen) {
@@ -74,6 +86,17 @@ const PurchaseOverlay = ({ isOpen, onClose }) => {
     }
   }
 
+  const { data, error, isLoading, mutateAsync } = useMutation({
+    mutationFn: createTicket,
+    onError: () => {
+      console.log(error);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["cart"] });
+    },
+  });
+  // console.log("🚀 ~ file: PurchaseOverlay.tsx:98 ~ data:", data);
+
   async function getTransferableInscriptions(ticker) {
     try {
       let result = [];
@@ -128,13 +151,25 @@ const PurchaseOverlay = ({ isOpen, onClose }) => {
     }
   }
 
-  async function transferInscription(inscriptionId) {
+  async function transferInscription(inscriptionId: string) {
     try {
       let { txid } = await window.unisat.sendInscription(
         raffle.userAddress,
         inscriptionId
       );
-      console.log(txid);
+      const variables: TransactionType = {
+        transactionId: txid,
+        ticketCount: ticket.amount,
+        raffleId: raffleDetail.id,
+        userId: account.address,
+        transactionData: {
+          transactionNonce: "1",
+          transactionType: "TICKET_TRANSACTION",
+          token_ticker: selectedToken,
+        },
+      };
+      await mutateAsync({ newTicketData: variables });
+      // console.log(txid);
     } catch (error) {
       console.log(error);
     }
@@ -181,8 +216,32 @@ const PurchaseOverlay = ({ isOpen, onClose }) => {
           ))}
         </div>
         {selectedToken ? (
-          <div>
-            <div>
+          <div className="w-[300px] pt-2 flex flex-col gap-2">
+            <div className="flex justify-between">
+              <div>Raffle name:</div>
+              <div>{raffleDetail.name}</div>
+            </div>
+            <div className="flex justify-between">
+              <div>Ticket price:</div>
+              <div>
+                {raffleDetail.price} {raffleDetail.sellingTokenTicker}
+              </div>
+            </div>
+
+            <div className="flex justify-between">
+              <div>Total:</div>
+              <div>
+                {ticket.amount * raffleDetail?.price}{" "}
+                {raffleDetail.sellingTokenTicker}
+              </div>
+            </div>
+            <button
+              className="flex flex-col items-center w-full"
+              onClick={() => transferInscription(raffleDetail.inscriptionId)}
+            >
+              Confirm
+            </button>
+            {/* <div>
               <input
                 className="py-3 px-2"
                 type="number"
@@ -212,7 +271,7 @@ const PurchaseOverlay = ({ isOpen, onClose }) => {
                   </button>
                 </div>
               ))}
-            </div>
+            </div> */}
           </div>
         ) : (
           <div className="flex justify-center">

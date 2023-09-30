@@ -40,6 +40,7 @@ function ConnectWalletButton() {
           console.log(error);
         },
         onSuccess: () => {
+
           queryClient.invalidateQueries({ queryKey: ['cart'] });
         },
       });
@@ -86,7 +87,6 @@ function ConnectWalletButton() {
 
             const matching = verifyMessage(pubkey, message, signature)
             if (matching) {
-                console.log("🚀 ~ file: ConnectWalletButton.tsx:89 ~ sign ~ matching:", matching)
                 await mutateAsync({walletData: account})
                 dispatch(setAddress(account))
                 dispatch(setConnected(true))

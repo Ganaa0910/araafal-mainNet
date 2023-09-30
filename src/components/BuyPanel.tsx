@@ -10,10 +10,21 @@ import CountdownTimer from "./CountdownTimer";
 import PurchaseOverlay from "./PurchaseOverlay";
 
 import { AiOutlineCopy } from "react-icons/ai";
+import { Raffle, Ticket } from "@/lib/types/dbTypes";
 
-export default function BuyPanel({ tokens }) {
+export default function BuyPanel({
+  tokens,
+  raffleDetail,
+  tickets,
+}: {
+  raffleDetail: Raffle | undefined;
+  tickets: Ticket[];
+}) {
   const ticket = useSelector((state) => state.ticket);
   const dispatch = useDispatch();
+
+  const [raffleActive, setRaffleActive] = useState(true);
+  const [isPurchaseOverlayOpen, setIsPurchaseOverlayOpen] = useState(false);
 
   const handleInputChange = (e) => {
     const newAmount = parseInt(e.target.value, 10);
@@ -30,21 +41,19 @@ export default function BuyPanel({ tokens }) {
     dispatch(setTicketAmount(newAmount));
   };
 
-  const [raffleActive, setRaffleActive] = useState(false);
-
   useEffect(() => {
-    const endTime = moment(raffle.endTime, raffle.timeFormat);
-    const currentTime = moment();
-    if (currentTime.isBefore(endTime)) {
-      setRaffleActive(true);
+    if (raffleDetail) {
+      const endTime = moment(raffleDetail.endDate, raffle.timeFormat);
+      const currentTime = moment();
+      if (currentTime.isBefore(endTime)) {
+        setRaffleActive(true);
+      }
     }
-  }, []);
+  }, [raffleDetail]);
 
   const handleCopyDepositAddressButton = () => {
     navigator.clipboard.writeText(raffle.userAddress);
   };
-
-  const [isPurchaseOverlayOpen, setIsPurchaseOverlayOpen] = useState(false);
 
   const handleOpenPurchaseOverlay = () => {
     setIsPurchaseOverlayOpen(true);
@@ -61,14 +70,14 @@ export default function BuyPanel({ tokens }) {
         <div className="pb-6">
           <p className="text-base text-lighterGray pb-2">Price per ticket</p>
           <h2 className="text-3xl">
-            {raffle.ticketPrice} {raffle.tokenTicker}
+            {raffleDetail?.price} {raffleDetail?.sellingTokenTicker}
           </h2>
         </div>
         <div className="pb-6">
           <p className="text-base pb-2">Tickets purchased</p>
           <h2 className="text-3xl">
-            {tokens.length > 0
-              ? tokens.reduce((a, b) => a + (b["ticket"] || 0), 0)
+            {tickets?.length > 0
+              ? tickets?.reduce((a, b) => a + (b["ticket"] || 0), 0)
               : 0}
           </h2>
         </div>
@@ -104,9 +113,12 @@ export default function BuyPanel({ tokens }) {
               </div>
               <div className="pt-6 pb-6 md:pb-0">
                 <p className="text-base pb-2">Total cost</p>
-                <h2 className="text-3xl">
-                  {ticket.amount * raffle.ticketPrice} {raffle.tokenTicker}
-                </h2>
+                {raffleDetail && (
+                  <h2 className="text-3xl">
+                    {ticket.amount * raffleDetail?.price}{" "}
+                    {raffleDetail.sellingTokenTicker}
+                  </h2>
+                )}
               </div>
             </div>
           </div>
@@ -123,7 +135,7 @@ export default function BuyPanel({ tokens }) {
               </div>
             </div>
             <p className="w-full select-all text-base bg-defaultGray break-all inline-block text-start pb-6">
-              {raffle.userAddress}
+              {raffleDetail?.ownerId}
             </p>
             <button
               className="text-base bg-defaultGray border-lightGray px-[16px] py-[12px] h-[48px] w-full md:w-auto hover:bg-darkerLightGray hover:border-lightGray"
@@ -134,6 +146,7 @@ export default function BuyPanel({ tokens }) {
             <PurchaseOverlay
               isOpen={isPurchaseOverlayOpen}
               onClose={handleClosePurchaseOverlay}
+              raffleDetail={raffleDetail}
             />
           </div>
         )}

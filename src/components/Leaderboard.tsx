@@ -2,8 +2,15 @@ import { useEffect, useState } from "react";
 import raffle from "../../raffleDetails.json";
 import moment from "moment";
 import Button from "./Button";
+import { Ticket } from "@/lib/types/dbTypes";
 
-export default function Leaderboard({ tokens, getAddressDetail }) {
+export default function Leaderboard({
+  tokens,
+  getAddressDetail,
+  tickets,
+}: {
+  tickets: Ticket[];
+}) {
   const [lastUpdated, setLastUpdated] = useState(moment());
   const [timeDifference, setTimeDifference] = useState("");
   const [copiedIndex, setCopiedIndex] = useState(-1);
@@ -104,10 +111,10 @@ export default function Leaderboard({ tokens, getAddressDetail }) {
               <h5>Tickets</h5>
             </div>
             <div className="h-[270px] overflow-y-auto">
-              {tokens.length > 0 &&
-                tokens
+              {tickets?.length > 0 &&
+                tickets
                   .filter((token) =>
-                    token.from
+                    token.userId
                       .toLowerCase()
                       .includes(searchWallet.toLowerCase())
                   )
@@ -119,14 +126,14 @@ export default function Leaderboard({ tokens, getAddressDetail }) {
                       <a
                         className="cursor-pointer text-lighterGray hover:text-gray-400"
                         onClick={() =>
-                          handleLeaderboardWalletClick(token.from, key)
+                          handleLeaderboardWalletClick(token.userId, key)
                         }
                       >
-                        {token.from.substring(0, 4) +
+                        {token.userId.substring(0, 4) +
                           "..." +
-                          token.from.substring(token.from.length - 4)}
+                          token.userId.substring(token.userId.length - 4)}
                       </a>
-                      <p>{token.ticket}</p>
+                      <p>{/* {token.ticket} */}1</p>
                       {copiedIndex === key && (
                         <div className="absolute top-2 right-2">
                           <div className="alert alert-success">
