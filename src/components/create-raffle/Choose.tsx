@@ -1,9 +1,11 @@
-import Image from 'next/image'
-import Button from '../Button'
+import Image from "next/image";
+import Button from "../Button";
+import mempoolJS from "@mempool/mempool.js";
+
 const Choose = ({ handleClose, show, children }) => {
   const showHideClassName = show
-    ? 'fixed inset-0 flex items-center justify-center z-50'
-    : 'hidden'
+    ? "fixed inset-0 flex items-center justify-center z-50"
+    : "hidden";
 
   return (
     <div className={showHideClassName}>
@@ -36,7 +38,7 @@ const Choose = ({ handleClose, show, children }) => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Choose
+export default Choose;
