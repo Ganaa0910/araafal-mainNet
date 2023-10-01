@@ -4,9 +4,10 @@ import "react-datepicker/dist/react-datepicker.css";
 
 import Choose from "@/components/create-raffle/choose";
 import Image from "next/image";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createRaffle } from "@/lib/fetcherFunctions";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { createRaffle, getInscriptionsTestnet } from "@/lib/fetcherFunctions";
 import { useSelector } from "react-redux";
+
 export default function CreateRaffle() {
   const queryClient = useQueryClient();
   const account = useSelector((state) => state.account);
@@ -14,13 +15,16 @@ export default function CreateRaffle() {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [selectedTime, setSelectedTime] = useState("12:00");
   const [combinedDateTime, setCombinedDateTime] = useState("");
+  const [name, setName] = useState("");
   const [desc, setDesc] = useState("");
   const [price, setPrice] = useState("");
-  const [walletInfo, setWalletInfo] = useState({});
+  const [chosenInscription, setChosenInscrption] = useState("");
   console.log(
-    "🚀 ~ file: index.tsx:20 ~ CreateRaffle ~ walletInfo:",
-    walletInfo,
+    "🚀 ~ file: index.tsx:22 ~ CreateRaffle ~ chosenInscription:",
+    chosenInscription,
   );
+
+  const [walletInfo, setWalletInfo] = useState({});
 
   const { data, error, isLoading, mutateAsync } = useMutation({
     mutationFn: createRaffle,
@@ -50,6 +54,18 @@ export default function CreateRaffle() {
   //   setCombinedDateTime(combinedDateTimeString);
   // };
 
+  const { data: inscriptions } = useQuery({
+    queryKey: ["inscriptions", account],
+    queryFn: () => {
+      return getInscriptionsTestnet(account.address);
+    },
+    enabled: account.connected == true,
+  });
+  console.log(
+    "🚀 ~ file: index.tsx:57 ~ CreateRaffle ~ inscriptions:",
+    inscriptions,
+  );
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -66,6 +82,7 @@ export default function CreateRaffle() {
         }
 
         const data = await response.json();
+        // const ins = getBalance;
 
         // Update the state with the fetched data
         setWalletInfo(data);
@@ -81,40 +98,70 @@ export default function CreateRaffle() {
   }, []);
 
   const handleSubmit = async () => {
-    const newRaffleData = {
-      name: "Raffle by wallet my address",
-      description: desc,
-      price: price,
-      sellingTokenTicker: "BTC",
-      featured: false,
-      endDate: selectedDate,
-      startDate: "2023-09-27T00:00:00Z",
-      inscriptionId: "12345",
-      inscriptionPreviewUrl: "https://example.com/inscription",
-      ownerId: account,
-      nftDepositTransactionId: "1",
+    let { txid } = await window.unisat.sendInscription(
+      walletInfo.nftDepositAddress,
+      `${chosenInscription}i0`,
+    );
+    txid.wait();
+    console.log("🚀 ~ file: index.tsx:109 ~ handleSubmit ~ txid:", txid);
+    if (txid) {
+      const newRaffleData = {
+        name: name,
+        description: desc,
+        price: parseFloat(price),
+        sellingTokenTicker: "BTC",
+        featured: false,
+        endDate: selectedDate,
+        startDate: "2023-09-27T00:00:00Z",
+        inscriptionId: `${chosenInscription}i0`,
+        inscriptionPreviewUrl: `https://testnet.ordinals.com/content/${chosenInscription}i0`,
+        ownerId: account.address,
+        nftDepositTransactiond: txid,
 
-      nftDepositAddress: "1",
-      nftPrivateKey: "1",
-      ticketDepositAddress: "1",
-      ticketPrivateKey: "1",
-    };
-    await mutateAsync({ newRaffleData });
+        nftDepositAddress: walletInfo.nftDepositAddress,
+        nftPrivateKey: walletInfo.nftPrivateKey,
+        ticketDepositAddress: walletInfo.ticketDepositAddress,
+        ticketPrivateKey: walletInfo.ticketPrivateKey,
+      };
+      await mutateAsync({ newRaffleData });
+    }
   };
+
   return (
     <div className="max-w-[1216px] mx-auto h-auto flex flex-col">
-      <Choose show={showInscriptions} handleClose={toggleInscriptions}></Choose>
+      <Choose
+        show={showInscriptions}
+        handleClose={toggleInscriptions}
+        inscriptions={inscriptions}
+        setChosenInscrption={setChosenInscrption}
+        chosenInscription={chosenInscription}
+      />
       <div className="">Create Raffle</div>
       <div className="w-full h-[544px] flex flex-row gap-8">
-        <div
-          className="w-1/3 flex flex-col justify-center items-center h-5/6 border-2 border-lightGray rounded-xl"
-          onClick={toggleInscriptions}
-        >
-          <Image src={"/nft.svg"} width={96} height={96}></Image>
-          <h1 className=" text-2xl text-center">
-            Click here to <br /> choose inscription
-          </h1>
-        </div>
+        {chosenInscription ? (
+          <div
+            className="w-1/3 flex flex-col justify-center items-center h-5/6 border-2 border-lightGray rounded-xl"
+            onClick={toggleInscriptions}
+          >
+            <Image
+              className="w-full  rounded-md"
+              src={`https://testnet.ordinals.com/content/${chosenInscription}i0`}
+              alt="Card"
+              height={100}
+              width={100}
+            />
+          </div>
+        ) : (
+          <div
+            className="w-1/3 flex flex-col justify-center items-center h-5/6 border-2 border-lightGray rounded-xl"
+            onClick={toggleInscriptions}
+          >
+            <Image src={"/nft.svg"} width={96} height={96} />
+            <h1 className=" text-2xl text-center">
+              Click here to <br /> choose inscription
+            </h1>
+          </div>
+        )}
         <div className="w-2/3 h-full  flex flex-row gap-8">
           <div className="w-2/3 h-5/6 flex flex-col gap-8">
             <div className="w-full h-1/3 border-2 border-lightGray rounded-xl flex flex-col p-4">
@@ -142,6 +189,12 @@ export default function CreateRaffle() {
               </div>
             </div>
             <div className="w-full h-2/3  flex flex-col p-10 border-2 border-lightGray rounded-xl gap-4">
+              <h1 className="text-2xl">Name</h1>
+              <input
+                className="w-full h-full bg-transparent border-2 rounded-xl"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+              />
               <h1 className="text-2xl">Description</h1>
               <input
                 className="w-full h-full bg-transparent border-2 rounded-xl"

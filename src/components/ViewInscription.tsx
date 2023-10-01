@@ -3,7 +3,7 @@ import Button from "./Button";
 
 import Image from "next/image";
 
-export default function ViewInscription() {
+export default function ViewInscription({ raffleDetail }) {
   const inscriptionDetailUrl = `https://ordinals.com/inscription/${raffle.prize.id}`;
   const incsriptionImageUrl = `https://ordinals.com/content/${raffle.prize.id}`;
   const incsriptionPreviewUrl = `https://ordinals.com/preview/${raffle.prize.id}`;
@@ -12,7 +12,7 @@ export default function ViewInscription() {
     <div className="rounded-lg order-2 md:order-1 border bg-defaultGray border-lightGray w-full md:w-[324px] p-6">
       <Image
         className="rounded-lg w-full h-full md:w-[276px] md:h-[276px] mx-auto mb-6"
-        src={incsriptionImageUrl}
+        src={raffleDetail?.inscriptionPreviewUrl}
         alt="Inscription image"
         width={`2000000`}
         height={`2000000`}

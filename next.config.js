@@ -12,6 +12,9 @@ const nextConfig = {
       "ord.cdn.magiceden.dev",
       "creator-hub-prod.s3.us-east-2.amazonaws.com",
       "raffle.satoshipunks.art",
+      "testnet.ordinals.com",
+      "ordinals.com",
+      "example.com",
     ],
   },
 };

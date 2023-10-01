@@ -12,6 +12,7 @@ import raffle from "../../raffleDetails.json";
 import { useQuery } from "@tanstack/react-query";
 import { fetchRaffles, getInscriptions } from "@/lib/fetcherFunctions";
 import Link from "next/link";
+import Image from "next/image";
 
 function App() {
   const [tokens, setTokens] = useState([]);
@@ -141,9 +142,11 @@ function App() {
             <Link key={ins.id} href={`/raffles/${ins.id}`}>
               <div className="flex flex-col h-full w-full border border-gray-50 rounded-xl items-center">
                 <div className="mb-4">
-                  <img
-                    src="/pepepunks.svg"
+                  <Image
+                    src={ins.inscriptionPreviewUrl}
                     alt="Profile"
+                    height={100}
+                    width={100}
                     className="w-full h-full object-contain"
                   />
                 </div>

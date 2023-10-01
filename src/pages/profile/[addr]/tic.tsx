@@ -7,7 +7,7 @@ import {
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 enum TicketStatus {
   TICKET_ENDED,
@@ -25,6 +25,7 @@ const Tic = () => {
     {},
   );
 
+  const [sortedTransactionIds, setSortedTransactionIds] = useState([]);
   const onClick = () => {
     setTicketStatus(TicketStatus.TICKET_RUNNING);
   };
@@ -39,7 +40,6 @@ const Tic = () => {
     },
     enabled: !!slug,
   });
-  console.log("🚀 ~ file: [id].tsx:15 ~ Detail ~ raffles:", tickets);
 
   // Group transactions by transactionId and count them
   const groupedTransactions: Record<
@@ -59,7 +59,12 @@ const Tic = () => {
   }, {});
 
   // Sort the grouped transactions by transactionId
-  const sortedTransactionIds = Object.keys(groupedTransactions).sort();
+  useEffect(() => {
+    if (groupedTransactions) {
+      const sortedTransactionIds = Object.keys(groupedTransactions).sort();
+      setSortedTransactionIds(sortedTransactionIds);
+    }
+  }, [groupedTransactions]);
 
   return (
     <div className="max-w-[1216px] mx-auto flex flex-row">
@@ -77,7 +82,7 @@ const Tic = () => {
             <div key={transactionId}>
               {/* <h3>Transaction ID: {transactionId}</h3>
               <p>Count: {groupedTransactions[transactionId].count}</p> */}
-              {groupedTransactions[transactionId].transactions.map(
+              {groupedTransactions[transactionId]?.transactions.map(
                 (transaction: TransactionWithTicket, index: number) =>
                   index == 0 && (
                     <div
@@ -95,7 +100,7 @@ const Tic = () => {
                           />
                         </div>
                         <div className="flex flex-col h-full items-center justify-center">
-                          <h1>{transaction.raffle.name}</h1>
+                          <h1>{transaction?.raffle?.name}</h1>
                           <p>NO12</p>
                         </div>
                       </div>

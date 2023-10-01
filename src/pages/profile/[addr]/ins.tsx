@@ -1,28 +1,31 @@
 import Button from "@/components/Button";
 import ProfileTabs from "@/components/profile/profile-tabs";
-import { getInscriptions } from "@/lib/fetcherFunctions";
+import {
+  getInscriptions,
+  getInscriptionsTestnet,
+} from "@/lib/fetcherFunctions";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import { useState } from "react";
+import { useSelector } from "react-redux";
 const MyInscriptions = () => {
-  //profile routing
-
+  const account = useSelector((state) => state.account);
+  const [walletInfo, setWalletInfo] = useState({});
   //profile routing ends
   const router = useRouter();
 
   const slug = router.query.addr;
 
   const { data: inscriptions } = useQuery({
-    queryKey: ["raffleTitle", slug],
+    queryKey: ["inscriptions"],
     queryFn: () => {
-      if (typeof slug === "string") {
-        return getInscriptions(slug);
-      }
+      return getInscriptionsTestnet(account.address);
     },
-    enabled: !!slug,
+    enabled: account.connected == true,
   });
   console.log(
-    "🚀 ~ file: ins.tsx:24 ~ MyInscriptions ~ inscriptions:",
+    "🚀 ~ file: index.tsx:57 ~ CreateRaffle ~ inscriptions:",
     inscriptions,
   );
 
@@ -34,17 +37,22 @@ const MyInscriptions = () => {
         <div className="w-[904px] h-[694px] flex flex-col border border-gray-50 rounded-lg px-6 pt-5 pb-6 gap-5 overflow-auto">
           <div className="text-grey-300 text-2xl">My inscriptions</div>
           <div className="grid grid-cols-4 gap-4">
-            <div className="flex flex-col h-[280px] w-[202px] border border-gray-50 rounded-xl items-center">
-              <div className="mb-4">
-                <img
-                  src="/pepepunks.svg"
-                  alt="Profile"
-                  className="w-[202px] h-[202px]"
-                />
+            {inscriptions?.map((ins) => (
+              <div
+                key={ins}
+                className="flex flex-col h-[280px] w-[202px] border border-gray-50 rounded-xl items-center"
+              >
+                <div className="mb-4">
+                  <Image
+                    className="w-full  rounded-md"
+                    src={`https://testnet.ordinals.com/content/${ins}i0`}
+                    alt="Card"
+                    height={100}
+                    width={100}
+                  />
+                </div>
               </div>
-              <div className="text-xl font-semibold mb-2">Pepe Punks</div>
-              <div className="text-gray-500 text-sm">NO. 9769</div>
-            </div>
+            ))}
           </div>
         </div>
       </div>

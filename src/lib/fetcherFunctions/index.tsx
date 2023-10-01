@@ -120,6 +120,13 @@ export async function getInscriptions(address: string) {
     console.error(error);
   }
 }
+export async function getInscriptionsTestnet(address: string) {
+  const response = await fetch(`${APIURL}/api/users/${address}/inscriptions`);
+  if (!response.ok) {
+    throw new Error("Network response was not ok");
+  }
+  return response.json();
+}
 
 export async function createRaffle({
   newRaffleData,
@@ -127,16 +134,18 @@ export async function createRaffle({
   newRaffleData: Raffle;
 }) {
   try {
-    const { data, status } = await makePostRequest<Raffle>(
-      `${APIURL}/api/raffles`,
-      newRaffleData,
-    );
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    const raw = JSON.stringify(newRaffleData);
+    const requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: raw,
+    };
+    const response = await fetch(`${APIURL}/api/raffles`, requestOptions);
 
-    if (!data || status !== 200) {
-      throw new Error("Network response was not OK");
-    }
-
-    return { data, status };
+    const result = await response.json();
+    return result;
   } catch (error) {
     console.error("Error:", error);
     throw error; // Rethrow the error for handling at a higher level

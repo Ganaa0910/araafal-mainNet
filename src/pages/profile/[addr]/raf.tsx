@@ -21,7 +21,6 @@ export default function Raf() {
     },
     enabled: !!slug,
   });
-  console.log("🚀 ~ file: [id].tsx:15 ~ Detail ~ raffles:", raffles);
 
   return (
     <div className="max-w-[1216px] mx-auto">
@@ -32,19 +31,19 @@ export default function Raf() {
           {raffles?.map((raffle) => (
             <div
               key={raffle.id}
-              className="h-auto bg-white rounded-2xl overflow-hidden shadow-lg"
+              className="h-auto  rounded-2xl overflow-hidden shadow-lg"
             >
               <img
                 className="w-70 h-70 object-cover"
-                src="/bitcoinbandit.svg"
+                src={raffle.inscriptionPreviewUrl}
                 alt="Card"
               />
               <div className="p-2">
-                <p className="text-gray-700 text-base">{raffle.name}</p>
-                <p className="text-gray-700 text-base">
+                <p className="text-gray-300 text-base">{raffle.name}</p>
+                <p className="text-gray-300 text-base">
                   {raffle.price} {raffle.sellingTokenTicker}
                 </p>
-                <p className="text-gray-700 text-base">0 sold</p>
+                <p className="text-gray-300 text-base">0 sold</p>
               </div>
               <div className="flex flex-col p-2 gap-2">
                 <Button>View</Button>

@@ -92,7 +92,7 @@ const PurchaseOverlay = ({
       console.log(error);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["cart"] });
+      queryClient.invalidateQueries({ queryKey: ["tickets"] });
     },
   });
   // console.log("🚀 ~ file: PurchaseOverlay.tsx:98 ~ data:", data);
@@ -157,18 +157,20 @@ const PurchaseOverlay = ({
         raffleDetail.ticketDepositAddress,
         inscriptionId,
       );
-      const variables: TransactionType = {
-        transactionId: txid,
-        ticketCount: ticket.amount,
-        raffleId: raffleDetail.id,
-        userId: account.address,
-        transactionData: {
-          transactionNonce: "1",
-          transactionType: "TICKET_TRANSACTION",
-          token_ticker: selectedToken,
-        },
-      };
-      await mutateAsync({ newTicketData: variables });
+      if (txid) {
+        const variables: TransactionType = {
+          transactionId: txid,
+          ticketCount: ticket.amount,
+          raffleId: raffleDetail.id,
+          userId: account.address,
+          transactionData: {
+            transactionNonce: "1",
+            transactionType: "TICKET_TRANSACTION",
+            token_ticker: selectedToken,
+          },
+        };
+        await mutateAsync({ newTicketData: variables });
+      }
       // console.log(txid);
     } catch (error) {
       console.log(error);
