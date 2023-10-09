@@ -24,10 +24,6 @@ const MyInscriptions = () => {
     },
     enabled: account.connected == true,
   });
-  console.log(
-    "🚀 ~ file: index.tsx:57 ~ CreateRaffle ~ inscriptions:",
-    inscriptions,
-  );
 
   return (
     <div className="max-w-[1216px] mx-auto flex flex-row">

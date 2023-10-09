@@ -101,6 +101,7 @@ const Tic = () => {
                         </div>
                         <div className="flex flex-col h-full items-center justify-center">
                           <h1>{transaction?.raffle?.name}</h1>
+                          {/* <h1>{transaction.Transaction.}</h1> */}
                           <p>NO12</p>
                         </div>
                       </div>

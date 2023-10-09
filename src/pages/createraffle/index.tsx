@@ -23,6 +23,7 @@ export default function CreateRaffle() {
     "🚀 ~ file: index.tsx:22 ~ CreateRaffle ~ chosenInscription:",
     chosenInscription,
   );
+  const [success, setSuccess] = useState(false);
 
   const [walletInfo, setWalletInfo] = useState({});
 
@@ -32,6 +33,7 @@ export default function CreateRaffle() {
       console.log(error);
     },
     onSuccess: () => {
+      setSuccess(true);
       queryClient.invalidateQueries({ queryKey: ["cart"] });
     },
   });
@@ -98,11 +100,11 @@ export default function CreateRaffle() {
   }, []);
 
   const handleSubmit = async () => {
-    let { txid } = await window.unisat.sendInscription(
+    let txid = await window.unisat.sendInscription(
       walletInfo.nftDepositAddress,
       `${chosenInscription}i0`,
     );
-    txid.wait();
+    // txid.wait();
     console.log("🚀 ~ file: index.tsx:109 ~ handleSubmit ~ txid:", txid);
     if (txid) {
       const newRaffleData = {
@@ -232,6 +234,11 @@ export default function CreateRaffle() {
           </div>
         </div>
       </div>
+      {success && (
+        <div className="text-center text-green-500 font-bold text-xl">
+          Success!
+        </div>
+      )}
     </div>
   );
 }

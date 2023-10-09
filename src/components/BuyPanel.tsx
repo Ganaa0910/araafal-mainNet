@@ -139,10 +139,10 @@ export default function BuyPanel({
         )}
       </div>
 
-      <div className="w-full h-0.5 bg-lightGray"></div>
+      {/* <div className="w-full h-0.5 bg-lightGray"></div>
       <div className="flex flex-col">
         <CountdownTimer />
-      </div>
+      </div> */}
     </>
   );
 

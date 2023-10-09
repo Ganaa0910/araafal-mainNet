@@ -26,6 +26,7 @@ const PurchaseOverlay = ({
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
   const [inscriptions, setInscriptions] = useState([]);
+  const [success, setSuccess] = useState(false);
 
   const [selectedToken, setSelectedToken] = useState("BTC");
   const [transferableInscriptions, setTransferableInscriptions] = useState([]);
@@ -92,9 +93,12 @@ const PurchaseOverlay = ({
       console.log(error);
     },
     onSuccess: () => {
+      setSuccess(true);
+      onClose();
       queryClient.invalidateQueries({ queryKey: ["tickets"] });
     },
   });
+  console.log("🚀 ~ file: PurchaseOverlay.tsx:98 ~ data:", data);
   // console.log("🚀 ~ file: PurchaseOverlay.tsx:98 ~ data:", data);
 
   async function getTransferableInscriptions(ticker) {
@@ -153,9 +157,13 @@ const PurchaseOverlay = ({
 
   async function transferInscription(inscriptionId: string) {
     try {
-      let { txid } = await window.unisat.sendInscription(
+      let txid = await window.unisat.sendInscription(
         raffleDetail.ticketDepositAddress,
         inscriptionId,
+      );
+      console.log(
+        "🚀 ~ file: PurchaseOverlay.tsx:160 ~ transferInscription ~ txid:",
+        txid,
       );
       if (txid) {
         const variables: TransactionType = {
