@@ -1,18 +1,13 @@
-import { useEffect, useState } from "react";
 import axios from "axios";
 import moment from "moment";
+import { useState } from "react";
 
-import InscriptionDetails from "../components/InscriptionDetails";
-import ViewInscription from "../components/ViewInscription";
-import BuyPanel from "../components/BuyPanel";
-import Leaderboard from "../components/Leaderboard";
-import InfoSection from "../components/InfoSection";
-
-import raffle from "../../raffleDetails.json";
+import FeaturedRaffles from "@/components/featured/FeaturedRaffles";
+import { fetchRaffles } from "@/lib/fetcherFunctions";
 import { useQuery } from "@tanstack/react-query";
-import { fetchRaffles, getInscriptions } from "@/lib/fetcherFunctions";
-import Link from "next/link";
 import Image from "next/image";
+import Link from "next/link";
+import raffle from "../../raffleDetails.json";
 
 function App() {
   const [tokens, setTokens] = useState([]);
@@ -135,28 +130,84 @@ function App() {
   }
 
   return (
-    <div className="max-w-[1400px] mx-auto">
-      <div className="py-[48px] md:py-[64px] px-4 md:px-[40px] w-full grid grid-cols-1 gap-8 justify-start items-center">
-        <div className="grid grid-cols-4 gap-4">
-          {data?.map((ins) => (
-            <Link key={ins.id} href={`/raffles/${ins.id}`}>
-              <div className="flex flex-col h-full w-full border border-gray-50 rounded-xl items-center">
-                <div className="mb-4">
-                  <Image
-                    src={ins.inscriptionPreviewUrl}
-                    alt="Profile"
-                    height={100}
-                    width={100}
-                    className="w-full h-full object-contain"
-                  />
-                </div>
-                <div className="text-xl font-semibold mb-2">{ins.name}</div>
-                <div className="text-gray-500 text-sm">{ins.inscriptionId}</div>
-              </div>
-            </Link>
-          ))}
+    <>
+      <div
+        className={`flex h-screen max-w-[1440px] mx-auto  -mt-20 flex-col items-center justify-center `}
+      >
+        <div className="relative w-full h-auto">
+          <Image
+            src={"/mesh.svg"}
+            height={600}
+            width={1440}
+            className="absolute left-0 right-0 object-none 2xl:object-contain  w-full top-0 h-[177px] md:h-auto"
+            alt="mesh"
+          />
+          <div className="flex items-center justify-center h-full text-3xl font-bold text-center select-none md:text-6xl">
+            <div>
+              Decentralized Raffling Solution for <br />
+              <span className="text-[#FD7C5B]">BRC20s</span>
+            </div>
+          </div>
         </div>
-        {/* <div className="flex flex-col md:flex-row gap-9">
+        {/* <div className="pt-8 text-2xl select-none md:text-4xl">Coming soon</div> */}
+        {/* <form
+            onSubmit={handleSubmit}
+            className="flex flex-col items-center justify-center w-full gap-4 pt-8 h-13 md:flex-row md:mr-auto"
+          >
+            <div className="bg-[#FD7C5B] flex h-[48px] w-[322px] rounded-lg ">
+              <input
+                type="email"
+                className="flex-1 py-3 px-6  rounded-lg text-base md:text-xl bg-black/50   text-[#C4C3C2] placeholder-gray-300 placeholder-opacity-50 focus:ring-0 focus:border-gray-500 "
+                placeholder="Email address"
+                value={email}
+                onChange={handleEmailChange}
+              />
+            </div>
+
+            <button
+              type="submit"
+              className="px-6 py-3 border-2 h-[48px] w-[322px] md:w-auto text-base md:text-xl flex items-center justify-center button-gradient rounded-lg border-[#FD7C5B] disabled:opacity-50"
+              disabled={loading}
+            >
+              {loading ? "Submitting" : "Submit"}
+            </button>
+          </form> */}
+        {/* {status == 201 && <div className="mt-2 text-green-600">Success</div>}
+          {status == 400 && (
+            <div className="mt-2 text-red-600">Email already submitted</div>
+          )}
+
+          {status == 500 && (
+            <div className="mt-2 text-red-600">Unknown error🥲</div>
+          )} */}
+      </div>
+      <div className="max-w-[1440px] mx-auto h-auto">
+        <FeaturedRaffles />
+      </div>
+      <div className="max-w-[1400px] mx-auto">
+        <div className="py-[48px] md:py-[64px] px-4 md:px-[40px] w-full grid grid-cols-1 gap-8 justify-start items-center">
+          <div className="grid grid-cols-4 gap-4">
+            {data?.map((ins) => (
+              <Link key={ins.id} href={`/raffles/${ins.id}`}>
+                <div className="flex flex-col h-full w-full border border-gray-50 rounded-xl items-center">
+                  <div className="mb-4">
+                    <Image
+                      src={ins.inscriptionPreviewUrl}
+                      alt="Profile"
+                      height={100}
+                      width={100}
+                      className="w-full h-full object-contain"
+                    />
+                  </div>
+                  <div className="text-xl font-semibold mb-2">{ins.name}</div>
+                  <div className="text-gray-500 text-sm">
+                    {ins.inscriptionId}
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+          {/* <div className="flex flex-col md:flex-row gap-9">
           <ViewInscription />
           <InfoSection />
         </div>
@@ -166,8 +217,9 @@ function App() {
           <BuyPanel tokens={tokens} />
           <Leaderboard tokens={tokens} getAddressDetail={getAddressDetail} />
         </div> */}
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 
