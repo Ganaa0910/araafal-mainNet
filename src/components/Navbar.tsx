@@ -1,11 +1,12 @@
 import Image from "next/image";
 import Link from "next/link";
 import ConnectWalletButton from "./ConnectWalletButton";
+import Router from "next/router";
 
 export default function Navbar() {
   return (
-    <nav className="">
-      <div className="flex items-center justify-center flex-shrink-0 h-20 px-28 max-w-[1440px] mx-auto">
+    <nav className="sticky top-0 w-full  backdrop-blur-sm bg-opacity-80">
+      <div className="flex items-center z-50 justify-center flex-shrink-0 h-20 px-28 max-w-[1440px] mx-auto">
         <div className="flex items-center h-12 left-0 right-auto">
           <Link href={"/"}>
             <Image
@@ -21,6 +22,7 @@ export default function Navbar() {
           <Link className="px-5 py-3" href={"/createraffle"}>
             CreateRaffle
           </Link>
+
           <Link className="px-5 py-3" href={"/createraffle"}>
             Raffles
           </Link>

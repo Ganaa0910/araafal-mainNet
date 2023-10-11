@@ -8,6 +8,8 @@ import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import Link from "next/link";
 import raffle from "../../raffleDetails.json";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 function App() {
   const [tokens, setTokens] = useState([]);
@@ -130,27 +132,29 @@ function App() {
   }
 
   return (
-    <>
-      <div
-        className={`flex h-screen max-w-[1440px] mx-auto  -mt-20 flex-col items-center justify-center `}
-      >
-        <div className="relative w-full h-auto">
-          <Image
-            src={"/mesh.svg"}
-            height={600}
-            width={1440}
-            className="absolute left-0 right-0 object-none 2xl:object-contain  w-full top-0 h-[177px] md:h-auto"
-            alt="mesh"
-          />
-          <div className="flex items-center justify-center h-full text-3xl font-bold text-center select-none md:text-6xl">
-            <div>
-              Decentralized Raffling Solution for <br />
-              <span className="text-[#FD7C5B]">BRC20s</span>
+    <div className="flex flex-col w-full h-screen">
+      <Navbar />
+      <div>
+        <div
+          className={`flex h-screen max-w-[1440px] mx-auto z-10 -mt-20 flex-col items-center justify-center `}
+        >
+          <div className="relative w-full h-auto">
+            <Image
+              src={"/mesh.svg"}
+              height={600}
+              width={1440}
+              className="absolute left-0 right-0 z-0 object-none 2xl:object-contain  w-full top-0 h-[177px] md:h-auto"
+              alt="mesh"
+            />
+            <div className="flex items-center justify-center h-full text-3xl font-bold text-center select-none md:text-6xl">
+              <div>
+                Decentralized Raffling Solution for <br />
+                <span className="text-[#FD7C5B]">BRC20s</span>
+              </div>
             </div>
           </div>
-        </div>
-        {/* <div className="pt-8 text-2xl select-none md:text-4xl">Coming soon</div> */}
-        {/* <form
+          {/* <div className="pt-8 text-2xl select-none md:text-4xl">Coming soon</div> */}
+          {/* <form
             onSubmit={handleSubmit}
             className="flex flex-col items-center justify-center w-full gap-4 pt-8 h-13 md:flex-row md:mr-auto"
           >
@@ -172,7 +176,7 @@ function App() {
               {loading ? "Submitting" : "Submit"}
             </button>
           </form> */}
-        {/* {status == 201 && <div className="mt-2 text-green-600">Success</div>}
+          {/* {status == 201 && <div className="mt-2 text-green-600">Success</div>}
           {status == 400 && (
             <div className="mt-2 text-red-600">Email already submitted</div>
           )}
@@ -180,34 +184,34 @@ function App() {
           {status == 500 && (
             <div className="mt-2 text-red-600">Unknown error🥲</div>
           )} */}
-      </div>
-      <div className="max-w-[1440px] mx-auto h-auto">
-        <FeaturedRaffles />
-      </div>
-      <div className="max-w-[1400px] mx-auto">
-        <div className="py-[48px] md:py-[64px] px-4 md:px-[40px] w-full grid grid-cols-1 gap-8 justify-start items-center">
-          <div className="grid grid-cols-4 gap-4">
-            {data?.map((ins) => (
-              <Link key={ins.id} href={`/raffles/${ins.id}`}>
-                <div className="flex flex-col h-full w-full border border-gray-50 rounded-xl items-center">
-                  <div className="mb-4">
-                    <Image
-                      src={ins.inscriptionPreviewUrl}
-                      alt="Profile"
-                      height={100}
-                      width={100}
-                      className="w-full h-full object-contain"
-                    />
+        </div>
+        <div className="max-w-[1440px] mx-auto h-auto">
+          <FeaturedRaffles />
+        </div>
+        <div className="max-w-[1400px] mx-auto">
+          <div className="py-[48px] md:py-[64px] px-4 md:px-[40px] w-full grid grid-cols-1 gap-8 justify-start items-center">
+            <div className="grid grid-cols-4 gap-4">
+              {data?.map((ins) => (
+                <Link key={ins.id} href={`/raffles/${ins.id}`}>
+                  <div className="flex flex-col h-full w-full border border-gray-50 rounded-xl items-center">
+                    <div className="mb-4">
+                      <Image
+                        src={ins.inscriptionPreviewUrl}
+                        alt="Profile"
+                        height={100}
+                        width={100}
+                        className="w-full h-full object-contain"
+                      />
+                    </div>
+                    <div className="text-xl font-semibold mb-2">{ins.name}</div>
+                    <div className="text-gray-500 text-sm">
+                      {ins.inscriptionId}
+                    </div>
                   </div>
-                  <div className="text-xl font-semibold mb-2">{ins.name}</div>
-                  <div className="text-gray-500 text-sm">
-                    {ins.inscriptionId}
-                  </div>
-                </div>
-              </Link>
-            ))}
-          </div>
-          {/* <div className="flex flex-col md:flex-row gap-9">
+                </Link>
+              ))}
+            </div>
+            {/* <div className="flex flex-col md:flex-row gap-9">
           <ViewInscription />
           <InfoSection />
         </div>
@@ -217,9 +221,11 @@ function App() {
           <BuyPanel tokens={tokens} />
           <Leaderboard tokens={tokens} getAddressDetail={getAddressDetail} />
         </div> */}
+          </div>
         </div>
       </div>
-    </>
+      <Footer />
+    </div>
   );
 }
 
