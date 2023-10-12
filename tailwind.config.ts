@@ -69,8 +69,8 @@ module.exports = {
         faq: ["24px", "36px"],
         aboutUs: ["24px", "36px"],
         faqExtended: ["20px", "28px"],
-        pricing: ["32px", "44px"],
-        pricing2: ["14px", "24px"],
+        featured: ["32px", "44px"],
+        blueFont: ["56px", "68px"],
       },
       textColor: {
         featuredRaffles: "#E2E1E1",

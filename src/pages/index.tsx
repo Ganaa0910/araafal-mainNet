@@ -2,14 +2,14 @@ import axios from "axios";
 import moment from "moment";
 import { useState } from "react";
 
+import Footer from "@/components/Footer";
+import Navbar from "@/components/Navbar";
 import FeaturedRaffles from "@/components/featured/FeaturedRaffles";
 import { fetchRaffles } from "@/lib/fetcherFunctions";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import Link from "next/link";
 import raffle from "../../raffleDetails.json";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 
 function App() {
   const [tokens, setTokens] = useState([]);
@@ -185,25 +185,29 @@ function App() {
             <div className="mt-2 text-red-600">Unknown error🥲</div>
           )} */}
         </div>
-        <div className="max-w-[1440px] mx-auto h-auto">
+        <div className="max-w-[1440px] mx-auto h-[500px] mb-80">
           <FeaturedRaffles />
         </div>
+
         <div className="max-w-[1400px] mx-auto">
-          <div className="py-[48px] md:py-[64px] px-4 md:px-[40px] w-full grid grid-cols-1 gap-8 justify-start items-center">
+          <div className="w-[1216px] mx-auto justify-start items-center">
+            <h1 className="text-featuredRaffles text-4xl">Active raffles</h1>
             <div className="grid grid-cols-4 gap-4">
               {data?.map((ins) => (
                 <Link key={ins.id} href={`/raffles/${ins.id}`}>
-                  <div className="flex flex-col h-full w-full border border-gray-50 rounded-xl items-center">
+                  <div className="flex flex-col h-[488px] w-full border border-gray-50 rounded-xl gap-4">
                     <div className="mb-4">
                       <Image
                         src={ins.inscriptionPreviewUrl}
                         alt="Profile"
-                        height={100}
-                        width={100}
-                        className="w-full h-full object-contain"
+                        height={280}
+                        width={280}
+                        className="w-full h-full object-contain rounded-xl"
                       />
                     </div>
-                    <div className="text-xl font-semibold mb-2">{ins.name}</div>
+                    <div className="text-xl font-semibold mb-2 px-6">
+                      {ins.name}
+                    </div>
                     <div className="text-gray-500 text-sm">
                       {ins.inscriptionId}
                     </div>
@@ -212,15 +216,15 @@ function App() {
               ))}
             </div>
             {/* <div className="flex flex-col md:flex-row gap-9">
-          <ViewInscription />
-          <InfoSection />
-        </div>
+                <ViewInscription />
+                <InfoSection />
+              </div>
 
-        <div className="flex flex-col gap-8 md:flex-row">
-          <InscriptionDetails />
-          <BuyPanel tokens={tokens} />
-          <Leaderboard tokens={tokens} getAddressDetail={getAddressDetail} />
-        </div> */}
+              <div className="flex flex-col gap-8 md:flex-row">
+                <InscriptionDetails />
+                <BuyPanel tokens={tokens} />
+                <Leaderboard tokens={tokens} getAddressDetail={getAddressDetail} />
+              </div> */}
           </div>
         </div>
       </div>
