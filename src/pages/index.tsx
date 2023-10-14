@@ -4,11 +4,11 @@ import { useState } from "react";
 
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
+import ActiveRaffles from "@/components/active/ActiveRaffles";
 import FeaturedRaffles from "@/components/featured/FeaturedRaffles";
 import { fetchRaffles } from "@/lib/fetcherFunctions";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
-import Link from "next/link";
 import raffle from "../../raffleDetails.json";
 
 function App() {
@@ -153,7 +153,7 @@ function App() {
               </div>
             </div>
           </div>
-          {/* <div className="pt-8 text-2xl select-none md:text-4xl">Coming soon</div> */}
+
           {/* <form
             onSubmit={handleSubmit}
             className="flex flex-col items-center justify-center w-full gap-4 pt-8 h-13 md:flex-row md:mr-auto"
@@ -189,44 +189,7 @@ function App() {
           <FeaturedRaffles />
         </div>
 
-        <div className="max-w-[1400px] mx-auto">
-          <div className="w-[1216px] mx-auto justify-start items-center">
-            <h1 className="text-featuredRaffles text-4xl">Active raffles</h1>
-            <div className="grid grid-cols-4 gap-4">
-              {data?.map((ins) => (
-                <Link key={ins.id} href={`/raffles/${ins.id}`}>
-                  <div className="flex flex-col h-[488px] w-full border border-gray-50 rounded-xl gap-4">
-                    <div className="mb-4">
-                      <Image
-                        src={ins.inscriptionPreviewUrl}
-                        alt="Profile"
-                        height={280}
-                        width={280}
-                        className="w-full h-full object-contain rounded-xl"
-                      />
-                    </div>
-                    <div className="text-xl font-semibold mb-2 px-6">
-                      {ins.name}
-                    </div>
-                    <div className="text-gray-500 text-sm">
-                      {ins.inscriptionId}
-                    </div>
-                  </div>
-                </Link>
-              ))}
-            </div>
-            {/* <div className="flex flex-col md:flex-row gap-9">
-                <ViewInscription />
-                <InfoSection />
-              </div>
-
-              <div className="flex flex-col gap-8 md:flex-row">
-                <InscriptionDetails />
-                <BuyPanel tokens={tokens} />
-                <Leaderboard tokens={tokens} getAddressDetail={getAddressDetail} />
-              </div> */}
-          </div>
-        </div>
+        <ActiveRaffles data={data} />
       </div>
       <Footer />
     </div>

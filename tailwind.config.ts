@@ -47,6 +47,7 @@ module.exports = {
     extend: {
       colors: {
         lightblue: "#467AFF",
+        primaryBrand: "#FD7C5B",
       },
       backgroundImage: {
         "two-vector": "url('/twovector.svg')",
