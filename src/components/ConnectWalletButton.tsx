@@ -9,7 +9,13 @@ import Link from "next/link";
 import { setAddress, setConnected } from "../slices/mainSlice";
 import { User } from "@/lib/types/dbTypes";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { loginHandler } from "@/lib/fetcherFunctions";
+import { checkTokens, loginHandler } from "@/lib/fetcherFunctions/postRequest";
+import {
+  clearToken,
+  getAccessToken,
+  getRefreshToken,
+  saveToken,
+} from "@/lib/auth";
 
 function ConnectWalletButton() {
   const queryClient = useQueryClient();
@@ -19,6 +25,28 @@ function ConnectWalletButton() {
   const [details, setDetails] = useState<User | null>(null);
 
   const [isOpen, setIsOpen] = useState(false);
+
+  const checkTokenIsValid = async () => {
+    const accessToken = getAccessToken();
+    const refreshToken = getRefreshToken();
+    if (accessToken) {
+      const { data, status } = await checkTokens({ accessToken, refreshToken });
+      console.log(
+        "🚀 ~ file: _app.tsx:23 ~ checkTokenIsValid ~ status:",
+        status,
+      );
+      if (status == 200) {
+        console.log("🚀 ~ file: _app.tsx:23 ~ checkTokenIsValid ~ data:", data);
+      } else if (status == 201) {
+        saveToken(data);
+      } else {
+        handleLogout();
+      }
+    }
+  };
+  useEffect(() => {
+    checkTokenIsValid();
+  }, []);
 
   useEffect(() => {
     const handleOutsideClick = (event) => {
@@ -39,14 +67,11 @@ function ConnectWalletButton() {
     onError: () => {
       console.log(error);
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["cart"] });
+    onSuccess: (data, variables) => {
+      saveToken(data?.auth);
+      queryClient.invalidateQueries({ queryKey: ["userProfile"] });
     },
   });
-  console.log(
-    "🚀 ~ file: ConnectWalletButton.tsx:46 ~ ConnectWalletButton ~ data:",
-    data,
-  );
 
   useEffect(() => {
     const connectWalletOnLoad = async () => {
@@ -143,6 +168,7 @@ function ConnectWalletButton() {
     dispatch(setAddress(""));
     dispatch(setConnected(false));
     window.localStorage.removeItem("details");
+    clearToken();
   };
 
   const changeNetwork = async () => {
@@ -181,7 +207,7 @@ function ConnectWalletButton() {
               )}
           </button>
           {isOpen && (
-            <div className="origin-top-right absolute right-0 mt-2 w-40 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
+            <div className="absolute right-0 w-40 mt-2 origin-top-right bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5">
               <div
                 role="menu"
                 aria-orientation="vertical"
@@ -189,7 +215,7 @@ function ConnectWalletButton() {
               >
                 <Link href={`/profile/${account.address}/ins`}>
                   <span
-                    className="select-none block px-4 py-2 text-base bg-darkerLightGray hover:bg-defaultGray cursor-pointer rounded-t-lg border-none"
+                    className="block px-4 py-2 text-base border-none rounded-t-lg cursor-pointer select-none bg-darkerLightGray hover:bg-defaultGray"
                     role="menuitem"
                   >
                     Profile
@@ -198,7 +224,7 @@ function ConnectWalletButton() {
                 <hr className="border-defaultGray" />
                 <span
                   // href="#"
-                  className="select-none block px-4 py-2 text-base bg-darkerLightGray hover:bg-defaultGray cursor-pointer rounded-b-lg"
+                  className="block px-4 py-2 text-base rounded-b-lg cursor-pointer select-none bg-darkerLightGray hover:bg-defaultGray"
                   role="menuitem"
                   onClick={handleLogout}
                 >
