@@ -1,4 +1,6 @@
 import { Raffle, Transaction, User } from "../types/dbTypes";
+import axiosClient from "../axios";
+import SERVER_SETTINGS from "../serverSettings";
 import axios from "axios";
 
 const apiKey = process.env.UNISAT_API_KEY;
@@ -70,12 +72,10 @@ export async function getTicketsByRaffle(id: string) {
   return response.json();
 }
 
-export async function getUserProfile(id: string) {
-  const response = await fetch(`${APIURL}/api/users/${id}`);
-  if (!response.ok) {
-    throw new Error("Network response was not ok");
-  }
-  return response.json();
+export async function getUserProfile(id: string): Promise<User> {
+  return axiosClient.get(`/api/users/${id}`).then((response) => {
+    return response?.data;
+  });
 }
 
 export async function getUserWonRaffles(id: string) {
@@ -175,42 +175,6 @@ export async function createTicket({
 
     const result = await response.json();
     return result;
-  } catch (error) {
-    console.error("Error:", error);
-    throw error; // Rethrow the error for handling at a higher level
-  }
-}
-export async function loginHandler({
-  walletData,
-}: {
-  walletData: User;
-}): Promise<User> {
-  try {
-    const myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
-
-    const raw = JSON.stringify({
-      walletAddress: walletData,
-    });
-
-    const requestOptions = {
-      method: "POST",
-      headers: myHeaders,
-      body: raw,
-    };
-
-    const response = await fetch(`${APIURL}/api/users/auth`, requestOptions);
-
-    if (!response.ok) {
-      throw new Error("Network response was not ok");
-    }
-
-    const result = await response.json();
-
-    // Assuming result contains the user data
-    const user: User = result; // You may need to adjust this based on the actual structure of 'result'
-
-    return user;
   } catch (error) {
     console.error("Error:", error);
     throw error; // Rethrow the error for handling at a higher level
