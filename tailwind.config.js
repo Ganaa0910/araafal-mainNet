@@ -19,6 +19,7 @@ module.exports = {
       colors: {
         lightblue: "#467AFF",
         primaryBrand: "#FD7C5B",
+        brandBlack: "var(--Black-less-opacity, rgba(0, 0, 0, 0.50))",
       },
       boxShadow: {
         shadowBrand: "0 0 240px 0 #FD7C5B",

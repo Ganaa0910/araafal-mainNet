@@ -1,15 +1,12 @@
-import { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
 import moment from "moment";
-import Image from "next/image";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 import { setTicketAmount } from "../slices/mainSlice";
 
 import raffle from "../../raffleDetails.json";
-import CountdownTimer from "./CountdownTimer";
 import PurchaseOverlay from "./PurchaseOverlay";
 
-import { AiOutlineCopy } from "react-icons/ai";
 import { Raffle, Ticket } from "@/lib/types/dbTypes";
 
 export default function BuyPanel({
@@ -148,7 +145,7 @@ export default function BuyPanel({
 
   return (
     <>
-      <div className="rounded-lg w-full md:w-[514px] p-[24px] flex flex-col border border-lightGray gap-[24px] bg-defaultGray">
+      <div className="rounded-lg w-full p-[24px] flex flex-col border border-lightGray gap-[24px] bg-defaultGray">
         <div className="flex justify-between">
           <h1 className="text-3xl">Join the Raffle</h1>
         </div>

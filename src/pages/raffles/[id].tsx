@@ -1,14 +1,15 @@
-import React, { useState } from "react";
-import { useRouter } from "next/router";
-import { useQuery } from "@tanstack/react-query";
-import { fetchRaffleById, getTicketsByRaffle } from "@/lib/fetcherFunctions";
-import ViewInscription from "@/components/ViewInscription";
-import InfoSection from "@/components/InfoSection";
-import InscriptionDetails from "@/components/InscriptionDetails";
 import BuyPanel from "@/components/BuyPanel";
+import InscriptionDetail from "@/components/InscriptionDetail";
+import InscriptionDetails from "@/components/InscriptionDetails";
 import Leaderboard from "@/components/Leaderboard";
+import ProfileBar from "@/components/ProfileBar";
+import ViewInscription from "@/components/ViewInscription";
+import { fetchRaffleById, getTicketsByRaffle } from "@/lib/fetcherFunctions";
+import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import moment from "moment";
+import { useRouter } from "next/router";
+import { useState } from "react";
 
 export default function Detail() {
   const router = useRouter();
@@ -130,8 +131,8 @@ export default function Detail() {
   }
 
   return (
-    <div className="max-w-[1400px] mx-auto">
-      <div className="py-[48px] md:py-[64px] px-4 md:px-[40px] w-full grid grid-cols-1 gap-8 justify-start items-center">
+    <div className="max-w-[1400px] mx-auto h-[694px] mt-12">
+      {/* <div className="py-[48px] md:py-[64px] px-4 md:px-[40px] w-full grid grid-cols-1 gap-8 justify-start items-center">
         <div className="flex flex-col md:flex-row gap-9">
           <ViewInscription raffleDetail={raffleDetail} />
           <InfoSection raffleDetail={raffleDetail} />
@@ -149,6 +150,30 @@ export default function Detail() {
             getAddressDetail={getAddressDetail}
             tickets={tickets}
           />
+        </div>
+      </div> */}
+
+      <div className="w-full grid grid-cols-3 gap-8">
+        <div className="flex flex-col ">
+          <ViewInscription raffleDetail={raffleDetail} />
+          <InscriptionDetails raffleDetail={raffleDetail} />
+        </div>
+
+        <div className="flex flex-col">
+          <BuyPanel
+            tokens={tokens}
+            raffleDetail={raffleDetail}
+            tickets={tickets}
+          />{" "}
+          <InscriptionDetail raffleDetail={raffleDetail} />
+        </div>
+        <div className="flex flex-col">
+          <Leaderboard
+            tokens={tokens}
+            getAddressDetail={getAddressDetail}
+            tickets={tickets}
+          />
+          <ProfileBar raffleDetail={raffleDetail} />
         </div>
       </div>
     </div>

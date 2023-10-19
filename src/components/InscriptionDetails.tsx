@@ -7,7 +7,7 @@ export default function InscriptionDetails({
   raffleDetail: Raffle | undefined;
 }) {
   return (
-    <div className="border bg-defaultGray rounded-lg border-lightGray w-full md:w-[324px] ">
+    <div className="border bg-defaultGray rounded-lg border-lightGray w-full">
       <div className="p-6 flex flex-col divide-y-2 divide-lightGray gap-6 w-full h-auto">
         <div className=" ">
           <h1 className="text-3xl ">Inscription Details</h1>
@@ -23,7 +23,7 @@ export default function InscriptionDetails({
               {raffleDetail?.inscriptionId.substring(0, 8) +
                 "..." +
                 raffleDetail?.inscriptionId.substring(
-                  raffleDetail?.inscriptionId.length - 2
+                  raffleDetail?.inscriptionId.length - 2,
                 )}
               <svg
                 width="16"
@@ -41,10 +41,10 @@ export default function InscriptionDetails({
               </svg>
             </a>
           </div>
-          {/* <div className="flex justify-between">
+          <div className="flex justify-between">
             <h5>Number</h5>
-            <p>{raffle.prize.number}</p>
-          </div> */}
+            <p>{raffleDetail?.id}</p>
+          </div>
           {/* <div className="py-4 px-6 flex justify-between">
                 <h5>Owner</h5>
                 <p>0x...C544</p>

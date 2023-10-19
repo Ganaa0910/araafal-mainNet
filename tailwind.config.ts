@@ -48,6 +48,7 @@ module.exports = {
       colors: {
         lightblue: "#467AFF",
         primaryBrand: "#FD7C5B",
+        brandBlack: "rgba(0, 0, 0, 0.5))",
       },
       backgroundImage: {
         "two-vector": "url('/twovector.svg')",

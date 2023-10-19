@@ -1,12 +1,12 @@
 import { Raffle } from "@/lib/types/dbTypes";
 
-export default function InfoSection({
+export default function InscriptionDetail({
   raffleDetail,
 }: {
   raffleDetail: Raffle | undefined;
 }) {
   return (
-    <div className="order-1 md:order-2 flex flex-col gap-6 col-span-2 border-2 border-black">
+    <div className="flex flex-col border rounded-xl border-white w-full">
       <div>
         <h1 className="text-5xl text-orange-500 font-semibold mb-6">
           {raffleDetail?.name}
