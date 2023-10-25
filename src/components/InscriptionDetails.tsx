@@ -1,4 +1,5 @@
 // import raffle from "../../raffleDetails.json";
+import { Button } from "@/components/ui/button";
 import { Raffle } from "@/lib/types/dbTypes";
 
 export default function InscriptionDetails({
@@ -7,11 +8,11 @@ export default function InscriptionDetails({
   raffleDetail: Raffle | undefined;
 }) {
   return (
-    <div className="border bg-defaultGray rounded-lg border-lightGray w-full">
-      <div className="p-6 flex flex-col divide-y-2 divide-lightGray gap-6 w-full h-auto">
-        <div className=" ">
-          <h1 className="text-3xl ">Inscription Details</h1>
-          <p className="text-base pt-6">{raffleDetail?.name}</p>
+    <div className="rounded-xl border-2  w-full border-primaryBrand raffle-gradient">
+      <div className="p-6 flex flex-col  gap-6 w-full h-auto">
+        <div>
+          <h1 className="text-3xl ">Inscription detail</h1>
+          {/* <p className="text-base pt-6">{raffleDetail?.name}</p> */}
         </div>
         <div className="text-base flex flex-col gap-6 pt-6">
           <div className="flex justify-between">
@@ -41,10 +42,13 @@ export default function InscriptionDetails({
               </svg>
             </a>
           </div>
-          <div className="flex justify-between">
+          <div className="flex flex-row justify-between">
             <h5>Number</h5>
             <p>{raffleDetail?.id}</p>
           </div>
+          <Button variant={"primary"} className="mb-0 w-full mx-auto">
+            View
+          </Button>
           {/* <div className="py-4 px-6 flex justify-between">
                 <h5>Owner</h5>
                 <p>0x...C544</p>

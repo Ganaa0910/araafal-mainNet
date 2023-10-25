@@ -1,7 +1,7 @@
+import { Button } from "@/components/ui/button";
 import moment from "moment";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-
 import { setTicketAmount } from "../slices/mainSlice";
 
 import raffle from "../../raffleDetails.json";
@@ -62,8 +62,7 @@ export default function BuyPanel({
 
   const renderBuyPanel = () => (
     <>
-      <div className="w-full h-0.5 bg-lightGray"></div>
-      <div className="grid grid-cols-1 md:grid-cols-2">
+      <div className="grid grid-cols-2">
         <div className="pb-6">
           <p className="text-base text-lighterGray pb-2">Price per ticket</p>
           <h2 className="text-3xl">
@@ -74,12 +73,12 @@ export default function BuyPanel({
           <p className="text-base pb-2">Tickets purchased</p>
           <h2 className="text-3xl">{tickets?.length}</h2>
         </div>
-        <div className="flex justify-start w-full" role="group">
-          <div className="flex flex-col w-full md:w-auto">
+        <div className="flex justify-start w-full col-span-2" role="group">
+          <div className="flex flex-col w-full">
             <p className="text-base pb-2">Select amount</p>
-            <div className="group">
-              <div className="flex items-center px-5 py-2 rounded-lg text-lg border border-lightGray bg-darkGray peer focus-within:border-[#D6D6D6] max-w-full md:max-w-min">
-                <div className="w-full flex justify-between px-6 md:px-0">
+            <div className="group flex flex-row w-full justify-between">
+              <div className="flex items-center px-5 py-2 rounded-lg text-lg border border-lightGray bg-primaryBrand">
+                <div className="flex justify-between px-6 md:px-0">
                   <button
                     className="text-3xl p-0 text-white rounded-r-none bg-inherit border-none select-none"
                     onClick={handleDecrement}
@@ -104,7 +103,7 @@ export default function BuyPanel({
                   </button>
                 </div>
               </div>
-              <div className="pt-6 pb-6 md:pb-0">
+              <div className="md:pb-0 w-1/2">
                 <p className="text-base pb-2">Total cost</p>
                 {raffleDetail && (
                   <h2 className="text-3xl">
@@ -116,26 +115,27 @@ export default function BuyPanel({
             </div>
           </div>
         </div>
-        {raffleActive && (
-          <div className="flex flex-col">
-            <p className="w-full select-all text-base bg-defaultGray break-all inline-block text-start pb-6">
-              {raffleDetail?.ownerId}
-            </p>
-            <button
-              className="text-base bg-defaultGray border-lightGray px-[16px] py-[12px] h-[48px] w-full md:w-auto hover:bg-darkerLightGray hover:border-lightGray"
-              onClick={handleOpenPurchaseOverlay}
-            >
-              Purchase
-            </button>
-            <PurchaseOverlay
-              isOpen={isPurchaseOverlayOpen}
-              onClose={handleClosePurchaseOverlay}
-              raffleDetail={raffleDetail}
-            />
-          </div>
-        )}
       </div>
+      {raffleActive && (
+        <div className="flex flex-col">
+          {/* <p className="w-full select-all text-base bg-defaultGray break-all inline-block text-start pb-6">
+              {raffleDetail?.ownerId}
+            </p> */}
+          {/* <button
+            className="text-base bg-defaultGray border-lightGray px-[16px] py-[12px] h-[48px] w-full md:w-auto hover:bg-darkerLightGray hover:border-lightGray"
+            onClick={handleOpenPurchaseOverlay}
+          >
+            Purchase
+          </button> */}
+          <Button variant={"primary"}>Purchase</Button>
 
+          <PurchaseOverlay
+            isOpen={isPurchaseOverlayOpen}
+            onClose={handleClosePurchaseOverlay}
+            raffleDetail={raffleDetail}
+          />
+        </div>
+      )}
       {/* <div className="w-full h-0.5 bg-lightGray"></div>
       <div className="flex flex-col">
         <CountdownTimer />
@@ -145,7 +145,7 @@ export default function BuyPanel({
 
   return (
     <>
-      <div className="rounded-lg w-full p-[24px] flex flex-col border border-lightGray gap-[24px] bg-defaultGray">
+      <div className="rounded-xl w-full p-[24px] flex flex-col border-2 border-primaryBrand gap-[24px] raffle-gradient">
         <div className="flex justify-between">
           <h1 className="text-3xl">Join the Raffle</h1>
         </div>

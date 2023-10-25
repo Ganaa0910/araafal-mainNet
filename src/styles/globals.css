@@ -37,3 +37,11 @@ body {
     )
   );
 }
+
+.raffle-gradient {
+  background: linear-gradient(
+    266deg,
+    rgba(254, 98, 114, 0.25) 0%,
+    rgba(252, 148, 70, 0.25) 100%
+  );
+}

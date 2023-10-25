@@ -1,7 +1,9 @@
 import BuyPanel from "@/components/BuyPanel";
+import Footer from "@/components/Footer";
 import InscriptionDetail from "@/components/InscriptionDetail";
 import InscriptionDetails from "@/components/InscriptionDetails";
 import Leaderboard from "@/components/Leaderboard";
+import Navbar from "@/components/Navbar";
 import ProfileBar from "@/components/ProfileBar";
 import ViewInscription from "@/components/ViewInscription";
 import { fetchRaffleById, getTicketsByRaffle } from "@/lib/fetcherFunctions";
@@ -131,8 +133,14 @@ export default function Detail() {
   }
 
   return (
-    <div className="max-w-[1400px] mx-auto h-[694px] mt-12">
-      {/* <div className="py-[48px] md:py-[64px] px-4 md:px-[40px] w-full grid grid-cols-1 gap-8 justify-start items-center">
+    <>
+      <Navbar></Navbar>
+      <div className="max-w-[1216px] mx-auto h-[850px] mt-12 mb-8">
+        <div className="flex flex-col mb -12 mb-12">
+          <h1 className="text-featuredRaffles text-4xl">Raffle page</h1>
+          <span className="bg-gradient-to-r from-orange-300 to-orange-600 inline-block w-24 h-2"></span>
+        </div>
+        {/* <div className="py-[48px] md:py-[64px] px-4 md:px-[40px] w-full grid grid-cols-1 gap-8 justify-start items-center">
         <div className="flex flex-col md:flex-row gap-9">
           <ViewInscription raffleDetail={raffleDetail} />
           <InfoSection raffleDetail={raffleDetail} />
@@ -153,29 +161,31 @@ export default function Detail() {
         </div>
       </div> */}
 
-      <div className="w-full grid grid-cols-3 gap-8">
-        <div className="flex flex-col ">
-          <ViewInscription raffleDetail={raffleDetail} />
-          <InscriptionDetails raffleDetail={raffleDetail} />
-        </div>
+        <div className="w-full flex flex-row gap-8">
+          <div className="flex flex-col w-[280px] gap-8">
+            <ViewInscription raffleDetail={raffleDetail} />
+            <InscriptionDetails raffleDetail={raffleDetail} />
+          </div>
 
-        <div className="flex flex-col">
-          <BuyPanel
-            tokens={tokens}
-            raffleDetail={raffleDetail}
-            tickets={tickets}
-          />{" "}
-          <InscriptionDetail raffleDetail={raffleDetail} />
-        </div>
-        <div className="flex flex-col">
-          <Leaderboard
-            tokens={tokens}
-            getAddressDetail={getAddressDetail}
-            tickets={tickets}
-          />
-          <ProfileBar raffleDetail={raffleDetail} />
+          <div className="flex flex-col w-[488px] gap-8">
+            <BuyPanel
+              tokens={tokens}
+              raffleDetail={raffleDetail}
+              tickets={tickets}
+            />{" "}
+            <InscriptionDetail raffleDetail={raffleDetail} />
+          </div>
+          <div className="flex flex-col  gap-8 w-[384px]">
+            <ProfileBar raffleDetail={raffleDetail} />
+            <Leaderboard
+              tokens={tokens}
+              getAddressDetail={getAddressDetail}
+              tickets={tickets}
+            />
+          </div>
         </div>
       </div>
-    </div>
+      <Footer />
+    </>
   );
 }

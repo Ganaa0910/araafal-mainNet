@@ -11,8 +11,7 @@ const buttonVariants = cva(
       variant: {
         default:
           "bg-slate-900 text-slate-50 hover:bg-slate-900/90 dark:bg-slate-50 dark:text-slate-900 dark:hover:bg-slate-50/90",
-        primary:
-          "mb-5 mx-5 text-lg border-2 border-primaryBrand px-5 py-3 font-bold",
+        primary: "text-lg border-2 border-primaryBrand px-5 py-3 font-bold",
         outline:
           "border border-slate-200 bg-white hover:bg-slate-100 hover:text-slate-900 dark:border-slate-800 dark:bg-slate-950 dark:hover:bg-slate-800 dark:hover:text-slate-50",
         secondary:

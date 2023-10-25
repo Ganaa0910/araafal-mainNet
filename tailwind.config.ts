@@ -47,7 +47,7 @@ module.exports = {
     extend: {
       colors: {
         lightblue: "#467AFF",
-        primaryBrand: "#FD7C5B",
+        // primaryBrand: "#FD7C5B",
         brandBlack: "rgba(0, 0, 0, 0.5))",
       },
       backgroundImage: {

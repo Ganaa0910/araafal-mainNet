@@ -14,7 +14,29 @@ module.exports = {
       screens: {
         "2xl": "1400px",
       },
+      linearGradientColors: {
+        "custom-gradient": ["#FF7E5F", "#FEB47B"], // Define your custom gradient colors here
+      },
     },
+    fontSize: {
+      xs: ["10px", "12px"],
+      sm: ["12px", "16px"],
+      md: ["14px", "18px"],
+      lg: ["16px", "24px"],
+      xl: ["20px", "28px"],
+      "2xl": ["24px", "36px"],
+      "4xl": ["40px", "54px"],
+      "6xl": ["64px", "64px"],
+      logoSize: ["40px", "44px"],
+      logoMobile: ["20px", "28px"],
+      cartDesktop: ["28px", "40px"],
+      faq: ["24px", "36px"],
+      aboutUs: ["24px", "36px"],
+      faqExtended: ["20px", "28px"],
+      featured: ["32px", "44px"],
+      blueFont: ["56px", "68px"],
+    },
+
     extend: {
       colors: {
         lightblue: "#467AFF",
