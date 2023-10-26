@@ -1,0 +1,82 @@
+[
+  {
+    "raffleEndTime": "2021-10-20T00:00:00.000Z",
+    "status": "PENDING",
+    "raffleId": 480160,
+    "inscriptionPreviewUrl": "https://testnet.ordinals.com/content/76c02b4056fb4238f20e5867c2a0fd1fa1d93df8a7c33470846f9371ba8afab1i0",
+    "price": 0,
+    "sellingTokenTicker": "PSAT",
+    "soldAmount": 0,
+    "name": "Pepe Punks #123"
+  },
+  {
+    "raffleEndTime": "2021-10-20T00:00:00.000Z",
+    "status": "ENDED",
+    "raffleId": 480159,
+    "inscriptionPreviewUrl": "https://testnet.ordinals.com/content/9a4e83f7babae33609e476b2dcd150678677f9a37f629420a4e13307ce3f4682i0",
+    "price": 0,
+    "sellingTokenTicker": "PSAT",
+    "soldAmount": 0,
+    "name": "Pepe Punks #123"
+  },
+  {
+    "raffleEndTime": "2021-10-20T00:00:00.000Z",
+    "status": "ACTIVE",
+    "raffleId": 480158,
+    "inscriptionPreviewUrl": "https://testnet.ordinals.com/content/057fab2900a4bce98fa333d70f6e77e3ff78547b86c947cdc311bef8d5b56873i0",
+    "price": 0,
+    "sellingTokenTicker": "PSAT",
+    "soldAmount": 0,
+    "name": "Pepe Punks #123"
+  },
+  {
+    "raffleEndTime": "2021-10-20T00:00:00.000Z",
+    "status": "ACTIVE",
+    "raffleId": 480157,
+    "inscriptionPreviewUrl": "https://testnet.ordinals.com/content/9f14c9da4c8e09c7bb0f36ce65b045099614e201687ca038d1cfb614cd0ad54ci0",
+    "price": 0,
+    "sellingTokenTicker": "PSAT",
+    "soldAmount": 0,
+    "name": "Pepe Punks #123"
+  },
+  {
+    "raffleEndTime": "2021-10-20T00:00:00.000Z",
+    "status": "PENDING",
+    "raffleId": 480160,
+    "inscriptionPreviewUrl": "https://testnet.ordinals.com/content/76c02b4056fb4238f20e5867c2a0fd1fa1d93df8a7c33470846f9371ba8afab1i0",
+    "price": 0,
+    "sellingTokenTicker": "PSAT",
+    "soldAmount": 0,
+    "name": "Pepe Punks #123"
+  },
+  {
+    "raffleEndTime": "2021-10-20T00:00:00.000Z",
+    "status": "ENDED",
+    "raffleId": 480159,
+    "inscriptionPreviewUrl": "https://testnet.ordinals.com/content/9a4e83f7babae33609e476b2dcd150678677f9a37f629420a4e13307ce3f4682i0",
+    "price": 0,
+    "sellingTokenTicker": "PSAT",
+    "soldAmount": 0,
+    "name": "Pepe Punks #123"
+  },
+  {
+    "raffleEndTime": "2021-10-20T00:00:00.000Z",
+    "status": "ACTIVE",
+    "raffleId": 480158,
+    "inscriptionPreviewUrl": "https://testnet.ordinals.com/content/057fab2900a4bce98fa333d70f6e77e3ff78547b86c947cdc311bef8d5b56873i0",
+    "price": 0,
+    "sellingTokenTicker": "PSAT",
+    "soldAmount": 0,
+    "name": "Pepe Punks #123"
+  },
+  {
+    "raffleEndTime": "2021-10-20T00:00:00.000Z",
+    "status": "ACTIVE",
+    "raffleId": 480157,
+    "inscriptionPreviewUrl": "https://testnet.ordinals.com/content/9f14c9da4c8e09c7bb0f36ce65b045099614e201687ca038d1cfb614cd0ad54ci0",
+    "price": 0,
+    "sellingTokenTicker": "PSAT",
+    "soldAmount": 0,
+    "name": "Pepe Punks #123"
+  }
+]

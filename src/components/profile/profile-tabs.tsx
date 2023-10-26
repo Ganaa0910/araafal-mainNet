@@ -19,11 +19,11 @@ export default function ProfileTabs() {
       href: `/profile/${slug}/ins`,
     },
     {
-      title: `My Created Raffles`,
+      title: `My created Raffles`,
       href: `/profile/${slug}/raf`,
     },
     {
-      title: `My Tickets`,
+      title: `My tickets`,
       href: `/profile/${slug}/tic`,
     },
   ];

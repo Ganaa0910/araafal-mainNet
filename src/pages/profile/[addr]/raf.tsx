@@ -7,6 +7,8 @@ import ProfileTabs from "@/components/profile/profile-tabs";
 import { useQuery } from "@tanstack/react-query";
 import { getUserRaffles } from "@/lib/fetcherFunctions";
 
+import DummyRaffles from "../../../components/DummyRaffle.json";
+
 export default function Raf() {
   //profile routing ends
   const router = useRouter();
@@ -28,24 +30,31 @@ export default function Raf() {
       <div className="flex flex-row w-full h-auto gap-4 ">
         <ProfileTabs />
         <div className="w-[904px] h-auto grid grid-cols-3 border border-gray-50 rounded-lg px-6 pt-5 pb-6 gap-5 overflow-auto">
-          {raffles?.map((raffle) => (
+          {DummyRaffles?.map((raffle) => (
             <div
               key={raffle.id}
-              className="h-auto overflow-hidden shadow-lg rounded-2xl"
+              className="h-auto overflow-hidden shadow-lg rounded-2xl border"
             >
-              <img
-                className="object-cover w-70 h-70"
-                src={raffle.inscriptionPreviewUrl}
-                alt="Card"
-              />
-              <div className="p-2">
-                <p className="text-base text-gray-300">{raffle.name}</p>
-                <p className="text-base text-gray-300">
-                  {raffle.price} {raffle.sellingTokenTicker}
-                </p>
-                <p className="text-base text-gray-300">0 sold</p>
+              <div>
+                <div className="px-3 py-1 absolute border rounded-lg bg-black bg-opacity-50 mt-3 ml-3">
+                  {raffle.status}
+                </div>
+                <div className="rounded-lg">
+                  <img
+                    className="object-cover w-70 h-70"
+                    src={raffle.inscriptionPreviewUrl}
+                    alt="Card"
+                  />
+                </div>
               </div>
-              <div className="flex flex-col gap-2 p-2">
+              <p className="pt-2 px-6 font-bold text-gray-300">{raffle.name}</p>
+              <p className="pt-2 px-6 font-bold text-gray-300">
+                {raffle.price} {raffle.sellingTokenTicker}
+              </p>
+              <p className="pt-2 px-6 font-bold text-gray-300">
+                {raffle.soldAmount} sold
+              </p>
+              <div className="flex flex-col gap-2 p-2 px-6">
                 <Button>View</Button>
                 <Button>Cancel</Button>
               </div>
