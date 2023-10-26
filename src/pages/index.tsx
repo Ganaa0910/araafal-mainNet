@@ -1,17 +1,18 @@
-import axios from "axios";
-import moment from "moment";
-import { useState } from "react";
-
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import ActiveRaffles from "@/components/active/ActiveRaffles";
 import FeaturedRaffles from "@/components/featured/FeaturedRaffles";
 import { fetchRaffles } from "@/lib/fetcherFunctions";
 import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
+import moment from "moment";
+// import { Chakra_Petch } from "next/font/google";
 import Image from "next/image";
+import { useState } from "react";
 import raffle from "../../raffleDetails.json";
 
 function App() {
+  // const chakra = Chakra_Petch({ subsets: ["latin"], weight: ["400", "700"] });
   const [tokens, setTokens] = useState([]);
   const { isLoading, isError, data, error } = useQuery({
     queryKey: ["raffles"],

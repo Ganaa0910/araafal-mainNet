@@ -91,32 +91,31 @@ export default function Leaderboard({
           <input
             type="text"
             name="searchWallet"
-            className="pl-3 grow rounded-md h-12 bg-primaryBrand border   focus:outline-none  text-right"
-            placeholder=""
+            className="pl-3 grow rounded-md h-12 bg-primaryBrand border   focus:outline-none  "
+            placeholder="Search"
             onChange={handleChange}
             onKeyPress={handleKeyPress}
           />
-          <button
-            className="text-base bg-defaultGray border-lightGray px-[16px] py-[12px] h-[48px] w-full md:w-auto hover:bg-darkerLightGray hover:border-lightGray absolute left-0 top-0"
-            onClick={handleSearch}
-          >
-            Search
-          </button>
           <div className="absolute right-4 top-4 text-lightGray">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
+            <button
+              className="text-base bg-defaultGray border-lightGray px-[16px] py-[12px] h-[48px] w-full md:w-auto hover:bg-darkerLightGray hover:border-lightGray absolute left-0 top-0"
+              onClick={handleSearch}
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M21 21l-4.35-4.35M15.5 10.5a5 5 0 11-10 0 5 5 0 0110 0z"
-              />
-            </svg>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M21 21l-4.35-4.35M15.5 10.5a5 5 0 11-10 0 5 5 0 0110 0z"
+                />
+              </svg>
+            </button>
           </div>
         </div>
 
