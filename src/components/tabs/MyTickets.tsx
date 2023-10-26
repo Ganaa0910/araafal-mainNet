@@ -45,11 +45,7 @@ const Tic = () => {
                         <Button>My Created Raffles</Button>
                         <Button>My Tickets</Button> */}
             {menu.map((button, index) => (
-              <Button
-                customStyle={""}
-                key={index}
-                onClick={() => router.push(button.href)}
-              >
+              <Button key={index} onClick={() => router.push(button.href)}>
                 {button.title}
               </Button>
             ))}

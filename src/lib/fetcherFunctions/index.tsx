@@ -31,45 +31,35 @@ export interface TransactionWithTicket {
 }
 
 export async function fetchRaffles(): Promise<Raffle[]> {
-  const response = await fetch(`${APIURL}/api/raffles`);
-  if (!response.ok) {
-    throw new Error("Network response was not ok");
-  }
-  return response.json();
+  return axiosClient.get(`/api/raffles`).then((response) => {
+    return response?.data;
+  });
 }
 
 export async function fetchRaffleById(id: string): Promise<Raffle> {
-  const response = await fetch(`${APIURL}/api/raffles/${id}`);
-  if (!response.ok) {
-    throw new Error("Network response was not ok");
-  }
-  return response.json();
+  return axiosClient.get(`/api/raffles/${id}`).then((response) => {
+    return response?.data;
+  });
 }
 
 export async function getTicketsByUser(
   id: string,
 ): Promise<TransactionWithTicket[]> {
-  const response = await fetch(`${APIURL}/api/tickets/user/${id}`);
-  if (!response.ok) {
-    throw new Error("Network response was not ok");
-  }
-  return response.json();
+  return axiosClient.get(`/api/tickets/user/${id}`).then((response) => {
+    return response?.data;
+  });
 }
 
 export async function getUserRaffles(id: string): Promise<Raffle[]> {
-  const response = await fetch(`${APIURL}/api/users/${id}/myRaffles`);
-  if (!response.ok) {
-    throw new Error("Network response was not ok");
-  }
-  return response.json();
+  return axiosClient.get(`/api/users/${id}/myRaffles`).then((response) => {
+    return response?.data;
+  });
 }
 
 export async function getTicketsByRaffle(id: string) {
-  const response = await fetch(`${APIURL}/api/raffles/${id}/tickets`);
-  if (!response.ok) {
-    throw new Error("Network response was not ok");
-  }
-  return response.json();
+  return axiosClient.get(`/api/raffles/${id}/tickets`).then((response) => {
+    return response?.data;
+  });
 }
 
 export async function getUserProfile(id: string): Promise<User> {
@@ -79,19 +69,17 @@ export async function getUserProfile(id: string): Promise<User> {
 }
 
 export async function getUserWonRaffles(id: string) {
-  const response = await fetch(`${APIURL}/api/users/${id}/wonRaffles`);
-  if (!response.ok) {
-    throw new Error("Network response was not ok");
-  }
-  return response.json();
+  return axiosClient.get(`/api/users/${id}/wonRaffles`).then((response) => {
+    return response?.data;
+  });
 }
 
 export async function getUserParticipated(id: string) {
-  const response = await fetch(`${APIURL}/api/users/${id}/participatedRaffles`);
-  if (!response.ok) {
-    throw new Error("Network response was not ok");
-  }
-  return response.json();
+  return axiosClient
+    .get(`/api/users/${id}/participatedRaffles`)
+    .then((response) => {
+      return response?.data;
+    });
 }
 
 export async function getInscriptions(address: string) {
@@ -134,18 +122,9 @@ export async function createRaffle({
   newRaffleData: Raffle;
 }) {
   try {
-    const myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
-    const raw = JSON.stringify(newRaffleData);
-    const requestOptions = {
-      method: "POST",
-      headers: myHeaders,
-      body: raw,
-    };
-    const response = await fetch(`${APIURL}/api/raffles`, requestOptions);
-
-    const result = await response.json();
-    return result;
+    return axiosClient.post(`/api/raffles`, newRaffleData).then((response) => {
+      return response;
+    });
   } catch (error) {
     console.error("Error:", error);
     throw error; // Rethrow the error for handling at a higher level
@@ -158,85 +137,9 @@ export async function createTicket({
   newTicketData: TransactionType;
 }) {
   try {
-    const myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
-    const raw = JSON.stringify(newTicketData);
-    const requestOptions = {
-      method: "POST",
-      headers: myHeaders,
-      body: raw,
-    };
-
-    const response = await fetch(`${APIURL}/api/tickets`, requestOptions);
-
-    if (!response.ok) {
-      throw new Error("Network response was not ok");
-    }
-
-    const result = await response.json();
-    return result;
-  } catch (error) {
-    console.error("Error:", error);
-    throw error; // Rethrow the error for handling at a higher level
-  }
-}
-
-async function makePostRequest<T>(
-  url: string,
-  data: T,
-): Promise<{ data: T; status: number }> {
-  try {
-    // Create a new request object
-    const requestOptions = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json", // Adjust content type as needed
-      },
-      body: JSON.stringify(data), // Convert data to JSON string
-    };
-
-    // Send the POST request and wait for the response
-    const response = await fetch(url, requestOptions);
-
-    if (!response.ok) {
-      throw new Error("Network response was not ok");
-    }
-
-    // Parse the response body as JSON and return the parsed data
-    const responseData = await response.json();
-    const status = response.status;
-    return { data: responseData, status };
-  } catch (error) {
-    console.error("Error:", error);
-    throw error; // Rethrow the error for handling at a higher level
-  }
-}
-
-async function makePutRequest<T>(
-  url: string,
-  data: T,
-): Promise<{ data: T; status: number }> {
-  try {
-    // Create a new request object
-    const requestOptions = {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json", // Adjust content type as needed
-      },
-      body: JSON.stringify(data), // Convert data to JSON string
-    };
-
-    // Send the POST request and wait for the response
-    const response = await fetch(url, requestOptions);
-
-    if (!response.ok) {
-      throw new Error("Network response was not ok");
-    }
-
-    // Parse the response body as JSON and return the parsed data
-    const responseData = await response.json();
-    const status = response.status;
-    return { data: responseData, status };
+    return axiosClient.post(`/api/raffles`, newTicketData).then((response) => {
+      return response;
+    });
   } catch (error) {
     console.error("Error:", error);
     throw error; // Rethrow the error for handling at a higher level
