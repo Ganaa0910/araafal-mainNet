@@ -31,7 +31,7 @@ const MyInscriptions = () => {
       <div className=" flex flex-row gap-4 h-auto w-full">
         <ProfileTabs />
 
-        <div className="w-[904px] h-[694px] flex flex-col border border-gray-50 rounded-lg px-6 pt-5 pb-6 gap-5 overflow-auto">
+        <div className="w-[904px] h-[694px] flex flex-col border border-gray-50 rounded-lg px-6 pt-5 pb-6 gap-5 bg-black bg-opacity-50 overflow-auto ">
           <div className="text-grey-300 text-2xl">My inscriptions</div>
           <div className="grid grid-cols-4 gap-4">
             {DummyBalance?.list.map((ins) => (
@@ -40,13 +40,23 @@ const MyInscriptions = () => {
                 className="flex flex-col h-[280px] w-[202px] rounded-xl items-center"
               >
                 <div className="mb-4">
-                  <Image
-                    className="w-full rounded-md"
-                    src={`https://testnet.ordinals.com/content/${ins.inscriptionId}`}
-                    alt="Card"
-                    height={100}
-                    width={100}
-                  />
+                  <div className="rounded-lg border w-52 h-52">
+                    <Image
+                      className="w-full rounded-md"
+                      src={`https://testnet.ordinals.com/content/${ins.inscriptionId}`}
+                      alt="Card"
+                      height={100}
+                      width={100}
+                    />
+                  </div>
+                  <div className="pb-4 pt-3 text-center">
+                    <div className="text-whiteish text-base font-medium">
+                      {ins.inscriptionName} Pepe Punks
+                    </div>
+                    <div className="text-whiteish text-xl font-medium">
+                      NO. {ins.inscriptionNumber}
+                    </div>
+                  </div>
                 </div>
               </div>
             ))}
