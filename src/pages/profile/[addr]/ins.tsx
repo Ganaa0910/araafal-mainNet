@@ -8,6 +8,8 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { useSelector } from "react-redux";
+import DummyBalance from "../../../components/DummyBalance.json";
+
 const MyInscriptions = () => {
   const account = useSelector((state) => state.account);
   const [walletInfo, setWalletInfo] = useState({});
@@ -32,15 +34,15 @@ const MyInscriptions = () => {
         <div className="w-[904px] h-[694px] flex flex-col border border-gray-50 rounded-lg px-6 pt-5 pb-6 gap-5 overflow-auto">
           <div className="text-grey-300 text-2xl">My inscriptions</div>
           <div className="grid grid-cols-4 gap-4">
-            {inscriptions?.map((ins) => (
+            {DummyBalance?.list.map((ins) => (
               <div
                 key={ins}
-                className="flex flex-col h-[280px] w-[202px] border border-gray-50 rounded-xl items-center"
+                className="flex flex-col h-[280px] w-[202px] rounded-xl items-center"
               >
                 <div className="mb-4">
                   <Image
-                    className="w-full  rounded-md"
-                    src={`https://testnet.ordinals.com/content/${ins}i0`}
+                    className="w-full rounded-md"
+                    src={`https://testnet.ordinals.com/content/${ins.inscriptionId}`}
                     alt="Card"
                     height={100}
                     width={100}

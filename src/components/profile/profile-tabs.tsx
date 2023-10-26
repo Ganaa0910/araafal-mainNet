@@ -1,6 +1,6 @@
 import React from "react";
 import Image from "next/image";
-import Button from "../Button";
+import { Button } from "../ui/button";
 import { useRouter } from "next/router";
 
 export default function ProfileTabs() {
@@ -11,7 +11,7 @@ export default function ProfileTabs() {
   //profile routing
   const Buttons = [
     {
-      title: `My Inscriptions`,
+      title: `Inscriptions`,
       href: `/profile/${slug}/ins`,
     },
     {
@@ -25,20 +25,17 @@ export default function ProfileTabs() {
   ];
 
   return (
-    <div className="flex flex-col w-[280px] h-auto gap-8">
-      <div className="flex flex-col w-full h-auto gap-[12px] p-[12px] border-lighterGray border rounded-xl">
-        <div className="flex flex-row items-center justify-center p-[12px] border border-lightGray rounded-lg">
+    <div className="flex flex-col w-[280px] h-auto gap-8 ">
+      <div className="flex flex-col w-full h-auto gap-[12px] p-[12px] border-lighterGray border-2 border-primaryBrand rounded-lg bg-gradient-to-r from-[#fc9446]/[0.5] to-[#fe6272]/[0.5]">
+        <div className="flex flex-row items-center justify-center p-[12px] border-2 border-primaryBrand rounded-lg">
           <div className="w-[30%]">
-            <Image
-              src="/profile.svg"
-              alt="Profile"
-              width={72}
-              height={72}
-              className="w-18 h-18 rounded-full mr-4"
-            />
+            <div className="w-18 h-18 rounded-full mr-4 outline outline-1 outline-offset-4">
+              <Image src="/profile.svg" alt="Profile" width={72} height={72} />
+            </div>
           </div>
 
           <div className="w-[70%]">
+            <p>Username</p>
             <p>wallet address</p>
           </div>
         </div>

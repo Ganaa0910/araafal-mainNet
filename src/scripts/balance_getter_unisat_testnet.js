@@ -1,4 +1,3 @@
-const mempoolJS = require("@mempool/mempool.js");
 const axios = require("axios");
 const he = require("he");
 require("dotenv").config();
@@ -7,9 +6,86 @@ const apiKey = process.env.UNISAT_API_KEY;
 const apiUrl = "https://open-api-testnet.unisat.io";
 
 async function main() {
-  const address = "tb1qe8h5ensyqt04m64a5wwf60xy3dp0fta5dguwzy";
+  // const address = "tb1qe8h5ensyqt04m64a5wwf60xy3dp0fta5dguwzy"; // BRC20
+  const address =
+    "tb1pk4dzxehzkcmqk3c685gukuhjamvcs690tdlemrcrvttjy273gqmsrh2us5"; // Ordinal
   const balance = await getBRC20s(address);
   console.log(balance);
+}
+
+async function getOrdinals(address) {
+  let inscriptions = [];
+  const utxoLength = await getUTXOLength(address);
+  try {
+    const response = await axios.get(
+      `${apiUrl}/v1/indexer/address/${address}/inscription-utxo-data/?size=${utxoLength}`,
+      {
+        headers: {
+          Authorization: `Bearer ${apiKey}`,
+        },
+      },
+    );
+    const utxos = response.data.data.utxo;
+    inscriptions = await processOrdinalsUtxos(utxos);
+  } catch (error) {
+    console.log(error);
+  }
+  return inscriptions;
+}
+
+const processOrdinalsUtxos = async (utxos) => {
+  const inscriptions = await Promise.all(
+    utxos.flatMap(async (utxo) => {
+      if (
+        utxo.inscriptions &&
+        utxo.inscriptions[0] !== undefined &&
+        utxo.inscriptions[0] !== null &&
+        utxo.inscriptions[0].isBRC20 === false
+      ) {
+        try {
+          const isOrdinal = await processOrdinal(
+            utxo.inscriptions[0].inscriptionId,
+          );
+          const mergedInscriptionInfo = {
+            ...utxo.inscriptions[0],
+            ...isOrdinal,
+          };
+          return mergedInscriptionInfo;
+        } catch (error) {
+          // Handle errors from processOrdinal function
+          console.error("Error processing Ordinal:", error);
+        }
+      }
+      return null; // Return null for invalid or unprocessable inscriptions
+    }),
+  );
+
+  return inscriptions.filter((inscription) => inscription !== null);
+};
+
+async function processOrdinal(inscriptionId) {
+  try {
+    const response = await axios.get(
+      `https://testnet.ordinals.com/inscription/${inscriptionId}`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*",
+        },
+      },
+    );
+    if (response.status === 200) {
+      const htmlResponse = response.data;
+      const isOrdinal = htmlResponse.lastIndexOf("image/webp");
+      return { isOrdinal: isOrdinal !== -1 };
+    }
+  } catch (error) {
+    if (error.response && error.response.status === 404) {
+      // Handle 404 error if needed
+    } else {
+      console.error(`Error processing inscription ${inscriptionId}:`, error);
+    }
+  }
 }
 
 async function getBRC20s(address) {
@@ -45,14 +121,14 @@ async function getBRC20transactions(address) {
       },
     );
     const utxos = response.data.data.utxo;
-    inscriptions = await processUtxos(utxos);
+    inscriptions = await processBRC20Utxos(utxos);
   } catch (error) {
     console.log(error);
   }
   return inscriptions;
 }
 
-const processUtxos = async (utxos) => {
+const processBRC20Utxos = async (utxos) => {
   const inscriptions = await Promise.all(
     utxos.flatMap(async (utxo) => {
       if (

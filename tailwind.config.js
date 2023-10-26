@@ -43,6 +43,10 @@ module.exports = {
         primaryBrand: "#FD7C5B",
         brandBlack: "var(--Black-less-opacity, rgba(0, 0, 0, 0.50))",
       },
+      backgrounds: {
+        primaryBrandGrad:
+          "var(--primary-less-opacity, linear-gradient(266deg, rgba(254, 98, 114, 0.50) 0%, rgba(252, 148, 70, 0.50) 100%))",
+      },
       boxShadow: {
         shadowBrand: "0 0 240px 0 #FD7C5B",
       },
