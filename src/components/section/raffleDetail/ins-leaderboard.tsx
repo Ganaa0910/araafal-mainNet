@@ -9,7 +9,6 @@ export default function Leaderboard({
 }: {
   tickets: Ticket[];
 }) {
-  console.log("🚀 ~ file: Leaderboard.tsx:19 ~ tickets:", tickets);
   const [lastUpdated, setLastUpdated] = useState(moment());
   const [timeDifference, setTimeDifference] = useState("");
   const [copiedIndex, setCopiedIndex] = useState(-1);

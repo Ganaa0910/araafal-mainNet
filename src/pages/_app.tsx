@@ -13,6 +13,7 @@ import { useEffect } from "react";
 import { checkTokens } from "@/lib/fetcherFunctions/postRequest";
 import { getAccessToken, getRefreshToken, saveToken } from "@/lib/auth";
 import { setAddress, setConnected } from "@/slices/mainSlice";
+import { Toaster } from "@/components/ui/toaster";
 // import type { AppProps } from 'next/app'
 
 const queryClient = new QueryClient();
@@ -25,6 +26,7 @@ export default function App({ Component, pageProps }) {
             <MainHead />
             <Component {...pageProps} />
           </Layout>
+          <Toaster />
           <ReactQueryDevtools initialIsOpen={false} />
         </Provider>
       </QueryClientProvider>

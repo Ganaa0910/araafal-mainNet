@@ -1,11 +1,15 @@
 import React from "react";
 import Image from "next/image";
-import Button from "../Button";
+import { Button } from "../ui/button";
 import { useRouter } from "next/router";
+import { clearToken } from "@/lib/auth";
+import { useDispatch } from "react-redux";
+import { setAddress, setConnected } from "@/slices/mainSlice";
 
 export default function ProfileTabs() {
   //profile routing ends
   const router = useRouter();
+  const dispatch = useDispatch();
   const slug = router.query.addr;
 
   //profile routing
@@ -23,6 +27,13 @@ export default function ProfileTabs() {
       href: `/profile/${slug}/tic`,
     },
   ];
+  const handleLogout = () => {
+    dispatch(setAddress(""));
+    dispatch(setConnected(false));
+    window.localStorage.removeItem("userProfile");
+    clearToken();
+    router.push("/");
+  };
 
   return (
     <div className="flex flex-col w-[280px] h-auto gap-8">
@@ -34,7 +45,7 @@ export default function ProfileTabs() {
               alt="Profile"
               width={72}
               height={72}
-              className="w-18 h-18 rounded-full mr-4"
+              className="mr-4 rounded-full w-18 h-18"
             />
           </div>
 
@@ -46,12 +57,18 @@ export default function ProfileTabs() {
                         <Button>My Created Raffles</Button>
                         <Button>My Tickets</Button> */}
         {Buttons.map((button, index) => (
-          <Button key={index} onClick={() => router.push(button.href)}>
+          <Button
+            key={index}
+            variant="primary"
+            onClick={() => router.push(button.href)}
+          >
             {button.title}
           </Button>
         ))}
       </div>
-      <Button>Log out</Button>
+      <Button variant="primary" onClick={() => handleLogout()}>
+        Log out
+      </Button>
     </div>
   );
 }
