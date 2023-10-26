@@ -1,5 +1,5 @@
 import Image from "next/image";
-import Button from "../Button";
+import { Button } from "../ui/button";
 import { useState } from "react";
 
 const Choose = ({
@@ -23,10 +23,10 @@ const Choose = ({
 
   return (
     <div className={showHideClassName}>
-      <div className="w-full h-full  mx-auto rounded shadow-lg z-50 justify-center content-center">
+      <div className="z-50 content-center justify-center w-full h-full mx-auto rounded shadow-lg">
         <div className="w-[60%]  mx-auto p-4 bg-black border-2 border-lightGray rounded-xl flex flex-col">
           <h1>Choose Inscription</h1>
-          <div className="w-full h-full grid grid-cols-3 gap-4 overflow-auto text-center ">
+          <div className="grid w-full h-full grid-cols-3 gap-4 overflow-auto text-center ">
             {inscriptions?.map((ins) => (
               <div
                 key={ins}
@@ -38,24 +38,24 @@ const Choose = ({
                 onClick={() => setSelectedCards(ins)}
               >
                 <Image
-                  className="w-full  rounded-md"
+                  className="w-full rounded-md"
                   src={`https://testnet.ordinals.com/content/${ins}i0`}
                   alt="Card"
                   height={100}
                   width={100}
                 />
                 {/* <div className="">
-                  <div className="font-bold text-xl">Pepe punk</div>
-                  <p className="text-gray-700 text-base">NO12</p>
+                  <div className="text-xl font-bold">Pepe punk</div>
+                  <p className="text-base text-gray-700">NO12</p>
                 </div> */}
               </div>
             ))}
           </div>
-          <div className="w-full h-auto flex  justify-end gap-2 flex-row">
-            <Button onClick={handleClose} className="modal-close mt-5">
+          <div className="flex flex-row justify-end w-full h-auto gap-2">
+            <Button onClick={handleClose} className="mt-5 modal-close">
               Cancel
             </Button>
-            <Button onClick={() => confirmation()} className="modal-close mt-5">
+            <Button onClick={() => confirmation()} className="mt-5 modal-close">
               Confirm
             </Button>
           </div>

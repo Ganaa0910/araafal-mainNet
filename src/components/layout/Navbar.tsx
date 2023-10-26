@@ -1,13 +1,13 @@
 import Image from "next/image";
 import Link from "next/link";
-import ConnectWalletButton from "./ConnectWalletButton";
+import ConnectWalletButton from "../ConnectWalletButton";
 import Router from "next/router";
 
 export default function Navbar() {
   return (
-    <nav className="sticky top-0 w-full  backdrop-blur-sm bg-opacity-80">
+    <nav className="sticky top-0 w-full backdrop-blur-sm bg-opacity-80">
       <div className="flex items-center z-50 justify-center flex-shrink-0 h-20 px-28 max-w-[1440px] mx-auto">
-        <div className="flex items-center h-12 left-0 right-auto">
+        <div className="left-0 right-auto flex items-center h-12">
           <Link href={"/"}>
             <Image
               className="h-[40px] w-[162px]"
@@ -23,11 +23,11 @@ export default function Navbar() {
             CreateRaffle
           </Link>
 
-          <Link className="px-5 py-3" href={"/createraffle"}>
+          <Link className="px-5 py-3" href={"/raffles"}>
             Raffles
           </Link>
         </div>
-        <div className="hidden md:block right-0 left-auto">
+        <div className="right-0 left-auto hidden md:block">
           <div className="flex items-center gap-8">
             <div className="flex flex-row"></div>
 
@@ -55,12 +55,12 @@ export default function Navbar() {
 //   return (
 //     <>
 //       <nav className="bg-[#000000] bg-opacity-30">
-//         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+//         <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
 //           <div className="flex items-center justify-between h-20 px-8">
 //             <Link href={"/"}>
 //               <div className="flex items-center h-12 select-none">
 //                 <Image
-//                   className="h-8 w-8 cursor-pointer"
+//                   className="w-8 h-8 cursor-pointer"
 //                   src={transparentLogo}
 //                   alt="Logo"
 //                 />

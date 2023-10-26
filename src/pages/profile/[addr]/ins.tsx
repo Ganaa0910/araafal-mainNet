@@ -1,4 +1,3 @@
-import Button from "@/components/Button";
 import ProfileTabs from "@/components/profile/profile-tabs";
 import {
   getInscriptions,

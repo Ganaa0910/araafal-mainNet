@@ -2,11 +2,9 @@ import { Button } from "@/components/ui/button";
 import moment from "moment";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setTicketAmount } from "../slices/mainSlice";
-
-import raffle from "../../raffleDetails.json";
-import PurchaseOverlay from "./PurchaseOverlay";
-
+import { setTicketAmount } from "@/slices/mainSlice";
+import raffle from "../../../../raffleDetails.json";
+import PurchaseOverlay from "@/components/PurchaseOverlay";
 import { Raffle, Ticket } from "@/lib/types/dbTypes";
 
 export default function BuyPanel({
@@ -64,29 +62,29 @@ export default function BuyPanel({
     <>
       <div className="grid grid-cols-2">
         <div className="pb-6">
-          <p className="text-base text-lighterGray pb-2">Price per ticket</p>
+          <p className="pb-2 text-base text-lighterGray">Price per ticket</p>
           <h2 className="text-3xl">
             {raffleDetail?.price} {raffleDetail?.sellingTokenTicker}
           </h2>
         </div>
         <div className="pb-6">
-          <p className="text-base pb-2">Tickets purchased</p>
+          <p className="pb-2 text-base">Tickets purchiased</p>
           <h2 className="text-3xl">{tickets?.length}</h2>
         </div>
         <div className="flex justify-start w-full col-span-2" role="group">
           <div className="flex flex-col w-full">
-            <p className="text-base pb-2">Select amount</p>
-            <div className="group flex flex-row w-full justify-between">
-              <div className="flex items-center px-5 py-2 rounded-lg text-lg border border-lightGray bg-primaryBrand">
+            <p className="pb-2 text-base">Select amount</p>
+            <div className="flex flex-row justify-between w-full group">
+              <div className="flex items-center px-5 py-2 text-lg border rounded-lg border-lightGray bg-primaryBrand">
                 <div className="flex justify-between px-6 md:px-0">
                   <button
-                    className="text-3xl p-0 text-white rounded-r-none bg-inherit border-none select-none"
+                    className="p-0 text-3xl text-white border-none rounded-r-none select-none bg-inherit"
                     onClick={handleDecrement}
                   >
                     -
                   </button>
                   <input
-                    className="w-20 focus:border-none text-center bg-inherit text-2xl focus:outline-none"
+                    className="w-20 text-2xl text-center focus:border-none bg-inherit focus:outline-none"
                     type="text"
                     min="1"
                     readOnly
@@ -96,15 +94,15 @@ export default function BuyPanel({
                     onChange={(e) => handleInputChange(e)}
                   />
                   <button
-                    className="text-3xl p-0 text-white rounded-r rounded-l-none bg-inherit border-none select-none"
+                    className="p-0 text-3xl text-white border-none rounded-l-none rounded-r select-none bg-inherit"
                     onClick={handleIncrement}
                   >
                     +
                   </button>
                 </div>
               </div>
-              <div className="md:pb-0 w-1/2">
-                <p className="text-base pb-2">Total cost</p>
+              <div className="w-1/2 md:pb-0">
+                <p className="pb-2 text-base">Total cost</p>
                 {raffleDetail && (
                   <h2 className="text-3xl">
                     {ticket.amount * raffleDetail?.price}{" "}
@@ -118,7 +116,7 @@ export default function BuyPanel({
       </div>
       {raffleActive && (
         <div className="flex flex-col">
-          {/* <p className="w-full select-all text-base bg-defaultGray break-all inline-block text-start pb-6">
+          {/* <p className="inline-block w-full pb-6 text-base break-all select-all bg-defaultGray text-start">
               {raffleDetail?.ownerId}
             </p> */}
           {/* <button

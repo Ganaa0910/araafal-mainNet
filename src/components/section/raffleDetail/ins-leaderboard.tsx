@@ -87,11 +87,11 @@ export default function Leaderboard({
       <div className="rounded-xl flex flex-col gap-[24px] p-[24px] border-2 border-primaryBrand raffle-gradient">
         <h1 className="text-3xl">Participants</h1>
 
-        <div className="flex flex-col md:flex-row gap-4 relative">
+        <div className="relative flex flex-col gap-4 md:flex-row">
           <input
             type="text"
             name="searchWallet"
-            className="pl-3 grow rounded-md h-12 bg-primaryBrand border   focus:outline-none  "
+            className="h-12 pl-3 border rounded-md grow bg-primaryBrand focus:outline-none "
             placeholder="Search"
             onChange={handleChange}
             onKeyPress={handleKeyPress}
@@ -103,7 +103,7 @@ export default function Leaderboard({
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6"
+                className="w-6 h-6"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -119,7 +119,7 @@ export default function Leaderboard({
           </div>
         </div>
 
-        <div className="border border-primaryBrand flex flex-col divide-y-2 divide-primaryBrand  rounded-lg">
+        <div className="flex flex-col border divide-y-2 rounded-lg border-primaryBrand divide-primaryBrand">
           <div className="flex justify-between px-6 py-4 text-lg bg-red">
             <h5>Wallet</h5>
             <h5>Tickets</h5>
@@ -134,7 +134,7 @@ export default function Leaderboard({
                 )
                 .map((token, key) => (
                   <li
-                    className="px-6 py-1 flex justify-between text-lg bg-darkGray border border-x-0 border-t-0 border-lightGray "
+                    className="flex justify-between px-6 py-1 text-lg border border-t-0 bg-darkGray border-x-0 border-lightGray "
                     key={key}
                   >
                     <a
@@ -153,7 +153,7 @@ export default function Leaderboard({
                         <div className="alert alert-success">
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
-                            className="stroke-current shrink-0 h-6 w-6"
+                            className="w-6 h-6 stroke-current shrink-0"
                             fill="none"
                             viewBox="0 0 24 24"
                           >

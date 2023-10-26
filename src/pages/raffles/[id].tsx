@@ -1,11 +1,10 @@
-import BuyPanel from "@/components/BuyPanel";
-import Footer from "@/components/Footer";
-import InscriptionDetail from "@/components/InscriptionDetail";
-import InscriptionDetails from "@/components/InscriptionDetails";
-import Leaderboard from "@/components/Leaderboard";
-import Navbar from "@/components/Navbar";
-import ProfileBar from "@/components/ProfileBar";
-import ViewInscription from "@/components/ViewInscription";
+import BuyPanel from "@/components/section/raffleDetail/ins-buy-panel";
+
+import InsDescription from "@/components/section/raffleDetail/ins-description";
+import InscriptionDetails from "@/components/section/raffleDetail/ins-details";
+import Leaderboard from "@/components/section/raffleDetail/ins-leaderboard";
+import ProfileBar from "@/components/section/raffleDetail/ins-profile";
+import ViewInscription from "@/components/section/raffleDetail/ins-view";
 import { fetchRaffleById, getTicketsByRaffle } from "@/lib/fetcherFunctions";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
@@ -134,34 +133,13 @@ export default function Detail() {
 
   return (
     <>
-      <Navbar></Navbar>
       <div className="max-w-[1216px] mx-auto h-[850px] mt-12 mb-8">
-        <div className="flex flex-col mb -12 mb-12">
-          <h1 className="text-featuredRaffles text-4xl">Raffle page</h1>
-          <span className="bg-gradient-to-r from-orange-300 to-orange-600 inline-block w-24 h-2"></span>
-        </div>
-        {/* <div className="py-[48px] md:py-[64px] px-4 md:px-[40px] w-full grid grid-cols-1 gap-8 justify-start items-center">
-        <div className="flex flex-col md:flex-row gap-9">
-          <ViewInscription raffleDetail={raffleDetail} />
-          <InfoSection raffleDetail={raffleDetail} />
+        <div className="flex flex-col mb-12 mb -12">
+          <h1 className="text-4xl text-featuredRaffles">Raffle page</h1>
+          <span className="inline-block w-24 h-2 bg-gradient-to-r from-orange-300 to-orange-600"></span>
         </div>
 
-        <div className="flex flex-col gap-8 md:flex-row">
-          <InscriptionDetails raffleDetail={raffleDetail} />
-          <BuyPanel
-            tokens={tokens}
-            raffleDetail={raffleDetail}
-            tickets={tickets}
-          />
-          <Leaderboard
-            tokens={tokens}
-            getAddressDetail={getAddressDetail}
-            tickets={tickets}
-          />
-        </div>
-      </div> */}
-
-        <div className="w-full flex flex-row gap-8">
+        <div className="flex flex-row w-full gap-8">
           <div className="flex flex-col w-[280px] gap-8">
             <ViewInscription raffleDetail={raffleDetail} />
             <InscriptionDetails raffleDetail={raffleDetail} />
@@ -172,8 +150,8 @@ export default function Detail() {
               tokens={tokens}
               raffleDetail={raffleDetail}
               tickets={tickets}
-            />{" "}
-            <InscriptionDetail raffleDetail={raffleDetail} />
+            />
+            <InsDescription raffleDetail={raffleDetail} />
           </div>
           <div className="flex flex-col  gap-8 w-[384px]">
             <ProfileBar raffleDetail={raffleDetail} />
@@ -185,7 +163,6 @@ export default function Detail() {
           </div>
         </div>
       </div>
-      <Footer />
     </>
   );
 }

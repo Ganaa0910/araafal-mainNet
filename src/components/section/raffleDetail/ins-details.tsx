@@ -8,23 +8,23 @@ export default function InscriptionDetails({
   raffleDetail: Raffle | undefined;
 }) {
   return (
-    <div className="rounded-xl border-2  w-full border-primaryBrand raffle-gradient">
-      <div className="p-6 flex flex-col  gap-6 w-full h-auto">
+    <div className="w-full border-2 rounded-xl border-primaryBrand raffle-gradient">
+      <div className="flex flex-col w-full h-auto gap-6 p-6">
         <div>
           <h1 className="text-2xl font-bold">Inscription detail</h1>
-          {/* <p className="text-base pt-6">{raffleDetail?.name}</p> */}
+          {/* <p className="pt-6 text-base">{raffleDetail?.name}</p> */}
         </div>
-        <div className="text-base flex flex-col gap-6 pt-6">
+        <div className="flex flex-col gap-6 pt-6 text-base">
           <div className="flex justify-between">
             <h5>ID</h5>
             <a
-              className="flex gap-2 text-white hover:text-blue-400 items-center"
+              className="flex items-center gap-2 text-white hover:text-blue-400"
               href={`https://ordinals.com/inscription/${raffleDetail?.inscriptionId}`}
             >
-              {raffleDetail?.inscriptionId.substring(0, 8) +
+              {raffleDetail?.inscriptionId?.substring(0, 8) +
                 "..." +
-                raffleDetail?.inscriptionId.substring(
-                  raffleDetail?.inscriptionId.length - 2,
+                raffleDetail?.inscriptionId?.substring(
+                  raffleDetail?.inscriptionId?.length - 2,
                 )}
               <svg
                 width="16"
@@ -47,14 +47,14 @@ export default function InscriptionDetails({
             {/* <p>{raffleDetail?.id}</p> */}
             <p>14493587</p>
           </div>
-          <Button variant={"primary"} className="mb-0 w-full mx-auto">
+          <Button variant={"primary"} className="w-full mx-auto mb-0">
             View
           </Button>
-          {/* <div className="py-4 px-6 flex justify-between">
+          {/* <div className="flex justify-between px-6 py-4">
                 <h5>Owner</h5>
                 <p>0x...C544</p>
               </div> */}
-          {/* <div className=" flex justify-between">
+          {/* <div className="flex justify-between ">
             <h5>Sat Rarity</h5>
             <p>{raffle.prize.rarity}</p>
           </div> */}

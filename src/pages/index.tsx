@@ -1,7 +1,5 @@
-import Footer from "@/components/Footer";
-import Navbar from "@/components/Navbar";
-import ActiveRaffles from "@/components/active/ActiveRaffles";
-import FeaturedRaffles from "@/components/featured/FeaturedRaffles";
+import ActiveRaffles from "@/components/section/ActiveRaffles";
+import FeaturedRaffles from "@/components/section/featured/FeaturedRaffles";
 import { fetchRaffles } from "@/lib/fetcherFunctions";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
@@ -10,6 +8,7 @@ import moment from "moment";
 import Image from "next/image";
 import { useState } from "react";
 import raffle from "../../raffleDetails.json";
+import Raffles from "@/components/section/featured/Raffles";
 
 function App() {
   // const chakra = Chakra_Petch({ subsets: ["latin"], weight: ["400", "700"] });
@@ -133,8 +132,7 @@ function App() {
   }
 
   return (
-    <div className="flex flex-col w-full h-screen">
-      <Navbar />
+    <div className="flex flex-col w-full min-h-screen">
       <div>
         <div
           className={`flex h-screen max-w-[1440px] mx-auto z-10 -mt-20 flex-col items-center justify-center `}
@@ -154,45 +152,22 @@ function App() {
               </div>
             </div>
           </div>
-
-          {/* <form
-            onSubmit={handleSubmit}
-            className="flex flex-col items-center justify-center w-full gap-4 pt-8 h-13 md:flex-row md:mr-auto"
-          >
-            <div className="bg-[#FD7C5B] flex h-[48px] w-[322px] rounded-lg ">
-              <input
-                type="email"
-                className="flex-1 py-3 px-6  rounded-lg text-base md:text-xl bg-black/50   text-[#C4C3C2] placeholder-gray-300 placeholder-opacity-50 focus:ring-0 focus:border-gray-500 "
-                placeholder="Email address"
-                value={email}
-                onChange={handleEmailChange}
-              />
-            </div>
-
-            <button
-              type="submit"
-              className="px-6 py-3 border-2 h-[48px] w-[322px] md:w-auto text-base md:text-xl flex items-center justify-center button-gradient rounded-lg border-[#FD7C5B] disabled:opacity-50"
-              disabled={loading}
-            >
-              {loading ? "Submitting" : "Submit"}
-            </button>
-          </form> */}
-          {/* {status == 201 && <div className="mt-2 text-green-600">Success</div>}
-          {status == 400 && (
-            <div className="mt-2 text-red-600">Email already submitted</div>
-          )}
-
-          {status == 500 && (
-            <div className="mt-2 text-red-600">Unknown error🥲</div>
-          )} */}
         </div>
         <div className="max-w-[1440px] mx-auto h-[500px] mb-80">
-          <FeaturedRaffles />
+          <div className="w-[1216px] mx-auto flex flex-col">
+            <div className="flex flex-col mb-12 mb -12">
+              <h1 className="text-4xl text-featuredRaffles">
+                Featured raffles
+              </h1>
+              <span className="inline-block w-24 h-2 bg-gradient-to-r from-cyan-500 to-blue-500"></span>
+            </div>
+
+            <Raffles />
+          </div>
         </div>
 
         <ActiveRaffles data={data} />
       </div>
-      <Footer />
     </div>
   );
 }
