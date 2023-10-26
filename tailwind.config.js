@@ -22,7 +22,7 @@ module.exports = {
       xs: ["10px", "12px"],
       sm: ["12px", "16px"],
       md: ["14px", "18px"],
-      lg: ["16px", "24px"],
+      lg: ["17px", "24px"],
       xl: ["20px", "28px"],
       "2xl": ["24px", "36px"],
       "4xl": ["40px", "54px"],
@@ -35,6 +35,7 @@ module.exports = {
       faqExtended: ["20px", "28px"],
       featured: ["32px", "44px"],
       blueFont: ["56px", "68px"],
+      smallTitles: ["16px", "22px"],
     },
 
     extend: {

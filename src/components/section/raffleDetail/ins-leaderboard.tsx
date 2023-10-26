@@ -118,7 +118,7 @@ export default function Leaderboard({
           </div>
         </div>
 
-        <div className="flex flex-col border divide-y-2 rounded-lg border-primaryBrand divide-primaryBrand">
+        <div className="flex flex-col border divide-y-2 divide-primaryBrand rounded-lg border-primaryBrand ">
           <div className="flex justify-between px-6 py-4 text-lg bg-red">
             <h5>Wallet</h5>
             <h5>Tickets</h5>

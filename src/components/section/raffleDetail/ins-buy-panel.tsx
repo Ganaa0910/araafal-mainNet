@@ -1,11 +1,11 @@
+import PurchaseOverlay from "@/components/PurchaseOverlay";
 import { Button } from "@/components/ui/button";
+import { Raffle, Ticket } from "@/lib/types/dbTypes";
+import { setTicketAmount } from "@/slices/mainSlice";
 import moment from "moment";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setTicketAmount } from "@/slices/mainSlice";
 import raffle from "../../../../raffleDetails.json";
-import PurchaseOverlay from "@/components/PurchaseOverlay";
-import { Raffle, Ticket } from "@/lib/types/dbTypes";
 
 export default function BuyPanel({
   tokens,
@@ -101,7 +101,7 @@ export default function BuyPanel({
                   </button>
                 </div>
               </div>
-              <div className="w-1/2 md:pb-0">
+              <div className="w-1/2 items-start">
                 <p className="pb-2 text-base">Total cost</p>
                 {raffleDetail && (
                   <h2 className="text-3xl">
@@ -114,6 +114,7 @@ export default function BuyPanel({
           </div>
         </div>
       </div>
+      <div className="w-full h-[2px] bg-primaryBrand"></div>
       {raffleActive && (
         <div className="flex flex-col">
           {/* <p className="inline-block w-full pb-6 text-base break-all select-all bg-defaultGray text-start">
@@ -143,9 +144,9 @@ export default function BuyPanel({
 
   return (
     <>
-      <div className="rounded-xl w-full p-[24px] flex flex-col border-2 border-primaryBrand gap-[24px] raffle-gradient">
+      <div className="rounded-xl w-full pt-5 pb-6 px-6 flex flex-col border-2 border-primaryBrand gap-5 raffle-gradient">
         <div className="flex justify-between">
-          <h1 className="text-3xl">Join the Raffle</h1>
+          <h1 className="text-2xl">Join the Raffle</h1>
         </div>
 
         {renderBuyPanel()}

@@ -9,12 +9,12 @@ export default function InscriptionDetails({
 }) {
   return (
     <div className="w-full border-2 rounded-xl border-primaryBrand raffle-gradient">
-      <div className="flex flex-col w-full h-auto gap-6 p-6">
-        <div>
+      <div className="flex flex-col w-full h-auto px-6 pb-6 pt-5">
+        <div className="mb-3">
           <h1 className="text-2xl font-bold">Inscription detail</h1>
           {/* <p className="pt-6 text-base">{raffleDetail?.name}</p> */}
         </div>
-        <div className="flex flex-col gap-6 pt-6 text-base">
+        <div className="flex flex-col gap-3 text-base">
           <div className="flex justify-between">
             <h5>ID</h5>
             <a
@@ -47,8 +47,8 @@ export default function InscriptionDetails({
             {/* <p>{raffleDetail?.id}</p> */}
             <p>14493587</p>
           </div>
-          <Button variant={"primary"} className="w-full mx-auto mb-0">
-            View
+          <Button variant={"primary2"} className="w-full mx-auto mb-0">
+            View Inscriptions
           </Button>
           {/* <div className="flex justify-between px-6 py-4">
                 <h5>Owner</h5>
