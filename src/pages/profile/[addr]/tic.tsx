@@ -1,10 +1,7 @@
 import PageTitle from "@/components/atom/page-title";
 import Layout from "@/components/layout/layout";
 import ProfileTabs from "@/components/profile/profile-tabs";
-import {
-  TransactionWithTicket,
-  getTicketsByUser,
-} from "@/lib/service";
+import { TransactionWithTicket, getTicketsByUser } from "@/lib/service";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import { useRouter } from "next/router";

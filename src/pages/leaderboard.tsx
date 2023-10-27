@@ -15,8 +15,8 @@ export default function Leaderboard() {
 
   const { isLoading, isError, data, error } = useQuery({
     queryKey: ["userProfile"],
-    queryFn: () => getUserProfile(account?.address),
-    enabled: !!account,
+    queryFn: () => getUserProfile(account.address),
+    enabled: !!account && account.connected == true,
   });
 
   const { isLoading: leaderLoading, data: leaderData } = useQuery({

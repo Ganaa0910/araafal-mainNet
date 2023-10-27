@@ -62,8 +62,9 @@ export async function getTicketsByRaffle(id: string) {
   });
 }
 
-export async function getUserProfile(id: string): Promise<User> {
-  return axiosClient.get(`/api/users/${id}`).then((response) => {
+export async function getUserProfile(address: string): Promise<User> {
+  console.log("🚀 ~ file: index.ts:66 ~ getUserProfile ~ address:", address);
+  return axiosClient.get(`/api/users/${address}/profile`).then((response) => {
     return response?.data;
   });
 }
