@@ -27,7 +27,7 @@ body {
   background: #141414 url("/bg.svg") no-repeat fixed center top / cover;
 }
 
-.button-gradient {
+.primary-gradient {
   background: var(
     --less-opacity-brand,
     linear-gradient(

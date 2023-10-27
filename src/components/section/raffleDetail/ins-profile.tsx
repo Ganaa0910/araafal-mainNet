@@ -37,7 +37,7 @@ export default function ProfileBar({
 
   // );
   return (
-    <div className="flex flex-row  items-center border-2 rounded-xl border-primaryBrand raffle-gradient w-full h-[104px] py-5 px-6 gap-4">
+    <div className="flex flex-row  items-center border-2 rounded-xl border-brand raffle-gradient w-full h-[104px] py-5 px-6 gap-4">
       <h1 className=" text-2xl font-bold">Created by</h1>
       <div className="flex flex-row  bg-brandBlack items-center gap-2 p-2 rounded-tl-[32px] rounded-bl-[32px] rounded-tr-[8px] rounded-br-[8px] ">
         {raffleDetail?.inscriptionPreviewUrl && (

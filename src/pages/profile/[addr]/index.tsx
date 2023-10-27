@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 import { useRouter } from "next/router";
 
-import Button from "@/components/Button";
+import { Button } from "@/components/ui/button";
 // import MyInscriptions from '@/components/MyInscriptions'
 import axios from "axios";
 import Image from "next/image";
@@ -79,53 +79,20 @@ export default function Profile() {
     <Layout>
       <PageTitle name="Profile" />
       {/* <div className="py-[48px] md:py-[64px] px-4 md:px-[40px] w-full grid grid-cols-1 gap-8 justify-start items-center bg-red-600"> */}
-      <div className="flex flex-row items-center justify-start w-full h-auto gap-4 ">
+      <div className="flex flex-row items-center justify-start w-full h-auto gap-8 ">
         <ProfileTabs />
-
-        {/* <MyInscriptions></MyInscriptions> */}
-        {/* <MyCreatedRaffles></MyCreatedRaffles> */}
-
-        {/* <myProfile></myProfile> */}
-        {/* <div className="flex flex-col gap-8 md:flex-row">
-          <div className="flex flex-col md:flex-row gap-9">
-            {slug?.slice(0, 6) +
-              "..." +
-              slug?.slice(slug?.length - 4, slug?.length)}
+        <div className="flex flex-col gap-8">
+          <div className="flex flex-col gap-5 p-6 border rounded-xl border-brand bg-brandBlack">
+            <div className="flex flex-col gap-2">
+              <div className="flex justify-between">
+                <div className="text-xl font-bold">Create raffle</div>
+                <div className="text-lg font-bold">2pts</div>
+              </div>
+              <div>Create raffle with your inscription</div>
+            </div>
+            <Button variant="primary">Go</Button>
           </div>
         </div>
-        <div>
-          {loading ? (
-            <div>Loading...</div>
-          ) : (
-            <div>
-              BRC-20:
-              <div className="grid grid-cols-5 gap-4 text-white">
-                {inscriptions?.map((inscription, index) => (
-                  <div key={index}>
-                    <button className="flex flex-col p-6 border border-white">
-                      <div className="flex justify-between">
-                        <div>{inscription.name}</div>
-                      </div>
-                      <div className="flex justify-between text-sm text-lightGray">
-                        <div>Transferable: </div>
-                        <div>{inscription.transferBalance}</div>
-                      </div>
-                      <div className="flex justify-between text-sm text-lightGray">
-                        <div>Available: </div>
-                        <div>{inscription.availableBalance}</div>
-                      </div>
-                      <div className="w-full h-0.5 bg-lightGray"></div>
-                      <div className="flex justify-between text-sm text-lightGray">
-                        <div>Balance: </div>
-                        <div>{inscription.balance}</div>
-                      </div>
-                    </button>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-        </div> */}
       </div>
     </Layout>
   );

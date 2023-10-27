@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 
 export default function Leaderboard({
   tokens,
-  getAddressDetail,
+
   tickets,
 }: {
   tickets: Ticket[];
@@ -56,11 +56,6 @@ export default function Leaderboard({
     }
   };
 
-  const handleRefreshButtonClick = () => {
-    getAddressDetail();
-    setLastUpdated(moment());
-  };
-
   // // Group transactions by transactionId and count them
   // const groupedTransactions: Record<
   //   string,
@@ -83,14 +78,14 @@ export default function Leaderboard({
 
   return (
     <>
-      <div className="rounded-xl flex flex-col gap-4  p-[24px] border-2 border-primaryBrand raffle-gradient font-bold h-[558px]">
+      <div className="rounded-xl flex flex-col gap-4  p-[24px] border-2 border-brand raffle-gradient font-bold h-[558px]">
         <h1 className="text-2xl">Participants</h1>
 
-        <div className="relative flex gap-4 flex-row">
+        <div className="relative flex flex-row gap-4">
           <input
             type="text"
             name="searchWallet"
-            className="h-12 pl-3 hover:border-primaryBrand hover:border-2 rounded-md grow bg-brandBlack focus:outline-none text-xl font-medium"
+            className="h-12 pl-3 text-xl font-medium rounded-md hover:border-brand hover:border-2 grow bg-brandBlack focus:outline-none"
             placeholder="Search"
             onChange={handleChange}
             onKeyPress={handleKeyPress}
@@ -118,7 +113,7 @@ export default function Leaderboard({
           </div>
         </div>
 
-        <div className="flex flex-col border-2 divide-y-2 divide-primaryBrand rounded-lg border-primaryBrand ">
+        <div className="flex flex-col border-2 divide-y-2 rounded-lg divide-brand border-brand ">
           <div className="flex justify-between px-6 py-4 text-lg bg-red">
             <h5>Wallet</h5>
             <h5>Tickets</h5>

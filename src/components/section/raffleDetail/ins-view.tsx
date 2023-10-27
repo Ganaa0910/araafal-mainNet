@@ -8,7 +8,7 @@ export default function ViewInscription({ raffleDetail }) {
   const incsriptionPreviewUrl = `https://ordinals.com/preview/${raffle.prize.id}`;
 
   return (
-    <div className="flex flex-col w-full px-3 pt-3 pb-5 text-center text-white border-2 rounded-xl raffle-gradient border-primaryBrand">
+    <div className="flex flex-col w-full px-3 pt-3 pb-5 text-center text-white border-2 rounded-xl raffle-gradient border-brand">
       <Image
         className="rounded-lg w-full h-full md:w-[256px] md:h-[256px] mx-auto mb-5"
         src={raffleDetail?.inscriptionPreviewUrl}

@@ -7,7 +7,7 @@ import { Raffle } from "@/lib/types/dbTypes";
 export default function RaffleCard({ raffle }: { raffle: Raffle }) {
   return (
     <Link href={`/raffles/${raffle.id}`}>
-      <div className="flex flex-col h-[488 px] w-full border-2 border-primaryBrand rounded-xl gap-4 overflow-hidden">
+      <div className="flex flex-col h-[488 px] w-full border-2 border-brand rounded-xl gap-4 overflow-hidden">
         <div className="">
           <Image
             src={raffle.inscriptionPreviewUrl}

@@ -37,10 +37,10 @@ export default function ProfileTabs() {
 
   return (
     <div className="flex flex-col w-[280px] h-auto gap-8 ">
-      <div className="flex flex-col w-full h-auto gap-[12px] p-[12px] border-lighterGray border-2 border-primaryBrand rounded-lg bg-gradient-to-r from-[#fc9446]/[0.5] to-[#fe6272]/[0.5]">
-        <div className="flex flex-row items-center justify-center p-[12px] border-2 border-primaryBrand rounded-lg">
+      <div className="flex flex-col w-full h-auto gap-[12px] p-[12px] border-lighterGray border-2 border-brand rounded-lg bg-gradient-to-r from-[#fc9446]/[0.5] to-[#fe6272]/[0.5]">
+        <div className="flex flex-row items-center justify-center p-[12px] border-2 border-brand rounded-lg">
           <div className="w-[30%]">
-            <div className="w-18 h-18 rounded-full mr-4 outline outline-1 outline-offset-4">
+            <div className="mr-4 rounded-full w-18 h-18 outline outline-1 outline-offset-4">
               <Image src="/profile.svg" alt="Profile" width={72} height={72} />
             </div>
           </div>
@@ -56,14 +56,14 @@ export default function ProfileTabs() {
         {Buttons.map((button, index) => (
           <Button
             key={index}
-            variant="primary"
+            variant="secondary"
             onClick={() => router.push(button.href)}
           >
             {button.title}
           </Button>
         ))}
       </div>
-      <Button variant="primary" onClick={() => handleLogout()}>
+      <Button variant="outline" onClick={() => handleLogout()}>
         Log out
       </Button>
     </div>

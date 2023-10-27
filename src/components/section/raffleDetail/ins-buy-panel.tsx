@@ -76,7 +76,7 @@ export default function BuyPanel({
   //         <div className="flex flex-col w-full">
   //           <p className="pb-2 text-base">Select amount</p>
   //           <div className="flex flex-row justify-between w-full group">
-  //             <div className="flex items-center px-5 py-2 text-lg border rounded-lg border-lightGray bg-primaryBrand">
+  //             <div className="flex items-center px-5 py-2 text-lg border rounded-lg border-lightGray bg-brand">
   //               <div className="flex justify-between px-6 md:px-0 bg-black">
   //                 <button
   //                   className="p-0 text-3xl text-white border-none rounded-r-none select-none bg-inherit"
@@ -115,7 +115,7 @@ export default function BuyPanel({
   //         </div>
   //       </div>
   //     </div>
-  //     <div className="w-full h-[2px] bg-primaryBrand"></div>
+  //     <div className="w-full h-[2px] bg-brand"></div>
   //     {raffleActive && (
   //       <div className="flex flex-col">
   //         {/* <p className="inline-block w-full pb-6 text-base break-all select-all bg-defaultGray text-start">
@@ -176,7 +176,7 @@ export default function BuyPanel({
         <div className="flex flex-row w-full " role="group">
           <div className="flex flex-col w-1/2">
             <p className="pb-2 text-base">Select amount</p>
-            <div className="flex items-center px-5 py-2 text-lg border-2 rounded-lg border-primaryBrand bg-brandBlack w-[138px]">
+            <div className="flex items-center px-5 py-2 text-lg border-2 rounded-lg border-brand bg-brandBlack w-[138px]">
               <div className="flex justify-between px-6 md:px-0">
                 <button
                   className="p-0 text-3xl text-white border-none rounded-r-none select-none bg-inherit"
@@ -223,7 +223,7 @@ export default function BuyPanel({
           </div>
         </div>
       </div>
-      <div className="w-full h-[2px] bg-primaryBrand"></div>
+      <div className="w-full h-[2px] bg-brand"></div>
       {raffleActive && (
         <div className="flex flex-col">
           {/* <p className="inline-block w-full pb-6 text-base break-all select-all bg-defaultGray text-start">
@@ -253,7 +253,7 @@ export default function BuyPanel({
 
   return (
     <>
-      <div className="rounded-xl w-full pt-5 pb-6 px-6 flex flex-col border-2 border-primaryBrand gap-5 raffle-gradient font-bold">
+      <div className="rounded-xl w-full pt-5 pb-6 px-6 flex flex-col border-2 border-brand gap-5 raffle-gradient font-bold">
         <div className="flex justify-between">
           <h1 className="text-2xl">Join the Raffle</h1>
         </div>

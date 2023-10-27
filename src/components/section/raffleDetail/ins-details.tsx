@@ -8,7 +8,7 @@ export default function InscriptionDetails({
   raffleDetail: Raffle | undefined;
 }) {
   return (
-    <div className="w-full border-2 rounded-xl border-primaryBrand raffle-gradient">
+    <div className="w-full border-2 rounded-xl border-brand raffle-gradient">
       <div className="flex flex-col w-full h-auto px-6 pb-6 pt-5">
         <div className="mb-3">
           <h1 className="text-2xl font-bold">Inscription detail</h1>
