@@ -134,7 +134,7 @@ export default function Detail() {
 
   return (
     <Layout>
-      <div className="max-w-[1216px] mx-auto h-[850px] mt-12 mb-8">
+      <div className="h-[850px] mt-12 mb-8">
         <div className="flex flex-col mb-12 mb -12">
           <h1 className="text-4xl text-featuredRaffles">Raffle page</h1>
           <span className="inline-block w-24 h-2 bg-gradient-to-r from-orange-300 to-orange-600"></span>
