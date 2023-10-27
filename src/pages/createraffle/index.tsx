@@ -5,7 +5,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import Choose from "@/components/create-raffle/choose";
 import Image from "next/image";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { createRaffle, getInscriptionsTestnet } from "@/lib/fetcherFunctions";
+import { createRaffle, getInscriptionsTestnet } from "@/lib/service";
 import { useSelector } from "react-redux";
 import Layout from "@/components/layout/layout";
 import PageTitle from "@/components/atom/page-title";

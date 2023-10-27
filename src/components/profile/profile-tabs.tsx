@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import { clearToken } from "@/lib/auth";
 import { useDispatch } from "react-redux";
 import { setAddress, setConnected } from "@/slices/mainSlice";
+import { Icons } from "../ui/icons";
 
 export default function ProfileTabs() {
   //profile routing ends
@@ -36,7 +37,7 @@ export default function ProfileTabs() {
   };
 
   return (
-    <div className="flex flex-col w-[280px] h-auto gap-8 ">
+    <div className="flex flex-col h-auto gap-8">
       <div className="flex flex-col w-full h-auto gap-[12px] p-[12px] border-lighterGray border-2 border-brand rounded-lg bg-gradient-to-r from-[#fc9446]/[0.5] to-[#fe6272]/[0.5]">
         <div className="flex flex-row items-center justify-center p-[12px] border-2 border-brand rounded-lg">
           <div className="w-[30%]">
@@ -64,6 +65,7 @@ export default function ProfileTabs() {
         ))}
       </div>
       <Button variant="outline" onClick={() => handleLogout()}>
+        <Icons.logout className="w-6 h-6 pr-3 transform rotate-180" />
         Log out
       </Button>
     </div>

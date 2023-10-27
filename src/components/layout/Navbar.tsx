@@ -26,6 +26,9 @@ export default function Navbar() {
           <Link className="px-5 py-3" href={"/raffles"}>
             Raffles
           </Link>
+          <Link className="px-5 py-3" href={"/leaderboard"}>
+            Leaderboard
+          </Link>
         </div>
         <div className="right-0 left-auto hidden md:block">
           <div className="flex items-center gap-8">

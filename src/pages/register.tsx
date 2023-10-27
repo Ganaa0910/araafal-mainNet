@@ -8,7 +8,7 @@ import {
   loginHandler,
   referralLoginHandler,
   whitelistLoginHandler,
-} from "@/lib/fetcherFunctions/postRequest";
+} from "@/lib/service/postRequest";
 import { verifyMessage } from "@unisat/wallet-utils";
 import { useSelector, RootStateOrAny, useDispatch } from "react-redux";
 import { setAddress, setConnected } from "@/slices/mainSlice";
@@ -25,7 +25,8 @@ type SavedUser = {
 };
 
 export default function Register() {
-  const router = useRouter();
+  //https://www.araafal.com/register?referralCode=
+  https: const router = useRouter();
   const queryClient = useQueryClient();
   const account = useSelector((state: RootStateOrAny) => state.account);
   const dispatch = useDispatch();

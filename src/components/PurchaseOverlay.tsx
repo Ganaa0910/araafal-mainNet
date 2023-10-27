@@ -9,7 +9,7 @@ import raffle from "../../raffleDetails.json";
 import axios from "axios";
 import { Raffle } from "@/lib/types/dbTypes";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { TransactionType, createTicket } from "@/lib/fetcherFunctions";
+import { TransactionType, createTicket } from "@/lib/service";
 
 const PurchaseOverlay = ({
   isOpen,

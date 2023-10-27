@@ -1,6 +1,6 @@
 import ActiveRaffles from "@/components/section/ActiveRaffles";
 import FeaturedRaffles from "@/components/section/featured/FeaturedRaffles";
-import { fetchRaffles } from "@/lib/fetcherFunctions";
+import { fetchRaffles } from "@/lib/service";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import moment from "moment";

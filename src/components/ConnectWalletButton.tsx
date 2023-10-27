@@ -9,7 +9,7 @@ import Link from "next/link";
 import { setAddress, setConnected } from "../slices/mainSlice";
 import { User } from "@/lib/types/dbTypes";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { loginHandler } from "@/lib/fetcherFunctions/postRequest";
+import { loginHandler } from "@/lib/service/postRequest";
 import {
   clearToken,
   getAccessToken,

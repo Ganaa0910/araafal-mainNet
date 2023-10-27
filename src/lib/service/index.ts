@@ -116,6 +116,26 @@ export async function getInscriptionsTestnet(address: string) {
     });
 }
 
+export async function getReferralCode(address: string) {
+  return axiosClient.get(`/api/users/${address}/referral`).then((response) => {
+    return response?.data;
+  });
+}
+
+export async function getPosition(address: string) {
+  return axiosClient
+    .get(`/api/users/${address}/leaderboardPosition`)
+    .then((response) => {
+      return response?.data;
+    });
+}
+
+export async function getLeaderboard() {
+  return axiosClient.get(`/api/leaderboard`).then((response) => {
+    return response?.data;
+  });
+}
+
 export async function createRaffle({
   newRaffleData,
 }: {
@@ -126,8 +146,7 @@ export async function createRaffle({
       return response;
     });
   } catch (error) {
-    console.error("Error:", error);
-    throw error; // Rethrow the error for handling at a higher level
+    console.log("Error:", error);
   }
 }
 
@@ -141,7 +160,16 @@ export async function createTicket({
       return response;
     });
   } catch (error) {
-    console.error("Error:", error);
-    throw error; // Rethrow the error for handling at a higher level
+    console.log("Error:", error);
+  }
+}
+
+export async function createReferral() {
+  try {
+    return axiosClient.post(`/api/users/referral`).then((response) => {
+      return response;
+    });
+  } catch (error) {
+    console.log("Error:", error);
   }
 }

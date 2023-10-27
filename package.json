@@ -22,7 +22,7 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
     "lru-cache": "^10.0.1",
-    "lucide-react": "^0.287.0",
+    "lucide-react": "^0.256.0",
     "moment": "^2.29.4",
     "next": "^13.5.3",
     "react": "latest",
@@ -33,7 +33,7 @@
     "redux-persist": "^6.0.0",
     "sonner": "^1.0.3",
     "tailwind-merge": "^1.14.0",
-    "tailwindcss-animate": "^1.0.7",
+    "tailwindcss-animate": "^1.npm run 0.7",
     "tailwindcss-gradients": "^3.0.0"
   },
   "devDependencies": {

@@ -7,16 +7,23 @@ import { Button } from "@/components/ui/button";
 import axios from "axios";
 import Image from "next/image";
 import ProfileTabs from "@/components/profile/profile-tabs";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useSelector } from "react-redux";
-import { getUserProfile } from "@/lib/fetcherFunctions";
+import {
+  createReferral,
+  getPosition,
+  getReferralCode,
+  getUserProfile,
+} from "@/lib/service";
 import Layout from "@/components/layout/layout";
 import PageTitle from "@/components/atom/page-title";
-
+import Link from "next/link";
+import { Icons } from "@/components/ui/icons";
+import { toast } from "sonner";
 export default function Profile() {
   //profile routing ends
   const router = useRouter();
-
+  const queryClient = useQueryClient();
   const [inscriptions, setInscriptions] = useState([]);
   const [loading, setLoading] = useState(true);
   const account = useSelector((state) => state.account);
@@ -27,73 +34,174 @@ export default function Profile() {
     queryFn: () => getUserProfile(slug),
     enabled: !!slug,
   });
-  console.log("🚀 ~ file: index.tsx:28 ~ Profile ~ error:", error);
-  console.log("🚀 ~ file: index.tsx:27 ~ Profile ~ data:", data);
+  console.log("🚀 ~ file: index.tsx:37 ~ Profile ~ data:", data);
 
-  useEffect(() => {
-    router.isReady && getInscriptions();
-  }, [router.isReady]);
-
-  async function getInscriptions() {
-    try {
-      setLoading(true);
-      let response = await axios({
-        method: "get",
-        headers: {
-          "OK-ACCESS-KEY": process.env.OKLINK_API_KEY,
-        },
-        url: `https://www.oklink.com/api/v5/explorer/btc/address-balance-list?address=${slug}`,
-      });
-
-      if (response.data.msg == "") {
-        let inscriptionDatas = response.data.data;
-        let result = [];
-
-        if (inscriptionDatas.length == 0) return;
-        for (let i = 0; i < inscriptionDatas.length; i++) {
-          for (let j = 0; j < parseInt(inscriptionDatas[i].totalPage); j++) {
-            for (let k = 0; k < inscriptionDatas[i].balanceList.length; k++) {
-              {
-                result.push({
-                  name: inscriptionDatas[i].balanceList[k].token,
-                  availableBalance:
-                    inscriptionDatas[i].balanceList[k].availableBalance,
-                  transferBalance:
-                    inscriptionDatas[i].balanceList[k].transferBalance,
-                  balance: inscriptionDatas[i].balanceList[k].balance,
-                });
-              }
-            }
-          }
-        }
-        setInscriptions(result);
-        setLoading(false);
-      }
-    } catch (error) {
+  const {
+    data: refData,
+    isLoading: referralLoading,
+    mutateAsync,
+  } = useMutation({
+    mutationFn: createReferral,
+    onError: (error) => {
       console.log(error);
-      setLoading(false);
-    }
-  }
+    },
+    onSuccess: (data, variables) => {
+      queryClient.invalidateQueries({ queryKey: ["referralCode"] });
+      toast.success(`Successfully created`);
+    },
+  });
 
+  const { data: refCode, isLoading: refCodeLoading } = useQuery({
+    queryFn: () => getReferralCode(slug),
+    queryKey: ["referralCode"],
+    enabled: !!slug,
+  });
+
+  const { data: position } = useQuery({
+    queryFn: () => getPosition(slug),
+    queryKey: ["position"],
+    enabled: !!slug,
+  });
+
+  const triggerReferral = async () => {
+    await mutateAsync();
+  };
   return (
     <Layout>
       <PageTitle name="Profile" />
       {/* <div className="py-[48px] md:py-[64px] px-4 md:px-[40px] w-full grid grid-cols-1 gap-8 justify-start items-center bg-red-600"> */}
-      <div className="flex flex-row items-center justify-start w-full h-auto gap-8 ">
-        <ProfileTabs />
-        <div className="flex flex-col gap-8">
-          <div className="flex flex-col gap-5 p-6 border rounded-xl border-brand bg-brandBlack">
+      <div className="grid items-start justify-start w-full h-auto grid-cols-12 gap-8 ">
+        <div className="col-span-3">
+          <ProfileTabs />
+        </div>
+        <div className="flex flex-col col-span-6 gap-8">
+          <div className="grid w-full grid-cols-2 gap-8">
+            <Card
+              title="Create raffle"
+              points="2"
+              description="Create raffle with your inscription"
+              linkTo="/createRaffle"
+              buttonText="Go"
+            />
+            <Card
+              title="Buy ticket"
+              points="1"
+              description="Buy a ticket from others’ raffle"
+              linkTo="/raffles"
+              buttonText="Go"
+            />
+          </div>
+          <div className="grid w-full grid-cols-2 gap-8">
+            <Card
+              title="Claim prize"
+              points="1"
+              description="Claim prize of your created raffle"
+              linkTo="/aa"
+              buttonText="Go"
+            />
+            <Card
+              title="Win raffle"
+              points="1"
+              description="Win raffle of others'"
+              linkTo="/aa"
+              buttonText="Go"
+            />
+          </div>
+          <div className="flex flex-col gap-5 p-6 border w-fulls rounded-xl border-brand bg-brandBlack">
             <div className="flex flex-col gap-2">
               <div className="flex justify-between">
-                <div className="text-xl font-bold">Create raffle</div>
-                <div className="text-lg font-bold">2pts</div>
+                <div className="text-xl font-bold">Invite 3 friends</div>
+                <div className="text-lg font-bold">2 </div>
               </div>
-              <div>Create raffle with your inscription</div>
+              <div>20 pts</div>
             </div>
-            <Button variant="primary">Go</Button>
+            <div className="flex justify-center w-full">
+              {refCode !== null ? (
+                <div className="flex w-full gap-6">
+                  <input
+                    type="text"
+                    name="searchWallet"
+                    className="h-12 pl-3 text-xl font-medium rounded-md hover:border-brand hover:border-2 grow bg-brandBlack focus:outline-none"
+                    placeholder="Search"
+                    readOnly
+                    value={`https://www.araafal.com/register?referralCode=${refCode?.code}`}
+                  />
+                  <Button
+                    variant={"primary"}
+                    className="grow-0"
+                    size={"lg"}
+                    onClick={() => triggerReferral()}
+                    disabled={referralLoading}
+                  >
+                    Copy
+                  </Button>
+                </div>
+              ) : (
+                <Button
+                  variant={"primary"}
+                  className="grow-0"
+                  onClick={() => triggerReferral()}
+                  disabled={referralLoading}
+                >
+                  {referralLoading && (
+                    <Icons.spinner
+                      className="w-4 h-4 mr-0 md:mr-2 animate-spin "
+                      aria-hidden="true"
+                    />
+                  )}
+                  Create link
+                </Button>
+              )}
+            </div>
+          </div>
+        </div>
+        <div className="flex flex-col col-span-3 gap-6 p-6 border bg-brandBlack rounded-xl border-brand">
+          <div className="flex flex-col gap-3">
+            <div className="flex gap-3">
+              <div className="text-xl font-bold">My position</div>
+              <Icons.ladder className="w-6 h-6" />
+            </div>
+            <div className="text-4xl font-bold">
+              #{position?.currentPosition}
+            </div>
+          </div>
+          <div className="flex flex-col gap-3">
+            My points
+            <div className="text-4xl font-bold">{data?.contestPoint} pts</div>
           </div>
         </div>
       </div>
     </Layout>
   );
 }
+
+const Card = ({
+  title,
+  points,
+  description,
+  linkTo,
+  buttonText,
+}: {
+  title: string;
+  points: string;
+  description: string;
+  linkTo: string;
+  buttonText: string;
+}) => {
+  return (
+    <div className="flex flex-col justify-between w-full gap-5 p-6 border rounded-xl border-brand bg-brandBlack">
+      <div className="flex flex-col gap-2">
+        <div className="flex justify-between">
+          <div className="text-xl font-bold">{title}</div>
+          <div className="text-lg font-bold">{points}</div>
+        </div>
+        <div>{description}</div>
+      </div>
+      <Link href={linkTo} className="flex w-full">
+        <Button variant={"primary"} className="w-full">
+          {buttonText}
+        </Button>
+      </Link>
+    </div>
+  );
+};

@@ -4,9 +4,10 @@ import { configure } from "axios-hooks";
 // import LRU from "lru-cache";
 import { LRUCache } from "lru-cache";
 import { clearToken, getAccessToken, getRefreshToken, saveToken } from "./auth";
+import { useDispatch } from "react-redux";
+import { setAddress, setConnected } from "@/slices/mainSlice";
 
 const BACKEND_URL = SERVER_SETTINGS.BACKEND_URL;
-
 const instance = axios.create({
   baseURL: BACKEND_URL,
   // withCredentials: true,
@@ -35,7 +36,6 @@ instance.interceptors.response.use(
 
     if (error.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
-
       return axios
         .post(`${BACKEND_URL}/api/users/auth/refreshToken`, {
           refreshToken: getRefreshToken(),

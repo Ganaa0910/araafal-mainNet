@@ -92,6 +92,7 @@ export type User = {
   profileInscriptionLink: string | null;
   twitterHandle: string | null;
   discordHandle: string | null;
+  contestPoint: string | null;
   createdAt: Date;
   myRaffle: Raffle[];
   winnedRaffle: Raffle[];

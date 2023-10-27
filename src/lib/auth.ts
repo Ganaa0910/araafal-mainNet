@@ -72,7 +72,7 @@ export function clearToken() {
   localStorage.removeItem("accessToken");
   localStorage.removeItem("id");
   localStorage.removeItem("refreshToken");
-  localStorage.removeItem("user_profile");
+  localStorage.removeItem("userProfile");
 }
 
 export async function signInManual(data: any) {

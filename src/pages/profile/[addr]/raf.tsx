@@ -5,7 +5,7 @@ import MyCreatedRaffles from "@/components/tabs/MyCreatedRaffles";
 import Image from "next/image";
 import ProfileTabs from "@/components/profile/profile-tabs";
 import { useQuery } from "@tanstack/react-query";
-import { getUserRaffles } from "@/lib/fetcherFunctions";
+import { getUserRaffles } from "@/lib/service";
 
 import DummyRaffles from "../../../components/DummyRaffle.json";
 import Layout from "@/components/layout/layout";

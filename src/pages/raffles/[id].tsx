@@ -7,7 +7,7 @@ import InscriptionDetails from "@/components/section/raffleDetail/ins-details";
 import Leaderboard from "@/components/section/raffleDetail/ins-leaderboard";
 import ProfileBar from "@/components/section/raffleDetail/ins-profile";
 import ViewInscription from "@/components/section/raffleDetail/ins-view";
-import { fetchRaffleById, getTicketsByRaffle } from "@/lib/fetcherFunctions";
+import { fetchRaffleById, getTicketsByRaffle } from "@/lib/service";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import moment from "moment";

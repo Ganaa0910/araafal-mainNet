@@ -4,7 +4,7 @@ import ProfileTabs from "@/components/profile/profile-tabs";
 import {
   TransactionWithTicket,
   getTicketsByUser,
-} from "@/lib/fetcherFunctions";
+} from "@/lib/service";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import { useRouter } from "next/router";
