@@ -83,47 +83,47 @@ export default function Leaderboard({
 
   return (
     <>
-      <div className="rounded-xl flex flex-col gap-[24px] p-[24px] border-2 border-primaryBrand raffle-gradient">
-        <h1 className="text-3xl">Participants</h1>
+      <div className="rounded-xl flex flex-col gap-4  p-[24px] border-2 border-primaryBrand raffle-gradient font-bold h-[558px]">
+        <h1 className="text-2xl">Participants</h1>
 
-        <div className="relative flex flex-col gap-4 md:flex-row">
+        <div className="relative flex gap-4 flex-row">
           <input
             type="text"
             name="searchWallet"
-            className="h-12 pl-3 border rounded-md grow bg-primaryBrand focus:outline-none "
+            className="h-12 pl-3 hover:border-primaryBrand hover:border-2 rounded-md grow bg-brandBlack focus:outline-none text-xl font-medium"
             placeholder="Search"
             onChange={handleChange}
             onKeyPress={handleKeyPress}
           />
-          <div className="absolute right-4 top-4 text-lightGray">
+          <div className="absolute right-12 text-lightGray">
             <button
-              className="text-base bg-defaultGray border-lightGray px-[16px] py-[12px] h-[48px] w-full md:w-auto hover:bg-darkerLightGray hover:border-lightGray absolute left-0 top-0"
+              className="text-base bg-defaultGray border-lightGray px-[16px] py-[12px] h-[48px] w-auto absolute left-0 top-0"
               onClick={handleSearch}
             >
               <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="w-6 h-6"
-                fill="none"
+                width="24"
+                height="24"
                 viewBox="0 0 24 24"
-                stroke="currentColor"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
               >
                 <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M21 21l-4.35-4.35M15.5 10.5a5 5 0 11-10 0 5 5 0 0110 0z"
+                  d="M18.031 16.617L22.314 20.899L20.899 22.314L16.617 18.031C15.0237 19.3082 13.042 20.0029 11 20C6.032 20 2 15.968 2 11C2 6.032 6.032 2 11 2C15.968 2 20 6.032 20 11C20.0029 13.042 19.3082 15.0237 18.031 16.617ZM16.025 15.875C17.2941 14.5699 18.0029 12.8204 18 11C18 7.132 14.867 4 11 4C7.132 4 4 7.132 4 11C4 14.867 7.132 18 11 18C12.8204 18.0029 14.5699 17.2941 15.875 16.025L16.025 15.875Z"
+                  fill="white"
                 />
               </svg>
+
+              {/* <Image alt="search" width={20} height={20} src={"/search.svg"} /> */}
             </button>
           </div>
         </div>
 
-        <div className="flex flex-col border divide-y-2 divide-primaryBrand rounded-lg border-primaryBrand ">
+        <div className="flex flex-col border-2 divide-y-2 divide-primaryBrand rounded-lg border-primaryBrand ">
           <div className="flex justify-between px-6 py-4 text-lg bg-red">
             <h5>Wallet</h5>
             <h5>Tickets</h5>
           </div>
-          <div className="h-[270px] w-full overflow-y-auto">
+          <div className="h-[270px] w-full overflow-y-auto bg-brandBlack rounded">
             {tickets?.length > 0 &&
               tickets
                 .filter((token) =>

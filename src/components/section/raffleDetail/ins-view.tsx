@@ -18,7 +18,10 @@ export default function ViewInscription({ raffleDetail }) {
       />
       <h1 className="text-2xl font-medium">PepePunk</h1>
       <h1 className="text-cartDesktop mb-5">NO.12</h1>
-      <Button variant={"primary2"}> 25H : 45M : 12S</Button>
+      <Button variant={"secondary"} className="mx-3">
+        {" "}
+        25H : 45M : 12S
+      </Button>
       {/* <div className="flex flex-col justify-center gap-3 mt-2">
         <button
           className="w-full text-base bg-defaultGray border-lightGray md:w-64 hover:bg-darkerLightGray hover:border-lightGray"

@@ -37,21 +37,21 @@ export default function ProfileBar({
 
   // );
   return (
-    <div className="flex flex-row  items-center border rounded-xl border-primaryBrand raffle-gradient w-full h-[104px] py-5 px-6 gap-4">
+    <div className="flex flex-row  items-center border-2 rounded-xl border-primaryBrand raffle-gradient w-full h-[104px] py-5 px-6 gap-4">
       <h1 className=" text-2xl font-bold">Created by</h1>
-      <div className="flex flex-row  bg-brandBlack items-center gap-2 p-2">
+      <div className="flex flex-row  bg-brandBlack items-center gap-2 p-2 rounded-tl-[32px] rounded-bl-[32px] rounded-tr-[8px] rounded-br-[8px] ">
         {raffleDetail?.inscriptionPreviewUrl && (
           <Image
             src={raffleDetail?.inscriptionPreviewUrl}
-            width={1}
-            height={1}
+            width={42}
+            height={42}
             alt="owner"
-            className="w-[42px] h-[42px] rounded-3xl"
+            className="w-[42px] h-[42px] rounded-3xl border-2 border-white"
           />
         )}
         <div className="flex flex-col rounded-xl">
-          <p>Horny Micheal</p>
-          <p>qWeR...4GFe23</p>
+          <p className="text-lg">Horny Micheal</p>
+          <p className="text-sm text-whiteish">qWeR...4GFe23</p>
         </div>
       </div>
     </div>

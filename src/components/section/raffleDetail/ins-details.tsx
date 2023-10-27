@@ -47,7 +47,7 @@ export default function InscriptionDetails({
             {/* <p>{raffleDetail?.id}</p> */}
             <p>14493587</p>
           </div>
-          <Button variant={"primary2"} className="w-full mx-auto mb-0">
+          <Button variant={"secondary"} className="w-full mx-auto mb-0">
             View Inscriptions
           </Button>
           {/* <div className="flex justify-between px-6 py-4">
