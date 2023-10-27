@@ -10,7 +10,6 @@ import MainHead from "@/components/layout/main-head";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { useEffect } from "react";
-import { checkTokens } from "@/lib/fetcherFunctions/postRequest";
 import { getAccessToken, getRefreshToken, saveToken } from "@/lib/auth";
 import { setAddress, setConnected } from "@/slices/mainSlice";
 import { Toaster } from "@/components/ui/toaster";

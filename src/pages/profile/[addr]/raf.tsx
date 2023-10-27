@@ -9,6 +9,7 @@ import { getUserRaffles } from "@/lib/fetcherFunctions";
 
 import DummyRaffles from "../../../components/DummyRaffle.json";
 import Layout from "@/components/layout/layout";
+import PageTitle from "@/components/atom/page-title";
 
 export default function Raf() {
   //profile routing ends
@@ -27,6 +28,7 @@ export default function Raf() {
 
   return (
     <Layout>
+      <PageTitle name="Profile" />
       {/* <div className="py-[48px] md:py-[64px] px-4 md:px-[40px] w-full grid grid-cols-1 gap-8 justify-start items-center bg-red-600"> */}
       <div className="flex flex-row w-full h-auto gap-4 ">
         <ProfileTabs />

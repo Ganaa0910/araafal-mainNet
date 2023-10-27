@@ -1,3 +1,4 @@
+import PageTitle from "@/components/atom/page-title";
 import Layout from "@/components/layout/layout";
 import ProfileTabs from "@/components/profile/profile-tabs";
 import {
@@ -68,6 +69,7 @@ const Tic = () => {
 
   return (
     <Layout>
+      <PageTitle name="Profile" />
       <div className="flex flex-row w-full h-auto gap-4 ">
         <ProfileTabs />
 

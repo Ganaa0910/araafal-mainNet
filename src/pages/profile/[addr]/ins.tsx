@@ -10,6 +10,7 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import DummyBalance from "../../../components/DummyBalance.json";
 import Layout from "@/components/layout/layout";
+import PageTitle from "@/components/atom/page-title";
 
 const MyInscriptions = () => {
   const account = useSelector((state) => state.account);
@@ -29,6 +30,7 @@ const MyInscriptions = () => {
 
   return (
     <Layout>
+      <PageTitle name="Profile" />
       <div className="flex flex-row w-full h-auto gap-4 ">
         <ProfileTabs />
 

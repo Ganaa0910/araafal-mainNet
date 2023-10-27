@@ -9,7 +9,7 @@ import Link from "next/link";
 import { setAddress, setConnected } from "../slices/mainSlice";
 import { User } from "@/lib/types/dbTypes";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { checkTokens, loginHandler } from "@/lib/fetcherFunctions/postRequest";
+import { loginHandler } from "@/lib/fetcherFunctions/postRequest";
 import {
   clearToken,
   getAccessToken,
@@ -44,6 +44,7 @@ function ConnectWalletButton() {
       saveToken(data?.auth);
       queryClient.invalidateQueries({ queryKey: ["userProfile"] });
       setIsConnecting(false);
+      toast.success(`Successfully connected`);
     },
   });
 
@@ -107,6 +108,7 @@ function ConnectWalletButton() {
         alert("Signature is not valid");
       }
     } catch (error) {
+      toast.error(`Error when connecting wallet`);
       setIsConnecting(false);
       console.log(error);
     }

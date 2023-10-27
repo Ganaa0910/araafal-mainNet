@@ -11,6 +11,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useSelector } from "react-redux";
 import { getUserProfile } from "@/lib/fetcherFunctions";
 import Layout from "@/components/layout/layout";
+import PageTitle from "@/components/atom/page-title";
 
 export default function Profile() {
   //profile routing ends
@@ -76,6 +77,7 @@ export default function Profile() {
 
   return (
     <Layout>
+      <PageTitle name="Profile" />
       {/* <div className="py-[48px] md:py-[64px] px-4 md:px-[40px] w-full grid grid-cols-1 gap-8 justify-start items-center bg-red-600"> */}
       <div className="flex flex-row items-center justify-start w-full h-auto gap-4 ">
         <ProfileTabs />

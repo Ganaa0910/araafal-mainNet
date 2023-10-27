@@ -8,6 +8,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { createRaffle, getInscriptionsTestnet } from "@/lib/fetcherFunctions";
 import { useSelector } from "react-redux";
 import Layout from "@/components/layout/layout";
+import PageTitle from "@/components/atom/page-title";
 
 export default function CreateRaffle() {
   const queryClient = useQueryClient();
@@ -139,7 +140,7 @@ export default function CreateRaffle() {
         setChosenInscrption={setChosenInscrption}
         chosenInscription={chosenInscription}
       />
-      <div className="">Create Raffle</div>
+      <PageTitle name="Create Raffle" />
       <div className="w-full h-[544px] flex flex-row gap-8">
         {chosenInscription ? (
           <div
