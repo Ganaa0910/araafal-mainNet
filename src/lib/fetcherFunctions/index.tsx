@@ -109,11 +109,11 @@ export async function getInscriptions(address: string) {
   }
 }
 export async function getInscriptionsTestnet(address: string) {
-  const response = await fetch(`${APIURL}/api/users/${address}/inscriptions`);
-  if (!response.ok) {
-    throw new Error("Network response was not ok");
-  }
-  return response.json();
+  return axiosClient
+    .get(`/api/users/${address}/inscriptions`)
+    .then((response) => {
+      return response?.data;
+    });
 }
 
 export async function createRaffle({

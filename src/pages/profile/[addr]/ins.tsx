@@ -9,6 +9,7 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import DummyBalance from "../../../components/DummyBalance.json";
+import Layout from "@/components/layout/layout";
 
 const MyInscriptions = () => {
   const account = useSelector((state) => state.account);
@@ -27,43 +28,45 @@ const MyInscriptions = () => {
   });
 
   return (
-    <div className="max-w-[1216px] mx-auto flex flex-row">
-      <div className=" flex flex-row gap-4 h-auto w-full">
-        <ProfileTabs />
+    <Layout>
+      <div className="max-w-[1216px] mx-auto flex flex-row">
+        <div className="flex flex-row w-full h-auto gap-4 ">
+          <ProfileTabs />
 
-        <div className="w-[904px] h-[694px] flex flex-col border border-gray-50 rounded-lg px-6 pt-5 pb-6 gap-5 bg-black bg-opacity-50 overflow-auto ">
-          <div className="text-grey-300 text-2xl">My inscriptions</div>
-          <div className="grid grid-cols-4 gap-4">
-            {DummyBalance?.list.map((ins) => (
-              <div
-                key={ins}
-                className="flex flex-col h-[280px] w-[202px] rounded-xl items-center"
-              >
-                <div className="mb-4">
-                  <div className="rounded-lg border w-52 h-52">
-                    <Image
-                      className="w-full rounded-md"
-                      src={`https://testnet.ordinals.com/content/${ins.inscriptionId}`}
-                      alt="Card"
-                      height={100}
-                      width={100}
-                    />
-                  </div>
-                  <div className="pb-4 pt-3 text-center">
-                    <div className="text-whiteish text-base font-medium">
-                      {ins.inscriptionName} Pepe Punks
+          <div className="w-[904px] h-[694px] flex flex-col border border-gray-50 rounded-lg px-6 pt-5 pb-6 gap-5 bg-black bg-opacity-50 overflow-auto ">
+            <div className="text-2xl text-grey-300">My inscriptions</div>
+            <div className="grid grid-cols-4 gap-4">
+              {DummyBalance?.list.map((ins) => (
+                <div
+                  key={ins}
+                  className="flex flex-col h-[280px] w-[202px] rounded-xl items-center"
+                >
+                  <div className="mb-4">
+                    <div className="border rounded-lg w-52 h-52">
+                      <Image
+                        className="w-full rounded-md"
+                        src={`https://testnet.ordinals.com/content/${ins.inscriptionId}`}
+                        alt="Card"
+                        height={100}
+                        width={100}
+                      />
                     </div>
-                    <div className="text-whiteish text-xl font-medium">
-                      NO. {ins.inscriptionNumber}
+                    <div className="pt-3 pb-4 text-center">
+                      <div className="text-base font-medium text-whiteish">
+                        {ins.inscriptionName} Pepe Punks
+                      </div>
+                      <div className="text-xl font-medium text-whiteish">
+                        NO. {ins.inscriptionNumber}
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </Layout>
   );
 };
 export default MyInscriptions;

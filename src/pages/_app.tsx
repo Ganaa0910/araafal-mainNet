@@ -22,10 +22,8 @@ export default function App({ Component, pageProps }) {
     <>
       <QueryClientProvider client={queryClient}>
         <Provider store={store}>
-          <Layout>
-            <MainHead />
-            <Component {...pageProps} />
-          </Layout>
+          <MainHead />
+          <Component {...pageProps} />
           <Toaster />
           <ReactQueryDevtools initialIsOpen={false} />
         </Provider>

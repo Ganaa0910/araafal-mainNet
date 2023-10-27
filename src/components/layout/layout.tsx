@@ -8,7 +8,7 @@ const subClass = chakra.className;
 
 export default function Layout({ children }: { children: ReactNode }) {
   return (
-    <div className={`flex flex-col w-full h-screen ${subClass}`}>
+    <div className={`flex flex-col w-full min-h-screen ${subClass}`}>
       <Navbar />
       <div>{children}</div>
       <Footer />

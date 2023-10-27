@@ -19,15 +19,7 @@ import {
 import { toast } from "sonner";
 import { Button } from "./ui/button";
 import { Icons } from "./ui/icons";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-
+import { useRouter } from "next/router";
 type SavedUser = {
   address: string;
   signature: string;
@@ -38,6 +30,7 @@ function ConnectWalletButton() {
   const queryClient = useQueryClient();
   const account = useSelector((state: RootStateOrAny) => state.account);
   const dispatch = useDispatch();
+  const router = useRouter();
   const [userProfile, setUserProfile] = useState<SavedUser | null>(null);
 
   const [isConnecting, setIsConnecting] = useState(false);
@@ -59,17 +52,26 @@ function ConnectWalletButton() {
       try {
         if (window.unisat) {
           const accounts = await window.unisat.getAccounts();
+          console.log(
+            "🚀 ~ file: ConnectWalletButton.tsx:62 ~ connectWalletOnLoad ~ accounts:",
+            accounts,
+          );
           const detailsString = window.localStorage.getItem("userProfile");
 
           if (detailsString !== null) {
             const detailsJson =
               detailsString !== "null" ? JSON.parse(detailsString) : null;
             const now = moment();
-            if (now.isAfter(detailsJson.expiry)) {
+            if (now.isAfter(detailsJson.expiry) || accounts.length == 0) {
               handleLogout();
               return;
             }
+
             setUserProfile(detailsJson);
+            console.log(
+              "🚀 ~ file: ConnectWalletButton.tsx:75 ~ connectWalletOnLoad ~ detailsJson:",
+              detailsJson,
+            );
             dispatch(setAddress(accounts[0]));
             dispatch(setConnected(true));
           }
@@ -154,6 +156,7 @@ function ConnectWalletButton() {
     dispatch(setAddress(""));
     dispatch(setConnected(false));
     window.localStorage.removeItem("userProfile");
+    router.push("/");
     clearToken();
   };
 

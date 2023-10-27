@@ -9,6 +9,7 @@ import Image from "next/image";
 import { useState } from "react";
 import raffle from "../../raffleDetails.json";
 import Raffles from "@/components/section/featured/Raffles";
+import Layout from "@/components/layout/layout";
 
 function App() {
   // const chakra = Chakra_Petch({ subsets: ["latin"], weight: ["400", "700"] });
@@ -132,43 +133,45 @@ function App() {
   }
 
   return (
-    <div className="flex flex-col w-full min-h-screen">
-      <div>
-        <div
-          className={`flex h-screen max-w-[1440px] mx-auto z-10 -mt-20 flex-col items-center justify-center `}
-        >
-          <div className="relative w-full h-auto">
-            <Image
-              src={"/mesh.svg"}
-              height={600}
-              width={1440}
-              className="absolute left-0 right-0 z-0 object-none 2xl:object-contain  w-full top-0 h-[177px] md:h-auto"
-              alt="mesh"
-            />
-            <div className="flex items-center justify-center h-full text-3xl font-bold text-center select-none md:text-6xl">
-              <div>
-                Decentralized Raffling Solution for <br />
-                <span className="text-[#FD7C5B]">BRC20s</span>
+    <Layout>
+      <div className="flex flex-col w-full min-h-screen">
+        <div>
+          <div
+            className={`flex h-screen max-w-[1440px] mx-auto z-10 -mt-20 flex-col items-center justify-center `}
+          >
+            <div className="relative w-full h-auto">
+              <Image
+                src={"/mesh.svg"}
+                height={600}
+                width={1440}
+                className="absolute left-0 right-0 z-0 object-none 2xl:object-contain  w-full top-0 h-[177px] md:h-auto"
+                alt="mesh"
+              />
+              <div className="flex items-center justify-center h-full text-3xl font-bold text-center select-none md:text-6xl">
+                <div>
+                  Decentralized Raffling Solution for <br />
+                  <span className="text-[#FD7C5B]">BRC20s</span>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <div className="max-w-[1440px] mx-auto h-[500px] mb-80">
-          <div className="w-[1216px] mx-auto flex flex-col">
-            <div className="flex flex-col mb-12 mb -12">
-              <h1 className="text-4xl text-featuredRaffles">
-                Featured raffles
-              </h1>
-              <span className="inline-block w-24 h-2 bg-gradient-to-r from-cyan-500 to-blue-500"></span>
+          <div className="max-w-[1440px] mx-auto h-[500px] mb-80">
+            <div className="w-[1216px] mx-auto flex flex-col">
+              <div className="flex flex-col mb-12 mb -12">
+                <h1 className="text-4xl text-featuredRaffles">
+                  Featured raffles
+                </h1>
+                <span className="inline-block w-24 h-2 bg-gradient-to-r from-cyan-500 to-blue-500"></span>
+              </div>
+
+              <Raffles />
             </div>
-
-            <Raffles />
           </div>
-        </div>
 
-        <ActiveRaffles data={data} />
+          <ActiveRaffles data={data} />
+        </div>
       </div>
-    </div>
+    </Layout>
   );
 }
 

@@ -42,7 +42,7 @@ instance.interceptors.response.use(
         })
         .then(async (res) => {
           if (res.status === 200) {
-            saveToken(res.data.auth);
+            saveToken(res.data);
             return instance(originalRequest);
           } else {
             await clearToken();

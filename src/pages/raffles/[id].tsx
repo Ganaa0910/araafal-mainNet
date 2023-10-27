@@ -1,3 +1,4 @@
+import Layout from "@/components/layout/layout";
 import BuyPanel from "@/components/section/raffleDetail/ins-buy-panel";
 
 import InsDescription from "@/components/section/raffleDetail/ins-description";
@@ -132,7 +133,7 @@ export default function Detail() {
   }
 
   return (
-    <>
+    <Layout>
       <div className="max-w-[1216px] mx-auto h-[850px] mt-12 mb-8">
         <div className="flex flex-col mb-12 mb -12">
           <h1 className="text-4xl text-featuredRaffles">Raffle page</h1>
@@ -163,6 +164,6 @@ export default function Detail() {
           </div>
         </div>
       </div>
-    </>
+    </Layout>
   );
 }

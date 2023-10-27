@@ -10,6 +10,7 @@ import ProfileTabs from "@/components/profile/profile-tabs";
 import { useQuery } from "@tanstack/react-query";
 import { useSelector } from "react-redux";
 import { getUserProfile } from "@/lib/fetcherFunctions";
+import Layout from "@/components/layout/layout";
 
 export default function Profile() {
   //profile routing ends
@@ -74,16 +75,17 @@ export default function Profile() {
   }
 
   return (
-    <div className="max-w-[1216px] mx-auto">
-      {/* <div className="py-[48px] md:py-[64px] px-4 md:px-[40px] w-full grid grid-cols-1 gap-8 justify-start items-center bg-red-600"> */}
-      <div className="flex flex-row items-center justify-start w-full h-auto gap-4 ">
-        <ProfileTabs />
+    <Layout>
+      <div className="max-w-[1216px] mx-auto">
+        {/* <div className="py-[48px] md:py-[64px] px-4 md:px-[40px] w-full grid grid-cols-1 gap-8 justify-start items-center bg-red-600"> */}
+        <div className="flex flex-row items-center justify-start w-full h-auto gap-4 ">
+          <ProfileTabs />
 
-        {/* <MyInscriptions></MyInscriptions> */}
-        {/* <MyCreatedRaffles></MyCreatedRaffles> */}
+          {/* <MyInscriptions></MyInscriptions> */}
+          {/* <MyCreatedRaffles></MyCreatedRaffles> */}
 
-        {/* <myProfile></myProfile> */}
-        {/* <div className="flex flex-col gap-8 md:flex-row">
+          {/* <myProfile></myProfile> */}
+          {/* <div className="flex flex-col gap-8 md:flex-row">
           <div className="flex flex-col md:flex-row gap-9">
             {slug?.slice(0, 6) +
               "..." +
@@ -123,7 +125,8 @@ export default function Profile() {
             </div>
           )}
         </div> */}
+        </div>
       </div>
-    </div>
+    </Layout>
   );
 }
