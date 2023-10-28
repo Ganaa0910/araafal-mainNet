@@ -7,7 +7,6 @@ import ProfileTabs from "@/components/profile/profile-tabs";
 import { useQuery } from "@tanstack/react-query";
 import { getUserRaffles } from "@/lib/service";
 
-import DummyRaffles from "../../../components/DummyRaffle.json";
 import Layout from "@/components/layout/layout";
 import PageTitle from "@/components/atom/page-title";
 
@@ -33,13 +32,13 @@ export default function Raf() {
       <div className="flex flex-row w-full h-auto gap-4 ">
         <ProfileTabs />
         <div className="w-[904px] h-auto grid grid-cols-3 border border-gray-50 rounded-lg px-6 pt-5 pb-6 gap-5 overflow-auto">
-          {DummyRaffles?.map((raffle) => (
+          {raffles?.map((raffle) => (
             <div
               key={raffle.id}
               className="h-auto overflow-hidden border shadow-lg rounded-2xl"
             >
               <div>
-                <div className="absolute px-3 py-1 mt-3 ml-3 bg-black bg-opacity-50 border rounded-lg">
+                <div className="absolute px-3 py-1 mt-3 ml-3 bg-black bg-opacity-50 border rounded-lg select-none">
                   {raffle.status}
                 </div>
                 <div className="rounded-lg">
@@ -55,7 +54,8 @@ export default function Raf() {
                 {raffle.price} {raffle.sellingTokenTicker}
               </p>
               <p className="px-6 pt-2 font-bold text-gray-300">
-                {raffle.soldAmount} sold
+                {/* 0 if 0 */}
+                {raffle.soldAmount == 0 ? 0 : raffle.soldAmount} sold
               </p>
               <div className="flex flex-col gap-2 p-2 px-6">
                 <Button>View</Button>

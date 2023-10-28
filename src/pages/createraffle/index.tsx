@@ -45,14 +45,14 @@ export default function CreateRaffle() {
   };
   const handleTimeChange = (time) => {
     setSelectedTime(time);
-    // updateCombinedDateTime(selectedDate, time);
   };
 
-  // const updateCombinedDateTime = (date, time) => {
-  //   const formattedDate = date.toISOString().split("T")[0];
-  //   const combinedDateTimeString = `${formattedDate}T${time}:00Z`;
-  //   setCombinedDateTime(combinedDateTimeString);
-  // };
+  const updateCombinedDateTime = (date, time) => {
+    const combinedDateTimeString = `${date.getFullYear()}-${
+      date.getMonth() + 1
+    }-${date.getDate()}T${time.getHours()}:${time.getMinutes()}:00Z`;
+    return combinedDateTimeString;
+  };
 
   const { data: inscriptions } = useQuery({
     queryKey: ["inscriptions", account],
@@ -112,9 +112,9 @@ export default function CreateRaffle() {
         sellingTokenTicker: "BTC",
         featured: false,
         endDate: selectedDate,
-        startDate: "2023-09-27T00:00:00Z",
-        inscriptionId: `${chosenInscription}`,
-        inscriptionPreviewUrl: `https://testnet.ordinals.com/content/${chosenInscription}`,
+        startDate: updateCombinedDateTime(selectedDate, selectedTime),
+        inscriptionId: `${chosenInscription.inscriptionId}`,
+        inscriptionPreviewUrl: `https://testnet.ordinals.com/content/${chosenInscription.inscriptionId}`,
         ownerId: account.address,
         nftDepositTransactiond: txid,
 

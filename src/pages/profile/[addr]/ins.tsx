@@ -5,7 +5,6 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { useSelector } from "react-redux";
-import DummyBalance from "../../../components/DummyBalance.json";
 import Layout from "@/components/layout/layout";
 import PageTitle from "@/components/atom/page-title";
 
