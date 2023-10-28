@@ -15,13 +15,8 @@ export default function CreateRaffle() {
   const queryClient = useQueryClient();
   const account = useSelector((state) => state.account);
   const [showInscriptions, setShowInscriptions] = useState(false);
-<<<<<<< HEAD
   const [selectedDate, setSelectedDate] = useState("");
   const [selectedTime, setSelectedTime] = useState("12:00");
-=======
-  const [selectedDate, setSelectedDate] = useState(new Date());
-  const [selectedTime, setSelectedTime] = useState(new Date());
->>>>>>> 1f16eb8b4ccdbe0b5524a5cffb30f0c79765d566
   const [combinedDateTime, setCombinedDateTime] = useState("");
   const [name, setName] = useState("");
   const [desc, setDesc] = useState("");
