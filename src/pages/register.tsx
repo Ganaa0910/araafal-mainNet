@@ -26,7 +26,7 @@ type SavedUser = {
 
 export default function Register() {
   //https://www.araafal.com/register?referralCode=
-  https: const router = useRouter();
+  const router = useRouter();
   const queryClient = useQueryClient();
   const account = useSelector((state: RootStateOrAny) => state.account);
   const dispatch = useDispatch();

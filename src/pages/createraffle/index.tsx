@@ -15,17 +15,13 @@ export default function CreateRaffle() {
   const queryClient = useQueryClient();
   const account = useSelector((state) => state.account);
   const [showInscriptions, setShowInscriptions] = useState(false);
-  const [selectedDate, setSelectedDate] = useState("");
+  const [selectedDate, setSelectedDate] = useState(new Date());
   const [selectedTime, setSelectedTime] = useState("12:00");
   const [combinedDateTime, setCombinedDateTime] = useState("");
   const [name, setName] = useState("");
   const [desc, setDesc] = useState("");
   const [price, setPrice] = useState("");
-  const [chosenInscription, setChosenInscrption] = useState("");
-  console.log(
-    "🚀 ~ file: index.tsx:22 ~ CreateRaffle ~ chosenInscription:",
-    chosenInscription,
-  );
+  const [chosenInscription, setChosenInscription] = useState({});
   const [success, setSuccess] = useState(false);
 
   const [walletInfo, setWalletInfo] = useState({});
@@ -50,14 +46,14 @@ export default function CreateRaffle() {
   };
   const handleTimeChange = (time) => {
     setSelectedTime(time);
-    // updateCombinedDateTime(selectedDate, time);
   };
 
-  // const updateCombinedDateTime = (date, time) => {
-  //   const formattedDate = date.toISOString().split("T")[0];
-  //   const combinedDateTimeString = `${formattedDate}T${time}:00Z`;
-  //   setCombinedDateTime(combinedDateTimeString);
-  // };
+  const updateCombinedDateTime = (date, time) => {
+    const combinedDateTimeString = `${date.getFullYear()}-${
+      date.getMonth() + 1
+    }-${date.getDate()}T${time.getHours()}:${time.getMinutes()}:00Z`;
+    return combinedDateTimeString;
+  };
 
   const { data: inscriptions } = useQuery({
     queryKey: ["inscriptions", account],
@@ -110,7 +106,7 @@ export default function CreateRaffle() {
   const handleSubmit = async () => {
     let txid = await window.unisat.sendInscription(
       walletInfo.nftDepositAddress,
-      `${chosenInscription}i0`,
+      `${chosenInscription.inscriptionId}`,
     );
     // txid.wait();
     console.log("🚀 ~ file: index.tsx:109 ~ handleSubmit ~ txid:", txid);
@@ -122,9 +118,9 @@ export default function CreateRaffle() {
         sellingTokenTicker: "BTC",
         featured: false,
         endDate: selectedDate,
-        startDate: "2023-09-27T00:00:00Z",
-        inscriptionId: `${chosenInscription}i0`,
-        inscriptionPreviewUrl: `https://testnet.ordinals.com/content/${chosenInscription}i0`,
+        startDate: updateCombinedDateTime(selectedDate, selectedTime),
+        inscriptionId: `${chosenInscription.inscriptionId}`,
+        inscriptionPreviewUrl: `https://testnet.ordinals.com/content/${chosenInscription.inscriptionId}`,
         ownerId: account.address,
         nftDepositTransactiond: txid,
 
@@ -143,7 +139,7 @@ export default function CreateRaffle() {
         show={showInscriptions}
         handleClose={toggleInscriptions}
         inscriptions={inscriptions}
-        setChosenInscrption={setChosenInscrption}
+        setChosenInscription={setChosenInscription}
         chosenInscription={chosenInscription}
       />
       <PageTitle name="Create Raffle" />
@@ -155,7 +151,7 @@ export default function CreateRaffle() {
           >
             <Image
               className="w-full rounded-md"
-              src={`https://testnet.ordinals.com/content/${chosenInscription}i0`}
+              src={`https://testnet.ordinals.com/content/${chosenInscription.inscriptionId}`}
               alt="Card"
               height={100}
               width={100}
@@ -213,53 +209,23 @@ export default function CreateRaffle() {
               />
             </div>
           </div>
-          {/* ________________________________________________________________________________________________________________________ */}
-          <div className="flex flex-col w-[320px] h-full justify-between">
-            <div className="w-full border-2 h-[216px] border-brand raffle-gradient rounded-xl px-6 pt-5 pb-6 flex flex-col gap-5">
-              <h1 className="font-bold text-2xl flex flex-row justify-between">
-                Make it Featured
-                <Image src={"/icon.svg"} width={28} height={28} alt="icon" />
-              </h1>
-              <h1 className="font-bold text-2xl text-whiteish flex flex-row gap-3">
-                <Image src={"/psat.svg"} width={36} height={36} alt="psat" />
-                500 PSAT
-              </h1>
-
-              <div className="flex flex-row w-full bg-brandBlack border-2 border-brand rounded-xl">
-                <button
-                  className={`w-1/2 px-5 py-4 rounded-lg   ${
-                    activeButton === "default" ? "bg-brand" : ""
-                  }`}
-                  onClick={() => handleButtonClick("default")}
-                >
-                  Default
-                </button>
-                <button
-                  className={`w-1/2 px-5 py-4 rounded-lg ${
-                    activeButton === "featured" ? "bg-brand" : ""
-                  }`}
-                  onClick={() => handleButtonClick("featured")}
-                >
-                  Featured
-                </button>
+          <div className="flex flex-col w-1/3 h-full gap-8">
+            <div className="w-full border-2 h-2/5 border-lightGray rounded-xl">
+              <div className="flex flex-col items-center justify-between gap-4">
+                <h1 className="mt-8 text-xl">End Date</h1>
+                <DatePicker
+                  selected={selectedDate}
+                  onChange={handleDateChange}
+                  dateFormat="dd/MM/yyyy"
+                  className="w-full p-2 border rounded"
+                />
+                {/* <DatePicker
+                  selected={selectedDate}
+                  onChange={handleTimeChange}
+                  format="hh:mm"
+                  className="w-full p-2 border rounded"
+                /> */}
               </div>
-            </div>
-            <div className="w-full border-2 h-[216px] border-brand raffle-gradient rounded-xl flex flex-col gap-4 px-6 pb-6 pt-5">
-              <h1 className="text-xl">End Date</h1>
-              <DatePicker
-                selected={selectedDate}
-                onChange={handleDateChange}
-                dateFormat="dd/MM/yyyy"
-                className="w-full px-4 py-3 rounded-lg bg-brandBlack text-xl text-whiteish"
-                placeholderText="Pick a date"
-              />
-              <DatePicker
-                selected={selectedDate}
-                onChange={handleTimeChange}
-                dateFormat="hh:mm"
-                className="w-full px-4 py-3 rounded-lg bg-brandBlack text-xl text-whiteish"
-                placeholderText="Pick a time"
-              />
             </div>
 
             <div className="w-full">

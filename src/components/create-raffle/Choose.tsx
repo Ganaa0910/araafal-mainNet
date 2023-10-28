@@ -6,18 +6,21 @@ const Choose = ({
   handleClose,
   show,
   inscriptions,
-  setChosenInscrption,
+  setChosenInscription,
   chosenInscription,
 }) => {
-  console.log("🚀 ~ file: Choose.tsx:6 ~ Choose ~ inscriptions:", inscriptions);
-  const [selectedCards, setSelectedCards] = useState("");
+  console.log(
+    "🚀 ~ file: Choose.tsx:10 ~ Choose ~ inscriptions:",
+    inscriptions,
+  );
+  const [selectedCards, setSelectedCards] = useState({});
 
   const showHideClassName = show
     ? "fixed inset-0 flex items-center justify-center z-50"
     : "hidden";
 
   const confirmation = () => {
-    setChosenInscrption(selectedCards);
+    setChosenInscription(selectedCards);
     handleClose();
   };
 
@@ -39,7 +42,7 @@ const Choose = ({
               >
                 <Image
                   className="w-full rounded-md"
-                  src={`https://testnet.ordinals.com/content/${ins}i0`}
+                  src={`https://testnet.ordinals.com/content/${ins.inscriptionId}`}
                   alt="Card"
                   height={100}
                   width={100}
@@ -55,7 +58,7 @@ const Choose = ({
             <Button onClick={handleClose} className="mt-5 modal-close">
               Cancel
             </Button>
-            <Button onClick={() => confirmation()} className="mt-5 modal-close">
+            <Button onClick={confirmation} className="mt-5 modal-close">
               Confirm
             </Button>
           </div>
