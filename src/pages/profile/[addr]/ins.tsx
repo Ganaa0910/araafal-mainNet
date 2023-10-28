@@ -1,8 +1,5 @@
 import ProfileTabs from "@/components/profile/profile-tabs";
-import {
-  getInscriptions,
-  getInscriptionsTestnet,
-} from "@/lib/service";
+import { getInscriptions, getInscriptionsTestnet } from "@/lib/service";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import { useRouter } from "next/router";
@@ -37,7 +34,7 @@ const MyInscriptions = () => {
         <div className="w-[904px] h-[694px] flex flex-col border border-gray-50 rounded-lg px-6 pt-5 pb-6 gap-5 bg-black bg-opacity-50 overflow-auto ">
           <div className="text-2xl text-grey-300">My inscriptions</div>
           <div className="grid grid-cols-4 gap-4">
-            {DummyBalance?.list.map((ins) => (
+            {inscriptions?.map((ins) => (
               <div
                 key={ins}
                 className="flex flex-col h-[280px] w-[202px] rounded-xl items-center"
@@ -54,7 +51,11 @@ const MyInscriptions = () => {
                   </div>
                   <div className="pt-3 pb-4 text-center">
                     <div className="text-base font-medium text-whiteish">
-                      {ins.inscriptionName} Pepe Punks
+                      ID. {ins.inscriptionId.substring(0, 5)} ...
+                      {ins.inscriptionId.substring(
+                        ins.inscriptionId.length - 5,
+                        ins.inscriptionId.length - 1,
+                      )}
                     </div>
                     <div className="text-xl font-medium text-whiteish">
                       NO. {ins.inscriptionNumber}
