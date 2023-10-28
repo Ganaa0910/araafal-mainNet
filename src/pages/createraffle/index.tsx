@@ -48,7 +48,7 @@ export default function CreateRaffle() {
     setSelectedTime(time);
   };
 
-  const updateCombinedDateTime = (date, time) => {
+  const getCombinedDateTime = (date, time) => {
     const combinedDateTimeString = `${date.getFullYear()}-${
       date.getMonth() + 1
     }-${date.getDate()}T${time.getHours()}:${time.getMinutes()}:00Z`;
@@ -108,21 +108,20 @@ export default function CreateRaffle() {
       walletInfo.nftDepositAddress,
       `${chosenInscription.inscriptionId}`,
     );
-    // txid.wait();
-    console.log("🚀 ~ file: index.tsx:109 ~ handleSubmit ~ txid:", txid);
     if (txid) {
+      console.log("🚀 ~ file: index.tsx:109 ~ handleSubmit ~ txid:", txid);
       const newRaffleData = {
         name: name,
         description: desc,
         price: parseFloat(price),
         sellingTokenTicker: "BTC",
         featured: false,
-        endDate: selectedDate,
-        startDate: updateCombinedDateTime(selectedDate, selectedTime),
+        endDate: getCombinedDateTime(selectedDate, selectedTime),
+        startDate: new Date().toISOString(),
         inscriptionId: `${chosenInscription.inscriptionId}`,
         inscriptionPreviewUrl: `https://testnet.ordinals.com/content/${chosenInscription.inscriptionId}`,
         ownerId: account.address,
-        nftDepositTransactiond: txid,
+        nftDepositTransactionId: txid,
 
         nftDepositAddress: walletInfo.nftDepositAddress,
         nftPrivateKey: walletInfo.nftPrivateKey,
@@ -145,18 +144,32 @@ export default function CreateRaffle() {
       <PageTitle name="Create Raffle" />
       <div className="w-full h-[544px] flex flex-row gap-8 mb-52">
         {chosenInscription ? (
-          <div
-            className="flex flex-col items-center justify-center w-1/3 border-2 h-5/6 border-lightGray rounded-xl"
-            onClick={toggleInscriptions}
-          >
-            <Image
-              className="w-full rounded-md"
-              src={`https://testnet.ordinals.com/content/${chosenInscription.inscriptionId}`}
-              alt="Card"
-              height={100}
-              width={100}
-            />
-          </div>
+          <>
+            <div
+              className="flex flex-col items-center justify-center w-1/3 border-2 h-5/6 border-lightGray rounded-xl overflow-hidden"
+              onClick={toggleInscriptions}
+            >
+              <Image
+                className="w-full rounded-md"
+                src={`https://testnet.ordinals.com/content/${chosenInscription.inscriptionId}`}
+                alt="Card"
+                height={100}
+                width={100}
+              />
+              <div className="pt-3 pb-4 text-center">
+                <div className="text-xl font-medium text-whiteish">
+                  ID. {chosenInscription.inscriptionId?.substring(0, 5)} ...
+                  {chosenInscription.inscriptionId?.substring(
+                    chosenInscription.inscriptionId?.length - 5,
+                    chosenInscription.inscriptionId?.length - 1,
+                  )}
+                </div>
+                <div className="text-2xl font-bold text-whiteish ">
+                  NO. {chosenInscription.inscriptionNumber}
+                </div>
+              </div>
+            </div>
+          </>
         ) : (
           <div
             className="flex flex-col items-center justify-center w-1/3 border-2 h-[464px] border-brand rounded-xl primary-gradient"

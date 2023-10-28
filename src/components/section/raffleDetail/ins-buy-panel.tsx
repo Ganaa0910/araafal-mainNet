@@ -16,6 +16,7 @@ export default function BuyPanel({
   raffleDetail: Raffle | undefined;
   tickets: Ticket[];
 }) {
+  console.log("data", raffleDetail);
   const ticket = useSelector((state) => state.ticket);
   const dispatch = useDispatch();
 
@@ -235,7 +236,9 @@ export default function BuyPanel({
           >
             Purchase
           </button> */}
-          <Button variant={"secondary"}>Buy</Button>
+          <Button variant={"secondary"} onClick={handleOpenPurchaseOverlay}>
+            Buy
+          </Button>
 
           <PurchaseOverlay
             isOpen={isPurchaseOverlayOpen}
