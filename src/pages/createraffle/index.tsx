@@ -15,16 +15,12 @@ export default function CreateRaffle() {
   const account = useSelector((state) => state.account);
   const [showInscriptions, setShowInscriptions] = useState(false);
   const [selectedDate, setSelectedDate] = useState(new Date());
-  const [selectedTime, setSelectedTime] = useState("12:00");
+  const [selectedTime, setSelectedTime] = useState(new Date());
   const [combinedDateTime, setCombinedDateTime] = useState("");
   const [name, setName] = useState("");
   const [desc, setDesc] = useState("");
   const [price, setPrice] = useState("");
-  const [chosenInscription, setChosenInscrption] = useState("");
-  console.log(
-    "🚀 ~ file: index.tsx:22 ~ CreateRaffle ~ chosenInscription:",
-    chosenInscription,
-  );
+  const [chosenInscription, setChosenInscription] = useState({});
   const [success, setSuccess] = useState(false);
 
   const [walletInfo, setWalletInfo] = useState({});
@@ -104,7 +100,7 @@ export default function CreateRaffle() {
   const handleSubmit = async () => {
     let txid = await window.unisat.sendInscription(
       walletInfo.nftDepositAddress,
-      `${chosenInscription}i0`,
+      `${chosenInscription.inscriptionId}`,
     );
     // txid.wait();
     console.log("🚀 ~ file: index.tsx:109 ~ handleSubmit ~ txid:", txid);
@@ -117,8 +113,8 @@ export default function CreateRaffle() {
         featured: false,
         endDate: selectedDate,
         startDate: "2023-09-27T00:00:00Z",
-        inscriptionId: `${chosenInscription}i0`,
-        inscriptionPreviewUrl: `https://testnet.ordinals.com/content/${chosenInscription}i0`,
+        inscriptionId: `${chosenInscription}`,
+        inscriptionPreviewUrl: `https://testnet.ordinals.com/content/${chosenInscription}`,
         ownerId: account.address,
         nftDepositTransactiond: txid,
 
@@ -137,7 +133,7 @@ export default function CreateRaffle() {
         show={showInscriptions}
         handleClose={toggleInscriptions}
         inscriptions={inscriptions}
-        setChosenInscrption={setChosenInscrption}
+        setChosenInscription={setChosenInscription}
         chosenInscription={chosenInscription}
       />
       <PageTitle name="Create Raffle" />
@@ -149,7 +145,7 @@ export default function CreateRaffle() {
           >
             <Image
               className="w-full rounded-md"
-              src={`https://testnet.ordinals.com/content/${chosenInscription}i0`}
+              src={`https://testnet.ordinals.com/content/${chosenInscription.inscriptionId}`}
               alt="Card"
               height={100}
               width={100}
@@ -215,14 +211,19 @@ export default function CreateRaffle() {
                   selected={selectedDate}
                   onChange={handleDateChange}
                   dateFormat="dd/MM/yyyy"
-                  className="w-full p-2 border rounded"
+                  className="w-full p-2 border rounded text-black"
                 />
-                {/* <DatePicker
-                  selected={selectedDate}
+                <DatePicker
+                  selected={selectedTime}
                   onChange={handleTimeChange}
-                  format="hh:mm"
-                  className="w-full p-2 border rounded"
-                /> */}
+                  showTimeSelect
+                  showTimeSelectOnly
+                  timeFormat="HH:mm"
+                  timeIntervals={15}
+                  dateFormat="h:mm"
+                  timeCaption="Time"
+                  className="w-full p-2 border rounded text-black"
+                />
               </div>
             </div>
             <div className="w-full h-1/8 ">
