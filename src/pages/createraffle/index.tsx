@@ -1,20 +1,21 @@
+import PageTitle from "@/components/atom/page-title";
+import Choose from "@/components/create-raffle/choose";
+import Layout from "@/components/layout/layout";
+import { Button } from "@/components/ui/button";
+import { createRaffle, getInscriptionsTestnet } from "@/lib/service";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-import Choose from "@/components/create-raffle/choose";
-import Image from "next/image";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { createRaffle, getInscriptionsTestnet } from "@/lib/service";
 import { useSelector } from "react-redux";
-import Layout from "@/components/layout/layout";
-import PageTitle from "@/components/atom/page-title";
 
 export default function CreateRaffle() {
   const queryClient = useQueryClient();
   const account = useSelector((state) => state.account);
   const [showInscriptions, setShowInscriptions] = useState(false);
-  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState("");
   const [selectedTime, setSelectedTime] = useState("12:00");
   const [combinedDateTime, setCombinedDateTime] = useState("");
   const [name, setName] = useState("");
@@ -70,6 +71,11 @@ export default function CreateRaffle() {
     inscriptions,
   );
 
+  const [activeButton, setActiveButton] = useState("default");
+
+  const handleButtonClick = (buttonType) => {
+    setActiveButton(buttonType);
+  };
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -141,7 +147,7 @@ export default function CreateRaffle() {
         chosenInscription={chosenInscription}
       />
       <PageTitle name="Create Raffle" />
-      <div className="w-full h-[544px] flex flex-row gap-8">
+      <div className="w-full h-[544px] flex flex-row gap-8 mb-52">
         {chosenInscription ? (
           <div
             className="flex flex-col items-center justify-center w-1/3 border-2 h-5/6 border-lightGray rounded-xl"
@@ -157,19 +163,19 @@ export default function CreateRaffle() {
           </div>
         ) : (
           <div
-            className="flex flex-col items-center justify-center w-1/3 border-2 h-5/6 border-lightGray rounded-xl"
+            className="flex flex-col items-center justify-center w-1/3 border-2 h-[464px] border-brand rounded-xl primary-gradient"
             onClick={toggleInscriptions}
           >
             <Image src={"/nft.svg"} width={96} height={96} />
-            <h1 className="text-2xl text-center ">
+            <h1 className="text-2xl text-center text-whiteish">
               Click here to <br /> choose inscription
             </h1>
           </div>
         )}
         <div className="flex flex-row w-2/3 h-full gap-8">
           <div className="flex flex-col w-2/3 gap-8 h-5/6">
-            <div className="flex flex-col w-full p-4 border-2 h-1/3 border-lightGray rounded-xl">
-              <h1>Ticket price</h1>
+            <div className="flex flex-col w-full px-6 pt-5 pb-6 border-2 h-[144px] border-brand rounded-xl raffle-gradient">
+              <h1 className="text-2xl font-bolds">Ticket price</h1>
               <div className="flex flex-row justify-between w-full mt-auto mb-0 h-1/2">
                 <div className="flex flex-row items-center justify-center gap-4">
                   <Image
@@ -179,7 +185,7 @@ export default function CreateRaffle() {
                     height={32}
                     className="w-10 h-10"
                   />
-                  <h2 className="text-xl font-bold">BTC</h2>
+                  <h2 className="text-2xl font-bold">BTC</h2>
                 </div>
                 <div className="ml-4">
                   <input
@@ -187,51 +193,85 @@ export default function CreateRaffle() {
                     placeholder="Enter an amount"
                     value={price}
                     onChange={(e) => setPrice(e.target.value)}
-                    className="px-4 py-2 mt-2 bg-black border border-gray-300 rounded"
+                    className="px-6 py-3  bg-brandBlack focus:outline-none hover:border hover:border-brand rounded-lg"
                   />
                 </div>
               </div>
             </div>
-            <div className="flex flex-col w-full gap-4 p-10 border-2 h-2/3 border-lightGray rounded-xl">
-              <h1 className="text-2xl">Name</h1>
+            <div className="flex flex-col w-full gap-4 pt-5 pb-6 px-6 border-2 h-[388px] border-brand raffle-gradient rounded-xl">
+              {/* <h1 className="text-2xl">Name</h1>
               <input
                 className="w-full h-full bg-transparent border-2 rounded-xl"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-              />
+              /> */}
               <h1 className="text-2xl">Description</h1>
-              <input
-                className="w-full h-full bg-transparent border-2 rounded-xl"
+              <textarea
+                className="w-full h-full bg-brandBlack focus:outline-none hover:border hover:border-brand rounded-xl px-5 py-3 text-xl font-medium"
                 value={desc}
                 onChange={(e) => setDesc(e.target.value)}
               />
             </div>
           </div>
-          <div className="flex flex-col w-1/3 h-full gap-8">
-            <div className="w-full border-2 h-2/5 border-lightGray rounded-xl">
-              <div className="flex flex-col items-center justify-between gap-4">
-                <h1 className="mt-8 text-xl">End Date</h1>
-                <DatePicker
-                  selected={selectedDate}
-                  onChange={handleDateChange}
-                  dateFormat="dd/MM/yyyy"
-                  className="w-full p-2 border rounded"
-                />
-                {/* <DatePicker
-                  selected={selectedDate}
-                  onChange={handleTimeChange}
-                  format="hh:mm"
-                  className="w-full p-2 border rounded"
-                /> */}
+          {/* ________________________________________________________________________________________________________________________ */}
+          <div className="flex flex-col w-[320px] h-full justify-between">
+            <div className="w-full border-2 h-[216px] border-brand raffle-gradient rounded-xl px-6 pt-5 pb-6 flex flex-col gap-5">
+              <h1 className="font-bold text-2xl flex flex-row justify-between">
+                Make it Featured
+                <Image src={"/icon.svg"} width={28} height={28} alt="icon" />
+              </h1>
+              <h1 className="font-bold text-2xl text-whiteish flex flex-row gap-3">
+                <Image src={"/psat.svg"} width={36} height={36} alt="psat" />
+                500 PSAT
+              </h1>
+
+              <div className="flex flex-row w-full bg-brandBlack border-2 border-brand rounded-xl">
+                <button
+                  className={`w-1/2 px-5 py-4 rounded-lg   ${
+                    activeButton === "default" ? "bg-brand" : ""
+                  }`}
+                  onClick={() => handleButtonClick("default")}
+                >
+                  Default
+                </button>
+                <button
+                  className={`w-1/2 px-5 py-4 rounded-lg ${
+                    activeButton === "featured" ? "bg-brand" : ""
+                  }`}
+                  onClick={() => handleButtonClick("featured")}
+                >
+                  Featured
+                </button>
               </div>
             </div>
-            <div className="w-full h-1/8 ">
-              <button
+            <div className="w-full border-2 h-[216px] border-brand raffle-gradient rounded-xl flex flex-col gap-4 px-6 pb-6 pt-5">
+              <h1 className="text-xl">End Date</h1>
+              <DatePicker
+                selected={selectedDate}
+                onChange={handleDateChange}
+                dateFormat="dd/MM/yyyy"
+                className="w-full px-4 py-3 rounded-lg bg-brandBlack text-xl text-whiteish"
+                placeholderText="Pick a date"
+              />
+              <DatePicker
+                selected={selectedDate}
+                onChange={handleTimeChange}
+                dateFormat="hh:mm"
+                className="w-full px-4 py-3 rounded-lg bg-brandBlack text-xl text-whiteish"
+                placeholderText="Pick a time"
+              />
+            </div>
+
+            <div className="w-full">
+              {/* <button
                 className={`text-base w-full h-full bg-defaultGray border-lightGray px-[16px] py-[12px] h-[48px] hover:border-white`}
                 onClick={() => handleSubmit()}
               >
                 Submit
-              </button>
+              </button> */}
+              <Button variant={"primary"} className="w-full">
+                Submit
+              </Button>
             </div>
           </div>
         </div>
