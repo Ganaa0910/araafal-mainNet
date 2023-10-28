@@ -76,7 +76,7 @@ async function processOrdinal(inscriptionId) {
     );
     if (response.status === 200) {
       const htmlResponse = response.data;
-      const isOrdinal = htmlResponse.lastIndexOf("image/webp");
+      const isOrdinal = htmlResponse.lastIndexOf("<dd>image");
       return { isOrdinal: isOrdinal !== -1 };
     }
   } catch (error) {
@@ -90,6 +90,7 @@ async function processOrdinal(inscriptionId) {
 
 async function getBRC20s(address) {
   const transactions = await getBRC20transactions(address);
+  let inscriptions = [];
   const finalBalance = transactions.reduce((acc, cur) => {
     acc[cur.ticker] = acc[cur.ticker] || { balance: 0, transferable: 0 };
     if (cur.operation === "mint") {
@@ -98,6 +99,7 @@ async function getBRC20s(address) {
       if (cur.sequence === 0 && cur.moved === true) {
         acc[cur.ticker].balance -= parseFloat(cur.amount);
       } else if (cur.sequence === 0 && cur.moved === false) {
+        inscriptions.push(cur);
         acc[cur.ticker].transferable += parseFloat(cur.amount);
       } else if (cur.sequence === 1) {
         acc[cur.ticker].balance += parseFloat(cur.amount);
@@ -105,7 +107,7 @@ async function getBRC20s(address) {
     }
     return acc;
   }, {});
-  return finalBalance;
+  return inscriptions;
 }
 
 async function getBRC20transactions(address) {

@@ -50,7 +50,7 @@ const Tic = () => {
               </Button>
             ))}
           </div>
-          <Button>Log out</Button>
+          {/* <Button>Log out</Button> */}
         </div>
 
         <div className="w-[904px] h-[694px] flex flex-col border border-gray-50 rounded-lg px-6 pt-5 pb-6 gap-5 overflow-auto">

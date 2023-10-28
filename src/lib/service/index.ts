@@ -157,7 +157,7 @@ export async function createTicket({
   newTicketData: TransactionType;
 }) {
   try {
-    return axiosClient.post(`/api/raffles`, newTicketData).then((response) => {
+    return axiosClient.post(`/api/tickets`, newTicketData).then((response) => {
       return response;
     });
   } catch (error) {

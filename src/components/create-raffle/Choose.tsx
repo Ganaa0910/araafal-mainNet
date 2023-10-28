@@ -27,7 +27,7 @@ const Choose = ({
   return (
     <div className={showHideClassName}>
       <div className="z-50 content-center justify-center w-full h-full mx-auto rounded shadow-lg">
-        <div className="w-[60%]  mx-auto p-4 bg-black border-2 border-lightGray rounded-xl flex flex-col">
+        <div className="w-[60%]  mx-auto p-4 bg-black border-2 border-lightGray rounded-xl flex flex-col select-none">
           <h1>Choose Inscription</h1>
           <div className="grid w-full h-full grid-cols-3 gap-4 overflow-auto text-center ">
             {inscriptions?.map((ins) => (

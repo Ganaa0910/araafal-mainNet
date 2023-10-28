@@ -10,6 +10,7 @@ import axios from "axios";
 import { Raffle } from "@/lib/types/dbTypes";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { TransactionType, createTicket } from "@/lib/service";
+import { Button } from "./ui/button";
 
 const PurchaseOverlay = ({
   isOpen,
@@ -28,7 +29,9 @@ const PurchaseOverlay = ({
   const [inscriptions, setInscriptions] = useState([]);
   const [success, setSuccess] = useState(false);
 
-  const [selectedToken, setSelectedToken] = useState("BTC");
+  const [inscriptionId, setInscriptionId] = useState("");
+  console.log(inscriptionId);
+  const [selectedToken, setSelectedToken] = useState("");
   const [transferableInscriptions, setTransferableInscriptions] = useState([]);
 
   const [inscribeAmount, setInscribeAmount] = useState(0);
@@ -98,7 +101,6 @@ const PurchaseOverlay = ({
       queryClient.invalidateQueries({ queryKey: ["tickets"] });
     },
   });
-  console.log("🚀 ~ file: PurchaseOverlay.tsx:98 ~ data:", data);
   // console.log("🚀 ~ file: PurchaseOverlay.tsx:98 ~ data:", data);
 
   async function getTransferableInscriptions(ticker) {
@@ -147,15 +149,17 @@ const PurchaseOverlay = ({
   async function handleInscribeButtonClick() {
     try {
       const tx = await window.unisat.inscribeTransfer(
-        selectedToken,
-        inscribeAmount,
+        raffleDetail.sellingTokenTicker,
+        raffleDetail.price * 1,
       );
+      setInscriptionId(tx.inscriptionId);
     } catch (error) {
       console.log(error);
     }
   }
 
   async function transferInscription(inscriptionId: string) {
+    console.log(account);
     try {
       let txid = await window.unisat.sendInscription(
         raffleDetail.ticketDepositAddress,
@@ -286,6 +290,10 @@ const PurchaseOverlay = ({
         ) : (
           <div className="flex justify-center">
             <span>Select a token to transfer</span>
+            <Button onClick={handleInscribeButtonClick}>Inscribe</Button>
+            <Button onClick={() => transferInscription(inscriptionId)}>
+              Transfer
+            </Button>
           </div>
         )}
       </div>

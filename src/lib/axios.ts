@@ -45,7 +45,7 @@ instance.interceptors.response.use(
             saveToken(res.data);
             return instance(originalRequest);
           } else {
-            await clearToken();
+            clearToken();
           }
         })
         .catch((error) => {});
