@@ -24,7 +24,7 @@ body {
       rgb(var(--background-end-rgb))
     )
     rgb(var(--background-start-rgb));
-  background: #141414 url("/bg.svg") no-repeat fixed center bottom / cover;
+  background: #141414 url("/bg.svg") no-repeat fixed bottom;
 }
 
 .primary-gradient:hover {
