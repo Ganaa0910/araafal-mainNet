@@ -174,3 +174,13 @@ export async function createReferral() {
     console.log("Error:", error);
   }
 }
+
+export async function createWalletForRaffle() {
+  try {
+    return axiosClient.post(`/api/raffles/generateWallet`).then((response) => {
+      return response;
+    });
+  } catch (error) {
+    console.log("Error:", error);
+  }
+}

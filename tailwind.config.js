@@ -25,6 +25,7 @@ module.exports = {
       lg: ["17px", "24px"],
       xl: ["20px", "28px"],
       "2xl": ["24px", "36px"],
+      "3xl": ["32px", "44px"],
       "4xl": ["40px", "54px"],
       "6xl": ["64px", "64px"],
       logoSize: ["40px", "44px"],
