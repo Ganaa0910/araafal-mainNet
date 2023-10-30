@@ -8,6 +8,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import moment from "moment";
 import Countdown from "react-countdown";
+import { Button } from "@/components/ui/button";
 
 enum TicketStatus {
   TICKET_ENDED,
@@ -79,11 +80,11 @@ const Tic = () => {
                     className="w-full h-[116px]  rounded-lg  grid grid-cols-3 items-center"
                   >
                     <div className="flex flex-row justify-start gap-4">
-                      <div className="w-[100px] h-[100px] object-contain">
+                      <div className="w-[100px] h-[100px] shrink-0">
                         <Image
                           width={100}
                           height={100}
-                          className="w-[100px] h-full rounded-lg"
+                          className="object-cover w-full h-full rounded-lg"
                           src={ticket?.inscriptionPreviewUrl}
                           alt="img"
                         />
@@ -93,19 +94,23 @@ const Tic = () => {
                         {/* <h1>{transaction.Transaction.}</h1> */}
                       </div>
                     </div>
-                    <div className="flex flex-row items-center justify-center text-left w-">
-                      <h1> {ticket?.ticketCount}</h1>
+                    <div className="flex flex-row items-center justify-center gap-2 ">
+                      <h1 className="text-2xl"> {ticket?.ticketCount}</h1>
                       <Image
-                        src={"/ticket.svg"}
+                        src={"/images/ticketGrad.svg"}
                         width={1}
                         height={1}
-                        className="w-8 h-8"
+                        className="w-8 h-8 "
                         alt="img"
                       />
                     </div>
-                    <div className=" text-end">
+                    <div className="text-end">
                       {isEnded ? (
-                        "Ended"
+                        ticket.winnerId == slug ? (
+                          <Button variant={"primary"}>Claim </Button>
+                        ) : (
+                          "Ended"
+                        )
                       ) : (
                         <Countdown date={ticket.endDate} renderer={renderer} />
                       )}
