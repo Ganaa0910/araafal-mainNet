@@ -40,7 +40,16 @@ body {
 /* .featured-gradient {
   background: black;
 } */
-
+/* .featured-gradient {
+  background: var(
+    --secondary-less-opacity,
+    linear-gradient(
+      266deg,
+      rgba(70, 77, 255, 0.5) 0%,
+      rgba(91, 195, 253, 0.5) 100%
+    )
+  );
+} */
 .featured-gradient:hover {
   background: var(
     --secondary-less-opacity,

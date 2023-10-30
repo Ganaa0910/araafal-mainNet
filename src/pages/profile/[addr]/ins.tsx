@@ -1,12 +1,12 @@
+import PageTitle from "@/components/atom/page-title";
+import Layout from "@/components/layout/layout";
 import ProfileTabs from "@/components/profile/profile-tabs";
-import { getInscriptions, getInscriptionsTestnet } from "@/lib/service";
+import { getInscriptionsTestnet } from "@/lib/service";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { useSelector } from "react-redux";
-import Layout from "@/components/layout/layout";
-import PageTitle from "@/components/atom/page-title";
 
 const MyInscriptions = () => {
   const account = useSelector((state) => state.account);
@@ -30,7 +30,7 @@ const MyInscriptions = () => {
       <div className="flex flex-row w-full h-auto gap-4 ">
         <ProfileTabs />
 
-        <div className="w-[904px] h-[694px] flex flex-col border border-gray-50 rounded-lg px-6 pt-5 pb-6 gap-5 bg-black bg-opacity-50 overflow-auto ">
+        <div className="w-[904px] h-[694px] flex flex-col border-2 border-brand rounded-lg px-6 pt-5 pb-6 gap-5 bg-brandBlack overflow-auto ">
           <div className="text-2xl text-grey-300">My inscriptions</div>
           <div className="grid grid-cols-4 gap-4">
             {inscriptions?.map((ins) => (

@@ -40,12 +40,19 @@ module.exports = {
     },
 
     extend: {
+      backgroundImage: {
+        "two-vector": "url('/twovector.svg')", // Replace with your SVG path
+        "secondary-less":
+          "var(--secondary-less-opacity, linear-gradient(266deg, rgba(70, 77, 255, 0.50) 0%, rgba(91, 195, 253, 0.50) 100%))",
+      },
       colors: {
         lightblue: "#467AFF",
         brand: "#FD7C5B",
         brandBlack: "var(--Black-less-opacity, rgba(0, 0, 0, 0.50))",
         whiteish: "#E2E1E1",
         neutral100: "#C4C3C2",
+        neutral600: "#141414",
+        secondaryLinear: "#464DFF",
       },
       backgrounds: {
         primaryBrandGrad: "",
