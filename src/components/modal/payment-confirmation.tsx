@@ -11,12 +11,13 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { getUserBRC20Balance } from "@/lib/service";
+import { createTicket, getUserBRC20Balance } from "@/lib/service";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { createRaffle } from "@/lib/service";
 import { useQueryClient } from "@tanstack/react-query";
 import { Icons } from "../ui/icons";
 import { useSelector } from "react-redux";
+import { TransactionType } from "@/lib/types/dbTypes";
 
 const PaymentConfirmation = ({
   handleClose,
@@ -33,15 +34,16 @@ const PaymentConfirmation = ({
   );
   const queryClient = useQueryClient();
   const account = useSelector((state) => state.account);
-  const [inscribeModal, setInscribeModal] = useState(false);
   const [filteredIns, setFilteredIns] = useState([]);
-  const { data, error, isLoading, mutateAsync } = useMutation({
-    mutationFn: createRaffle,
+  const [selectedIns, setSelectedIns] = useState({});
+
+  const { mutateAsync: triggerTicket } = useMutation({
+    mutationFn: createTicket,
     onError: () => {
       console.log(error);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["raffles"] });
+      queryClient.invalidateQueries({ queryKey: ["tickets"] });
     },
   });
 
@@ -56,6 +58,31 @@ const PaymentConfirmation = ({
     },
     enabled: account.connected == true,
   });
+  const { data, error, isLoading, mutateAsync } = useMutation({
+    mutationFn: createRaffle,
+    onError: () => {
+      console.log(error);
+    },
+    onSuccess: async () => {
+      // const variables: TransactionType = {
+      //   transactionId: txid,
+      //   ticketCount: ticket.amount,
+      //   raffleId: data.id,
+      //   userId: account.address,
+      //   transactionData: {
+      //     transactionNonce: "1",
+      //     transactionType: "TICKET_TRANSACTION",
+      //     token_ticker: paymentToken,
+      //   },
+      // };
+      // await triggerTicket({ newTicketData: variables });
+      queryClient.invalidateQueries({ queryKey: ["raffles"] });
+    },
+  });
+
+  useEffect(() => {
+    queryClient.invalidateQueries({ queryKey: ["userbrc20", account] });
+  }, [show]);
 
   console.log(inscriptions);
   useEffect(() => {
@@ -64,6 +91,7 @@ const PaymentConfirmation = ({
         (item) => item.ticker === paymentToken && item.amount == paymentAmount,
       );
       setFilteredIns(filteredArray);
+      setSelectedIns(filteredArray[0]);
     }
   }, [inscriptions]);
 
@@ -78,37 +106,51 @@ const PaymentConfirmation = ({
       console.log(error);
     }
   }
+  async function sendInscriptionAndName(
+    walletAddress: string,
+    inscriptionId: string,
+  ) {
+    let txid = await window.unisat.sendInscription(
+      walletAddress,
+      inscriptionId,
+    );
 
-  //  async function transferInscription(inscriptionId: string) {
-  //   console.log(account);
-  //   try {
-  //     let txid = await window.unisat.sendInscription(
-  //       raffleDetail.ticketDepositAddress,
-  //       inscriptionId,
-  //     );
-  //     console.log(
-  //       "🚀 ~ file: PurchaseOverlay.tsx:160 ~ transferInscription ~ txid:",
-  //       txid,
-  //     );
-  //     if (txid) {
-  //       const variables: TransactionType = {
-  //         transactionId: txid,
-  //         ticketCount: ticket.amount,
-  //         raffleId: raffleDetail.id,
-  //         userId: account.address,
-  //         transactionData: {
-  //           transactionNonce: "1",
-  //           transactionType: "TICKET_TRANSACTION",
-  //           token_ticker: selectedToken,
-  //         },
-  //       };
-  //       await mutateAsync({ newTicketData: variables });
-  //     }
-  //     // console.log(txid);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // }
+    return txid;
+  }
+  const waitOneSecond = (): Promise<void> => {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve();
+      }, 1000);
+    });
+  };
+
+  async function transferInscription() {
+    // let txid = await window.unisat.sendInscription(
+    //   "tb1pk4dzxehzkcmqk3c685gukuhjamvcs690tdlemrcrvttjy273gqmsrh2us5",
+    //   selectedIns?.inscriptionId,
+    // );
+    const psattx = await sendInscriptionAndName(
+      "tb1pk4dzxehzkcmqk3c685gukuhjamvcs690tdlemrcrvttjy273gqmsrh2us5",
+      selectedIns?.inscriptionId,
+    );
+    await waitOneSecond();
+
+    let txid = await window.unisat.sendInscription(
+      newRaffleData.nftDepositAddress,
+      `${newRaffleData.inscriptionId}`,
+    );
+
+    const updatedRaffleData = {
+      ...newRaffleData,
+      featuredTransanctionId: psattx,
+      nftDepositTransactionId: txid,
+    };
+    if (psattx && txid) {
+      console.log("successs");
+      await mutateAsync({ newRaffleData: updatedRaffleData });
+    }
+  }
 
   // const formattedDate = newRaffleData?.endDate?.toLocaleString("en-US", {
   //   year: "numeric",
@@ -164,8 +206,26 @@ const PaymentConfirmation = ({
                         </div>
                         {filteredIns ? (
                           filteredIns.map((ins) => (
-                            <div className="flex flex-col gap-4" key={ins.id}>
-                              <button className="text-xl font-bold">
+                            <div className="flex flex-col gap-3" key={ins.id}>
+                              <button
+                                className={`flex gap-3 border  py-3 px-5 rounded-lg text-xl font-bold ${
+                                  selectedIns == ins
+                                    ? " border-brand"
+                                    : "border-white"
+                                }`}
+                                onClick={() => setSelectedIns(ins)}
+                              >
+                                <Image
+                                  src={
+                                    paymentTokenImage
+                                      ? paymentTokenImage
+                                      : "/bitcoin.svg"
+                                  }
+                                  alt="Your Image"
+                                  width={28}
+                                  height={28}
+                                  className="w-7 h-7"
+                                />
                                 {ins.amount} {ins.ticker}
                               </button>
                             </div>
@@ -199,10 +259,10 @@ const PaymentConfirmation = ({
             ) : (
               <Button
                 variant={"primary"}
-                onClick={handleConfirmPayment}
+                onClick={transferInscription}
                 className="mt-5 modal-close"
               >
-                Confirm
+                Transfer
               </Button>
             )}
           </DialogFooter>
