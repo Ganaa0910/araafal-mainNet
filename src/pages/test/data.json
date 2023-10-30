@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "imageSrc": "/bitcoinbandit.svg",
+    "name": "Raffle Name 1",
+    "ticketNumber": "NO12",
+    "count": 3,
+    "ticketStatus": "TICKET_ENDED"
+  },
+  {
+    "id": 2,
+    "imageSrc": "/bitcoinbandit.svg",
+    "name": "Raffle Name 2",
+    "ticketNumber": "NO10",
+    "count": 5,
+    "ticketStatus": "TICKET_RUNNING"
+  },
+  {
+    "id": 3,
+    "imageSrc": "/bitcoinbandit.svg",
+    "name": "Raffle Name 3",
+    "ticketNumber": "NO15",
+    "count": 2,
+    "ticketStatus": "TICKET_ENDED"
+  }
+]

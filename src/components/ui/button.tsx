@@ -10,14 +10,14 @@ const buttonVariants = cva(
       variant: {
         default:
           "bg-slate-900 text-slate-50 hover:bg-slate-900/90 dark:bg-slate-50 dark:text-slate-900 dark:hover:bg-slate-50/90",
-        primary: " border-2 primary-gradient border-brand font-bold",
+        primary:
+          " border-2 bg-brandBlack primary-gradient border-brand font-bold",
         secondary: " border-2 border-brand bg-brandBlack font-bold",
-        outline:
-          "border-2 border-white text-white hover:bg-slate-100 hover:text-slate-900  dark:hover:bg-slate-800 dark:hover:text-slate-50",
+        featured:
+          "border-2 border-lightblue w-full text-whiteish py-3 px-5 bg-brandBlack hover:featured-gradient",
         option:
           "bg-slate-100 text-slate-900 hover:bg-slate-100/80 dark:bg-slate-800 dark:text-slate-50 dark:hover:bg-slate-800/80",
-        ghost:
-          "hover:bg-slate-100 hover:text-slate-900 dark:hover:bg-slate-800 dark:hover:text-slate-50",
+        ghost: "text-oragne-900",
         link: "text-slate-900 underline-offset-4 hover:underline dark:text-slate-50",
       },
       size: {

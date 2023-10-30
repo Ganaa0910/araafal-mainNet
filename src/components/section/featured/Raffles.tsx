@@ -5,8 +5,10 @@ const Raffles = () => {
     <>
       <div className="w-[1216px] mx-auto h-[432px] border-2 rounded-2xl border-lightblue flex flex-row p-6 gap-10 bg-two-vector bg-cover relative">
         <div className="absolute top-0 right-0 m-6">time</div>
-        <div className="absolute bottom-0 right-0 m-6">
-          <Button>Buy Ticket s</Button>
+        <div className="absolute bottom-0 right-0 m-6 w-[280px]">
+          <Button variant="featured" className="hover:featured-gradient">
+            Buy ticket
+          </Button>
         </div>
         <Image
           alt="featured Raffle"
