@@ -4,7 +4,7 @@ export default function Footer() {
   return (
     <>
       <footer className="bg-[#000000] bg-opacity-30 -mt-[144px] py-12">
-        <div className="flex items-center justify-between flex-shrink-0 max-w-[1216px]   px-28 mx-auto">
+        <div className="flex items-center justify-between flex-shrink-0 max-w-[1440px] px-28 mx-auto">
           <div className="flex items-center h-12">
             <Image
               className="cursor-pointer select-none h-40px w-162px"
