@@ -17,6 +17,8 @@ const ChooseInscription = ({
   show,
   inscriptions,
   setChosenInscription,
+  onChange,
+  error,
 }) => {
   console.log(
     "🚀 ~ file: Choose.tsx:10 ~ Choose ~ inscriptions:",

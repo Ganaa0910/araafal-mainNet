@@ -17,6 +17,7 @@ import "react-datepicker/dist/react-datepicker.css";
 
 import { useSelector } from "react-redux";
 import RaffleConfirmation from "@/components/modal/raffle-confirmation";
+import { toast } from "sonner";
 
 export default function CreateRaffle() {
   const queryClient = useQueryClient();
@@ -31,8 +32,12 @@ export default function CreateRaffle() {
   const [name, setName] = useState("");
   const [desc, setDesc] = useState("");
   const [price, setPrice] = useState("");
-  const [chosenInscription, setChosenInscription] = useState({});
-  const [chosenCurrency, setChosenCurrency] = useState(null);
+  const [chosenInscription, setChosenInscription] = useState();
+  const [chosenCurrency, setChosenCurrency] = useState({
+    id: 1,
+    title: "BTC",
+    imagePath: "/bitcoin.svg",
+  });
   console.log(
     "🚀 ~ file: index.tsx:36 ~ CreateRaffle ~ chosenCurrency:",
     chosenCurrency,
@@ -93,6 +98,10 @@ export default function CreateRaffle() {
   };
 
   const handleSubmit = async () => {
+    if (!name || !desc || !price || !chosenInscription || !chosenCurrency) {
+      toast.error("Please fill all the fields");
+      return;
+    }
     const walletResponse = await createWalletForRaffle();
     const walletInfo = walletResponse?.data;
     if (walletResponse) {
@@ -104,10 +113,8 @@ export default function CreateRaffle() {
         name: name,
         description: desc,
         price: parseFloat(price),
-        sellingTokenTicker: chosenCurrency ? chosenCurrency.title : "BTC",
-        sellingTokenImage: chosenCurrency
-          ? chosenCurrency.imagePath
-          : "/bitcoin.svg",
+        sellingTokenTicker: chosenCurrency.title,
+        sellingTokenImage: chosenCurrency.imagePath,
         featured: isRaffleFeatured,
         endDate: getCombinedDateTime(selectedDate, selectedTime),
         startDate: new Date().toISOString(),
@@ -233,9 +240,7 @@ export default function CreateRaffle() {
                   onClick={() => setShowCurrency(true)}
                 >
                   <Image
-                    src={
-                      chosenCurrency ? chosenCurrency.imagePath : "/bitcoin.svg"
-                    }
+                    src={chosenCurrency.imagePath}
                     alt="Your Image"
                     width={32}
                     height={32}
