@@ -175,7 +175,7 @@ const PurchaseOverlay = ({
     try {
       const tx = await window.unisat.inscribeTransfer(
         raffleDetail.sellingTokenTicker,
-        raffleDetail.price * 1,
+        raffleDetail.price * ticket.amount,
       );
       setInscriptionId(tx.inscriptionId);
     } catch (error) {
@@ -229,9 +229,9 @@ const PurchaseOverlay = ({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center overflow-hidden">
       <div className="absolute inset-0 bg-black opacity-50"></div>
-      <div className="bg-defaultGray p-4 rounded-lg shadow-md z-10 border border-lightGray">
-        <div className="flex justify-between items-center select-none">
-          <h2 className="text-lg font-semibold mb-2">Balance:</h2>
+      <div className="z-10 p-4 border rounded-lg shadow-md bg-defaultGray border-lightGray">
+        <div className="flex items-center justify-between select-none">
+          <h2 className="mb-2 text-lg font-semibold">Balance:</h2>
           <Image
             src={CloseImg}
             className="ml-6 cursor-pointer"
@@ -242,6 +242,7 @@ const PurchaseOverlay = ({
         <div className="grid grid-cols-4 gap-4">
           {inscriptions.map((item) => (
             <button
+              key={item.inscriptionId}
               className="flex flex-col items-center"
               onClick={() => handleInscriptionClick(item.token)}
             >
