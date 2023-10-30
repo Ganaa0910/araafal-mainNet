@@ -11,10 +11,12 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { useMutation } from "@tanstack/react-query";
+import { getUserBRC20Balance } from "@/lib/service";
+import { useQuery, useMutation } from "@tanstack/react-query";
 import { createRaffle } from "@/lib/service";
 import { useQueryClient } from "@tanstack/react-query";
 import { Icons } from "../ui/icons";
+import { useSelector } from "react-redux";
 
 const PaymentConfirmation = ({
   handleClose,
@@ -27,6 +29,7 @@ const PaymentConfirmation = ({
     newRaffleData,
   );
   const queryClient = useQueryClient();
+  const account = useSelector((state) => state.account);
   const [inscribeModal, setInscribeModal] = useState(false);
   const { data, error, isLoading, mutateAsync } = useMutation({
     mutationFn: createRaffle,
@@ -41,6 +44,16 @@ const PaymentConfirmation = ({
   const handleConfirmPayment = () => {
     triggerPaymentConfirmation;
   };
+
+  const { data: inscriptions } = useQuery({
+    queryKey: ["userbrc20", account],
+    queryFn: () => {
+      return getUserBRC20Balance(account.address);
+    },
+    enabled: account.connected == true,
+  });
+
+  console.log(inscriptions);
 
   // const formattedDate = newRaffleData?.endDate?.toLocaleString("en-US", {
   //   year: "numeric",
@@ -94,6 +107,23 @@ const PaymentConfirmation = ({
                           : "BTC"}
                       </h2>
                     </div>
+                    {inscriptions && (
+                      <div className="flex flex-col gap-4">
+                        <div className="text-xl font-bold">
+                          Transferable balance:
+                        </div>
+                        {inscriptions.map(
+                          (ins) =>
+                            ins.ticker == newRaffleData.sellingTokenTicker && (
+                              <div className="flex flex-col gap-4">
+                                <button className="text-xl font-bold">
+                                  {ins.amount} {ins.ticker}
+                                </button>
+                              </div>
+                            ),
+                        )}
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>

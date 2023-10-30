@@ -26,8 +26,8 @@ export default function CreateRaffle() {
   const [showCurrency, setShowCurrency] = useState(false);
   const [raffleSubmitModal, setRaffleSubmitModal] = useState(false);
 
-  const [selectedDate, setSelectedDate] = useState("");
-  const [selectedTime, setSelectedTime] = useState("12:00");
+  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [selectedTime, setSelectedTime] = useState(new Date());
   const [name, setName] = useState("");
   const [desc, setDesc] = useState("");
   const [price, setPrice] = useState("");
@@ -162,6 +162,7 @@ export default function CreateRaffle() {
     { id: 3, title: "PSAT", imagePath: "/images/psat.png" },
     { id: 4, title: "SATS", imagePath: "/images/sats.png" },
     { id: 5, title: "TRAC", imagePath: "/images/trac.png" },
+    { id: 6, title: "JOEM", imagePath: "/images/trac.png" },
   ];
 
   return (
@@ -189,7 +190,7 @@ export default function CreateRaffle() {
       <div className="w-full h-[544px] flex flex-row gap-8 mb-52">
         {chosenInscription ? (
           <div
-            className="flex flex-col items-center justify-center w-1/3 overflow-hidden border-2 h-5/6 border-lightGray rounded-xl"
+            className="flex flex-col items-center justify-center w-1/3 overflow-hidden border-2 h-5/6 border-lightGray rounded-xl border-brand"
             onClick={toggleInscriptions}
           >
             <Image
@@ -309,15 +310,19 @@ export default function CreateRaffle() {
                 selected={selectedDate}
                 onChange={handleDateChange}
                 dateFormat="dd/MM/yyyy"
-                className="w-full px-4 py-3 text-xl rounded-lg bg-brandBlack text-whiteish"
+                className="w-full px-4 py-3 text-xl rounded-lg bg-brandBlack text-whiteish active:border active:border-brand"
                 placeholderText="Pick a date"
               />
               <DatePicker
-                selected={selectedDate}
+                selected={selectedTime}
                 onChange={handleTimeChange}
-                dateFormat="HH:mm"
-                className="w-full px-4 py-3 text-xl rounded-lg bg-brandBlack text-whiteish"
-                placeholderText="Pick a time"
+                showTimeSelect
+                showTimeSelectOnly
+                timeFormat="HH:mm"
+                timeIntervals={15}
+                dateFormat="h:mm"
+                timeCaption="Time"
+                className="w-full px-4 py-3 text-xl rounded-lg bg-brandBlack text-whiteish focus:border focus:border-brand"
               />
             </div>
 

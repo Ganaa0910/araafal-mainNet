@@ -116,7 +116,11 @@ export async function getInscriptionsTestnet(address: string) {
       return response?.data;
     });
 }
-
+export async function getUserBRC20Balance(address: string) {
+  return axiosClient.get(`/api/users/${address}/brc20`).then((response) => {
+    return response?.data;
+  });
+}
 export async function getReferralCode(address: string) {
   return axiosClient.get(`/api/users/${address}/referral`).then((response) => {
     return response?.data;

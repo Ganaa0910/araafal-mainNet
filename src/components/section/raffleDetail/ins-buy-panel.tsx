@@ -16,7 +16,6 @@ export default function BuyPanel({
   raffleDetail: Raffle | undefined;
   tickets: Ticket[];
 }) {
-  console.log("data", raffleDetail);
   const ticket = useSelector((state) => state.ticket);
   const dispatch = useDispatch();
 
