@@ -39,7 +39,7 @@ const MyInscriptions = () => {
                 className="flex flex-col h-[280px] w-[202px] rounded-xl items-center"
               >
                 <div className="mb-4">
-                  <div className="border rounded-lg w-52 h-52 overflow-hidden">
+                  <div className="overflow-hidden rounded-lg  w-52 h-52">
                     <Image
                       className="w-full rounded-md"
                       src={`https://testnet.ordinals.com/content/${ins.inscriptionId}`}

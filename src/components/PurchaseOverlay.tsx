@@ -192,14 +192,14 @@ const PurchaseOverlay = ({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center z-50 overflow-hidden">
+    <div className="fixed inset-0 z-50 flex items-center justify-center overflow-hidden">
       <div className="absolute inset-0 bg-black opacity-50"></div>
-      <div className="bg-defaultGray p-4 rounded-lg shadow-md z-10 border border-lightGray">
-        <div className="flex justify-between items-center select-none">
-          <h2 className="text-lg font-semibold mb-2">Balances:</h2>
+      <div className="z-10 p-4 border rounded-lg shadow-md bg-defaultGray border-lightGray">
+        <div className="flex items-center justify-between select-none">
+          <h2 className="mb-2 text-lg font-semibold">Balances:</h2>
           <Image
             src={CloseImg}
-            className="cursor-pointer ml-6"
+            className="ml-6 cursor-pointer"
             alt="Close icon"
             onClick={onClose}
           />
@@ -257,20 +257,20 @@ const PurchaseOverlay = ({
             </button>
             {/* <div>
               <input
-                className="py-3 px-2"
+                className="px-2 py-3"
                 type="number"
                 onChange={(e) => {
                   handleInscribeAmountChange(e);
                 }}
               ></input>
               <button
-                className="py-3 px-2"
+                className="px-2 py-3"
                 onClick={() => handleInscribeButtonClick()}
               >
                 Inscribe
               </button>
             </div>
-            <h2 className="text-lg font-semibold mb-2">
+            <h2 className="mb-2 text-lg font-semibold">
               Transferable {selectedToken}:
             </h2>
             <div className="grid grid-cols-4 gap-4 text-sm text-lightGray">

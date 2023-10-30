@@ -115,7 +115,6 @@ export default function CreateRaffle() {
         inscriptionNumber: chosenInscription.inscriptionNumber,
         inscriptionPreviewUrl: `https://testnet.ordinals.com/content/${chosenInscription.inscriptionId}`,
         ownerId: account.address,
-        nftDepositTransactionId: null,
 
         nftDepositAddress: walletInfo.nftDepositAddress,
         nftPrivateKey: walletInfo.nftPrivateKey,

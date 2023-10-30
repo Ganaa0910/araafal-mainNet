@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { Button } from "../ui/button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Dialog,
   DialogClose,
@@ -23,6 +23,9 @@ const PaymentConfirmation = ({
   show,
   newRaffleData,
   triggerPaymentConfirmation,
+  paymentToken,
+  paymentAmount,
+  paymentTokenImage,
 }) => {
   console.log(
     "🚀 ~ file: raffle-confirmation.tsx:24 ~ newRaffleData:",
@@ -31,6 +34,7 @@ const PaymentConfirmation = ({
   const queryClient = useQueryClient();
   const account = useSelector((state) => state.account);
   const [inscribeModal, setInscribeModal] = useState(false);
+  const [filteredIns, setFilteredIns] = useState([]);
   const { data, error, isLoading, mutateAsync } = useMutation({
     mutationFn: createRaffle,
     onError: () => {
@@ -54,6 +58,57 @@ const PaymentConfirmation = ({
   });
 
   console.log(inscriptions);
+  useEffect(() => {
+    if (inscriptions) {
+      const filteredArray = inscriptions.filter(
+        (item) => item.ticker === paymentToken && item.amount == paymentAmount,
+      );
+      setFilteredIns(filteredArray);
+    }
+  }, [inscriptions]);
+
+  async function handleInscribeButtonClick() {
+    try {
+      const tx = await window.unisat.inscribeTransfer(
+        paymentToken,
+        paymentAmount,
+      );
+      // setInscriptionId(tx.inscriptionId);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  //  async function transferInscription(inscriptionId: string) {
+  //   console.log(account);
+  //   try {
+  //     let txid = await window.unisat.sendInscription(
+  //       raffleDetail.ticketDepositAddress,
+  //       inscriptionId,
+  //     );
+  //     console.log(
+  //       "🚀 ~ file: PurchaseOverlay.tsx:160 ~ transferInscription ~ txid:",
+  //       txid,
+  //     );
+  //     if (txid) {
+  //       const variables: TransactionType = {
+  //         transactionId: txid,
+  //         ticketCount: ticket.amount,
+  //         raffleId: raffleDetail.id,
+  //         userId: account.address,
+  //         transactionData: {
+  //           transactionNonce: "1",
+  //           transactionType: "TICKET_TRANSACTION",
+  //           token_ticker: selectedToken,
+  //         },
+  //       };
+  //       await mutateAsync({ newTicketData: variables });
+  //     }
+  //     // console.log(txid);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }
 
   // const formattedDate = newRaffleData?.endDate?.toLocaleString("en-US", {
   //   year: "numeric",
@@ -87,13 +142,11 @@ const PaymentConfirmation = ({
               <div className="flex gap-6">
                 <div className="flex flex-col gap-7">
                   <div className="flex flex-col gap-4">
-                    <div className="text-xl font-bold">Ticket price</div>
+                    <div className="text-xl font-bold">Payment info</div>
                     <div className="flex gap-3">
                       <Image
                         src={
-                          newRaffleData.sellingTokenImage
-                            ? newRaffleData.sellingTokenImage
-                            : "/bitcoin.svg"
+                          paymentTokenImage ? paymentTokenImage : "/bitcoin.svg"
                         }
                         alt="Your Image"
                         width={28}
@@ -101,10 +154,7 @@ const PaymentConfirmation = ({
                         className="w-7 h-7"
                       />
                       <h2 className="text-xl font-bold">
-                        {newRaffleData.price}{" "}
-                        {newRaffleData.sellingTokenTicker
-                          ? newRaffleData.sellingTokenTicker
-                          : "BTC"}
+                        {paymentAmount} {paymentToken ? paymentToken : "BTC"}
                       </h2>
                     </div>
                     {inscriptions && (
@@ -112,15 +162,16 @@ const PaymentConfirmation = ({
                         <div className="text-xl font-bold">
                           Transferable balance:
                         </div>
-                        {inscriptions.map(
-                          (ins) =>
-                            ins.ticker == newRaffleData.sellingTokenTicker && (
-                              <div className="flex flex-col gap-4">
-                                <button className="text-xl font-bold">
-                                  {ins.amount} {ins.ticker}
-                                </button>
-                              </div>
-                            ),
+                        {filteredIns ? (
+                          filteredIns.map((ins) => (
+                            <div className="flex flex-col gap-4" key={ins.id}>
+                              <button className="text-xl font-bold">
+                                {ins.amount} {ins.ticker}
+                              </button>
+                            </div>
+                          ))
+                        ) : (
+                          <div>You dont have inscription. Inscribe now</div>
                         )}
                       </div>
                     )}
@@ -137,13 +188,23 @@ const PaymentConfirmation = ({
                 </Button>
               </DialogClose>
             </div>
-            <Button
-              variant={"primary"}
-              onClick={handleConfirmPayment}
-              className="mt-5 modal-close"
-            >
-              Confirm
-            </Button>
+            {filteredIns.length == 0 ? (
+              <Button
+                variant={"primary"}
+                onClick={handleInscribeButtonClick}
+                className="mt-5 modal-close"
+              >
+                Incribe
+              </Button>
+            ) : (
+              <Button
+                variant={"primary"}
+                onClick={handleConfirmPayment}
+                className="mt-5 modal-close"
+              >
+                Confirm
+              </Button>
+            )}
           </DialogFooter>
         </DialogContent>
       </Dialog>

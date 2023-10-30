@@ -24,9 +24,10 @@ const RaffleConfirmation = ({
   setChosenInscription,
 }) => {
   console.log(
-    "🚀 ~ file: raffle-confirmation.tsx:24 ~ newRaffleData:",
+    "🚀 ~ file: raffle-confirmation.tsx:26 ~ newRaffleData:",
     newRaffleData,
   );
+
   const [paymentConfModal, setPaymentConfModal] = useState(false);
   const queryClient = useQueryClient();
   const [inscribeModal, setInscribeModal] = useState(false);
@@ -40,9 +41,21 @@ const RaffleConfirmation = ({
     },
   });
 
-  const handleConfirm = () => {
-    handleClose();
-    setPaymentConfModal(true);
+  const handleConfirm = async () => {
+    if (newRaffleData.featured == true) {
+      handleClose();
+      setPaymentConfModal(true);
+    } else {
+      let txid = await window.unisat.sendInscription(
+        newRaffleData.nftDepositAddress,
+        `${newRaffleData.inscriptionId}`,
+      );
+      const updatedRaffleData = {
+        ...newRaffleData,
+        nftDepositTransactionId: txid,
+      };
+      await mutateAsync({ newRaffleData: updatedRaffleData });
+    }
   };
 
   const saveData = async () => {
@@ -75,6 +88,9 @@ const RaffleConfirmation = ({
         show={paymentConfModal}
         handleClose={setPaymentConfModal}
         newRaffleData={newRaffleData}
+        paymentToken={"JOEM"}
+        paymentAmount="10"
+        paymentTokenImage="/images/psat.png"
         triggerPaymentConfirmation={saveData}
       />
       <Dialog open={show} onOpenChange={handleClose}>
