@@ -45,6 +45,7 @@ module.exports = {
         brand: "#FD7C5B",
         brandBlack: "var(--Black-less-opacity, rgba(0, 0, 0, 0.50))",
         whiteish: "#E2E1E1",
+        neutral100: "#C4C3C2",
       },
       backgrounds: {
         primaryBrandGrad: "",
