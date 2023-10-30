@@ -7,8 +7,9 @@ import CloseImg from "../../public/close.svg";
 import raffle from "../../raffleDetails.json";
 
 import axios from "axios";
+import { getUserBitcoinBalance } from "@/lib/service";
 import { Raffle } from "@/lib/types/dbTypes";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient, useQuery } from "@tanstack/react-query";
 import { TransactionType, createTicket } from "@/lib/service";
 import { Button } from "./ui/button";
 
@@ -30,7 +31,6 @@ const PurchaseOverlay = ({
   const [success, setSuccess] = useState(false);
 
   const [inscriptionId, setInscriptionId] = useState("");
-  console.log(inscriptionId);
   const [selectedToken, setSelectedToken] = useState("");
   const [transferableInscriptions, setTransferableInscriptions] = useState([]);
 
@@ -146,6 +146,31 @@ const PurchaseOverlay = ({
     setInscribeAmount(e.target.value);
   }
 
+  async function handleTransferBitcoinButton() {
+    try {
+      const txid = await window.unisat.sendBitcoin(
+        raffleDetail.ticketDepositAddress,
+        parseInt((ticket?.amount * raffleDetail?.price * 100000000).toString()),
+      );
+      if (txid) {
+        const variables: TransactionType = {
+          transactionId: txid,
+          ticketCount: ticket.amount,
+          raffleId: raffleDetail.id,
+          userId: account.address,
+          transactionData: {
+            transactionNonce: "1",
+            transactionType: "TICKET_TRANSACTION",
+            token_ticker: selectedToken,
+          },
+        };
+        await mutateAsync({ newTicketData: variables });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   async function handleInscribeButtonClick() {
     try {
       const tx = await window.unisat.inscribeTransfer(
@@ -189,14 +214,24 @@ const PurchaseOverlay = ({
     }
   }
 
+  const { data: bitcoinBalance } = useQuery({
+    queryKey: ["userbitcoin", account],
+    queryFn: () => {
+      return getUserBitcoinBalance(account.address);
+    },
+    enabled: account.connected == true,
+  });
+
+  console.log(bitcoinBalance);
+
   if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center overflow-hidden">
       <div className="absolute inset-0 bg-black opacity-50"></div>
-      <div className="z-10 p-4 border rounded-lg shadow-md bg-defaultGray border-lightGray">
-        <div className="flex items-center justify-between select-none">
-          <h2 className="mb-2 text-lg font-semibold">Balances:</h2>
+      <div className="bg-defaultGray p-4 rounded-lg shadow-md z-10 border border-lightGray">
+        <div className="flex justify-between items-center select-none">
+          <h2 className="text-lg font-semibold mb-2">Balance:</h2>
           <Image
             src={CloseImg}
             className="ml-6 cursor-pointer"
@@ -289,11 +324,35 @@ const PurchaseOverlay = ({
           </div>
         ) : (
           <div className="flex justify-center">
-            <span>Select a token to transfer</span>
-            <Button onClick={handleInscribeButtonClick}>Inscribe</Button>
-            <Button onClick={() => transferInscription(inscriptionId)}>
-              Transfer
-            </Button>
+            {raffleDetail.sellingTokenTicker == "BTC" ? (
+              <div>
+                <div>
+                  <span>
+                    Amount to transfer: {ticket?.amount * raffleDetail?.price}
+                  </span>
+                </div>
+                {bitcoinBalance ? (
+                  <div>
+                    <span>Balance: {bitcoinBalance / 100000000}</span>
+                    <Button onClick={handleTransferBitcoinButton}>
+                      Transfer
+                    </Button>
+                  </div>
+                ) : (
+                  <div>
+                    <span>Balance: 0</span>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <div>
+                <span>Select a token to transfer</span>
+                <Button onClick={handleInscribeButtonClick}>Inscribe</Button>
+                <Button onClick={() => transferInscription(inscriptionId)}>
+                  Transfer
+                </Button>
+              </div>
+            )}
           </div>
         )}
       </div>
