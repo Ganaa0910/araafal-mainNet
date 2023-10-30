@@ -40,25 +40,25 @@ const RaffleConfirmation = ({
 
   const handleConfirm = () => {};
 
-  const formattedDate = newRaffleData?.endDate?.toLocaleString("en-US", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-    hour: "numeric",
-    minute: "numeric",
-    second: "numeric",
-    timeZoneName: "short",
-  });
+  // const formattedDate = newRaffleData?.endDate?.toLocaleString("en-US", {
+  //   year: "numeric",
+  //   month: "long",
+  //   day: "numeric",
+  //   hour: "numeric",
+  //   minute: "numeric",
+  //   second: "numeric",
+  //   timeZoneName: "short",
+  // });
 
-  const renderHumanReadableDate = (dateString: string) => {
-    console.log(
-      "🚀 ~ file: raffle-confirmation.tsx:53 ~ renderHumanReadableDate ~ dateString:",
-      dateString,
-    );
-    const date = new Date(dateString);
+  // const renderHumanReadableDate = (dateString: string) => {
+  //   console.log(
+  //     "🚀 ~ file: raffle-confirmation.tsx:53 ~ renderHumanReadableDate ~ dateString:",
+  //     dateString,
+  //   );
+  //   const date = new Date(dateString);
 
-    return date.toLocaleDateString("en-GB");
-  };
+  //   return date.toLocaleDateString("en-GB");
+  // };
 
   return (
     <>
@@ -112,7 +112,7 @@ const RaffleConfirmation = ({
                     <div className="text-xl font-bold">End time</div>
                     <div className="flex gap-3 text-xl">
                       <Icons.calendar className="h-7 w-7" />
-                      {renderHumanReadableDate(newRaffleData?.endDate)}
+                      {newRaffleData?.endDate}
                     </div>
                   </div>
                 </div>

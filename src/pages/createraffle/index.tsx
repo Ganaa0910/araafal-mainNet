@@ -310,7 +310,7 @@ export default function CreateRaffle() {
                 placeholderText="Pick a date"
               />
               <DatePicker
-                selected={selectedTime}
+                selected={selectedDate}
                 onChange={handleTimeChange}
                 dateFormat="HH:mm"
                 className="w-full px-4 py-3 text-xl rounded-lg bg-brandBlack text-whiteish"
