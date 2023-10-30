@@ -10,7 +10,7 @@ export default function ActiveRaffles({
   data: Raffle[] | undefined;
 }) {
   return (
-    <div className="max-w-[1400px] mx-auto mb-40">
+    <div className="">
       <div className="w-[1216px] mx-auto justify-start items-center">
         <PageTitle name="Active Raffles" />
         <div className="grid grid-cols-4 gap-4">

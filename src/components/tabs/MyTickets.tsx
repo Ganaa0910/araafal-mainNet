@@ -22,7 +22,7 @@ const Tic = () => {
 
   const slug = router.query.addr;
   return (
-    <div className="max-w-[1216px] mx-auto flex flex-row">
+    <div className="flex flex-row mx-auto">
       <div className="flex flex-row w-full h-auto gap-4 ">
         <div className="flex flex-col w-[280px] h-auto gap-8">
           <div className="flex flex-col w-full h-auto gap-[12px] p-[12px] border-lighterGray border rounded-xl">
