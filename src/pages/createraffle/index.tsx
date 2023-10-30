@@ -51,6 +51,9 @@ export default function CreateRaffle() {
     setShowCurrency(!showCurrency);
   };
 
+  const toggleConfirmation = () => {
+    setRaffleSubmitModal(!raffleSubmitModal);
+  };
   const handleDateChange = (date) => {
     setSelectedDate(date);
   };
@@ -177,7 +180,7 @@ export default function CreateRaffle() {
       />
       <RaffleConfirmation
         show={raffleSubmitModal}
-        handleClose={setRaffleSubmitModal}
+        handleClose={toggleConfirmation}
         newRaffleData={newRaffleData}
         setChosenCurrency={setChosenCurrency}
       />

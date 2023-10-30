@@ -15,19 +15,17 @@ import { useMutation } from "@tanstack/react-query";
 import { createRaffle } from "@/lib/service";
 import { useQueryClient } from "@tanstack/react-query";
 import { Icons } from "../ui/icons";
-import PaymentConfirmation from "./payment-confirmation";
 
-const RaffleConfirmation = ({
+const PaymentConfirmation = ({
   handleClose,
   show,
   newRaffleData,
-  setChosenInscription,
+  triggerPaymentConfirmation,
 }) => {
   console.log(
     "🚀 ~ file: raffle-confirmation.tsx:24 ~ newRaffleData:",
     newRaffleData,
   );
-  const [paymentConfModal, setPaymentConfModal] = useState(false);
   const queryClient = useQueryClient();
   const [inscribeModal, setInscribeModal] = useState(false);
   const { data, error, isLoading, mutateAsync } = useMutation({
@@ -40,13 +38,8 @@ const RaffleConfirmation = ({
     },
   });
 
-  const handleConfirm = () => {
-    handleClose();
-    setPaymentConfModal(true);
-  };
-
-  const saveData = async () => {
-    await mutateAsync({ newRaffleData });
+  const handleConfirmPayment = () => {
+    triggerPaymentConfirmation;
   };
 
   // const formattedDate = newRaffleData?.endDate?.toLocaleString("en-US", {
@@ -71,35 +64,14 @@ const RaffleConfirmation = ({
 
   return (
     <>
-      <PaymentConfirmation
-        show={paymentConfModal}
-        handleClose={setPaymentConfModal}
-        newRaffleData={newRaffleData}
-        triggerPaymentConfirmation={saveData}
-      />
       <Dialog open={show} onOpenChange={handleClose}>
         <DialogContent className="w-[592px] px-8">
           <DialogHeader>
-            <DialogTitle>Confirm your raffle</DialogTitle>
+            <DialogTitle>Transfer</DialogTitle>
           </DialogHeader>
           <div className="w-full">
             <div className="flex flex-col">
               <div className="flex gap-6">
-                <div
-                  className={`w-[202px] flex flex-col gap-3 overflow-hidden text-center rounded-xl
-                `}
-                >
-                  <Image
-                    className={`w-full rounded-md`}
-                    src={newRaffleData?.inscriptionPreviewUrl}
-                    alt="Card"
-                    height={100}
-                    width={100}
-                  />
-                  <div className="pb-5 text-xl font-bold ">
-                    {newRaffleData.inscriptionNumber}
-                  </div>
-                </div>
                 <div className="flex flex-col gap-7">
                   <div className="flex flex-col gap-4">
                     <div className="text-xl font-bold">Ticket price</div>
@@ -123,13 +95,6 @@ const RaffleConfirmation = ({
                       </h2>
                     </div>
                   </div>
-                  <div className="flex flex-col gap-4">
-                    <div className="text-xl font-bold">End time</div>
-                    <div className="flex gap-3 text-xl">
-                      <Icons.calendar className="h-7 w-7" />
-                      {newRaffleData?.endDate}
-                    </div>
-                  </div>
                 </div>
               </div>
             </div>
@@ -144,7 +109,7 @@ const RaffleConfirmation = ({
             </div>
             <Button
               variant={"primary"}
-              onClick={handleConfirm}
+              onClick={handleConfirmPayment}
               className="mt-5 modal-close"
             >
               Confirm
@@ -156,4 +121,4 @@ const RaffleConfirmation = ({
   );
 };
 
-export default RaffleConfirmation;
+export default PaymentConfirmation;
