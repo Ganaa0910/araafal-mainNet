@@ -2,13 +2,7 @@ import { Ticket } from "@/lib/types/dbTypes";
 import moment from "moment";
 import { useEffect, useState } from "react";
 
-export default function Leaderboard({
-  tokens,
-
-  tickets,
-}: {
-  tickets: Ticket[];
-}) {
+export default function Leaderboard({ tickets }: { tickets: Ticket[] }) {
   const [lastUpdated, setLastUpdated] = useState(moment());
   const [timeDifference, setTimeDifference] = useState("");
   const [copiedIndex, setCopiedIndex] = useState(-1);

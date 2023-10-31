@@ -32,16 +32,15 @@ export default function CreateRaffle() {
   const [name, setName] = useState("");
   const [desc, setDesc] = useState("");
   const [price, setPrice] = useState("");
-  const [chosenInscription, setChosenInscription] = useState();
+  const [chosenInscription, setChosenInscription] = useState(null);
   const [chosenCurrency, setChosenCurrency] = useState({
     id: 1,
     title: "BTC",
     imagePath: "/bitcoin.svg",
   });
-  console.log(
-    "🚀 ~ file: index.tsx:36 ~ CreateRaffle ~ chosenCurrency:",
-    chosenCurrency,
-  );
+
+  const [submitLoading, setSubmitLoading] = useState(false);
+
   const [isRaffleFeatured, setIsRaffleFeatured] = useState(false);
 
   const [newRaffleData, setNewRaffleData] = useState({});
@@ -57,6 +56,10 @@ export default function CreateRaffle() {
   };
 
   const toggleConfirmation = () => {
+    setName("");
+    setDesc("");
+    setPrice("");
+    setChosenInscription(null);
     setRaffleSubmitModal(!raffleSubmitModal);
   };
   const handleDateChange = (date) => {
@@ -80,10 +83,6 @@ export default function CreateRaffle() {
     },
     enabled: account.connected == true,
   });
-  console.log(
-    "🚀 ~ file: index.tsx:57 ~ CreateRaffle ~ inscriptions:",
-    inscriptions,
-  );
 
   const handleButtonClick = (status: boolean) => {
     setIsRaffleFeatured(status);
@@ -98,7 +97,9 @@ export default function CreateRaffle() {
   };
 
   const handleSubmit = async () => {
+    setSubmitLoading(true);
     if (!name || !desc || !price || !chosenInscription || !chosenCurrency) {
+      setSubmitLoading(false);
       toast.error("Please fill all the fields");
       return;
     }
@@ -132,6 +133,7 @@ export default function CreateRaffle() {
 
       await waitOneSecond();
       setRaffleSubmitModal(true);
+      setSubmitLoading(false);
       // let txid = await window.unisat.sendInscription(
       //   walletInfo.nftDepositAddress,
       //   `${chosenInscription.inscriptionId}`,
@@ -341,7 +343,14 @@ export default function CreateRaffle() {
                 variant={"primary"}
                 className="w-full"
                 onClick={() => handleSubmit()}
+                disabled={submitLoading}
               >
+                {submitLoading && (
+                  <Icons.spinner
+                    className="w-4 h-4 mr-0 md:mr-2 animate-spin "
+                    aria-hidden="true"
+                  />
+                )}
                 Submit
               </Button>
             </div>

@@ -18,6 +18,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { Icons } from "../ui/icons";
 import { useSelector } from "react-redux";
 import { TransactionType } from "@/lib/types/dbTypes";
+import { toast } from "sonner";
 
 const PaymentConfirmation = ({
   handleClose,
@@ -27,29 +28,29 @@ const PaymentConfirmation = ({
   paymentToken,
   paymentAmount,
   paymentTokenImage,
+  paymentType,
 }) => {
-  console.log(
-    "🚀 ~ file: raffle-confirmation.tsx:24 ~ newRaffleData:",
-    newRaffleData,
-  );
   const queryClient = useQueryClient();
   const account = useSelector((state) => state.account);
+  const ticket = useSelector((state) => state.ticket);
   const [filteredIns, setFilteredIns] = useState([]);
+
   const [selectedIns, setSelectedIns] = useState({});
+  const [submitLoading, setSubmitLoading] = useState(false);
 
   const { mutateAsync: triggerTicket } = useMutation({
     mutationFn: createTicket,
     onError: () => {
+      toast.error("We faced error when creating ticket");
+      setSubmitLoading(false);
       console.log(error);
     },
     onSuccess: () => {
+      setSubmitLoading(false);
+      toast.success("Successfully bought ticket");
       queryClient.invalidateQueries({ queryKey: ["tickets"] });
     },
   });
-
-  const handleConfirmPayment = () => {
-    triggerPaymentConfirmation;
-  };
 
   const { data: inscriptions } = useQuery({
     queryKey: ["userbrc20", account],
@@ -61,21 +62,13 @@ const PaymentConfirmation = ({
   const { data, error, isLoading, mutateAsync } = useMutation({
     mutationFn: createRaffle,
     onError: () => {
+      toast.error("We faced error when creating raffle");
+      setSubmitLoading(false);
       console.log(error);
     },
     onSuccess: async () => {
-      // const variables: TransactionType = {
-      //   transactionId: txid,
-      //   ticketCount: ticket.amount,
-      //   raffleId: data.id,
-      //   userId: account.address,
-      //   transactionData: {
-      //     transactionNonce: "1",
-      //     transactionType: "TICKET_TRANSACTION",
-      //     token_ticker: paymentToken,
-      //   },
-      // };
-      // await triggerTicket({ newTicketData: variables });
+      toast.success("Successfully created raffle");
+      setSubmitLoading(false);
       queryClient.invalidateQueries({ queryKey: ["raffles"] });
     },
   });
@@ -84,7 +77,6 @@ const PaymentConfirmation = ({
     queryClient.invalidateQueries({ queryKey: ["userbrc20", account] });
   }, [show]);
 
-  console.log(inscriptions);
   useEffect(() => {
     if (inscriptions) {
       const filteredArray = inscriptions.filter(
@@ -97,12 +89,19 @@ const PaymentConfirmation = ({
 
   async function handleInscribeButtonClick() {
     try {
+      setSubmitLoading(true);
       const tx = await window.unisat.inscribeTransfer(
         paymentToken,
         paymentAmount,
       );
+      setSubmitLoading(false);
+      toast.success(
+        "Successfully inscribed. Now wait until block is confirmed",
+      );
       // setInscriptionId(tx.inscriptionId);
     } catch (error) {
+      toast.error("We faced error when inscribing");
+      setSubmitLoading(false);
       console.log(error);
     }
   }
@@ -115,7 +114,6 @@ const PaymentConfirmation = ({
       inscriptionId,
     );
     console.log("🚀 ~ file: payment-confirmation.tsx:117 ~ txid:", txid);
-
     return txid;
   }
 
@@ -127,56 +125,76 @@ const PaymentConfirmation = ({
     });
   };
 
+  // async function transferInscription(inscriptionId: string) {
+  //   console.log(account);
+
+  // }
+
   async function transferInscription() {
-    // let txid = await window.unisat.sendInscription(
-    //   "tb1pk4dzxehzkcmqk3c685gukuhjamvcs690tdlemrcrvttjy273gqmsrh2us5",
-    //   selectedIns?.inscriptionId,
-    // );
-    const psattx = await sendInscriptionAndName(
-      "tb1pk4dzxehzkcmqk3c685gukuhjamvcs690tdlemrcrvttjy273gqmsrh2us5",
-      selectedIns?.inscriptionId,
-    );
-    console.log(
-      "🚀 ~ file: payment-confirmation.tsx:139 ~ transferInscription ~ psattx:",
-      psattx,
-    );
-    await waitOneSecond();
+    setSubmitLoading(true);
+    if (paymentType == "RAFFLE_PAYMENT") {
+      try {
+        const psattx = await sendInscriptionAndName(
+          "tb1pk4dzxehzkcmqk3c685gukuhjamvcs690tdlemrcrvttjy273gqmsrh2us5",
+          selectedIns?.inscriptionId,
+        );
+        console.log(
+          "🚀 ~ file: payment-confirmation.tsx:139 ~ transferInscription ~ psattx:",
+          psattx,
+        );
+        await waitOneSecond();
 
-    let txid = await window.unisat.sendInscription(
-      newRaffleData.nftDepositAddress,
-      `${newRaffleData.inscriptionId}`,
-    );
+        let txid = await window.unisat.sendInscription(
+          newRaffleData.nftDepositAddress,
+          `${newRaffleData.inscriptionId}`,
+        );
 
-    const updatedRaffleData = {
-      ...newRaffleData,
-      featuredTransanctionId: psattx,
-      nftDepositTransactionId: txid,
-    };
-    if (psattx && txid) {
-      console.log("successs");
-      await mutateAsync({ newRaffleData: updatedRaffleData });
+        const updatedRaffleData = {
+          ...newRaffleData,
+          featuredTransanctionId: psattx,
+          nftDepositTransactionId: txid,
+        };
+        if (psattx && txid) {
+          console.log("successs");
+          await mutateAsync({ newRaffleData: updatedRaffleData });
+        }
+      } catch (error) {
+        toast.error("We faced error when creating raffle payment");
+        setSubmitLoading(false);
+        console.log(error);
+      }
+    } else if (paymentType == "TICKET_PAYMENT") {
+      try {
+        let txid = await window.unisat.sendInscription(
+          newRaffleData.ticketDepositAddress,
+          selectedIns?.inscriptionId,
+        );
+        console.log(
+          "🚀 ~ file: PurchaseOverlay.tsx:160 ~ transferInscription ~ txid:",
+          txid,
+        );
+        if (txid) {
+          const variables = {
+            transactionId: txid,
+            ticketCount: ticket.amount,
+            raffleId: newRaffleData.id,
+            userId: account.address,
+            transactionData: {
+              transactionNonce: "1",
+              transactionType: "TICKET_TRANSACTION",
+              token_ticker: paymentToken,
+            },
+          };
+          await triggerTicket({ newTicketData: variables });
+        }
+        // console.log(txid);
+      } catch (error) {
+        toast.error("We faced error when creating ticket payment");
+        setSubmitLoading(false);
+        console.log(error);
+      }
     }
   }
-
-  // const formattedDate = newRaffleData?.endDate?.toLocaleString("en-US", {
-  //   year: "numeric",
-  //   month: "long",
-  //   day: "numeric",
-  //   hour: "numeric",
-  //   minute: "numeric",
-  //   second: "numeric",
-  //   timeZoneName: "short",
-  // });
-
-  // const renderHumanReadableDate = (dateString: string) => {
-  //   console.log(
-  //     "🚀 ~ file: raffle-confirmation.tsx:53 ~ renderHumanReadableDate ~ dateString:",
-  //     dateString,
-  //   );
-  //   const date = new Date(dateString);
-
-  //   return date.toLocaleDateString("en-GB");
-  // };
 
   return (
     <>
@@ -185,67 +203,65 @@ const PaymentConfirmation = ({
           <DialogHeader>
             <DialogTitle>Transfer</DialogTitle>
           </DialogHeader>
-          <div className="w-full">
-            <div className="flex flex-col">
-              <div className="flex gap-6">
-                <div className="flex flex-col gap-7">
-                  <div className="flex flex-col gap-4">
-                    <div className="text-xl font-bold">Payment info</div>
-                    <div className="flex gap-3">
-                      <Image
-                        src={
-                          paymentTokenImage ? paymentTokenImage : "/bitcoin.svg"
-                        }
-                        alt="Your Image"
-                        width={28}
-                        height={28}
-                        className="w-7 h-7"
-                      />
-                      <h2 className="text-xl font-bold">
-                        {paymentAmount} {paymentToken ? paymentToken : "BTC"}
-                      </h2>
-                    </div>
-                    {inscriptions && (
-                      <div className="flex flex-col gap-4">
-                        <div className="text-xl font-bold">
-                          Transferable balance:
-                        </div>
-                        {filteredIns ? (
-                          filteredIns.map((ins) => (
-                            <div className="flex flex-col gap-3" key={ins.id}>
-                              <button
-                                className={`flex gap-3 border  py-3 px-5 rounded-lg text-xl font-bold ${
-                                  selectedIns == ins
-                                    ? " border-brand"
-                                    : "border-white"
-                                }`}
-                                onClick={() => setSelectedIns(ins)}
-                              >
-                                <Image
-                                  src={
-                                    paymentTokenImage
-                                      ? paymentTokenImage
-                                      : "/bitcoin.svg"
-                                  }
-                                  alt="Your Image"
-                                  width={28}
-                                  height={28}
-                                  className="w-7 h-7"
-                                />
-                                {ins.amount} {ins.ticker}
-                              </button>
-                            </div>
-                          ))
-                        ) : (
-                          <div>You dont have inscription. Inscribe now</div>
-                        )}
-                      </div>
-                    )}
-                  </div>
+
+          <div className="flex flex-col gap-7">
+            <div className="flex flex-col gap-4">
+              <div className="flex justify-between w-full">
+                <div className="text-xl font-bold">Payment info:</div>
+                <div className="flex gap-3">
+                  <Image
+                    src={paymentTokenImage ? paymentTokenImage : "/bitcoin.svg"}
+                    alt="Your Image"
+                    width={28}
+                    height={28}
+                    className="w-7 h-7"
+                  />
+                  <h2 className="text-xl font-bold">
+                    {paymentAmount} {paymentToken ? paymentToken : "BTC"}
+                  </h2>
                 </div>
               </div>
+              {inscriptions && (
+                <div className="flex flex-col gap-4">
+                  <div className="text-xl font-bold">Transferable balance:</div>
+                  <div className="grid grid-cols-2 gap-6">
+                    {filteredIns &&
+                      filteredIns.map((ins) => (
+                        <div className="flex w-full gap-3" key={ins.id}>
+                          <button
+                            className={`flex gap-3 border w-full py-3 px-5 rounded-lg text-xl font-bold ${
+                              selectedIns == ins
+                                ? " border-brand"
+                                : "border-white"
+                            }`}
+                            onClick={() => setSelectedIns(ins)}
+                          >
+                            <Image
+                              src={
+                                paymentTokenImage
+                                  ? paymentTokenImage
+                                  : "/bitcoin.svg"
+                              }
+                              alt="Your Image"
+                              width={28}
+                              height={28}
+                              className="w-7 h-7"
+                            />
+                            {ins.amount} {ins.ticker}
+                          </button>
+                        </div>
+                      ))}
+                  </div>
+                  {paymentToken != "BTC" && filteredIns.length == 0 && (
+                    <div className="text-center">
+                      You don&apos;t have inscription. Inscribe now
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
           </div>
+
           <DialogFooter className="sm:justify-start">
             <div className="flex flex-row justify-end w-full h-auto gap-2">
               <DialogClose asChild>
@@ -254,12 +270,19 @@ const PaymentConfirmation = ({
                 </Button>
               </DialogClose>
             </div>
-            {filteredIns.length == 0 ? (
+            {paymentToken != "BTC" && filteredIns.length == 0 ? (
               <Button
                 variant={"primary"}
                 onClick={handleInscribeButtonClick}
                 className="mt-5 modal-close"
+                disabled={submitLoading}
               >
+                {submitLoading && (
+                  <Icons.spinner
+                    className="w-4 h-4 mr-0 md:mr-2 animate-spin "
+                    aria-hidden="true"
+                  />
+                )}
                 Incribe
               </Button>
             ) : (
@@ -267,7 +290,14 @@ const PaymentConfirmation = ({
                 variant={"primary"}
                 onClick={transferInscription}
                 className="mt-5 modal-close"
+                disabled={submitLoading}
               >
+                {submitLoading && (
+                  <Icons.spinner
+                    className="w-4 h-4 mr-0 md:mr-2 animate-spin "
+                    aria-hidden="true"
+                  />
+                )}
                 Transfer
               </Button>
             )}
