@@ -110,3 +110,7 @@ export type RefreshToken = {
   updatedAt: Date;
   User: User;
 };
+
+export type Account = {
+  address: string; // Assuming `address` is a string, adjust the type accordingly if needed
+};

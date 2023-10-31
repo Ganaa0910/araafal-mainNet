@@ -10,6 +10,7 @@ import { useSelector } from "react-redux";
 
 const MyInscriptions = () => {
   const account = useSelector((state) => state.account);
+  console.log(account.address);
   const [walletInfo, setWalletInfo] = useState({});
   //profile routing ends
   const router = useRouter();
@@ -28,7 +29,7 @@ const MyInscriptions = () => {
     <Layout>
       <PageTitle name="Profile" />
       <div className="flex flex-row w-full h-auto gap-4 ">
-        <ProfileTabs />
+        <ProfileTabs account={account} />
 
         <div className="w-[904px] h-[694px] flex flex-col border-2 border-brand rounded-lg px-6 pt-5 pb-6 gap-5 bg-brandBlack overflow-auto ">
           <div className="text-2xl text-grey-300">My inscriptions</div>

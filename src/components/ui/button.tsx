@@ -15,10 +15,11 @@ const buttonVariants = cva(
         secondary: " border-2 border-brand bg-brandBlack font-bold",
         featured:
           "border-2 border-lightblue w-full text-whiteish py-3 px-5 bg-brandBlack hover:featured-gradient",
-        option:
-          "bg-slate-100 text-slate-900 hover:bg-slate-100/80 dark:bg-slate-800 dark:text-slate-50 dark:hover:bg-slate-800/80",
+        plain: "border-2 border-white text-white py-3 px-5 w-full",
         ghost: "text-oragne-900",
         link: "text-slate-900 underline-offset-4 hover:underline dark:text-slate-50",
+        active: "border-2 bg-brand border-brand font-bold",
+        notActive: "border-2 bg-brandBlack border-brand font-bold",
       },
       size: {
         default: "h-10 px-5 py-3",

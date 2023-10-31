@@ -1,15 +1,15 @@
 import PageTitle from "@/components/atom/page-title";
 import Layout from "@/components/layout/layout";
 import ProfileTabs from "@/components/profile/profile-tabs";
+import { Button } from "@/components/ui/button";
 import { TransactionWithTicket, getTicketsByUser } from "@/lib/service";
 import { useQuery } from "@tanstack/react-query";
+import moment from "moment";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
-import moment from "moment";
+import { useState } from "react";
 import Countdown from "react-countdown";
-import { Button } from "@/components/ui/button";
-
+import { useSelector } from "react-redux";
 enum TicketStatus {
   TICKET_ENDED,
   TICKET_RUNNING,
@@ -25,7 +25,7 @@ const Tic = () => {
   const [ticketCounts, setTicketCount] = useState<{ [key: string]: number }>(
     {},
   );
-
+  const account = useSelector((state) => state.account);
   const [sortedTransactionIds, setSortedTransactionIds] = useState([]);
   const onClick = () => {
     setTicketStatus(TicketStatus.TICKET_RUNNING);
@@ -47,7 +47,7 @@ const Tic = () => {
     <Layout>
       <PageTitle name="Profile" />
       <div className="flex flex-row w-full h-auto gap-4 ">
-        <ProfileTabs />
+        <ProfileTabs account={account} />
 
         <div className="w-[904px] min-h-[694px] flex flex-col border-2 border-brand rounded-xl px-6 pt-5 pb-6 gap-3 overflow-auto">
           <div className="flex justify-between text-2xl text-white">

@@ -1,14 +1,14 @@
 import { useRouter } from "next/router";
 
+import PageTitle from "@/components/atom/page-title";
+import Layout from "@/components/layout/layout";
 import ProfileTabs from "@/components/profile/profile-tabs";
 import { Button } from "@/components/ui/button";
 import { getUserRaffles } from "@/lib/service";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import Link from "next/link";
-
-import PageTitle from "@/components/atom/page-title";
-import Layout from "@/components/layout/layout";
+import { useSelector } from "react-redux";
 
 // export default function Raf() {
 //   //profile routing ends
@@ -70,6 +70,7 @@ import Layout from "@/components/layout/layout";
 // }
 
 export default function Raf() {
+  const account = useSelector((state) => state.account);
   const router = useRouter();
   const slug = router.query.addr;
   const { data: raffles, isLoading } = useQuery({
@@ -86,7 +87,7 @@ export default function Raf() {
     <Layout>
       <PageTitle name="Profile" />
       <div className="flex flex-row w-full h-auto gap-4 ">
-        <ProfileTabs />
+        <ProfileTabs account={account} />
         <div className="w-[904px] h-auto grid grid-cols-3 border-2 border-brand bg-brandBlack  rounded-lg px-6 pt-5 pb-6 gap-5 overflow-auto">
           {!isLoading && raffles?.length > 0 ? (
             raffles.map((raffle) => (

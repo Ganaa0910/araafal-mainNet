@@ -1,24 +1,22 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import { useRouter } from "next/router";
 
 import { Button } from "@/components/ui/button";
 // import MyInscriptions from '@/components/MyInscriptions'
-import axios from "axios";
-import Image from "next/image";
+import PageTitle from "@/components/atom/page-title";
+import Layout from "@/components/layout/layout";
 import ProfileTabs from "@/components/profile/profile-tabs";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useSelector } from "react-redux";
+import { Icons } from "@/components/ui/icons";
 import {
   createReferral,
   getPosition,
   getReferralCode,
   getUserProfile,
 } from "@/lib/service";
-import Layout from "@/components/layout/layout";
-import PageTitle from "@/components/atom/page-title";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Link from "next/link";
-import { Icons } from "@/components/ui/icons";
+import { useSelector } from "react-redux";
 import { toast } from "sonner";
 export default function Profile() {
   //profile routing ends
@@ -72,7 +70,7 @@ export default function Profile() {
       {/* <div className="py-[48px] md:py-[64px] px-4 md:px-[40px] w-full grid grid-cols-1 gap-8 justify-start items-center bg-red-600"> */}
       <div className="grid items-start justify-start w-full h-auto grid-cols-12 gap-8 ">
         <div className="col-span-3">
-          <ProfileTabs />
+          <ProfileTabs account={account} />
         </div>
         <div className="flex flex-col col-span-6 gap-8">
           <div className="grid w-full grid-cols-2 gap-8">
