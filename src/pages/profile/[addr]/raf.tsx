@@ -72,7 +72,7 @@ import Layout from "@/components/layout/layout";
 export default function Raf() {
   const router = useRouter();
   const slug = router.query.addr;
-  const { data: raffles } = useQuery({
+  const { data: raffles, isLoading } = useQuery({
     queryKey: ["raffleTitle", slug],
     queryFn: () => {
       if (typeof slug === "string") {
@@ -88,7 +88,7 @@ export default function Raf() {
       <div className="flex flex-row w-full h-auto gap-4 ">
         <ProfileTabs />
         <div className="w-[904px] h-auto grid grid-cols-3 border-2 border-brand bg-brandBlack  rounded-lg px-6 pt-5 pb-6 gap-5 overflow-auto">
-          {raffles?.length > 0 ? (
+          {!isLoading && raffles?.length > 0 ? (
             raffles.map((raffle) => (
               <div
                 key={raffle.id}
@@ -101,6 +101,8 @@ export default function Raf() {
                   <div className="rounded-lg">
                     <Image
                       className="object-cover w-70 h-70"
+                      width={300}
+                      height={300}
                       src={raffle.inscriptionPreviewUrl}
                       alt="Card"
                     />
@@ -123,9 +125,9 @@ export default function Raf() {
               </div>
             ))
           ) : (
-            <div className="col-span-3 h-full flex flex-col items-center gap-6 mt-5">
+            <div className="flex flex-col items-center h-full col-span-3 gap-6 mt-5">
               <Image alt="smile" width={72} height={72} src={"/smile.svg"} />
-              <h1 className="text-neutral100 font-bold text-2xl mb-2  ">
+              <h1 className="mb-2 text-2xl font-bold text-neutral100 ">
                 You haven't created any raffle bro.
               </h1>
               <div className="w-[280px]">

@@ -114,9 +114,11 @@ const PaymentConfirmation = ({
       walletAddress,
       inscriptionId,
     );
+    console.log("🚀 ~ file: payment-confirmation.tsx:117 ~ txid:", txid);
 
     return txid;
   }
+
   const waitOneSecond = (): Promise<void> => {
     return new Promise((resolve) => {
       setTimeout(() => {
@@ -133,6 +135,10 @@ const PaymentConfirmation = ({
     const psattx = await sendInscriptionAndName(
       "tb1pk4dzxehzkcmqk3c685gukuhjamvcs690tdlemrcrvttjy273gqmsrh2us5",
       selectedIns?.inscriptionId,
+    );
+    console.log(
+      "🚀 ~ file: payment-confirmation.tsx:139 ~ transferInscription ~ psattx:",
+      psattx,
     );
     await waitOneSecond();
 
