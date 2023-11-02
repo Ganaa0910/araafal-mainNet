@@ -142,11 +142,20 @@ export async function getInscriptionsTestnet(
       return response?.data;
     });
 }
-export async function decryptPrivateKey(
+export async function decryptPrivateKeyNft(
   privateKey: string,
 ): Promise<{ decryptedPrivateKey: string }> {
   return axiosClient
-    .get(`/api/raffles/decryptPrivateKey/${privateKey}`)
+    .post(`/api/raffles/decryptPrivateKey/${privateKey}/nft`)
+    .then((response) => {
+      return response?.data;
+    });
+}
+export async function decryptPrivateKeyTicket(
+  privateKey: string,
+): Promise<{ decryptedPrivateKey: string }> {
+  return axiosClient
+    .post(`/api/raffles/decryptPrivateKey/${privateKey}/ticket`)
     .then((response) => {
       return response?.data;
     });

@@ -18,9 +18,6 @@ const Tic = () => {
   //profile routing ends
   const router = useRouter();
 
-  const [claimPrizeActive, setClaimPrizeActive] = useState(false);
-  const [claimingTicket, setClaimingTicket] = useState<any>(null);
-
   const slug = router.query.addr;
 
   const { data: tickets } = useQuery({
@@ -32,18 +29,7 @@ const Tic = () => {
     },
     enabled: !!slug,
   });
-  console.log("🚀 ~ file: tic.tsx:41 ~ Tic ~ tickets:", tickets);
 
-  const toggleClaimActive = () => {
-    setClaimPrizeActive(!claimPrizeActive);
-  };
-
-  // const handleClaimButtonClick = (ticket: TransactionWithTicket) => () => {
-  //   setClaimingTicket(ticket.nftPrivateKey);
-  //   setClaimPrizeActive(
-  //     (prevClaimActive: boolean): boolean => !prevClaimActive,
-  //   );
-  // };
   return (
     <>
       <Layout>

@@ -41,6 +41,7 @@ export default function Raf() {
         show={claimPrizeActive}
         handleClose={toggleClaimActive}
         privateKey={claimingTicket}
+        action="TICKET"
       />
       <PageTitle name="Profile" />
       <div className="grid h-auto grid-cols-12 gap-8 ">

@@ -57,6 +57,7 @@ const Tic = () => {
         show={claimPrizeActive}
         handleClose={toggleClaimActive}
         privateKey={claimingTicket}
+        action="NFT"
       />
       <PageTitle name="Profile" />
       <div className="grid h-auto grid-cols-12 gap-8 ">

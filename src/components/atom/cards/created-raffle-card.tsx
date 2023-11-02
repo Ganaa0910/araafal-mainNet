@@ -15,7 +15,7 @@ export default function CreatedRaffleCard({
   raffle: Raffle;
   onClaimButtonClick: () => void;
   setClaimingTicket: (raffle: string | null) => void;
-  isPublic: Boolean;
+  isPublic?: boolean;
 }) {
   const router = useRouter();
   const { data: ticketCount } = useQuery({
