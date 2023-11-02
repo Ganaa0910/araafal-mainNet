@@ -34,7 +34,12 @@ export default function Raf() {
           {!isLoading && raffles && raffles?.length > 0 ? (
             raffles.map((raffle) => (
               <div key={raffle.id}>
-                <CreatedRaffleCard raffle={raffle} isPublic={true} />
+                <CreatedRaffleCard
+                  raffle={raffle}
+                  isPublic={true}
+                  onClaimButtonClick={() => {}}
+                  setClaimingTicket={(raffle) => {}}
+                />
               </div>
             ))
           ) : (
