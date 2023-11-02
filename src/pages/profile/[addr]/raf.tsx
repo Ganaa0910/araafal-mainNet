@@ -5,11 +5,11 @@ import Layout from "@/components/layout/layout";
 import ProfileTabs from "@/components/profile/profile-tabs";
 import { Button } from "@/components/ui/button";
 import { getUserRaffles } from "@/lib/service";
+import { ReduxAccount } from "@/lib/types";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import Link from "next/link";
 import { useSelector } from "react-redux";
-import { ReduxAccount } from "@/lib/types";
 
 // export default function Raf() {
 //   //profile routing ends
@@ -87,9 +87,11 @@ export default function Raf() {
   return (
     <Layout>
       <PageTitle name="Profile" />
-      <div className="flex flex-row w-full h-auto gap-4 ">
-        <ProfileTabs account={account} />
-        <div className="w-[904px] h-auto grid grid-cols-3 border-2 border-brand bg-brandBlack  rounded-lg px-6 pt-5 pb-6 gap-5 overflow-auto">
+      <div className="grid grid-cols-12 h-auto gap-8 ">
+        <div className="col-span-3">
+          <ProfileTabs account={account} />
+        </div>
+        <div className="col-span-9  h-auto grid grid-cols-3 border-2 border-brand bg-brandBlack  rounded-lg px-6 pt-5 pb-6 gap-5 overflow-auto">
           {!isLoading && raffles && raffles?.length > 0 ? (
             raffles.map((raffle) => (
               <div

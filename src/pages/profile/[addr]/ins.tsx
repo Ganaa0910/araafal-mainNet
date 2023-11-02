@@ -5,8 +5,6 @@ import { getInscriptionsTestnet } from "@/lib/service";
 import { ReduxAccount } from "@/lib/types";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
-import { useRouter } from "next/router";
-import { useState } from "react";
 import { useSelector } from "react-redux";
 
 const MyInscriptions = () => {
@@ -24,10 +22,12 @@ const MyInscriptions = () => {
   return (
     <Layout>
       <PageTitle name="Profile" />
-      <div className="flex flex-row w-full h-auto gap-4 ">
-        <ProfileTabs account={account} />
+      <div className="grid grid-cols-12 h-auto gap-8">
+        <div className="col-span-3">
+          <ProfileTabs account={account} />
+        </div>
 
-        <div className="w-[904px] h-[694px] flex flex-col border-2 border-brand rounded-lg px-6 pt-5 pb-6 gap-5 bg-brandBlack overflow-auto ">
+        <div className="col-span-9 h-[694px] flex flex-col border-2 border-brand rounded-lg px-6 pt-5 pb-6 gap-5 bg-brandBlack overflow-auto ">
           <div className="text-2xl text-grey-300">My inscriptions</div>
           <div className="grid grid-cols-4 gap-4">
             {inscriptions?.map((ins) => (
