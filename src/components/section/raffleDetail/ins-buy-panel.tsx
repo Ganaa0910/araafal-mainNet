@@ -7,9 +7,9 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import raffle from "../../../../raffleDetails.json";
+import TicketConfirmation from "@/components/modal/ticket-confirmation";
 
 export default function BuyPanel({
-  tokens,
   raffleDetail,
   tickets,
 }: {
@@ -59,96 +59,18 @@ export default function BuyPanel({
     setIsPurchaseOverlayOpen(false);
   };
 
-  // const renderBuyPanel = () => (
-  //   <>
-  //     <div className="grid grid-cols-2">
-  //       <div className="pb-6">
-  //         <p className="pb-2 text-base text-lighterGray">Price per ticket</p>
-  //         <h2 className="text-3xl">
-  //           {raffleDetail?.price} {raffleDetail?.sellingTokenTicker}
-  //         </h2>
-  //       </div>
-  //       <div className="pb-6">
-  //         <p className="pb-2 text-base">Tickets purchiased</p>
-  //         <h2 className="text-3xl">{tickets?.length}</h2>
-  //       </div>
-  //       <div className="flex justify-start w-full col-span-2" role="group">
-  //         <div className="flex flex-col w-full">
-  //           <p className="pb-2 text-base">Select amount</p>
-  //           <div className="flex flex-row justify-between w-full group">
-  //             <div className="flex items-center px-5 py-2 text-lg border rounded-lg border-lightGray bg-brand">
-  //               <div className="flex justify-between px-6 md:px-0 bg-black">
-  //                 <button
-  //                   className="p-0 text-3xl text-white border-none rounded-r-none select-none bg-inherit"
-  //                   onClick={handleDecrement}
-  //                 >
-  //                   -
-  //                 </button>
-  //                 <input
-  //                   className="w-20 text-2xl text-center focus:border-none bg-inherit focus:outline-none"
-  //                   type="text"
-  //                   min="1"
-  //                   readOnly
-  //                   max="1000"
-  //                   value={ticket.amount}
-  //                   placeholder="1"
-  //                   onChange={(e) => handleInputChange(e)}
-  //                 />
-  //                 <button
-  //                   className="p-0 text-3xl text-white border-none rounded-l-none rounded-r select-none bg-inherit"
-  //                   onClick={handleIncrement}
-  //                 >
-  //                   +
-  //                 </button>
-  //               </div>
-  //             </div>
-  //             <div className="w-1/2 items-start">
-  //               <p className="pb-2 text-base">Total cost</p>
-  //               {raffleDetail && (
-  //                 <h2 className="text-3xl">
-  //                   {ticket.amount * raffleDetail?.price}{" "}
-  //                   {raffleDetail.sellingTokenTicker}
-  //                 </h2>
-  //               )}
-  //             </div>
-  //           </div>
-  //         </div>
-  //       </div>
-  //     </div>
-  //     <div className="w-full h-[2px] bg-brand"></div>
-  //     {raffleActive && (
-  //       <div className="flex flex-col">
-  //         {/* <p className="inline-block w-full pb-6 text-base break-all select-all bg-defaultGray text-start">
-  //             {raffleDetail?.ownerId}
-  //           </p> */}
-  //         {/* <button
-  //           className="text-base bg-defaultGray border-lightGray px-[16px] py-[12px] h-[48px] w-full md:w-auto hover:bg-darkerLightGray hover:border-lightGray"
-  //           onClick={handleOpenPurchaseOverlay}
-  //         >
-  //           Purchase
-  //         </button> */}
-  //         <Button variant={"secondary"}>Purchase</Button>
-
-  //         <PurchaseOverlay
-  //           isOpen={isPurchaseOverlayOpen}
-  //           onClose={handleClosePurchaseOverlay}
-  //           raffleDetail={raffleDetail}
-  //         />
-  //       </div>
-  //     )}
-  //     {/* <div className="w-full h-0.5 bg-lightGray"></div>
-  //     <div className="flex flex-col">
-  //       <CountdownTimer />
-  //     </div> */}
-  //   </>
-  // );
-  const renderBuyPanel2 = () => (
+  const renderBuyPanel = () => (
     <>
+      <TicketConfirmation
+        show={isPurchaseOverlayOpen}
+        handleClose={setIsPurchaseOverlayOpen}
+        newRaffleData={raffleDetail}
+      />
       <div className="flex flex-col">
         <div className="flex flex-row">
-          <div className="pb-6 w-1/2">
+          <div className="w-1/2 pb-6">
             <p className="pb-2 text-base text-lighterGray">Price per ticket</p>
-            <h2 className="text-xl flex flex-row">
+            <h2 className="flex flex-row text-xl">
               <Image
                 src={"/bitcoin.svg"}
                 alt="bitcoin"
@@ -159,9 +81,9 @@ export default function BuyPanel({
               {raffleDetail?.price} {raffleDetail?.sellingTokenTicker}
             </h2>
           </div>
-          <div className="pb-6 w-1/2">
+          <div className="w-1/2 pb-6">
             <p className="pb-2 text-base">Tickets purchased</p>
-            <h2 className="text-xl  flex flex-row">
+            <h2 className="flex flex-row text-xl">
               <Image
                 alt="ticket"
                 src={"/ticket.svg"}
@@ -207,7 +129,7 @@ export default function BuyPanel({
             <div className="items-start">
               <p className="pb-2 text-base">Total cost</p>
               {raffleDetail && (
-                <h2 className="text-xl flex flex-row">
+                <h2 className="flex flex-row text-xl">
                   <Image
                     src={"/bitcoin.svg"}
                     alt="bitcoin"
@@ -239,11 +161,11 @@ export default function BuyPanel({
             Buy
           </Button>
 
-          <PurchaseOverlay
+          {/* <PurchaseOverlay
             isOpen={isPurchaseOverlayOpen}
             onClose={handleClosePurchaseOverlay}
             raffleDetail={raffleDetail}
-          />
+          /> */}
         </div>
       )}
       {/* <div className="w-full h-0.5 bg-lightGray"></div>
@@ -255,13 +177,13 @@ export default function BuyPanel({
 
   return (
     <>
-      <div className="rounded-xl w-full pt-5 pb-6 px-6 flex flex-col border-2 border-brand gap-5 raffle-gradient font-bold">
+      <div className="flex flex-col w-full gap-5 px-6 pt-5 pb-6 font-bold border-2 rounded-xl border-brand raffle-gradient">
         <div className="flex justify-between">
           <h1 className="text-2xl">Join the Raffle</h1>
         </div>
 
         {/* {renderBuyPanel()} */}
-        {renderBuyPanel2()}
+        {renderBuyPanel()}
       </div>
     </>
   );

@@ -291,37 +291,6 @@ const PurchaseOverlay = ({
             >
               Confirm
             </button>
-            {/* <div>
-              <input
-                className="px-2 py-3"
-                type="number"
-                onChange={(e) => {
-                  handleInscribeAmountChange(e);
-                }}
-              ></input>
-              <button
-                className="px-2 py-3"
-                onClick={() => handleInscribeButtonClick()}
-              >
-                Inscribe
-              </button>
-            </div>
-            <h2 className="mb-2 text-lg font-semibold">
-              Transferable {selectedToken}:
-            </h2>
-            <div className="grid grid-cols-4 gap-4 text-sm text-lightGray">
-              {transferableInscriptions.map((item) => (
-                <div className="flex flex-col text-sm text-lightGray">
-                  <button
-                    className="flex flex-col items-center"
-                    onClick={() => transferInscription(item.inscriptionId)}
-                  >
-                    <span>Amount: </span>
-                    <span>{item.amount}</span>
-                  </button>
-                </div>
-              ))}
-            </div> */}
           </div>
         ) : (
           <div className="flex justify-center">

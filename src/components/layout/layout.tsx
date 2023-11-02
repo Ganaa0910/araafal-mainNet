@@ -10,7 +10,7 @@ export default function Layout({ children }: { children: ReactNode }) {
   return (
     <>
       <div
-        className={`flex flex-col w-full h-full min-h-screen max-w-[1440px] mx-auto ${subClass}`}
+        className={`flex flex-col w-full h-full  min-h-screen max-w-[1440px] mx-auto ${subClass}`}
       >
         <Navbar />
         <div className="pt-16  px-[112px] pb-40 mb-[144px]">{children}</div>
