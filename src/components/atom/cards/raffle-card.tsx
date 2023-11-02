@@ -1,12 +1,11 @@
+import { getTokenImagePath } from "@/lib/helpers";
+import { getTicketsCountByRaffle } from "@/lib/service";
 import { Raffle } from "@/lib/types/dbTypes";
+import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import Link from "next/link";
-import { Button } from "../../ui/button";
-import { getTokenImagePath } from "@/lib/helpers";
-import { useQuery } from "@tanstack/react-query";
-import { getTicketsCountByRaffle } from "@/lib/service";
-import moment from "moment";
 import Countdown from "react-countdown";
+import { Button } from "../../ui/button";
 
 export default function RaffleCard({
   raffle,

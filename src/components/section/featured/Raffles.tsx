@@ -39,14 +39,15 @@ const Raffles = ({ data }: { data: Raffle[] | undefined }) => {
   }, []);
 
   return (
-    <div className="swiper max-w-[1240px] mx-auto">
+    <div className="swiper w-[1240px] mx-auto">
       <div className="swiper-wrapper">
-        {featuredRaffles?.map((ins) => (
+        {featuredRaffles?.slice(0, 4).map((ins) => (
           <div className="swiper-slide px-8" key={ins.id}>
             <div className="w-full mx-auto h-[432px] border-2 rounded-2xl border-lightblue flex flex-row p-6 gap-10 bg-two-vector bg-cover relative">
-              <div className="absolute top-0 right-0 m-6 bg-secondary-less border rounded border-secondaryLinear  w-[168px] h-[44px]">
-                <div className="">123</div>
+              <div className="absolute top-0 right-0 m-6 bg-secondary-less border rounded border-secondaryLinear w-[168px] h-[44px] grid place-items-center">
+                <div className="font-normal text-xl">25H : 45M : 12S</div>
               </div>
+
               <div className="absolute bottom-0 right-0 m-6 w-[280px]">
                 <Button
                   variant="featured"
