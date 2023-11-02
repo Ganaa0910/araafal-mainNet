@@ -19,7 +19,7 @@ const nextConfig = {
     apiUrl:
       process.env.NODE_ENV === "development"
         ? "http://localhost:3001" // development api
-        : "https://api.araafal.com", // production api
+        : "https://intense-dawn-28474-65522bbea206.herokuapp.com", // production api
   },
 };
 
