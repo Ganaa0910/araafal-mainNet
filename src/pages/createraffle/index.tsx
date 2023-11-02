@@ -43,12 +43,8 @@ export default function CreateRaffle() {
   });
 
   const [submitLoading, setSubmitLoading] = useState(false);
-
   const [isRaffleFeatured, setIsRaffleFeatured] = useState(false);
-
   const [newRaffleData, setNewRaffleData] = useState<Raffle | null>(null);
-
-  const [success, setSuccess] = useState(false);
 
   const toggleInscriptions = () => {
     setShowInscriptions(!showInscriptions);
@@ -86,6 +82,12 @@ export default function CreateRaffle() {
 
     return combinedDateTimeString;
   };
+
+  useEffect(() => {
+    let now = new Date();
+    now.setHours(now.getHours() + 2);
+    setSelectedTime(now);
+  }, []);
 
   const { data: inscriptions } = useQuery({
     queryKey: ["inscriptions", account],
@@ -221,7 +223,7 @@ export default function CreateRaffle() {
       )}
       <PageTitle name="Create Raffle" />
 
-      <div className="w-full h-[544px] flex flex-row gap-8 mb-52">
+      <div className="w-full h-[574px] flex flex-row gap-8 mb-52">
         {chosenInscription ? (
           <div
             className="flex flex-col items-center justify-center w-1/3 overflow-hidden border-2 h-5/6 border-lightGray rounded-xl border-brand"
@@ -341,7 +343,7 @@ export default function CreateRaffle() {
                 </button>
               </div>
             </div>
-            <div className="w-full border-2 h-[216px] border-brand raffle-gradient rounded-xl flex flex-col gap-4 px-6 pb-6 pt-5">
+            <div className="w-full border-2 h-[256px] border-brand raffle-gradient rounded-xl flex flex-col gap-4 px-6 pb-6 pt-5">
               <h1 className="text-xl">End Date</h1>
               <DatePicker
                 selected={selectedDate}
@@ -349,6 +351,7 @@ export default function CreateRaffle() {
                 dateFormat="dd/MM/yyyy"
                 className="w-full px-4 py-3 text-xl rounded-lg bg-brandBlack text-whiteish active:border active:border-brand"
                 placeholderText="Pick a date"
+                disabled
               />
               <DatePicker
                 selected={selectedTime}
@@ -360,7 +363,11 @@ export default function CreateRaffle() {
                 dateFormat="h:mm"
                 timeCaption="Time"
                 className="w-full px-4 py-3 text-xl rounded-lg bg-brandBlack text-whiteish focus:border focus:border-brand"
+                disabled
               />
+              <div className="text-center">
+                In testnet launch user can&apos;t choose end date
+              </div>
             </div>
 
             <div className="w-full">
@@ -390,11 +397,6 @@ export default function CreateRaffle() {
           </div>
         </div>
       </div>
-      {success && (
-        <div className="text-xl font-bold text-center text-green-500">
-          Success!
-        </div>
-      )}
     </Layout>
   );
 }

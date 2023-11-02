@@ -116,6 +116,13 @@ function ConnectWalletButton() {
         setIsConnecting(true);
         const domain = window.location.host;
         const accounts = await window.unisat.requestAccounts();
+        const res = await window.unisat.getNetwork();
+        if (res == "livenet") {
+          let res = await window.unisat.switchNetwork("testnet");
+          if (res) {
+            toast.success(`Wallet network changed to testnet`);
+          }
+        }
         const account = accounts[0];
         const randomBytes = crypto.randomBytes(8);
         const hexRandom = randomBytes.toString("hex");
@@ -143,7 +150,7 @@ function ConnectWalletButton() {
         dispatch(setAddress(""));
         dispatch(setConnected(false));
         window.localStorage.removeItem("userProfile");
-        window.location.reload();
+        // window.location.reload();
       });
     } catch (error) {
       console.log(error);
@@ -161,7 +168,7 @@ function ConnectWalletButton() {
   return (
     <div>
       {userProfile && account.connected ? (
-        <Link href={`/profile/${account.address}/ins`}>
+        <Link href={`/profile/${account.address}`}>
           <Button variant="primary">
             {account.address?.slice(0, 6) +
               "..." +
