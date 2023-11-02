@@ -59,6 +59,7 @@ module.exports = {
       },
       boxShadow: {
         shadowBrand: "0 0 240px 0 #FD7C5B",
+        shadowFeatured: "0 0 240px 0 #464DFF",
       },
       keyframes: {
         "accordion-down": {

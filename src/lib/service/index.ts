@@ -46,6 +46,12 @@ export async function fetchRaffles(): Promise<Raffle[]> {
   });
 }
 
+export async function fetchFeaturedRaffles(): Promise<Raffle[]> {
+  return axiosClient.get(`/api/raffles/featured`).then((response) => {
+    return response?.data;
+  });
+}
+
 export async function fetchRaffleById(id: string): Promise<Raffle> {
   return axiosClient.get(`/api/raffles/${id}`).then((response) => {
     return response?.data;
@@ -70,6 +76,13 @@ export async function getTicketsByRaffle(id: string) {
   return axiosClient.get(`/api/raffles/${id}/tickets`).then((response) => {
     return response?.data;
   });
+}
+export async function getTicketsCountByRaffle(id: string) {
+  return axiosClient
+    .get(`/api/raffles/${id}/tickets/count`)
+    .then((response) => {
+      return response?.data;
+    });
 }
 
 export async function getUserProfile(address: string): Promise<User> {

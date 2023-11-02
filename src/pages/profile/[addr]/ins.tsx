@@ -9,7 +9,6 @@ import { useSelector } from "react-redux";
 
 const MyInscriptions = () => {
   const account = useSelector((state: ReduxAccount) => state.account);
-  console.log(account.address);
 
   const { data: inscriptions } = useQuery({
     queryKey: ["inscriptions"],
@@ -22,7 +21,7 @@ const MyInscriptions = () => {
   return (
     <Layout>
       <PageTitle name="Profile" />
-      <div className="grid grid-cols-12 h-auto gap-8">
+      <div className="grid h-auto grid-cols-12 gap-8">
         <div className="col-span-3">
           <ProfileTabs account={account} />
         </div>
