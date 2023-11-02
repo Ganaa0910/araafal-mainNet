@@ -45,7 +45,7 @@ export default function Register() {
     referralCode,
   );
 
-  const { mutateAsync } = useMutation({
+  const { mutateAsync: whitelistHandler } = useMutation({
     mutationFn: whitelistLoginHandler,
     onError: (error) => {
       console.log(error);
@@ -56,7 +56,7 @@ export default function Register() {
       queryClient.invalidateQueries({ queryKey: ["userProfile"] });
       setIsConnecting(false);
       toast.success(`Successfully connected`);
-      router.push(`/profile/${data.walletAddress}`);
+      router.push(`/profile/${data?.user?.walletAddress}`);
     },
   });
   const { mutateAsync: referralHandler } = useMutation({
@@ -70,7 +70,7 @@ export default function Register() {
       queryClient.invalidateQueries({ queryKey: ["userProfile"] });
       setIsConnecting(false);
       toast.success(`Successfully connected`);
-      router.push(`/profile/${data.walletAddress}`);
+      router.push(`/profile/${data?.user?.walletAddress}`);
     },
   });
 
@@ -84,10 +84,10 @@ export default function Register() {
       const matching = verifyMessage(pubkey, message, signature);
       if (matching) {
         if (referralCode) {
-          await mutateAsync({ walletData: account, referralCode });
+          await referralHandler({ walletData: account, referralCode });
         }
         if (whitelistCode) {
-          await referralHandler({ walletData: account, whitelistCode });
+          await whitelistHandler({ walletData: account, whitelistCode });
         }
         dispatch(setAddress(account));
         dispatch(setConnected(true));
