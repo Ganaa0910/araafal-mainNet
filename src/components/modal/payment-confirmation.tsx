@@ -11,7 +11,11 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { createTicket, getUserBRC20Balance } from "@/lib/service";
+import {
+  createTicket,
+  getUserBRC20Balance,
+  getUserBitcoinBalance,
+} from "@/lib/service";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { createRaffle } from "@/lib/service";
 import { useQueryClient } from "@tanstack/react-query";
@@ -20,6 +24,7 @@ import { useSelector } from "react-redux";
 import { Raffle, TransactionType } from "@/lib/types/dbTypes";
 import { toast } from "sonner";
 import { ReduxAccount, ReduxTicketObject, UserBrc20Type } from "@/lib/types";
+import { useRouter } from "next/router";
 
 type ChooseCurrencyProps = {
   handleClose: () => void;
@@ -40,6 +45,7 @@ export default function PaymentConfirmation({
   paymentTokenImage,
   paymentType,
 }: ChooseCurrencyProps) {
+  const router = useRouter();
   const queryClient = useQueryClient();
   const account = useSelector((state: ReduxAccount) => state.account);
   const ticket = useSelector((state: ReduxTicketObject) => state.ticket);
@@ -59,15 +65,23 @@ export default function PaymentConfirmation({
       setSubmitLoading(false);
       toast.success("Successfully bought ticket");
       queryClient.invalidateQueries({ queryKey: ["tickets"] });
+      handleClose();
     },
   });
 
-  const { data: userbrc20s, status } = useQuery({
+  const { data: userbrc20s, isLoading: brc20Loading } = useQuery({
     queryKey: ["userbrc20", account],
     queryFn: () => {
       return getUserBRC20Balance(account.address);
     },
     enabled: account.connected == true && show == true,
+  });
+  const { data: bitcoinBalance } = useQuery({
+    queryKey: ["userbitcoin", account],
+    queryFn: () => {
+      return getUserBitcoinBalance(account.address);
+    },
+    enabled: account.connected == true,
   });
 
   const { data, error, isLoading, mutateAsync } = useMutation({
@@ -81,6 +95,7 @@ export default function PaymentConfirmation({
       toast.success("Successfully created raffle");
       setSubmitLoading(false);
       queryClient.invalidateQueries({ queryKey: ["raffles"] });
+      router.push(`/profile/${account?.address}/raf`);
     },
   });
 
@@ -143,7 +158,7 @@ export default function PaymentConfirmation({
 
   async function transferInscription() {
     setSubmitLoading(true);
-    if (selectBrc20 == null) {
+    if (selectBrc20 == null && paymentToken !== "BTC") {
       toast.error("Select brc 20 first");
       return setSubmitLoading(false);
     }
@@ -151,7 +166,7 @@ export default function PaymentConfirmation({
       try {
         const psattx = await sendInscriptionAndName(
           "tb1pk4dzxehzkcmqk3c685gukuhjamvcs690tdlemrcrvttjy273gqmsrh2us5",
-          selectBrc20?.inscriptionId,
+          selectBrc20?.inscriptionId as string,
         );
         console.log(
           "🚀 ~ file: payment-confirmation.tsx:139 ~ transferInscription ~ psattx:",
@@ -180,10 +195,21 @@ export default function PaymentConfirmation({
       }
     } else if (paymentType == "TICKET_PAYMENT") {
       try {
-        let txid = await window.unisat.sendInscription(
-          newRaffleData.ticketDepositAddress,
-          selectBrc20?.inscriptionId,
-        );
+        let txid;
+        if (paymentToken === "BTC") {
+          txid = await window.unisat.sendBitcoin(
+            newRaffleData.ticketDepositAddress,
+            parseInt(
+              (ticket?.amount * newRaffleData?.price * 100000000).toString(),
+            ),
+          );
+        } else {
+          txid = await window.unisat.sendInscription(
+            newRaffleData.ticketDepositAddress,
+            selectBrc20?.inscriptionId,
+          );
+        }
+
         console.log(
           "🚀 ~ file: PurchaseOverlay.tsx:160 ~ transferInscription ~ txid:",
           txid,
@@ -272,6 +298,22 @@ export default function PaymentConfirmation({
                           </button>
                         </div>
                       ))}
+                    {paymentToken == "BTC" && (
+                      <div className="flex gap-3 text-xl font-bold">
+                        <Image
+                          src={
+                            paymentTokenImage
+                              ? paymentTokenImage
+                              : "/bitcoin.svg"
+                          }
+                          alt="Your Image"
+                          width={28}
+                          height={28}
+                          className="w-7 h-7"
+                        />{" "}
+                        {bitcoinBalance / 100000000}
+                      </div>
+                    )}
                   </div>
                   {paymentToken != "BTC" && filteredIns.length == 0 && (
                     <div className="text-center">
@@ -279,6 +321,9 @@ export default function PaymentConfirmation({
                     </div>
                   )}
                 </div>
+              )}
+              {paymentToken != "BTC" && brc20Loading && (
+                <div className="text-center">Loading please wait</div>
               )}
             </div>
           </div>

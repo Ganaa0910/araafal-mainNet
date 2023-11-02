@@ -98,7 +98,7 @@ const Tic = () => {
                     key={ticket.id}
                     className="w-full h-[116px]  rounded-lg  grid grid-cols-3 items-center"
                   >
-                    <div className="flex flex-row justify-start gap-4">
+                    <div className="flex flex-row items-center justify-start gap-4">
                       <div className="w-[100px] h-[100px] shrink-0">
                         <Image
                           width={100}
@@ -110,7 +110,6 @@ const Tic = () => {
                       </div>
                       <div className="flex flex-col items-center justify-center h-full">
                         <h3 className="text-xl">{ticket?.name}</h3>
-                        {/* <h1>{transaction.Transaction.}</h1> */}
                       </div>
                     </div>
                     {/* ________________________________------------------------------------_____________________________________ */}

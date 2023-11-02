@@ -27,7 +27,7 @@ export default function Raf() {
     setClaimPrizeActive(!claimPrizeActive);
   };
   const { data: raffles, isLoading } = useQuery({
-    queryKey: ["raffleTitle", slug],
+    queryKey: ["my raffles", slug],
     queryFn: () => {
       if (typeof slug === "string") {
         return getUserRaffles(slug);

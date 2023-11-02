@@ -18,7 +18,9 @@ import { Icons } from "../ui/icons";
 import PaymentConfirmation from "./payment-confirmation";
 import { toast } from "sonner";
 import { Raffle } from "@/lib/types/dbTypes";
-import { InscriptionType } from "@/lib/types";
+import { InscriptionType, ReduxAccount } from "@/lib/types";
+import { useRouter } from "next/router";
+import { useSelector } from "react-redux";
 
 type RaffleConfirmationProps = {
   handleClose: () => void;
@@ -31,6 +33,8 @@ const RaffleConfirmation = ({
   show,
   newRaffleData,
 }: RaffleConfirmationProps) => {
+  const router = useRouter();
+  const account = useSelector((state: ReduxAccount) => state.account);
   const [paymentConfModal, setPaymentConfModal] = useState(false);
   const queryClient = useQueryClient();
   const [submitLoading, setSubmitLoading] = useState(false);
@@ -45,6 +49,7 @@ const RaffleConfirmation = ({
       setSubmitLoading(false);
       toast.success("Successfully created raffle");
       queryClient.invalidateQueries({ queryKey: ["raffles"] });
+      router.push(`/profile/${account?.address}/raf`);
     },
   });
 

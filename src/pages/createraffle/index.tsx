@@ -59,10 +59,10 @@ export default function CreateRaffle() {
   };
 
   const toggleConfirmation = () => {
-    setName("");
-    setDesc("");
-    setPrice("");
-    setChosenInscription(null);
+    // setName("");
+    // setDesc("");
+    // setPrice("");
+    // setChosenInscription(null);
     setRaffleSubmitModal(!raffleSubmitModal);
   };
   const handleDateChange = (date: Date) => {
@@ -105,18 +105,6 @@ export default function CreateRaffle() {
         resolve();
       }, 1000);
     });
-  };
-
-  const handleTestButtoon = async () => {
-    const walletResponse = await createWalletForRaffle();
-    const walletInfo = walletResponse?.data;
-    console.log(walletInfo);
-  };
-
-  const handleNotTestButtoon = async () => {
-    const walletResponse = await createWalletForRaffle();
-    const walletInfo = walletResponse?.data;
-    console.log(walletInfo);
   };
 
   const handleSubmit = async () => {

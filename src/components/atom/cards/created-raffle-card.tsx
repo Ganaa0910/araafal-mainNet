@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { useRouter } from "next/router";
 import { useQuery } from "@tanstack/react-query";
 import { getTicketsCountByRaffle } from "@/lib/service";
+import Countdown from "react-countdown";
 
 export default function CreatedRaffleCard({
   raffle,
@@ -30,12 +31,41 @@ export default function CreatedRaffleCard({
     setClaimingTicket(raffle?.ticketPrivateKey);
     onClaimButtonClick();
   };
-  return (
-    <div className="h-auto overflow-hidden border shadow-lg rounded-2xl">
-      <div>
-        <div className="absolute px-3 py-1 mt-3 ml-3 bg-black bg-opacity-50 border rounded-lg select-none">
-          {raffle.status}
+  const renderer = ({ hours, minutes, seconds, completed }: any) => {
+    if (completed) {
+      // Render a completed state
+      return <div className="">Ended</div>;
+    } else {
+      // Render a countdown
+      return (
+        <div className="">
+          {hours}H : {minutes}M : {seconds}S
         </div>
+      );
+    }
+  };
+  return (
+    <div className="flex flex-col h-auto gap-4 overflow-hidden border shadow-lg rounded-2xl text-whiteish">
+      <div>
+        {raffle.status == "RAFFLE_ONHOLD" && (
+          <div className="absolute px-3 py-1 mt-3 ml-3 border rounded-lg select-none bg-black/50">
+            Pending...
+          </div>
+        )}
+        {raffle.status == "RAFFLE_ENDED" && (
+          <div className="absolute px-3 py-1 mt-3 ml-3 border rounded-lg select-none border-brand bg-black/50">
+            Ended
+          </div>
+        )}
+        {raffle.status == "RAFFLE_RUNNING" && (
+          <div
+            className={`absolute px-3 py-1 mt-3 ml-3 border text-white rounded-lg bg-black/50  ${
+              raffle?.featured ? "border-secondaryLinear" : "border-brand"
+            }`}
+          >
+            <Countdown date={raffle.endDate} renderer={renderer} />
+          </div>
+        )}
         <div className="rounded-lg">
           <Image
             className={`object-cover w-full h-70 rounded-xl ${
@@ -48,11 +78,11 @@ export default function CreatedRaffleCard({
           />
         </div>
       </div>
-      <p className="px-6 pt-2 font-bold text-gray-300">{raffle.name}</p>
-      <p className="px-6 pt-2 font-bold text-gray-300">
+      <h3 className="px-6 text-xl font-bold">{raffle.name}</h3>
+      <p className="px-6 font-bold ">
         {raffle.price} {raffle.sellingTokenTicker}
       </p>
-      <p className="flex gap-3 px-6 pt-2 font-bold text-gray-300">
+      <div className="flex gap-3 px-6 font-bold ">
         <div className="w-6 h-6">
           <Image
             alt="ticket"
@@ -63,9 +93,9 @@ export default function CreatedRaffleCard({
           />
         </div>
         {ticketCount?.count} sold
-      </p>
+      </div>
       {raffle.status == "RAFFLE_ENDED" && (
-        <div className="flex flex-col gap-2 p-2 px-6">
+        <div className="flex flex-col gap-2 px-6 pb-4">
           <Button variant={"primary"} onClick={handleButtonClick}>
             Claim reward
           </Button>
@@ -78,7 +108,7 @@ export default function CreatedRaffleCard({
         </div>
       )}
       {raffle.status == "RAFFLE_RUNNING" && (
-        <div className="flex flex-col gap-2 p-2 px-6">
+        <div className="flex flex-col gap-2 px-6 pb-4">
           <Button variant={"secondary"} onClick={() => handleViewClick()}>
             View
           </Button>
@@ -86,7 +116,7 @@ export default function CreatedRaffleCard({
         </div>
       )}
       {raffle.status == "RAFFLE_ONHOLD" && (
-        <div className="flex flex-col gap-2 p-2 px-6">
+        <div className="flex flex-col gap-2 px-6 pb-4">
           <Button variant={"secondary"} disabled>
             View
           </Button>

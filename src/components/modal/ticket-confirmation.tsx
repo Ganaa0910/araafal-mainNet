@@ -17,6 +17,8 @@ import { useQueryClient } from "@tanstack/react-query";
 import { Icons } from "../ui/icons";
 import PaymentConfirmation from "./payment-confirmation";
 import { Raffle } from "@/lib/types/dbTypes";
+import { ReduxTicketObject } from "@/lib/types";
+import { useSelector } from "react-redux";
 
 type ChooseCurrencyProps = {
   handleClose: () => void;
@@ -29,6 +31,7 @@ export default function TicketConfirmation({
   show,
   newRaffleData,
 }: ChooseCurrencyProps) {
+  const ticket = useSelector((state: ReduxTicketObject) => state.ticket);
   const [paymentConfModal, setPaymentConfModal] = useState(false);
   const queryClient = useQueryClient();
   const [inscribeModal, setInscribeModal] = useState(false);
@@ -118,7 +121,7 @@ export default function TicketConfirmation({
         handleClose={triggerClose}
         newRaffleData={newRaffleData}
         paymentToken={newRaffleData?.sellingTokenTicker}
-        paymentAmount={String(newRaffleData?.price)}
+        paymentAmount={String(newRaffleData?.price * ticket?.amount)}
         paymentTokenImage={
           selectedToken ? selectedToken.imagePath : "/bitcoin.svg"
         }
@@ -169,6 +172,38 @@ export default function TicketConfirmation({
                           ? newRaffleData?.sellingTokenTicker
                           : "BTC"}
                       </h2>
+                    </div>
+                  </div>
+                  <div className="flex flex-col gap-4">
+                    <div className="text-xl font-bold">Ticket count</div>
+                    <div className="flex gap-3">
+                      <h2 className="text-xl font-bold">
+                        {ticket?.amount} tickets
+                      </h2>
+                    </div>
+                  </div>
+                  <div className="flex flex-col gap-4">
+                    <div className="text-xl font-bold">Sum amount</div>
+                    <div className="flex gap-3">
+                      <div className="flex gap-3">
+                        <Image
+                          src={
+                            selectedToken
+                              ? selectedToken.imagePath
+                              : "/bitcoin.svg"
+                          }
+                          alt="Your Image"
+                          width={28}
+                          height={28}
+                          className="w-7 h-7"
+                        />
+                        <h2 className="text-xl font-bold">
+                          {newRaffleData?.price * ticket?.amount}{" "}
+                          {newRaffleData?.sellingTokenTicker
+                            ? newRaffleData?.sellingTokenTicker
+                            : "BTC"}
+                        </h2>
+                      </div>
                     </div>
                   </div>
                 </div>
