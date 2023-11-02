@@ -14,11 +14,11 @@ import {
   getReferralCode,
   getUserProfile,
 } from "@/lib/service";
+import { ReduxAccount } from "@/lib/types";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Link from "next/link";
 import { useSelector } from "react-redux";
 import { toast } from "sonner";
-import { ReduxAccount } from "@/lib/types";
 export default function Profile() {
   //profile routing ends
   const router = useRouter();
@@ -69,7 +69,7 @@ export default function Profile() {
     <Layout>
       <PageTitle name="Profile" />
       {/* <div className="py-[48px] md:py-[64px] px-4 md:px-[40px] w-full grid grid-cols-1 gap-8 justify-start items-center bg-red-600"> */}
-      <div className="grid items-start justify-start w-full h-auto grid-cols-12 gap-8 ">
+      <div className="grid items-start justify-start w-full h-auto grid-cols-12 gap-8">
         <div className="col-span-3">
           <ProfileTabs account={account} />
         </div>
