@@ -1,4 +1,3 @@
-import PurchaseOverlay from "@/components/PurchaseOverlay";
 import { Button } from "@/components/ui/button";
 import { Raffle, Ticket } from "@/lib/types/dbTypes";
 import { setTicketAmount } from "@/slices/mainSlice";
@@ -8,6 +7,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import raffle from "../../../../raffleDetails.json";
 import TicketConfirmation from "@/components/modal/ticket-confirmation";
+import { ReduxTicketObject } from "@/lib/types";
 
 export default function BuyPanel({
   raffleDetail,
@@ -16,13 +16,13 @@ export default function BuyPanel({
   raffleDetail: Raffle | undefined;
   tickets: Ticket[];
 }) {
-  const ticket = useSelector((state) => state.ticket);
+  const ticket = useSelector((state: ReduxTicketObject) => state.ticket);
   const dispatch = useDispatch();
 
   const [raffleActive, setRaffleActive] = useState(true);
   const [isPurchaseOverlayOpen, setIsPurchaseOverlayOpen] = useState(false);
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: any) => {
     const newAmount = parseInt(e.target.value, 10);
     dispatch(setTicketAmount(newAmount));
   };
@@ -61,11 +61,13 @@ export default function BuyPanel({
 
   const renderBuyPanel = () => (
     <>
-      <TicketConfirmation
-        show={isPurchaseOverlayOpen}
-        handleClose={setIsPurchaseOverlayOpen}
-        newRaffleData={raffleDetail}
-      />
+      {raffleDetail && (
+        <TicketConfirmation
+          show={isPurchaseOverlayOpen}
+          handleClose={handleClosePurchaseOverlay}
+          newRaffleData={raffleDetail}
+        />
+      )}
       <div className="flex flex-col">
         <div className="flex flex-row">
           <div className="w-1/2 pb-6">

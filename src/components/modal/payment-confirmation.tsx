@@ -17,25 +17,35 @@ import { createRaffle } from "@/lib/service";
 import { useQueryClient } from "@tanstack/react-query";
 import { Icons } from "../ui/icons";
 import { useSelector } from "react-redux";
-import { TransactionType } from "@/lib/types/dbTypes";
+import { Raffle, TransactionType } from "@/lib/types/dbTypes";
 import { toast } from "sonner";
+import { ReduxAccount, ReduxTicketObject, UserBrc20Type } from "@/lib/types";
 
-const PaymentConfirmation = ({
+type ChooseCurrencyProps = {
+  handleClose: () => void;
+  show: boolean;
+  newRaffleData: Raffle;
+  paymentToken: string;
+  paymentAmount: string;
+  paymentTokenImage: string;
+  paymentType: string;
+};
+
+export default function PaymentConfirmation({
   handleClose,
   show,
   newRaffleData,
-  triggerPaymentConfirmation,
   paymentToken,
   paymentAmount,
   paymentTokenImage,
   paymentType,
-}) => {
+}: ChooseCurrencyProps) {
   const queryClient = useQueryClient();
-  const account = useSelector((state) => state.account);
-  const ticket = useSelector((state) => state.ticket);
-  const [filteredIns, setFilteredIns] = useState([]);
+  const account = useSelector((state: ReduxAccount) => state.account);
+  const ticket = useSelector((state: ReduxTicketObject) => state.ticket);
+  const [filteredIns, setFilteredIns] = useState<UserBrc20Type[]>([]);
 
-  const [selectedIns, setSelectedIns] = useState({});
+  const [selectBrc20, setSelectedBrc20] = useState<UserBrc20Type | null>(null);
   const [submitLoading, setSubmitLoading] = useState(false);
 
   const { mutateAsync: triggerTicket } = useMutation({
@@ -52,13 +62,14 @@ const PaymentConfirmation = ({
     },
   });
 
-  const { data: inscriptions } = useQuery({
+  const { data: userbrc20s } = useQuery({
     queryKey: ["userbrc20", account],
     queryFn: () => {
       return getUserBRC20Balance(account.address);
     },
     enabled: account.connected == true,
   });
+
   const { data, error, isLoading, mutateAsync } = useMutation({
     mutationFn: createRaffle,
     onError: () => {
@@ -78,14 +89,14 @@ const PaymentConfirmation = ({
   }, [show]);
 
   useEffect(() => {
-    if (inscriptions) {
-      const filteredArray = inscriptions.filter(
+    if (userbrc20s) {
+      const filteredArray = userbrc20s.filter(
         (item) => item.ticker === paymentToken && item.amount == paymentAmount,
       );
       setFilteredIns(filteredArray);
-      setSelectedIns(filteredArray[0]);
+      setSelectedBrc20(filteredArray[0]);
     }
-  }, [inscriptions]);
+  }, [userbrc20s]);
 
   async function handleInscribeButtonClick() {
     try {
@@ -132,11 +143,15 @@ const PaymentConfirmation = ({
 
   async function transferInscription() {
     setSubmitLoading(true);
+    if (selectBrc20 == null) {
+      toast.error("Select brc 20 first");
+      return setSubmitLoading(false);
+    }
     if (paymentType == "RAFFLE_PAYMENT") {
       try {
         const psattx = await sendInscriptionAndName(
           "tb1pk4dzxehzkcmqk3c685gukuhjamvcs690tdlemrcrvttjy273gqmsrh2us5",
-          selectedIns?.inscriptionId,
+          selectBrc20?.inscriptionId,
         );
         console.log(
           "🚀 ~ file: payment-confirmation.tsx:139 ~ transferInscription ~ psattx:",
@@ -167,13 +182,13 @@ const PaymentConfirmation = ({
       try {
         let txid = await window.unisat.sendInscription(
           newRaffleData.ticketDepositAddress,
-          selectedIns?.inscriptionId,
+          selectBrc20?.inscriptionId,
         );
         console.log(
           "🚀 ~ file: PurchaseOverlay.tsx:160 ~ transferInscription ~ txid:",
           txid,
         );
-        if (txid) {
+        if (txid && newRaffleData.id) {
           const variables = {
             transactionId: txid,
             ticketCount: ticket.amount,
@@ -186,6 +201,9 @@ const PaymentConfirmation = ({
             },
           };
           await triggerTicket({ newTicketData: variables });
+        } else {
+          toast.error("We faced error when creating ticket payment");
+          setSubmitLoading(false);
         }
         // console.log(txid);
       } catch (error) {
@@ -221,20 +239,23 @@ const PaymentConfirmation = ({
                   </h2>
                 </div>
               </div>
-              {inscriptions && (
+              {userbrc20s && (
                 <div className="flex flex-col gap-4">
                   <div className="text-xl font-bold">Transferable balance:</div>
                   <div className="grid grid-cols-2 gap-6">
                     {filteredIns &&
                       filteredIns.map((ins) => (
-                        <div className="flex w-full gap-3" key={ins.id}>
+                        <div
+                          className="flex w-full gap-3"
+                          key={ins.inscriptionId}
+                        >
                           <button
                             className={`flex gap-3 border w-full py-3 px-5 rounded-lg text-xl font-bold ${
-                              selectedIns == ins
+                              selectBrc20 == ins
                                 ? " border-brand"
                                 : "border-white"
                             }`}
-                            onClick={() => setSelectedIns(ins)}
+                            onClick={() => setSelectedBrc20(ins)}
                           >
                             <Image
                               src={
@@ -306,6 +327,4 @@ const PaymentConfirmation = ({
       </Dialog>
     </>
   );
-};
-
-export default PaymentConfirmation;
+}

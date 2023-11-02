@@ -18,10 +18,12 @@ import "react-datepicker/dist/react-datepicker.css";
 import { useSelector } from "react-redux";
 import RaffleConfirmation from "@/components/modal/raffle-confirmation";
 import { toast } from "sonner";
+import { InscriptionType, ReduxAccount } from "@/lib/types";
+import { Raffle } from "@/lib/types/dbTypes";
 
 export default function CreateRaffle() {
   const queryClient = useQueryClient();
-  const account = useSelector((state) => state.account);
+  const account = useSelector((state: ReduxAccount) => state.account);
 
   const [showInscriptions, setShowInscriptions] = useState(false);
   const [showCurrency, setShowCurrency] = useState(false);
@@ -32,7 +34,8 @@ export default function CreateRaffle() {
   const [name, setName] = useState("");
   const [desc, setDesc] = useState("");
   const [price, setPrice] = useState("");
-  const [chosenInscription, setChosenInscription] = useState(null);
+  const [chosenInscription, setChosenInscription] =
+    useState<InscriptionType | null>(null);
   const [chosenCurrency, setChosenCurrency] = useState({
     id: 1,
     title: "BTC",
@@ -43,7 +46,7 @@ export default function CreateRaffle() {
 
   const [isRaffleFeatured, setIsRaffleFeatured] = useState(false);
 
-  const [newRaffleData, setNewRaffleData] = useState({});
+  const [newRaffleData, setNewRaffleData] = useState<Raffle | null>(null);
 
   const [success, setSuccess] = useState(false);
 
@@ -62,17 +65,25 @@ export default function CreateRaffle() {
     setChosenInscription(null);
     setRaffleSubmitModal(!raffleSubmitModal);
   };
-  const handleDateChange = (date) => {
+  const handleDateChange = (date: Date) => {
     setSelectedDate(date);
   };
-  const handleTimeChange = (time) => {
+  const handleTimeChange = (time: Date) => {
+    console.log("🚀 ~ file: index.tsx:70 ~ handleTimeChange ~ time:", time);
     setSelectedTime(time);
   };
 
-  const getCombinedDateTime = (date, time) => {
-    const combinedDateTimeString = `${date.getFullYear()}-${
-      date.getMonth() + 1
-    }-${date.getDate()}T${time.getHours()}:${time.getMinutes()}:00Z`;
+  const getCombinedDateTime = (date: Date, time: Date) => {
+    const combinedDateTimeString = new Date(
+      Date.UTC(
+        date.getFullYear(),
+        date.getMonth(),
+        date.getDate(),
+        time.getHours(),
+        time.getMinutes(),
+      ),
+    );
+
     return combinedDateTimeString;
   };
 
@@ -120,7 +131,7 @@ export default function CreateRaffle() {
         endDate: getCombinedDateTime(selectedDate, selectedTime),
         startDate: new Date().toISOString(),
         inscriptionId: `${chosenInscription.inscriptionId}`,
-        inscriptionNumber: chosenInscription.inscriptionNumber,
+        inscriptionNumber: String(chosenInscription.inscriptionNumber),
         inscriptionPreviewUrl: `https://testnet.ordinals.com/content/${chosenInscription.inscriptionId}`,
         ownerId: account.address,
 
@@ -128,6 +139,18 @@ export default function CreateRaffle() {
         nftPrivateKey: walletInfo.nftPrivateKey,
         ticketDepositAddress: walletInfo.ticketDepositAddress,
         ticketPrivateKey: walletInfo.ticketPrivateKey,
+
+        id: null,
+        winnerId: null,
+        featuredTransanctionId: null,
+        nftDepositTransactionId: null,
+        createdAt: null,
+        sellingTicketLimit: null,
+        status: null,
+        featuredTransaction: null, // Add appropriate value for featuredTransaction
+        nftTransaction: null, // Add appropriate value for nftTransaction
+        winner: null, // Add appropriate value for winner
+        tickets: null, // Add appropriate value for tickets
       };
       setNewRaffleData(newRaffleData);
 
@@ -175,24 +198,27 @@ export default function CreateRaffle() {
 
   return (
     <Layout>
-      <ChooseInscription
-        show={showInscriptions}
-        handleClose={toggleInscriptions}
-        inscriptions={inscriptions}
-        setChosenInscription={setChosenInscription}
-      />
+      {inscriptions && (
+        <ChooseInscription
+          show={showInscriptions}
+          handleClose={toggleInscriptions}
+          inscriptions={inscriptions}
+          setChosenInscription={setChosenInscription}
+        />
+      )}
       <ChooseCurrency
         show={showCurrency}
         handleClose={toggleCurrency}
         tokens={tokens}
         setChosenCurrency={setChosenCurrency}
       />
-      <RaffleConfirmation
-        show={raffleSubmitModal}
-        handleClose={toggleConfirmation}
-        newRaffleData={newRaffleData}
-        setChosenCurrency={setChosenCurrency}
-      />
+      {newRaffleData && (
+        <RaffleConfirmation
+          show={raffleSubmitModal}
+          handleClose={toggleConfirmation}
+          newRaffleData={newRaffleData}
+        />
+      )}
       <PageTitle name="Create Raffle" />
 
       <div className="w-full h-[544px] flex flex-row gap-8 mb-52">
@@ -226,7 +252,12 @@ export default function CreateRaffle() {
             className="flex flex-col items-center justify-center w-1/3 border-2 h-[464px] border-brand rounded-xl primary-gradient"
             onClick={toggleInscriptions}
           >
-            <Image src={"/nft.svg"} width={96} height={96} />
+            <Image
+              src={"/nft.svg"}
+              width={96}
+              height={96}
+              alt="nft placeholder"
+            />
             <h1 className="text-2xl text-center text-whiteish">
               Click here to <br /> choose inscription
             </h1>

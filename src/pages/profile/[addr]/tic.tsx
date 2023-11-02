@@ -3,6 +3,7 @@ import Layout from "@/components/layout/layout";
 import ProfileTabs from "@/components/profile/profile-tabs";
 import { Button } from "@/components/ui/button";
 import { TransactionWithTicket, getTicketsByUser } from "@/lib/service";
+import { ReduxAccount } from "@/lib/types";
 import { useQuery } from "@tanstack/react-query";
 import moment from "moment";
 import Image from "next/image";
@@ -19,17 +20,9 @@ enum TicketStatus {
 const Tic = () => {
   //profile routing ends
   const router = useRouter();
-  const [ticketStatus, setTicketStatus] = useState<TicketStatus>(
-    TicketStatus.TICKET_RUNNING,
-  );
-  const [ticketCounts, setTicketCount] = useState<{ [key: string]: number }>(
-    {},
-  );
-  const account = useSelector((state) => state.account);
-  const [sortedTransactionIds, setSortedTransactionIds] = useState([]);
-  const onClick = () => {
-    setTicketStatus(TicketStatus.TICKET_RUNNING);
-  };
+
+  const account = useSelector((state: ReduxAccount) => state.account);
+
   const slug = router.query.addr;
 
   const { data: tickets } = useQuery({
@@ -60,8 +53,12 @@ const Tic = () => {
             tickets?.rows?.map(
               (ticket: TransactionWithTicket, index: number) => {
                 const isEnded = moment().isAfter(moment(ticket.endDate));
-                console.log("🚀 ~ file: tic.tsx:62 ~ Tic ~ isEnded:", isEnded);
-                const renderer = ({ hours, minutes, seconds, completed }) => {
+                const renderer = ({
+                  hours,
+                  minutes,
+                  seconds,
+                  completed,
+                }: any) => {
                   if (completed) {
                     // Render a completed state
                     return <div>Ended</div>;
@@ -117,47 +114,6 @@ const Tic = () => {
                         <Countdown date={ticket.endDate} renderer={renderer} />
                       )}
                     </div>
-                    {/* <div className="items-end text-left ">
-                      {ticketStatus == TicketStatus.TICKET_ENDED && (
-                        <button
-                          className={`w-[133px] flex flex-row text-center text-2xl  bg-defaultGray border-lightGray px-[16px] py-[12px] h-auto border-white`}
-                        >
-                          <Image
-                            src={"/claim.svg"}
-                            width={1}
-                            height={1}
-                            className="w-6 h-6"
-                          ></Image>
-                          Claim
-                        </button>
-                      )}
-                      {ticketStatus == TicketStatus.TICKET_RUNNING && (
-                        <button
-                          className={`w-[133px] flex flex-row text-center text-2xl  bg-defaultGray border-lightGray px-[16px] py-[12px] h-auto border-white`}
-                        >
-                          <Image
-                            src={"/claim.svg"}
-                            width={1}
-                            height={1}
-                            className="w-6 h-6"
-                          ></Image>
-                          Running
-                        </button>
-                      )}
-                      {ticketStatus == TicketStatus.TICKET_ENDED && (
-                        <button
-                          className={`w-[133px] flex flex-row text-center text-2xl  bg-defaultGray border-lightGray px-[16px] py-[12px] h-auto border-white`}
-                        >
-                          <Image
-                            src={"/claim.svg"}
-                            width={1}
-                            height={1}
-                            className="w-6 h-6"
-                          ></Image>
-                          Ended
-                        </button>
-                      )}
-                    </div> */}
                   </div>
                 );
               },

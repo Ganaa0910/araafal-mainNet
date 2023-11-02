@@ -12,8 +12,25 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 
-const ChooseCurrency = ({ handleClose, show, tokens, setChosenCurrency }) => {
-  const handle = (token) => {
+type Token = {
+  id: number;
+  title: string;
+  imagePath: string;
+};
+type ChooseCurrencyProps = {
+  handleClose: () => void;
+  show: boolean;
+  tokens: Token[];
+  setChosenCurrency: (currency: Token) => void;
+};
+
+export default function ChooseCurrency({
+  handleClose,
+  show,
+  tokens,
+  setChosenCurrency,
+}: ChooseCurrencyProps) {
+  const handle = (token: Token) => {
     handleClose();
     setChosenCurrency(token);
   };
@@ -46,6 +63,6 @@ const ChooseCurrency = ({ handleClose, show, tokens, setChosenCurrency }) => {
       </DialogContent>
     </Dialog>
   );
-};
+}
 
-export default ChooseCurrency;
+// export default ChooseCurrency;

@@ -11,24 +11,22 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { InscriptionType } from "@/lib/types";
 
-const ChooseInscription = ({
+type ChooseCurrencyProps = {
+  handleClose: () => void;
+  show: boolean;
+  inscriptions: InscriptionType[];
+  setChosenInscription: (inscriptions: InscriptionType | null) => void;
+};
+
+export default function ChooseInscription({
   handleClose,
   show,
   inscriptions,
   setChosenInscription,
-  onChange,
-  error,
-}) => {
-  console.log(
-    "🚀 ~ file: Choose.tsx:10 ~ Choose ~ inscriptions:",
-    inscriptions,
-  );
-  const [selectedCards, setSelectedCards] = useState({});
-
-  const showHideClassName = show
-    ? "fixed inset-0 flex items-center justify-center z-50"
-    : "hidden";
+}: ChooseCurrencyProps) {
+  const [selectedCards, setSelectedCards] = useState<any>(null);
 
   const confirmation = () => {
     setChosenInscription(selectedCards);
@@ -45,7 +43,7 @@ const ChooseInscription = ({
           <div className="grid w-full h-full grid-cols-4 gap-8 overflow-auto text-center ">
             {inscriptions?.map((ins) => (
               <div
-                key={ins}
+                key={ins.inscriptionId}
                 className={`w-full flex flex-col gap-3 overflow-hidden rounded-xl  ${
                   selectedCards == ins
                     ? "border-2 border-red-500 "
@@ -88,6 +86,4 @@ const ChooseInscription = ({
       </DialogContent>
     </Dialog>
   );
-};
-
-export default ChooseInscription;
+}

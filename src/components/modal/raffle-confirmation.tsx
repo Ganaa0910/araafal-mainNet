@@ -17,18 +17,20 @@ import { useQueryClient } from "@tanstack/react-query";
 import { Icons } from "../ui/icons";
 import PaymentConfirmation from "./payment-confirmation";
 import { toast } from "sonner";
+import { Raffle } from "@/lib/types/dbTypes";
+import { InscriptionType } from "@/lib/types";
+
+type RaffleConfirmationProps = {
+  handleClose: () => void;
+  show: boolean;
+  newRaffleData: Raffle;
+};
 
 const RaffleConfirmation = ({
   handleClose,
   show,
   newRaffleData,
-  setChosenInscription,
-}) => {
-  console.log(
-    "🚀 ~ file: raffle-confirmation.tsx:26 ~ newRaffleData:",
-    newRaffleData,
-  );
-
+}: RaffleConfirmationProps) => {
   const [paymentConfModal, setPaymentConfModal] = useState(false);
   const queryClient = useQueryClient();
   const [submitLoading, setSubmitLoading] = useState(false);
@@ -68,10 +70,9 @@ const RaffleConfirmation = ({
     }
   };
 
-  const saveData = async () => {
-    await mutateAsync({ newRaffleData });
+  const triggerClose = () => {
+    setPaymentConfModal(false);
   };
-
   // const formattedDate = newRaffleData?.endDate?.toLocaleString("en-US", {
   //   year: "numeric",
   //   month: "long",
@@ -92,16 +93,28 @@ const RaffleConfirmation = ({
   //   return date.toLocaleDateString("en-GB");
   // };
 
+  const formatDate = (dateString: Date) => {
+    const options: any = {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+    };
+    const date = new Date(dateString);
+    return date.toLocaleDateString("en-US", options).replace(",", "");
+  };
+
   return (
     <>
       <PaymentConfirmation
         show={paymentConfModal}
-        handleClose={setPaymentConfModal}
+        handleClose={triggerClose}
         newRaffleData={newRaffleData}
         paymentToken={"JOEM"}
         paymentAmount="10"
         paymentTokenImage="/images/psat.png"
-        triggerPaymentConfirmation={saveData}
+        // triggerPaymentConfirmation={saveData}
         paymentType="RAFFLE_PAYMENT"
       />
       <Dialog open={show} onOpenChange={handleClose}>
@@ -154,7 +167,7 @@ const RaffleConfirmation = ({
                     <div className="text-xl font-bold">End time</div>
                     <div className="flex gap-3 text-xl">
                       <Icons.calendar className="h-7 w-7" />
-                      {newRaffleData?.endDate}
+                      {formatDate(newRaffleData?.endDate)}
                     </div>
                   </div>
                 </div>

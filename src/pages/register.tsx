@@ -10,13 +10,14 @@ import {
   whitelistLoginHandler,
 } from "@/lib/service/postRequest";
 import { verifyMessage } from "@unisat/wallet-utils";
-import { useSelector, RootStateOrAny, useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { setAddress, setConnected } from "@/slices/mainSlice";
 import moment from "moment";
 import crypto from "crypto";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Icons } from "@/components/ui/icons";
+import { ReduxAccount } from "@/lib/types";
 
 type SavedUser = {
   address: string;
@@ -28,7 +29,7 @@ export default function Register() {
   //https://www.araafal.com/register?referralCode=
   const router = useRouter();
   const queryClient = useQueryClient();
-  const account = useSelector((state: RootStateOrAny) => state.account);
+  const account = useSelector((state: ReduxAccount) => state.account);
   const dispatch = useDispatch();
   const { referralCode } = router.query;
   const { whitelistCode } = router.query;

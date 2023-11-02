@@ -49,7 +49,7 @@ export default function Detail() {
 
         <div className="flex flex-row w-full gap-8">
           <div className="flex flex-col w-[280px] gap-8">
-            <ViewInscription raffleDetail={raffleDetail} />
+            {raffleDetail && <ViewInscription raffleDetail={raffleDetail} />}
             <InscriptionDetails raffleDetail={raffleDetail} />
           </div>
 

@@ -2,6 +2,7 @@ import PageTitle from "@/components/atom/page-title";
 import Layout from "@/components/layout/layout";
 import ProfileTabs from "@/components/profile/profile-tabs";
 import { getInscriptionsTestnet } from "@/lib/service";
+import { ReduxAccount } from "@/lib/types";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import { useRouter } from "next/router";
@@ -9,13 +10,8 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 
 const MyInscriptions = () => {
-  const account = useSelector((state) => state.account);
+  const account = useSelector((state: ReduxAccount) => state.account);
   console.log(account.address);
-  const [walletInfo, setWalletInfo] = useState({});
-  //profile routing ends
-  const router = useRouter();
-
-  const slug = router.query.addr;
 
   const { data: inscriptions } = useQuery({
     queryKey: ["inscriptions"],
@@ -36,11 +32,11 @@ const MyInscriptions = () => {
           <div className="grid grid-cols-4 gap-4">
             {inscriptions?.map((ins) => (
               <div
-                key={ins}
+                key={ins.inscriptionId}
                 className="flex flex-col h-[280px] w-[202px] rounded-xl items-center"
               >
                 <div className="mb-4">
-                  <div className="overflow-hidden rounded-lg  w-52 h-52">
+                  <div className="overflow-hidden rounded-lg w-52 h-52">
                     <Image
                       className="w-full rounded-md"
                       src={`https://testnet.ordinals.com/content/${ins.inscriptionId}`}

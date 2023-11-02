@@ -4,28 +4,6 @@ declare global {
   }
 }
 
-export enum RaffleStatus {
-  RAFFLE_ONHOLD,
-  RAFFLE_RUNNING,
-  RAFFLE_ENDED,
-  RAFFLE_CANCELED,
-}
-
-export enum TransactionStatus {
-  TRANSACTION_UNCONFIRMED,
-  TRANSACTION_CONFIRMED,
-  TRANSACTION_FAILED,
-}
-
-export enum TransactionType {
-  FEATURED_TRANSACTION,
-  TICKET_TRANSACTION,
-  RAFFLE_TRANSACTION,
-  AUCTION_TRANSACTION,
-  WINNER_RAFFLE_TRANSACTION,
-  WINNER_AUCTION_TRANSACTION,
-}
-
 export type EmailAddress = {
   id: number;
   email: string;
@@ -33,17 +11,17 @@ export type EmailAddress = {
 };
 
 export type Raffle = {
-  id: string | undefined;
+  id: string | null;
   name: string;
   description: string;
   createdAt: Date | null;
   price: number;
-  sellingTokenTicker: string | undefined;
-  sellingTicketLimit: number;
+  sellingTokenTicker: string;
+  sellingTicketLimit: number | null;
   featured: boolean;
   endDate: Date;
-  startDate: Date;
-  status: RaffleStatus | undefined;
+  startDate: String;
+  status: RaffleStatus | null;
   inscriptionId: string;
   inscriptionPreviewUrl: string;
   ownerId: string;
@@ -56,9 +34,11 @@ export type Raffle = {
   ticketPrivateKey: string | null;
   featuredTransaction: Transaction | null;
   nftTransaction: Transaction | null;
-  owner: User;
+  inscriptionNumber: string | null;
   winner: User | null;
-  Ticket: Ticket[];
+  tickets: Ticket[] | null;
+
+  sellingTokenImage: string | null;
 };
 
 export type Ticket = {
@@ -68,8 +48,8 @@ export type Ticket = {
   transactionId: string;
   raffleId: string;
   raffle: Raffle;
-  Transaction: Transaction;
-  User: User;
+  transaction: Transaction;
+  user: User;
 };
 
 export type Transaction = {
@@ -78,12 +58,21 @@ export type Transaction = {
   createdAt: Date;
   status: TransactionStatus;
   userId: string;
-  token_ticker: string;
+  tokenTicker: string;
   transactionNonce: string;
   transactionType: TransactionType;
-  Raffle: Raffle | null;
-  Ticket: Ticket | null;
-  User: User;
+  featuredRaffle: Raffle | null;
+  depositRaffle: Raffle | null;
+  tickets: Ticket[];
+  user: User;
+};
+
+export type Notification = {
+  id: number;
+  message: string;
+  read: boolean;
+  userId: string;
+  user: User;
 };
 
 export type User = {
@@ -92,25 +81,70 @@ export type User = {
   profileInscriptionLink: string | null;
   twitterHandle: string | null;
   discordHandle: string | null;
-  contestPoint: string | null;
   createdAt: Date;
-  myRaffle: Raffle[];
-  winnedRaffle: Raffle[];
-  RefreshTokens: RefreshToken[];
-  Ticket: Ticket[];
-  Transaction: Transaction[];
+  contestPoint: number;
+  email: string | null;
+  contests: ContestActivity[];
+  notifications: Notification[];
+  myRaffles: Raffle[];
+  winnedRaffles: Raffle[];
+  referral: Referral | null;
+  tickets: Ticket[];
+  transactions: Transaction[];
 };
 
-export type RefreshToken = {
-  id: string;
-  hashedToken: string;
+export type Referral = {
+  id: number;
+  code: string;
+  uses: number;
+  maxUses: number;
   userId: string;
-  revoked: boolean;
-  createdAt: Date;
-  updatedAt: Date;
-  User: User;
+  user: User;
 };
 
+export type Whitelist = {
+  code: string;
+  email: string;
+  emailaddressId: number;
+};
+
+export type ContestActivity = {
+  id: number;
+  type: string;
+  points: number;
+  createdAt: Date;
+  userId: string;
+  user: User;
+};
+
+export type FailedRequest = {
+  id: number;
+  target: string;
+  message: string;
+  timestamp: Date;
+};
+
+export enum RaffleStatus {
+  RAFFLE_ONHOLD = "RAFFLE_ONHOLD",
+  RAFFLE_RUNNING = "RAFFLE_RUNNING",
+  RAFFLE_ENDED = "RAFFLE_ENDED",
+  RAFFLE_CANCELED = "RAFFLE_CANCELED",
+}
+
+export enum TransactionStatus {
+  TRANSACTION_UNCONFIRMED = "TRANSACTION_UNCONFIRMED",
+  TRANSACTION_CONFIRMED = "TRANSACTION_CONFIRMED",
+  TRANSACTION_FAILED = "TRANSACTION_FAILED",
+}
+
+export enum TransactionType {
+  FEATURED_TRANSACTION = "FEATURED_TRANSACTION",
+  TICKET_TRANSACTION = "TICKET_TRANSACTION",
+  RAFFLE_TRANSACTION = "RAFFLE_TRANSACTION",
+  AUCTION_TRANSACTION = "AUCTION_TRANSACTION",
+  WINNER_RAFFLE_TRANSACTION = "WINNER_RAFFLE_TRANSACTION",
+  WINNER_AUCTION_TRANSACTION = "WINNER_AUCTION_TRANSACTION",
+}
 export type Account = {
   address: string; // Assuming `address` is a string, adjust the type accordingly if needed
 };

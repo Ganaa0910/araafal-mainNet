@@ -16,13 +16,19 @@ import { createRaffle } from "@/lib/service";
 import { useQueryClient } from "@tanstack/react-query";
 import { Icons } from "../ui/icons";
 import PaymentConfirmation from "./payment-confirmation";
+import { Raffle } from "@/lib/types/dbTypes";
 
-const TicketConfirmation = ({ handleClose, show, newRaffleData }) => {
-  console.log(
-    "🚀 ~ file: raffle-confirmation.tsx:26 ~ newRaffleData:",
-    newRaffleData,
-  );
+type ChooseCurrencyProps = {
+  handleClose: () => void;
+  show: boolean;
+  newRaffleData: Raffle;
+};
 
+export default function TicketConfirmation({
+  handleClose,
+  show,
+  newRaffleData,
+}: ChooseCurrencyProps) {
   const [paymentConfModal, setPaymentConfModal] = useState(false);
   const queryClient = useQueryClient();
   const [inscribeModal, setInscribeModal] = useState(false);
@@ -56,7 +62,9 @@ const TicketConfirmation = ({ handleClose, show, newRaffleData }) => {
   const saveData = async () => {
     await mutateAsync({ newRaffleData });
   };
-
+  const triggerClose = () => {
+    setPaymentConfModal(false);
+  };
   // const formattedDate = newRaffleData?.endDate?.toLocaleString(    "en-US", {
   //   year: "numeric",
   //   month: "long",
@@ -92,14 +100,14 @@ const TicketConfirmation = ({ handleClose, show, newRaffleData }) => {
     <>
       <PaymentConfirmation
         show={paymentConfModal}
-        handleClose={setPaymentConfModal}
+        handleClose={triggerClose}
         newRaffleData={newRaffleData}
         paymentToken={newRaffleData?.sellingTokenTicker}
-        paymentAmount={newRaffleData?.price}
+        paymentAmount={String(newRaffleData?.price)}
         paymentTokenImage={
           selectedToken ? selectedToken.imagePath : "/bitcoin.svg"
         }
-        triggerPaymentConfirmation={saveData}
+        // triggerPaymentConfirmation={saveData}
         paymentType="TICKET_PAYMENT"
       />
       <Dialog open={show} onOpenChange={handleClose}>
@@ -172,6 +180,4 @@ const TicketConfirmation = ({ handleClose, show, newRaffleData }) => {
       </Dialog>
     </>
   );
-};
-
-export default TicketConfirmation;
+}

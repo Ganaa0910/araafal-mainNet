@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { useDispatch, useSelector, RootStateOrAny } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { verifyMessage } from "@unisat/wallet-utils";
 import { Buffer } from "buffer";
@@ -20,6 +20,7 @@ import { toast } from "sonner";
 import { Button } from "./ui/button";
 import { Icons } from "./ui/icons";
 import { useRouter } from "next/router";
+import { ReduxAccount } from "@/lib/types";
 type SavedUser = {
   address: string;
   signature: string;
@@ -28,7 +29,8 @@ type SavedUser = {
 
 function ConnectWalletButton() {
   const queryClient = useQueryClient();
-  const account = useSelector((state: RootStateOrAny) => state.account);
+  const account = useSelector((state: ReduxAccount) => state.account);
+
   const dispatch = useDispatch();
   const router = useRouter();
   const [userProfile, setUserProfile] = useState<SavedUser | null>(null);
@@ -53,10 +55,7 @@ function ConnectWalletButton() {
       try {
         if (window.unisat) {
           const accounts = await window.unisat.getAccounts();
-          console.log(
-            "🚀 ~ file: ConnectWalletButton.tsx:62 ~ connectWalletOnLoad ~ accounts:",
-            accounts,
-          );
+
           const detailsString = window.localStorage.getItem("userProfile");
 
           if (detailsString !== null) {
@@ -69,10 +68,7 @@ function ConnectWalletButton() {
             }
 
             setUserProfile(detailsJson);
-            console.log(
-              "🚀 ~ file: ConnectWalletButton.tsx:75 ~ connectWalletOnLoad ~ detailsJson:",
-              detailsJson,
-            );
+
             dispatch(setAddress(accounts[0]));
             dispatch(setConnected(true));
           }

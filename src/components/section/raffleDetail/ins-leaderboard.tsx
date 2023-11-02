@@ -1,42 +1,19 @@
 import { Ticket } from "@/lib/types/dbTypes";
 import moment from "moment";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+interface State {
+  searchWallet?: string;
+  // add other state properties as needed
+}
 
 export default function Leaderboard({ tickets }: { tickets: Ticket[] }) {
-  const [lastUpdated, setLastUpdated] = useState(moment());
-  const [timeDifference, setTimeDifference] = useState("");
-  const [copiedIndex, setCopiedIndex] = useState(-1);
   const [searchWallet, setSearchWallet] = useState("");
 
-  const [state, setState] = useState([]);
+  const [state, setState] = useState<State>({});
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      const currentTime = moment();
-      const diff = currentTime.diff(lastUpdated);
-      const duration = moment.duration(diff);
-      const hours = duration.hours().toString().padStart(2, "0");
-      const minutes = duration.minutes().toString().padStart(2, "0");
-      const seconds = duration.seconds().toString().padStart(2, "0");
-      const formattedDiff = `${hours}H:${minutes}M:${seconds}S ago`;
-      setTimeDifference(formattedDiff);
-    }, 1000);
-
-    return () => {
-      clearInterval(interval);
-    };
-  }, [lastUpdated]);
-
-  const handleLeaderboardWalletClick = (address, index) => {
-    navigator.clipboard.writeText(address);
-    setCopiedIndex(index);
-    setTimeout(() => {
-      setCopiedIndex(-1);
-    }, 3000);
-  };
-
-  function handleChange(e) {
-    setState({ ...state, [e.target.name]: e.target.value });
+  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const target = e.target as HTMLInputElement;
+    setState({ ...state, [target.name]: target.value });
   }
 
   const handleSearch = () => {
@@ -44,31 +21,11 @@ export default function Leaderboard({ tickets }: { tickets: Ticket[] }) {
     setSearchWallet(state.searchWallet);
   };
 
-  const handleKeyPress = (e) => {
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       handleSearch();
     }
   };
-
-  // // Group transactions by transactionId and count them
-  // const groupedTransactions: Record<
-  //   string,
-  //   { ticket: TransactionWithTicket[]; count: number }
-  // > = tickets?.reduce((grouped, ticket) => {
-  //   const transactionId = ticket.Transaction?.transactionId;
-  //   if (!grouped[transactionId]) {
-  //     grouped[transactionId] = {
-  //       transactions: [],
-  //       count: 0,
-  //     };
-  //   }
-  //   grouped[transactionId].transactions.push(ticket);
-  //   grouped[transactionId].count++;
-  //   return grouped;
-  // }, {});
-
-  // // Sort the grouped transactions by transactionId
-  // const sortedTransactionIds = Object.keys(groupedTransactions).sort();
 
   return (
     <>
@@ -127,35 +84,14 @@ export default function Leaderboard({ tickets }: { tickets: Ticket[] }) {
                   >
                     <a
                       className="cursor-pointer text-lighterGray hover:text-gray-400"
-                      onClick={() =>
-                        handleLeaderboardWalletClick(token.userId, key)
-                      }
+                      // onClick={() =>
+                      //   handleLeaderboardWalletClick(token.userId, key)
+                      // }
                     >
                       {token.userId.substring(0, 4) +
                         "..." +
                         token.userId.substring(token.userId.length - 4)}
                     </a>
-                    {/* <p>{token.ticket}1</p> */}
-                    {copiedIndex === key && (
-                      <div className="absolute top-2 right-2">
-                        <div className="alert alert-success">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="w-6 h-6 stroke-current shrink-0"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth="2"
-                              d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                            />
-                          </svg>
-                          <span>Address Copied!</span>
-                        </div>
-                      </div>
-                    )}
                   </li>
                 ))}
           </div>

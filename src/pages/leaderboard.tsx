@@ -2,16 +2,13 @@ import PageTitle from "@/components/atom/page-title";
 import Layout from "@/components/layout/layout";
 import { Icons } from "@/components/ui/icons";
 import { getLeaderboard, getPosition, getUserProfile } from "@/lib/service";
+import { ReduxAccount } from "@/lib/types";
 import { useQuery } from "@tanstack/react-query";
 import React from "react";
 import { useSelector } from "react-redux";
 
 export default function Leaderboard() {
-  const account = useSelector((state) => state.account);
-  console.log(
-    "🚀 ~ file: leaderboard.tsx:11 ~ Leaderboard ~ account:",
-    account,
-  );
+  const account = useSelector((state: ReduxAccount) => state.account);
 
   const { isLoading, isError, data, error } = useQuery({
     queryKey: ["userProfile"],
@@ -23,6 +20,10 @@ export default function Leaderboard() {
     queryKey: ["leaderboard"],
     queryFn: () => getLeaderboard(),
   });
+  console.log(
+    "🚀 ~ file: leaderboard.tsx:23 ~ Leaderboard ~ leaderData:",
+    leaderData,
+  );
   const { data: position } = useQuery({
     queryFn: () => getPosition(account?.address),
     queryKey: ["position"],
@@ -42,6 +43,7 @@ export default function Leaderboard() {
             </div>
           </div>
           {!leaderLoading &&
+            leaderData &&
             leaderData.length !== 0 &&
             leaderData?.map((lead) => (
               <div

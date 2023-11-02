@@ -23,24 +23,24 @@ const Raffles = () => {
           <div className="w-full h-full">
             <div className="flex flex-col">
               <h1 className="text-featured">PepePunk</h1>
-              <p className="text-blueFont text-blue-400">NO.7</p>
+              <p className="text-blue-400 text-blueFont">NO.7</p>
             </div>
           </div>
           <div className="w-full h-full">
             <p className="text-xl">
-              This is your chance to own a piece of the internet's most iconic
-              character. Grab your raffle tickets now and cross your fingers for
-              a chance to win this Rare Pepe NFT. Join the raffle and become a
-              part of Pepe's legendary journey!
+              This is your chance to own a piece of the internet`&apos;`s most
+              iconic character. Grab your raffle tickets now and cross your
+              fingers for a chance to win this Rare Pepe NFT. Join the raffle
+              and become a part of Pepe`&apos;`s legendary journey!
             </p>
           </div>
-          <div className="w-full h-full flex flex-col gap-3">
+          <div className="flex flex-col w-full h-full gap-3">
             <div className="flex flex-row gap-3 text-2xl">
-              <Image width={32} height={32} src={"bitcoin.svg"} />
+              <Image width={32} height={32} src={"bitcoin.svg"} alt="bitcoin" />
               <p>0.0069 BTC</p>
             </div>
             <div className="flex flex-row gap-3 text-2xl">
-              <Image width={32} height={32} src={"ticket.svg"} />
+              <Image width={32} height={32} src={"ticket.svg"} alt="ticket" />
               <p>128 sold</p>
             </div>
           </div>

@@ -9,6 +9,7 @@ import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import Link from "next/link";
 import { useSelector } from "react-redux";
+import { ReduxAccount } from "@/lib/types";
 
 // export default function Raf() {
 //   //profile routing ends
@@ -70,7 +71,7 @@ import { useSelector } from "react-redux";
 // }
 
 export default function Raf() {
-  const account = useSelector((state) => state.account);
+  const account = useSelector((state: ReduxAccount) => state.account);
   const router = useRouter();
   const slug = router.query.addr;
   const { data: raffles, isLoading } = useQuery({
@@ -89,7 +90,7 @@ export default function Raf() {
       <div className="flex flex-row w-full h-auto gap-4 ">
         <ProfileTabs account={account} />
         <div className="w-[904px] h-auto grid grid-cols-3 border-2 border-brand bg-brandBlack  rounded-lg px-6 pt-5 pb-6 gap-5 overflow-auto">
-          {!isLoading && raffles?.length > 0 ? (
+          {!isLoading && raffles && raffles?.length > 0 ? (
             raffles.map((raffle) => (
               <div
                 key={raffle.id}
@@ -117,7 +118,8 @@ export default function Raf() {
                 </p>
                 <p className="px-6 pt-2 font-bold text-gray-300">
                   {/* 0 if 0 */}
-                  {raffle.soldAmount == 0 ? 0 : raffle.soldAmount} sold
+                  {/* {raffle.soldAmount == 0 ? 0 : raffle.soldAmount} */}
+                  sold
                 </p>
                 <div className="flex flex-col gap-2 p-2 px-6">
                   <Button>View</Button>
@@ -129,7 +131,7 @@ export default function Raf() {
             <div className="flex flex-col items-center h-full col-span-3 gap-6 mt-5">
               <Image alt="smile" width={72} height={72} src={"/smile.svg"} />
               <h1 className="mb-2 text-2xl font-bold text-neutral100 ">
-                You haven't created any raffle bro.
+                You haven`&apos;`t created any raffle bro.
               </h1>
               <div className="w-[280px]">
                 <Button variant={"primary"} className="w-full">

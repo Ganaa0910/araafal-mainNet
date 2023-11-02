@@ -18,19 +18,20 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Link from "next/link";
 import { useSelector } from "react-redux";
 import { toast } from "sonner";
+import { ReduxAccount } from "@/lib/types";
 export default function Profile() {
   //profile routing ends
   const router = useRouter();
   const queryClient = useQueryClient();
   const [inscriptions, setInscriptions] = useState([]);
   const [loading, setLoading] = useState(true);
-  const account = useSelector((state) => state.account);
+  const account = useSelector((state: ReduxAccount) => state.account);
 
-  const slug = router.query.addr;
+  const slug = router.query.addr as string;
   const { isLoading, isError, data, error } = useQuery({
-    queryKey: ["userProfile"],
+    queryKey: ["userProfile", slug],
     queryFn: () => getUserProfile(slug),
-    enabled: !!slug,
+    enabled: !!slug && typeof slug === "string",
   });
   console.log("🚀 ~ file: index.tsx:37 ~ Profile ~ data:", data);
 

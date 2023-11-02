@@ -2,6 +2,11 @@ import { Raffle, Transaction, User } from "../types/dbTypes";
 import axiosClient from "../axios";
 import SERVER_SETTINGS from "../serverSettings";
 import axios from "axios";
+import {
+  InscriptionType,
+  LeaderboardEachUserType,
+  UserBrc20Type,
+} from "../types";
 
 const apiKey = process.env.UNISAT_API_KEY;
 const apiUrl = "https://open-api.unisat.io";
@@ -12,8 +17,8 @@ const APIURL =
 export interface TransactionType {
   transactionId: string;
   userId: string;
-  raffleId?: string; // This is an optional field, as you mentioned
-  ticketCount: string;
+  raffleId: string; // This is an optional field, as you mentioned
+  ticketCount: number;
   transactionData: {
     transactionNonce: string;
     transactionType: string;
@@ -25,6 +30,11 @@ export interface TransactionWithTicket {
   id: string;
   userId: string;
   raffleId?: string; // This is an optional field, as you mentioned
+  endDate: string;
+  inscriptionPreviewUrl: string;
+  name: string;
+  ticketCount: string;
+  winnerId: string;
   createdAt: Date;
   Transaction: Transaction;
   raffle: Raffle;
@@ -44,7 +54,7 @@ export async function fetchRaffleById(id: string): Promise<Raffle> {
 
 export async function getTicketsByUser(
   id: string,
-): Promise<TransactionWithTicket[]> {
+): Promise<{ rows: TransactionWithTicket[] }> {
   return axiosClient.get(`/api/tickets/user/${id}`).then((response) => {
     return response?.data;
   });
@@ -109,14 +119,18 @@ export async function getInscriptions(address: string) {
     console.error(error);
   }
 }
-export async function getInscriptionsTestnet(address: string) {
+export async function getInscriptionsTestnet(
+  address: string,
+): Promise<InscriptionType[]> {
   return axiosClient
     .get(`/api/users/${address}/inscriptions`)
     .then((response) => {
       return response?.data;
     });
 }
-export async function getUserBRC20Balance(address: string) {
+export async function getUserBRC20Balance(
+  address: string,
+): Promise<UserBrc20Type[]> {
   return axiosClient.get(`/api/users/${address}/brc20`).then((response) => {
     return response?.data;
   });
@@ -140,7 +154,7 @@ export async function getPosition(address: string) {
     });
 }
 
-export async function getLeaderboard() {
+export async function getLeaderboard(): Promise<LeaderboardEachUserType[]> {
   return axiosClient.get(`/api/leaderboard`).then((response) => {
     return response?.data;
   });
