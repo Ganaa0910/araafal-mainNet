@@ -69,11 +69,6 @@ export default function PaymentConfirmation({
     },
     enabled: account.connected == true && show == true,
   });
-  console.log("🚀 ~ file: payment-confirmation.tsx:72 ~ status:", status);
-  console.log(
-    "🚀 ~ file: payment-confirmation.tsx:72 ~ userbrc20s:",
-    userbrc20s,
-  );
 
   const { data, error, isLoading, mutateAsync } = useMutation({
     mutationFn: createRaffle,

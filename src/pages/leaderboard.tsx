@@ -45,14 +45,17 @@ export default function Leaderboard() {
           {!leaderLoading &&
             leaderData &&
             leaderData.length !== 0 &&
-            leaderData?.map((lead) => (
+            leaderData?.map((lead, index) => (
               <div
                 key={lead.walletAddress}
                 className="flex items-center gap-6 px-6 py-2 border-t border-brand/40"
               >
-                <div className="text-2xl">#</div>
+                <div className="text-2xl">{index + 1}</div>
                 <div className="flex justify-between w-full text-xl">
-                  <div>{lead.walletAddress}</div>
+                  <div>
+                    {lead?.walletAddress.slice(0, 4)}...
+                    {lead?.walletAddress.slice(-6)}
+                  </div>
                   <div>{lead.contestPoint}</div>
                 </div>
               </div>
