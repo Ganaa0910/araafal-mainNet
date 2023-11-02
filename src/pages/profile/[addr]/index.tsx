@@ -143,7 +143,7 @@ export default function Profile() {
                     }
                     disabled={referralLoading}
                   >
-                    Copy
+                    {copied ? "Copied" : "Copy"}
                   </Button>
                 </div>
               ) : (
