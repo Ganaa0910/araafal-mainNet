@@ -16,7 +16,7 @@ export default function ActiveRaffles({
           <PageTitle name="Active Raffles" />
           <Button variant={"ghost"}>
             <Link
-              className="px-5 py-3 flex flex-row text-2xl font-bold items-center"
+              className="flex flex-row items-center px-5 py-3 text-2xl font-bold"
               href={"/raffles"}
             >
               See all <Icons.chevronRight className="w-5 h-5" />
@@ -28,7 +28,7 @@ export default function ActiveRaffles({
         <div className="grid grid-cols-4 gap-4">
           {data?.slice(-8).map((ins) => (
             <div key={ins.id}>
-              <RaffleCard raffle={ins} />
+              <RaffleCard raffle={ins} featured={false} />
             </div>
           ))}
         </div>
