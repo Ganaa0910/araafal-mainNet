@@ -122,7 +122,7 @@ export default function Raf() {
                   sold
                 </p>
                 <div className="flex flex-col gap-2 p-2 px-6">
-                  <Button>View</Button>
+                  <Button onClick={() => console.log(raffle)}>View</Button>
                   <Button>Cancel</Button>
                 </div>
               </div>

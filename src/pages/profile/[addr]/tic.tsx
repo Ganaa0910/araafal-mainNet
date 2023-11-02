@@ -2,6 +2,7 @@ import PageTitle from "@/components/atom/page-title";
 import Layout from "@/components/layout/layout";
 import ProfileTabs from "@/components/profile/profile-tabs";
 import { Button } from "@/components/ui/button";
+import ClaimPrize from "@/components/modal/claim-prize";
 import { TransactionWithTicket, getTicketsByUser } from "@/lib/service";
 import { ReduxAccount } from "@/lib/types";
 import { useQuery } from "@tanstack/react-query";
@@ -23,6 +24,9 @@ const Tic = () => {
 
   const account = useSelector((state: ReduxAccount) => state.account);
 
+  const [claimPrizeActive, setClaimPrizeActive] = useState(false);
+  const [claimingTicket, setClaimingTicket] = useState<any>(null);
+
   const slug = router.query.addr;
 
   const { data: tickets } = useQuery({
@@ -36,8 +40,26 @@ const Tic = () => {
   });
   console.log("🚀 ~ file: tic.tsx:41 ~ Tic ~ tickets:", tickets);
 
+  const toggleClaimActive = () => {
+    setClaimPrizeActive(!claimPrizeActive);
+  };
+
+  const handleClaimButtonClick = (ticket: TransactionWithTicket) => () => {
+    setClaimingTicket(ticket);
+    setClaimPrizeActive(
+      (prevClaimActive: boolean): boolean => !prevClaimActive,
+    );
+  };
+
   return (
     <Layout>
+      {claimPrizeActive && (
+        <ClaimPrize
+          show={claimPrizeActive}
+          handleClose={toggleClaimActive}
+          claimingTicket={claimingTicket}
+        />
+      )}
       <PageTitle name="Profile" />
       <div className="flex flex-row w-full h-auto gap-4 ">
         <ProfileTabs account={account} />
@@ -106,7 +128,12 @@ const Tic = () => {
                     <div className="text-end">
                       {isEnded ? (
                         ticket.winnerId == slug ? (
-                          <Button variant={"primary"}>Claim </Button>
+                          <Button
+                            variant={"primary"}
+                            onClick={handleClaimButtonClick(ticket)}
+                          >
+                            Claim{" "}
+                          </Button>
                         ) : (
                           "Ended"
                         )
