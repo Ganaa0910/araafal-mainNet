@@ -25,6 +25,7 @@ export default function Profile() {
   const [inscriptions, setInscriptions] = useState([]);
   const [copied, setCopied] = useState(false);
   const account = useSelector((state: ReduxAccount) => state.account);
+  console.log("🚀 ~ file: index.tsx:37 ~ Profile ~ account:", account);
 
   const slug = router.query.addr as string;
   const { isLoading, isError, data, error } = useQuery({
@@ -32,7 +33,6 @@ export default function Profile() {
     queryFn: () => getUserProfile(slug),
     enabled: !!slug && typeof slug === "string",
   });
-  console.log("🚀 ~ file: index.tsx:37 ~ Profile ~ data:", data);
 
   const {
     data: refData,

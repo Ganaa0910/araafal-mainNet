@@ -20,10 +20,7 @@ export default function Leaderboard() {
     queryKey: ["leaderboard"],
     queryFn: () => getLeaderboard(),
   });
-  console.log(
-    "🚀 ~ file: leaderboard.tsx:23 ~ Leaderboard ~ leaderData:",
-    leaderData,
-  );
+
   const { data: position } = useQuery({
     queryFn: () => getPosition(account?.address),
     queryKey: ["position"],

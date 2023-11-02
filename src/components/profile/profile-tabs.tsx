@@ -8,10 +8,6 @@ import { Button } from "../ui/button";
 import { Icons } from "../ui/icons";
 
 export default function ProfileTabs({ account }: { account: Account }) {
-  console.log(
-    "🚀 ~ file: profile-tabs.tsx:12 ~ ProfileTabs ~ account:",
-    account,
-  );
   //profile routing ends
 
   const router = useRouter();
@@ -24,11 +20,15 @@ export default function ProfileTabs({ account }: { account: Account }) {
     0,
     4,
   )}...${account?.address.slice(-6)}`;
-  useEffect(() => {
-    if (account.connected == false || !account) {
-      handleLogout();
-    }
-  }, [account]);
+  // useEffect(() => {
+  //   if (account.connected == false || !account) {
+  //     console.log(
+  //       "🚀 ~ file: profile-tabs.tsx:12 ~ ProfileTabs ~ account:",
+  //       account,
+  //     );
+  //     handleLogout();
+  //   }
+  // }, [account]);
   //profile routing
   const Buttons = [
     {
