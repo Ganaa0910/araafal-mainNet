@@ -1,20 +1,21 @@
-import React from "react";
-import Image from "next/image";
-import { Raffle } from "@/lib/types/dbTypes";
 import { Button } from "@/components/ui/button";
-import { useRouter } from "next/router";
-import { useQuery } from "@tanstack/react-query";
 import { getTicketsCountByRaffle } from "@/lib/service";
+import { Raffle } from "@/lib/types/dbTypes";
+import { useQuery } from "@tanstack/react-query";
+import Image from "next/image";
+import { useRouter } from "next/router";
 import Countdown from "react-countdown";
 
 export default function CreatedRaffleCard({
   raffle,
   onClaimButtonClick,
   setClaimingTicket,
+  isPublic,
 }: {
   raffle: Raffle;
   onClaimButtonClick: () => void;
   setClaimingTicket: (raffle: string | null) => void;
+  isPublic: Boolean;
 }) {
   const router = useRouter();
   const { data: ticketCount } = useQuery({
@@ -96,34 +97,47 @@ export default function CreatedRaffleCard({
       </div>
       {raffle.status == "RAFFLE_ENDED" && (
         <div className="flex flex-col gap-2 px-6 pb-4">
-          <Button variant={"primary"} onClick={handleButtonClick}>
-            Claim reward
-          </Button>
-          <Button variant={"secondary"} onClick={() => handleViewClick()}>
-            {raffle?.winnerId
-              ? `Winner : ${raffle?.winnerId?.slice(0, 4)}...
-                  ${raffle?.winnerId?.slice(-5)}`
-              : "Ended without winner"}
-          </Button>
+          {!isPublic && (
+            <Button variant={"primary"} onClick={handleButtonClick}>
+              Claim reward
+            </Button>
+          )}
+
+          {isPublic ? (
+            <Button variant={"primary"} onClick={handleViewClick}>
+              View
+            </Button>
+          ) : (
+            <Button variant={"secondary"} onClick={handleViewClick}>
+              {raffle?.winnerId
+                ? `Winner : ${raffle?.winnerId?.slice(0, 4)}...
+          ${raffle?.winnerId?.slice(-5)}`
+                : "Ended without winner"}
+            </Button>
+          )}
         </div>
       )}
-      {raffle.status == "RAFFLE_RUNNING" && (
-        <div className="flex flex-col gap-2 px-6 pb-4">
-          <Button variant={"secondary"} onClick={() => handleViewClick()}>
-            View
-          </Button>
-          <Button variant={"plain"}>Cancel</Button>
-        </div>
-      )}
-      {raffle.status == "RAFFLE_ONHOLD" && (
-        <div className="flex flex-col gap-2 px-6 pb-4">
-          <Button variant={"secondary"} disabled>
-            View
-          </Button>
-          <Button variant={"plain"} disabled>
-            Cancel
-          </Button>
-        </div>
+      {!isPublic && (
+        <>
+          {raffle.status == "RAFFLE_RUNNING" && (
+            <div className="flex flex-col gap-2 px-6 pb-4">
+              <Button variant={"secondary"} onClick={() => handleViewClick()}>
+                View
+              </Button>
+              <Button variant={"plain"}>Cancel</Button>
+            </div>
+          )}
+          {raffle.status == "RAFFLE_ONHOLD" && (
+            <div className="flex flex-col gap-2 px-6 pb-4">
+              <Button variant={"secondary"} disabled>
+                View
+              </Button>
+              <Button variant={"plain"} disabled>
+                Cancel
+              </Button>
+            </div>
+          )}
+        </>
       )}
     </div>
   );

@@ -3,30 +3,18 @@ import { useRouter } from "next/router";
 import CreatedRaffleCard from "@/components/atom/cards/created-raffle-card";
 import PageTitle from "@/components/atom/page-title";
 import Layout from "@/components/layout/layout";
-import ClaimPrize from "@/components/modal/claim-prize";
-import ProfileTabs from "@/components/profile/profile-tabs";
-import { Button } from "@/components/ui/button";
+import PublicProfileTabs from "@/components/profile/public-profile-tabs";
 import { getUserRaffles } from "@/lib/service";
-import { ReduxAccount } from "@/lib/types";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
-import Link from "next/link";
-import { useState } from "react";
-import { useSelector } from "react-redux";
 
 export default function Raf() {
-  const account = useSelector((state: ReduxAccount) => state.account);
+  // const account = useSelector((state: ReduxAccount) => state.account);
   const router = useRouter();
   const slug = router.query.addr;
 
-  const [claimPrizeActive, setClaimPrizeActive] = useState(false);
-
-  const [claimingTicket, setClaimingTicket] = useState<any>(null);
-  const toggleClaimActive = () => {
-    setClaimPrizeActive(!claimPrizeActive);
-  };
   const { data: raffles, isLoading } = useQuery({
-    queryKey: ["my raffles", slug],
+    queryKey: ["raffleTitle", slug],
     queryFn: () => {
       if (typeof slug === "string") {
         return getUserRaffles(slug);
@@ -37,38 +25,24 @@ export default function Raf() {
 
   return (
     <Layout>
-      <ClaimPrize
-        show={claimPrizeActive}
-        handleClose={toggleClaimActive}
-        privateKey={claimingTicket}
-      />
       <PageTitle name="Profile" />
       <div className="grid h-auto grid-cols-12 gap-8 ">
         <div className="col-span-3">
-          <ProfileTabs account={account} />
+          <PublicProfileTabs />
         </div>
         <div className="grid h-auto col-span-9 gap-5 px-6 pt-5 pb-6 overflow-auto border-2 rounded-lg lg:grid-cols-2 xl:grid-cols-3 border-brand bg-brandBlack">
           {!isLoading && raffles && raffles?.length > 0 ? (
             raffles.map((raffle) => (
               <div key={raffle.id}>
-                <CreatedRaffleCard
-                  raffle={raffle}
-                  onClaimButtonClick={toggleClaimActive}
-                  setClaimingTicket={setClaimingTicket}
-                />
+                <CreatedRaffleCard raffle={raffle} isPublic={true} />
               </div>
             ))
           ) : (
             <div className="flex flex-col items-center h-full col-span-3 gap-6 mt-5">
               <Image alt="smile" width={72} height={72} src={"/smile.svg"} />
               <h1 className="mb-2 text-2xl font-bold text-neutral100 ">
-                Haven&apos;t created any raffle bro.
+                haven&apos;t created any raffle
               </h1>
-              <div className="w-[280px]">
-                <Button variant={"primary"} className="w-full">
-                  <Link href={"/createraffle"}>Create raffle</Link>
-                </Button>
-              </div>
             </div>
           )}
         </div>
