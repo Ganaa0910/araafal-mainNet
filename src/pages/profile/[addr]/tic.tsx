@@ -45,7 +45,7 @@ const Tic = () => {
   };
 
   const handleClaimButtonClick = (ticket: TransactionWithTicket) => () => {
-    setClaimingTicket(ticket);
+    setClaimingTicket(ticket.nftPrivateKey);
     setClaimPrizeActive(
       (prevClaimActive: boolean): boolean => !prevClaimActive,
     );
@@ -53,15 +53,13 @@ const Tic = () => {
 
   return (
     <Layout>
-      {claimPrizeActive && (
-        <ClaimPrize
-          show={claimPrizeActive}
-          handleClose={toggleClaimActive}
-          claimingTicket={claimingTicket}
-        />
-      )}
+      <ClaimPrize
+        show={claimPrizeActive}
+        handleClose={toggleClaimActive}
+        privateKey={claimingTicket}
+      />
       <PageTitle name="Profile" />
-      <div className="grid grid-cols-12 h-auto gap-8 ">
+      <div className="grid h-auto grid-cols-12 gap-8 ">
         <div className="col-span-3">
           <ProfileTabs account={account} />
         </div>

@@ -50,3 +50,9 @@ export type LeaderboardEachUserType = {
   userName: string | null;
   walletAddress: string;
 };
+
+export type TicketsByRaffle = {
+  raffleId: string;
+  ticketCount: string;
+  userId: string;
+};

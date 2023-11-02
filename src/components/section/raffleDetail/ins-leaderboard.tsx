@@ -1,12 +1,20 @@
-import { Ticket } from "@/lib/types/dbTypes";
+import { TicketsByRaffle } from "@/lib/types";
+import { Raffle, Ticket } from "@/lib/types/dbTypes";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
+import Image from "next/image";
 interface State {
   searchWallet?: string;
   // add other state properties as needed
 }
 
-export default function Leaderboard({ tickets }: { tickets: Ticket[] }) {
+export default function Leaderboard({
+  raffleDetail,
+  tickets,
+}: {
+  raffleDetail: Raffle | undefined;
+  tickets: { rows: TicketsByRaffle[] };
+}) {
   const [searchWallet, setSearchWallet] = useState("");
 
   const [state, setState] = useState<State>({});
@@ -69,9 +77,9 @@ export default function Leaderboard({ tickets }: { tickets: Ticket[] }) {
             <h5>Wallet</h5>
             <h5>Tickets</h5>
           </div>
-          <div className="h-[270px] w-full overflow-y-auto bg-brandBlack rounded">
-            {tickets?.length > 0 &&
-              tickets
+          <div className="h-[270px] w-full overflow-y-auto bg-brandBlack ">
+            {tickets?.rows.length > 0 &&
+              tickets?.rows
                 .filter((token) =>
                   token.userId
                     .toLowerCase()
@@ -79,11 +87,14 @@ export default function Leaderboard({ tickets }: { tickets: Ticket[] }) {
                 )
                 .map((token, key) => (
                   <li
-                    className="flex justify-between px-6 py-1 text-lg border border-t-0 bg-darkGray border-x-0 border-lightGray "
+                    className={`flex justify-between px-5 py-3 text-lg border border-t-0 border-x-0 border-brand ${
+                      raffleDetail?.winnerId == token.userId &&
+                      "primary-gradient"
+                    }`}
                     key={key}
                   >
                     <a
-                      className="cursor-pointer text-lighterGray hover:text-gray-400"
+                      className="cursor-pointer text-whiteish hover:text-gray-400"
                       // onClick={() =>
                       //   handleLeaderboardWalletClick(token.userId, key)
                       // }
@@ -92,6 +103,28 @@ export default function Leaderboard({ tickets }: { tickets: Ticket[] }) {
                         "..." +
                         token.userId.substring(token.userId.length - 4)}
                     </a>
+                    <div className="flex gap-2">
+                      {token.ticketCount}
+                      <div className="flex items-center justify-center w-5 h-5">
+                        {raffleDetail?.winnerId == token.userId ? (
+                          <Image
+                            alt="ticket"
+                            src={"/images/medal.svg"}
+                            width={24}
+                            height={24}
+                            className="w-full h-full"
+                          />
+                        ) : (
+                          <Image
+                            alt="ticket"
+                            src={"/ticket.svg"}
+                            width={24}
+                            height={24}
+                            className="w-full h-full"
+                          />
+                        )}
+                      </div>
+                    </div>
                   </li>
                 ))}
           </div>

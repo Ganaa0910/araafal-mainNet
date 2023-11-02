@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { Button } from "../ui/button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Dialog,
   DialogClose,
@@ -17,23 +17,32 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 type ChooseCurrencyProps = {
   handleClose: () => void;
   show: boolean;
-  tickets: TransactionWithTicket[];
-  setChosenInscription: (tickets: TransactionWithTicket | null) => void;
+  privateKey: string;
 };
 
 export default function ClaimPrize({
   handleClose,
   show,
-  claimingTicket,
+  privateKey,
 }: ChooseCurrencyProps) {
+  const [copied, setCopied] = useState(false);
   const { data: pk } = useQuery({
-    queryKey: ["pk", claimingTicket?.nftPrivateKey],
+    queryKey: ["pk", privateKey],
     queryFn: () => {
-      return decryptPrivateKey(claimingTicket?.nftPrivateKey);
+      return decryptPrivateKey(privateKey);
     },
-    enabled: show == true && claimingTicket?.nftPrivateKey !== undefined,
+    enabled: show == true && privateKey !== undefined,
   });
-  console.log("🚀 ~ file: claim-prize.tsx:35 ~ pk:", pk);
+
+  const handleCopyButton = (pkey: string) => {
+    navigator.clipboard.writeText(pkey);
+    setCopied(true);
+  };
+  useEffect(() => {
+    if (!show) {
+      setCopied(false);
+    }
+  }, [show]);
 
   return (
     <Dialog open={show} onOpenChange={handleClose}>
@@ -42,16 +51,25 @@ export default function ClaimPrize({
           <DialogTitle className="text-2xl">Private Key</DialogTitle>
         </DialogHeader>
         <div>
-          <div className="flex flex-row">
+          <div className="flex flex-row gap-3">
             <input
               className="w-full px-5 py-3 text-xl font-medium border bg-brandBlack focus:outline-none border-brand rounded-xl"
               value={pk?.decryptedPrivateKey}
+              disabled
             />
-            <Button variant={"primary"}>Copy</Button>
+            {pk?.decryptedPrivateKey && (
+              <Button
+                variant={"primary"}
+                onClick={() => handleCopyButton(pk.decryptedPrivateKey)}
+                className="h-full"
+              >
+                {copied ? "Copied" : "Copy"}
+              </Button>
+            )}
           </div>
-          <p className="select-none">
+          <div className="pt-2 select-none">
             Use private key for your wallet and claim your nft
-          </p>
+          </div>
         </div>
         <DialogFooter className="sm:justify-start">
           <div className="flex flex-row justify-center w-full h-auto gap-2">

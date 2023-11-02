@@ -15,7 +15,7 @@ const buttonVariants = cva(
         secondary: " border-2 border-brand bg-brandBlack font-bold",
         featured:
           "border-2 border-lightblue  text-whiteish  bg-brandBlack hover:featured-gradient",
-        plain: "border-2 border-white text-white py-3 px-5 w-full",
+        plain: "border-2 border-whiteish text-white py-3 px-5 w-full",
         ghost: "text-oragne-900",
         link: "text-slate-900 underline-offset-4 hover:underline dark:text-slate-50",
         active: "border-2 bg-brand border-brand font-bold",

@@ -1,6 +1,6 @@
 import TicketConfirmation from "@/components/modal/ticket-confirmation";
 import { Button } from "@/components/ui/button";
-import { ReduxTicketObject } from "@/lib/types";
+import { ReduxTicketObject, TicketsByRaffle } from "@/lib/types";
 import { Raffle, Ticket } from "@/lib/types/dbTypes";
 import { setTicketAmount } from "@/slices/mainSlice";
 import moment from "moment";
@@ -8,13 +8,14 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import raffle from "../../../../raffleDetails.json";
+import { getTokenImagePath } from "@/lib/helpers";
 
 export default function BuyPanel({
   raffleDetail,
   tickets,
 }: {
   raffleDetail: Raffle | undefined;
-  tickets: Ticket[];
+  tickets: { rows: TicketsByRaffle[] };
 }) {
   const ticket = useSelector((state: ReduxTicketObject) => state.ticket);
   const dispatch = useDispatch();
@@ -59,6 +60,14 @@ export default function BuyPanel({
     setIsPurchaseOverlayOpen(false);
   };
 
+  const returnTotalCount = () => {
+    let totalCount = 0;
+    for (let i = 0; i < tickets?.rows.length; i++) {
+      totalCount += parseInt(tickets?.rows[i].ticketCount);
+    }
+    return totalCount;
+  };
+
   const renderBuyPanel = () => (
     <>
       {raffleDetail && (
@@ -73,13 +82,15 @@ export default function BuyPanel({
           <div className="w-1/2 pb-6">
             <p className="pb-2 text-base text-lighterGray">Price per ticket</p>
             <h2 className="flex flex-row text-xl">
-              <Image
-                src={"/bitcoin.svg"}
-                alt="bitcoin"
-                width={24}
-                height={24}
-                className="mr-2"
-              />
+              {raffleDetail && (
+                <Image
+                  src={getTokenImagePath(raffleDetail.sellingTokenTicker)}
+                  alt="bitcoin"
+                  width={24}
+                  height={24}
+                  className="mr-2"
+                />
+              )}
               {raffleDetail?.price} {raffleDetail?.sellingTokenTicker}
             </h2>
           </div>
@@ -93,7 +104,7 @@ export default function BuyPanel({
                 height={24}
                 className="mr-2"
               />
-              {tickets?.length}
+              {returnTotalCount()}
             </h2>
           </div>
         </div>
@@ -132,13 +143,15 @@ export default function BuyPanel({
               <p className="pb-2 text-base">Total cost</p>
               {raffleDetail && (
                 <h2 className="flex flex-row text-xl">
-                  <Image
-                    src={"/bitcoin.svg"}
-                    alt="bitcoin"
-                    width={24}
-                    height={24}
-                    className="mr-2"
-                  />
+                  {raffleDetail && (
+                    <Image
+                      src={getTokenImagePath(raffleDetail.sellingTokenTicker)}
+                      alt="bitcoin"
+                      width={24}
+                      height={24}
+                      className="mr-2"
+                    />
+                  )}
                   {ticket.amount * raffleDetail?.price}{" "}
                   {raffleDetail.sellingTokenTicker}
                 </h2>
@@ -159,7 +172,11 @@ export default function BuyPanel({
           >
             Purchase
           </button> */}
-          <Button variant={"secondary"} onClick={handleOpenPurchaseOverlay}>
+          <Button
+            variant={"secondary"}
+            onClick={handleOpenPurchaseOverlay}
+            disabled={raffleDetail?.status !== "RAFFLE_RUNNING"}
+          >
             Buy
           </Button>
 

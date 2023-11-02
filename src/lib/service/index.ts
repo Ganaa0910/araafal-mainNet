@@ -35,6 +35,7 @@ export interface TransactionWithTicket {
   name: string;
   ticketCount: string;
   winnerId: string;
+  nftPrivateKey: string;
   createdAt: Date;
   Transaction: Transaction;
   raffle: Raffle;

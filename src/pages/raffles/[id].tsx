@@ -39,6 +39,7 @@ export default function Detail() {
     },
     enabled: !!slug,
   });
+  console.log("🚀 ~ file: [id].tsx:42 ~ Detail ~ tickets:", tickets);
 
   return (
     <Layout>
@@ -57,7 +58,7 @@ export default function Detail() {
           </div>
           <div className="flex flex-col  gap-8 w-[384px]">
             <ProfileBar raffleDetail={raffleDetail} />
-            <Leaderboard tickets={tickets} />
+            <Leaderboard raffleDetail={raffleDetail} tickets={tickets} />
           </div>
         </div>
       </div>

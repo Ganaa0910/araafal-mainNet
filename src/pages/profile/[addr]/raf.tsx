@@ -10,70 +10,22 @@ import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import Link from "next/link";
 import { useSelector } from "react-redux";
-
-// export default function Raf() {
-//   //profile routing ends
-//   const router = useRouter();
-
-//   const slug = router.query.addr;
-//   const { data: raffles } = useQuery({
-//     queryKey: ["raffleTitle", slug],
-//     queryFn: () => {
-//       if (typeof slug === "string") {
-//         return getUserRaffles(slug);
-//       }
-//     },
-//     enabled: !!slug,
-//   });
-
-//   return (
-//     <Layout>
-//       <PageTitle name="Profile" />
-//       {/* <div className="py-[48px] md:py-[64px] px-4 md:px-[40px] w-full grid grid-cols-1 gap-8 justify-start items-center bg-red-600"> */}
-//       <div className="flex flex-row w-full h-auto gap-4 ">
-//         <ProfileTabs />
-//         <div className="w-[904px] h-auto grid grid-cols-3 border-2 border-brand bg-brandBlack  rounded-lg px-6 pt-5 pb-6 gap-5 overflow-auto">
-//           {raffles?.map((raffle) => (
-//             <div
-//               key={raffle.id}
-//               className="h-auto overflow-hidden border shadow-lg rounded-2xl"
-//             >
-//               <div>
-//                 <div className="absolute px-3 py-1 mt-3 ml-3 bg-black bg-opacity-50 border rounded-lg select-none">
-//                   {raffle.status}
-//                 </div>
-//                 <div className="rounded-lg">
-//                   <Image
-//                     className="object-cover w-70 h-70"
-//                     src={raffle.inscriptionPreviewUrl}
-//                     alt="Card"
-//                   />
-//                 </div>
-//               </div>
-//               <p className="px-6 pt-2 font-bold text-gray-300">{raffle.name}</p>
-//               <p className="px-6 pt-2 font-bold text-gray-300">
-//                 {raffle.price} {raffle.sellingTokenTicker}
-//               </p>
-//               <p className="px-6 pt-2 font-bold text-gray-300">
-//                 {/* 0 if 0 */}
-//                 {raffle.soldAmount == 0 ? 0 : raffle.soldAmount} sold
-//               </p>
-//               <div className="flex flex-col gap-2 p-2 px-6">
-//                 <Button>View</Button>
-//                 <Button>Cancel</Button>
-//               </div>
-//             </div>
-//           ))}
-//         </div>
-//       </div>
-//     </Layout>
-//   );
-// }
+import CreatedRaffleCard from "@/components/atom/cards/created-raffle-card";
+import ClaimPrize from "@/components/modal/claim-prize";
+import { useState } from "react";
+import { Raffle } from "@/lib/types/dbTypes";
 
 export default function Raf() {
   const account = useSelector((state: ReduxAccount) => state.account);
   const router = useRouter();
   const slug = router.query.addr;
+
+  const [claimPrizeActive, setClaimPrizeActive] = useState(false);
+
+  const [claimingTicket, setClaimingTicket] = useState<any>(null);
+  const toggleClaimActive = () => {
+    setClaimPrizeActive(!claimPrizeActive);
+  };
   const { data: raffles, isLoading } = useQuery({
     queryKey: ["raffleTitle", slug],
     queryFn: () => {
@@ -86,47 +38,25 @@ export default function Raf() {
 
   return (
     <Layout>
+      <ClaimPrize
+        show={claimPrizeActive}
+        handleClose={toggleClaimActive}
+        privateKey={claimingTicket}
+      />
       <PageTitle name="Profile" />
-      <div className="grid grid-cols-12 h-auto gap-8 ">
+      <div className="grid h-auto grid-cols-12 gap-8 ">
         <div className="col-span-3">
           <ProfileTabs account={account} />
         </div>
-        <div className="col-span-9  h-auto grid grid-cols-3 border-2 border-brand bg-brandBlack  rounded-lg px-6 pt-5 pb-6 gap-5 overflow-auto">
+        <div className="grid h-auto col-span-9 gap-5 px-6 pt-5 pb-6 overflow-auto border-2 rounded-lg lg:grid-cols-2 xl:grid-cols-3 border-brand bg-brandBlack">
           {!isLoading && raffles && raffles?.length > 0 ? (
             raffles.map((raffle) => (
-              <div
-                key={raffle.id}
-                className="h-auto overflow-hidden border shadow-lg rounded-2xl"
-              >
-                <div>
-                  <div className="absolute px-3 py-1 mt-3 ml-3 bg-black bg-opacity-50 border rounded-lg select-none">
-                    {raffle.status}
-                  </div>
-                  <div className="rounded-lg">
-                    <Image
-                      className="object-cover w-70 h-70"
-                      width={300}
-                      height={300}
-                      src={raffle.inscriptionPreviewUrl}
-                      alt="Card"
-                    />
-                  </div>
-                </div>
-                <p className="px-6 pt-2 font-bold text-gray-300">
-                  {raffle.name}
-                </p>
-                <p className="px-6 pt-2 font-bold text-gray-300">
-                  {raffle.price} {raffle.sellingTokenTicker}
-                </p>
-                <p className="px-6 pt-2 font-bold text-gray-300">
-                  {/* 0 if 0 */}
-                  {/* {raffle.soldAmount == 0 ? 0 : raffle.soldAmount} */}
-                  sold
-                </p>
-                <div className="flex flex-col gap-2 p-2 px-6">
-                  <Button onClick={() => console.log(raffle)}>View</Button>
-                  <Button>Cancel</Button>
-                </div>
+              <div key={raffle.id}>
+                <CreatedRaffleCard
+                  raffle={raffle}
+                  onClaimButtonClick={toggleClaimActive}
+                  setClaimingTicket={setClaimingTicket}
+                />
               </div>
             ))
           ) : (
