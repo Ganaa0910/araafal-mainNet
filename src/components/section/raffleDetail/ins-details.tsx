@@ -16,40 +16,51 @@ export default function InscriptionDetails({
         </div>
         <div className="flex flex-col gap-3 text-base">
           <div className="flex justify-between">
-            <h5>ID</h5>
-            <a
+            <h5 className="mb-3">ID</h5>
+            {/* <a
               className="flex items-center gap-2 text-white hover:text-blue-400"
-              href={`https://ordinals.com/inscription/${raffleDetail?.inscriptionId}`}
+              href={`https://testnet.ordinals.com/inscription/${raffleDetail?.inscriptionId}`}
+              target="_blank"
+            > */}
+            {raffleDetail?.inscriptionId?.substring(0, 8) +
+              "..." +
+              raffleDetail?.inscriptionId?.substring(
+                raffleDetail?.inscriptionId?.length - 2,
+              )}
+            {/* <svg
+              width="16"
+              height="16"
+              viewBox="0 0 16 16"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
             >
-              {raffleDetail?.inscriptionId?.substring(0, 8) +
-                "..." +
-                raffleDetail?.inscriptionId?.substring(
-                  raffleDetail?.inscriptionId?.length - 2,
-                )}
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 16 16"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M15.5 5.5L15.5 0.5M15.5 0.5H10.5M15.5 0.5L8.83333 7.16667M6.33333 2.16667H4.5C3.09987 2.16667 2.3998 2.16667 1.86502 2.43915C1.39462 2.67883 1.01217 3.06129 0.772484 3.53169C0.5 4.06647 0.5 4.76654 0.5 6.16667V11.5C0.5 12.9001 0.5 13.6002 0.772484 14.135C1.01217 14.6054 1.39462 14.9878 1.86502 15.2275C2.3998 15.5 3.09987 15.5 4.5 15.5H9.83333C11.2335 15.5 11.9335 15.5 12.4683 15.2275C12.9387 14.9878 13.3212 14.6054 13.5608 14.135C13.8333 13.6002 13.8333 12.9001 13.8333 11.5V9.66667"
-                  stroke="white"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </a>
+              <path
+                d="M15.5 5.5L15.5 0.5M15.5 0.5H10.5M15.5 0.5L8.83333 7.16667M6.33333 2.16667H4.5C3.09987 2.16667 2.3998 2.16667 1.86502 2.43915C1.39462 2.67883 1.01217 3.06129 0.772484 3.53169C0.5 4.06647 0.5 4.76654 0.5 6.16667V11.5C0.5 12.9001 0.5 13.6002 0.772484 14.135C1.01217 14.6054 1.39462 14.9878 1.86502 15.2275C2.3998 15.5 3.09987 15.5 4.5 15.5H9.83333C11.2335 15.5 11.9335 15.5 12.4683 15.2275C12.9387 14.9878 13.3212 14.6054 13.5608 14.135C13.8333 13.6002 13.8333 12.9001 13.8333 11.5V9.66667"
+                stroke="white"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg> */}
+            {/* </a> */}
           </div>
-          <div className="flex flex-row justify-between">
-            <h5>Number</h5>
-            {/* <p>{raffleDetail?.id}</p> */}
-            <p>14493587</p>
-          </div>
-          <Button variant={"secondary"} className="w-full mx-auto mb-0">
-            View Inscriptions
-          </Button>
+          {/* <div className="flex flex-row justify-between">
+              <h5>Number</h5>
+
+              <p>{raffleDetail?.inscriptionNumber}</p>
+            </div> */}
+          <a
+            className="flex items-center gap-2 text-white hover:text-blue-400 hover:text-white"
+            href={`https://testnet.ordinals.com/inscription/${raffleDetail?.inscriptionId}`}
+            target="_blank"
+          >
+            <Button
+              variant={"secondary"}
+              className="w-full mx-auto mb-0 primary-gradient"
+            >
+              {" "}
+              View Inscriptions
+            </Button>
+          </a>
           {/* <div className="flex justify-between px-6 py-4">
                 <h5>Owner</h5>
                 <p>0x...C544</p>

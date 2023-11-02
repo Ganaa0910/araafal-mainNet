@@ -1,4 +1,6 @@
+import TicketConfirmation from "@/components/modal/ticket-confirmation";
 import { Button } from "@/components/ui/button";
+import { ReduxTicketObject } from "@/lib/types";
 import { Raffle, Ticket } from "@/lib/types/dbTypes";
 import { setTicketAmount } from "@/slices/mainSlice";
 import moment from "moment";
@@ -6,8 +8,6 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import raffle from "../../../../raffleDetails.json";
-import TicketConfirmation from "@/components/modal/ticket-confirmation";
-import { ReduxTicketObject } from "@/lib/types";
 
 export default function BuyPanel({
   raffleDetail,

@@ -9,10 +9,7 @@ export default function InsDescription({
     <div className="flex flex-col w-full gap-3 px-6 pt-5 pb-6 border-2 rounded-xl border-brand raffle-gradient">
       <h1 className="text-2xl font-bold">Description</h1>
       <div className="px-5 py-3 text-xl border-2 rounded-lg border-brand bg-brandBlack">
-        This unique NFT features an exclusive rendition of Pepe, painstakingly
-        crafted by a talented digital artist. With intricate details and vibrant
-        colors, this Pepe is a true work of art that captures the essence of the
-        meme.
+        {raffleDetail?.description}
       </div>
     </div>
   );
