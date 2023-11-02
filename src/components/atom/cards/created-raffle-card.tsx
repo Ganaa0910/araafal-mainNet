@@ -46,7 +46,7 @@ export default function CreatedRaffleCard({
     }
   };
   return (
-    <div className="flex flex-col h-auto gap-4 overflow-hidden border shadow-lg rounded-2xl text-whiteish">
+    <div className="flex flex-col h-[488px] gap-4 overflow-hidden border shadow-lg rounded-2xl text-whiteish">
       <div>
         {raffle.status == "RAFFLE_ONHOLD" && (
           <div className="absolute px-3 py-1 mt-3 ml-3 border rounded-lg select-none bg-black/50">
@@ -69,7 +69,7 @@ export default function CreatedRaffleCard({
         )}
         <div className="rounded-lg">
           <Image
-            className={`object-cover w-full h-70 rounded-xl ${
+            className={`object-cover w-full h-72 rounded-xl ${
               raffle?.featured ? " shadow-shadowFeatured" : "shadow-shadowBrand"
             }`}
             width={300}

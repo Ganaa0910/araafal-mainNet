@@ -15,10 +15,10 @@ export default function PublicProfileTabs() {
 
   //profile routing
   const Buttons = [
-    {
-      title: `${shortAddress}`,
-      href: `/users/${slug}/raf`,
-    },
+    // {
+    //   title: `${shortAddress}`,
+    //   href: `/users/${slug}/raf`,
+    // },
     {
       title: `Created raffles`,
       href: `/users/${slug}/raf`,
@@ -32,6 +32,9 @@ export default function PublicProfileTabs() {
   return (
     <div className="flex flex-col h-auto gap-8">
       <div className="flex flex-col w-full h-auto gap-[12px] p-[12px] border-lighterGray border-2 border-brand rounded-lg bg-gradient-to-r from-[#fc9446]/[0.5] to-[#fe6272]/[0.5]">
+        <div className="w-full h-auto border-2 border-brand p-2 text-center bg-brandBlack rounded-xl">
+          {shortAddress}
+        </div>
         {Buttons.map((button, index) => (
           <Button
             key={index}
