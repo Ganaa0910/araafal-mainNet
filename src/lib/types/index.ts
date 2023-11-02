@@ -1,12 +1,14 @@
 export type ReduxAccount = {
-  account: {
-    address: string;
-    addresses: string[];
-    connected: boolean;
-    inscriptions: Record<string, any>; // You can replace 'any' with the specific type if you know the structure
-    isOnCorrectNetwork: boolean;
-    network: string;
-  };
+  account: Account;
+};
+
+export type Account = {
+  address: string;
+  addresses: string[];
+  connected: boolean;
+  inscriptions: Record<string, any>; // You can replace 'any' with the specific type if you know the structure
+  isOnCorrectNetwork: boolean;
+  network: string;
 };
 
 export type ReduxTicketObject = {

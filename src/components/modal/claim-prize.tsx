@@ -31,7 +31,9 @@ export default function ClaimPrize({
     queryFn: () => {
       return decryptPrivateKey(claimingTicket?.nftPrivateKey);
     },
+    enabled: show == true && claimingTicket?.nftPrivateKey !== undefined,
   });
+  console.log("🚀 ~ file: claim-prize.tsx:35 ~ pk:", pk);
 
   return (
     <Dialog open={show} onOpenChange={handleClose}>
@@ -42,8 +44,8 @@ export default function ClaimPrize({
         <div>
           <div className="flex flex-row">
             <input
-              className="w-full px-5 py-3 text-xl font-medium bg-brandBlack focus:outline-none border border-brand rounded-xl"
-              value={claimingTicket?.nftPrivateKey}
+              className="w-full px-5 py-3 text-xl font-medium border bg-brandBlack focus:outline-none border-brand rounded-xl"
+              value={pk?.decryptedPrivateKey}
             />
             <Button variant={"primary"}>Copy</Button>
           </div>

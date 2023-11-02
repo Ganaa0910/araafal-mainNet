@@ -130,9 +130,9 @@ export async function getInscriptionsTestnet(
 }
 export async function decryptPrivateKey(
   privateKey: string,
-): Promise<InscriptionType[]> {
+): Promise<{ decryptedPrivateKey: string }> {
   return axiosClient
-    .post(`/api/raffles/decryptPrivateKey`, privateKey)
+    .get(`/api/raffles/decryptPrivateKey/${privateKey}`)
     .then((response) => {
       return response?.data;
     });

@@ -62,13 +62,18 @@ export default function PaymentConfirmation({
     },
   });
 
-  const { data: userbrc20s } = useQuery({
+  const { data: userbrc20s, status } = useQuery({
     queryKey: ["userbrc20", account],
     queryFn: () => {
       return getUserBRC20Balance(account.address);
     },
-    enabled: account.connected == true,
+    enabled: account.connected == true && show == true,
   });
+  console.log("🚀 ~ file: payment-confirmation.tsx:72 ~ status:", status);
+  console.log(
+    "🚀 ~ file: payment-confirmation.tsx:72 ~ userbrc20s:",
+    userbrc20s,
+  );
 
   const { data, error, isLoading, mutateAsync } = useMutation({
     mutationFn: createRaffle,
@@ -89,7 +94,7 @@ export default function PaymentConfirmation({
   }, [show]);
 
   useEffect(() => {
-    if (userbrc20s) {
+    if (userbrc20s && userbrc20s?.length !== 0) {
       const filteredArray = userbrc20s.filter(
         (item) => item.ticker === paymentToken && item.amount == paymentAmount,
       );

@@ -1,13 +1,18 @@
 import { clearToken } from "@/lib/auth";
-import { Account } from "@/lib/types/dbTypes";
 import { setAddress, setConnected } from "@/slices/mainSlice";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
 import { Button } from "../ui/button";
 import { Icons } from "../ui/icons";
+import { useEffect } from "react";
+import { Account } from "@/lib/types";
 
 export default function ProfileTabs({ account }: { account: Account }) {
+  console.log(
+    "🚀 ~ file: profile-tabs.tsx:12 ~ ProfileTabs ~ account:",
+    account,
+  );
   //profile routing ends
 
   const router = useRouter();
@@ -20,6 +25,11 @@ export default function ProfileTabs({ account }: { account: Account }) {
     0,
     4,
   )}...${account?.address.slice(-6)}`;
+  useEffect(() => {
+    if (account.connected == false || !account) {
+      handleLogout();
+    }
+  }, [account]);
   //profile routing
   const Buttons = [
     {
