@@ -38,7 +38,7 @@ export default function RaffleCard({
   return (
     <Link href={`/raffles/${raffle.id}`}>
       <div
-        className={`flex flex-col h-[488 px] w-full border-2 relative rounded-2xl gap-4 overflow-hidden ${
+        className={`flex flex-col h-[488px] w-full border-2 relative rounded-2xl gap-4 overflow-hidden ${
           featured ? "border-secondaryLinear bg-neutral600" : "border-brand"
         }`}
       >

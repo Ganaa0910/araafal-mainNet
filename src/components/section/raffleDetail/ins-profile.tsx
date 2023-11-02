@@ -57,7 +57,7 @@ export default function ProfileBar({
         )} */}
         <div className="flex flex-col rounded-xl">
           {/* <p className="text-lg">Horny Micheal</p> */}
-          <Link href={`/users/${ownerId}`}>
+          <Link href={`/users/${ownerId}/raf`}>
             <p className="text-lg text-whiteish">{shortenedOwnerId}</p>
           </Link>
         </div>
