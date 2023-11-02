@@ -1,16 +1,11 @@
 import ActiveRaffles from "@/components/section/ActiveRaffles";
 import { fetchRaffles } from "@/lib/service";
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
-import moment from "moment";
 // import { Chakra_Petch } from "next/font/google";
-import Image from "next/image";
-import { useState } from "react";
-import raffle from "../../raffleDetails.json";
-import Raffles from "@/components/section/featured/Raffles";
-import Layout from "@/components/layout/layout";
 import Footer from "@/components/layout/Footer";
 import Navbar from "@/components/layout/Navbar";
+import Raffles from "@/components/section/featured/Raffles";
+import Image from "next/image";
 
 function App() {
   const { isLoading, isError, data, error } = useQuery({
@@ -48,7 +43,7 @@ function App() {
             <span className="inline-block w-24 h-2 bg-gradient-to-r from-cyan-500 to-blue-500"></span>
           </div>
 
-          <Raffles />
+          <Raffles data={data} />
         </div>
       </div>
 

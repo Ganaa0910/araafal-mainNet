@@ -14,7 +14,9 @@ export default function Index() {
     queryKey: ["raffles"],
     queryFn: fetchRaffles,
   });
+
   console.log("🚀 ~ file: index.tsx:17 ~ Index ~ data:", data);
+
   const { isLoading: featuredLoading, data: featuredRaffles } = useQuery({
     queryKey: ["featuredRaffles"],
     queryFn: fetchFeaturedRaffles,
