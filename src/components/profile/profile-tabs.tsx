@@ -1,12 +1,11 @@
 import { clearToken } from "@/lib/auth";
+import { Account } from "@/lib/types";
 import { setAddress, setConnected } from "@/slices/mainSlice";
-import Link from "next/link";
 import { useRouter } from "next/router";
+import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { Button } from "../ui/button";
 import { Icons } from "../ui/icons";
-import { useEffect } from "react";
-import { Account } from "@/lib/types";
 
 export default function ProfileTabs({ account }: { account: Account }) {
   console.log(
@@ -33,6 +32,10 @@ export default function ProfileTabs({ account }: { account: Account }) {
   //profile routing
   const Buttons = [
     {
+      title: `${shortAddress}`,
+      href: `/profile/${slug}`,
+    },
+    {
       title: `Inscriptions`,
       href: `/profile/${slug}/ins`,
     },
@@ -56,11 +59,11 @@ export default function ProfileTabs({ account }: { account: Account }) {
   return (
     <div className="flex flex-col h-auto gap-8">
       <div className="flex flex-col w-full h-auto gap-[12px] p-[12px] border-lighterGray border-2 border-brand rounded-lg bg-gradient-to-r from-[#fc9446]/[0.5] to-[#fe6272]/[0.5]">
-        <div className="flex flex-row items-center justify-center p-[12px] border-2 border-brand rounded-lg w-full">
+        {/* <div className="flex flex-row items-center justify-center p-[12px] border-2 border-brand rounded-lg w-full">
           <Link href={`/profile/${slug}`}>
             <p>{shortAddress}</p>
           </Link>
-        </div>
+        </div> */}
 
         {Buttons.map((button, index) => (
           <Button

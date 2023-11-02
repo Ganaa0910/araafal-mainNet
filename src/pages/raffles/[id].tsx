@@ -9,8 +9,6 @@ import ProfileBar from "@/components/section/raffleDetail/ins-profile";
 import ViewInscription from "@/components/section/raffleDetail/ins-view";
 import { fetchRaffleById, getTicketsByRaffle } from "@/lib/service";
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
-import moment from "moment";
 import { useRouter } from "next/router";
 import { useState } from "react";
 
