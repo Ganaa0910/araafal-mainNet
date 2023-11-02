@@ -1,5 +1,4 @@
-import { useState } from "react";
-
+import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 
 import { Button } from "@/components/ui/button";
@@ -24,7 +23,7 @@ export default function Profile() {
   const router = useRouter();
   const queryClient = useQueryClient();
   const [inscriptions, setInscriptions] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [copied, setCopied] = useState(false);
   const account = useSelector((state: ReduxAccount) => state.account);
 
   const slug = router.query.addr as string;
@@ -65,6 +64,12 @@ export default function Profile() {
   const triggerReferral = async () => {
     await mutateAsync();
   };
+
+  const handleCopyButton = (pkey: string) => {
+    navigator.clipboard.writeText(pkey);
+    setCopied(true);
+  };
+
   return (
     <Layout>
       <PageTitle name="Profile" />
@@ -77,14 +82,14 @@ export default function Profile() {
           <div className="grid w-full grid-cols-2 gap-8">
             <Card
               title="Create raffle"
-              points="2"
+              points="2 pts"
               description="Create raffle with your inscription"
               linkTo="/createRaffle"
               buttonText="Go"
             />
             <Card
               title="Buy ticket"
-              points="1"
+              points="1 pts"
               description="Buy a ticket from others’ raffle"
               linkTo="/raffles"
               buttonText="Go"
@@ -93,16 +98,16 @@ export default function Profile() {
           <div className="grid w-full grid-cols-2 gap-8">
             <Card
               title="Claim prize"
-              points="1"
+              points="5 pts"
               description="Claim prize of your created raffle"
-              linkTo="/aa"
+              linkTo={`/profile/${account?.address}/raf`}
               buttonText="Go"
             />
             <Card
               title="Win raffle"
-              points="1"
+              points="40 pts"
               description="Win raffle of others'"
-              linkTo="/aa"
+              linkTo={`/profile/${account?.address}/tic`}
               buttonText="Go"
             />
           </div>
@@ -110,7 +115,9 @@ export default function Profile() {
             <div className="flex flex-col gap-2">
               <div className="flex justify-between">
                 <div className="text-xl font-bold">Invite 3 friends</div>
-                <div className="text-lg font-bold">2 </div>
+                <div className="text-lg font-bold">
+                  {refCode != null ? refCode?.uses : "0"} / 3
+                </div>
               </div>
               <div>20 pts</div>
             </div>
@@ -129,7 +136,11 @@ export default function Profile() {
                     variant={"primary"}
                     className="grow-0"
                     size={"lg"}
-                    onClick={() => triggerReferral()}
+                    onClick={() =>
+                      handleCopyButton(
+                        `https://www.araafal.com/register?referralCode=${refCode?.code}`,
+                      )
+                    }
                     disabled={referralLoading}
                   >
                     Copy
