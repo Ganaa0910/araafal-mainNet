@@ -1,11 +1,14 @@
 import { Raffle } from "@/lib/types/dbTypes";
-
+import Link from "next/link";
+import { useRouter } from "next/router";
 export default function ProfileBar({
   raffleDetail,
 }: {
   raffleDetail: Raffle | undefined;
 }) {
   const ownerId = raffleDetail?.ownerId;
+  const router = useRouter();
+  const slug = router.query.id;
   const shortenedOwnerId = ownerId
     ? `${ownerId.slice(0, 4)}...${ownerId.slice(-6)}`
     : "";
@@ -54,7 +57,9 @@ export default function ProfileBar({
         )} */}
         <div className="flex flex-col rounded-xl">
           {/* <p className="text-lg">Horny Micheal</p> */}
-          <p className="text-lg text-whiteish">{shortenedOwnerId}</p>
+          <Link href={`/users/${ownerId}`}>
+            <p className="text-lg text-whiteish">{shortenedOwnerId}</p>
+          </Link>
         </div>
       </div>
     </div>
