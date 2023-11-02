@@ -107,6 +107,18 @@ export default function CreateRaffle() {
     });
   };
 
+  const handleTestButtoon = async () => {
+    const walletResponse = await createWalletForRaffle();
+    const walletInfo = walletResponse?.data;
+    console.log(walletInfo);
+  };
+
+  const handleNotTestButtoon = async () => {
+    const walletResponse = await createWalletForRaffle();
+    const walletInfo = walletResponse?.data;
+    console.log(walletInfo);
+  };
+
   const handleSubmit = async () => {
     setSubmitLoading(true);
     if (!name || !desc || !price || !chosenInscription || !chosenCurrency) {
@@ -384,6 +396,8 @@ export default function CreateRaffle() {
                 )}
                 Submit
               </Button>
+              <Button onClick={handleTestButtoon}>testast5sa</Button>
+              <Button onClick={handleNotTestButtoon}>asdasd</Button>
             </div>
           </div>
         </div>

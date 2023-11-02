@@ -128,6 +128,15 @@ export async function getInscriptionsTestnet(
       return response?.data;
     });
 }
+export async function decryptPrivateKey(
+  privateKey: string,
+): Promise<InscriptionType[]> {
+  return axiosClient
+    .post(`/api/raffles/decryptPrivateKey`, privateKey)
+    .then((response) => {
+      return response?.data;
+    });
+}
 export async function getUserBRC20Balance(
   address: string,
 ): Promise<UserBrc20Type[]> {

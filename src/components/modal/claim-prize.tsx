@@ -11,7 +11,8 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { TransactionWithTicket, getTicketsByUser } from "@/lib/service";
+import { TransactionWithTicket, decryptPrivateKey } from "@/lib/service";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 type ChooseCurrencyProps = {
   handleClose: () => void;
@@ -25,12 +26,12 @@ export default function ClaimPrize({
   show,
   claimingTicket,
 }: ChooseCurrencyProps) {
-  const [selectedCards, setSelectedCards] = useState<any>(null);
-
-  const confirmation = () => {
-    setChosenInscription(selectedCards);
-    handleClose();
-  };
+  const { data: pk } = useQuery({
+    queryKey: ["pk", claimingTicket?.nftPrivateKey],
+    queryFn: () => {
+      return decryptPrivateKey(claimingTicket?.nftPrivateKey);
+    },
+  });
 
   return (
     <Dialog open={show} onOpenChange={handleClose}>
