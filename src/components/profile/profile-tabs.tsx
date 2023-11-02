@@ -46,7 +46,7 @@ export default function ProfileTabs({ account }: { account: Account }) {
   return (
     <div className="flex flex-col h-auto gap-8">
       <div className="flex flex-col w-full h-auto gap-[12px] p-[12px] border-lighterGray border-2 border-brand rounded-lg bg-gradient-to-r from-[#fc9446]/[0.5] to-[#fe6272]/[0.5]">
-        <div className="flex flex-row items-center justify-center p-[12px] border-2 border-brand rounded-lg w-[252px]">
+        <div className="flex flex-row items-center justify-center p-[12px] border-2 border-brand rounded-lg w-full">
           <Link href={`/profile/${slug}`}>
             <p>{shortAddress}</p>
           </Link>

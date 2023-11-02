@@ -94,7 +94,8 @@ const Tic = () => {
                         {/* <h1>{transaction.Transaction.}</h1> */}
                       </div>
                     </div>
-                    <div className="flex flex-row items-center justify-center gap-2 ">
+                    {/* ________________________________------------------------------------_____________________________________ */}
+                    <div className="flex flex-row items-center justify-center gap-2">
                       <h1 className="text-2xl"> {ticket?.ticketCount}</h1>
                       <Image
                         src={"/images/ticketGrad.svg"}
@@ -104,6 +105,7 @@ const Tic = () => {
                         alt="img"
                       />
                     </div>
+                    {/* ________________________________------------------------------------_____________________________________ */}
                     <div className="text-end">
                       {isEnded ? (
                         ticket.winnerId == slug ? (
@@ -173,6 +175,7 @@ const Claim = () => {
       className={`w-[133px] flex flex-row text-center text-2xl  bg-defaultGray border-lightGray px-[16px] py-[12px] h-auto border-white`}
     >
       <Image
+        alt="Claim"
         src={"/claim.svg"}
         width={1}
         height={1}
