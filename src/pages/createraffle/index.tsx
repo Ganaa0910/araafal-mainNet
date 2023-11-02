@@ -396,8 +396,8 @@ export default function CreateRaffle() {
                 )}
                 Submit
               </Button>
-              <Button onClick={handleTestButtoon}>testast5sa</Button>
-              <Button onClick={handleNotTestButtoon}>asdasd</Button>
+              {/* <Button onClick={handleTestButtoon}>testast5sa</Button>
+              <Button onClick={handleNotTestButtoon}>asdasd</Button> */}
             </div>
           </div>
         </div>

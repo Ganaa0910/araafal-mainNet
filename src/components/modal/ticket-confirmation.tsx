@@ -43,20 +43,35 @@ export default function TicketConfirmation({
   });
 
   const handleConfirm = async () => {
-    if (newRaffleData.featured == true) {
-      handleClose();
-      setPaymentConfModal(true);
-    } else {
-      let txid = await window.unisat.sendInscription(
-        newRaffleData.nftDepositAddress,
-        `${newRaffleData.inscriptionId}`,
-      );
-      const updatedRaffleData = {
-        ...newRaffleData,
-        nftDepositTransactionId: txid,
-      };
-      await mutateAsync({ newRaffleData: updatedRaffleData });
-    }
+    handleClose();
+    setPaymentConfModal(true);
+    // if (newRaffleData.featured == true) {
+    //   console.log(
+    //     "🚀 ~ file: ticket-confirmation.tsx:47 ~ handleConfirm ~ newRaffleData:",
+    //     newRaffleData,
+    //   );
+    //   handleClose();
+    //   setPaymentConfModal(true);
+    // } else {
+    //   console.log(
+    //     "🚀 ~ file: ticket-confirmation.tsx:56 ~ handleConfirm ~ newRaffleData.nftDepositAddress:",
+    //     newRaffleData.nftDepositAddress,
+    //   );
+    //   console.log(
+    //     "🚀 ~ file: ticket-confirmation.tsx:62 ~ handleConfirm ~ newRaffleData.inscriptionId:",
+    //     newRaffleData.inscriptionId,
+    //   );
+
+    //   let txid = await window.unisat.sendInscription(
+    //     newRaffleData.nftDepositAddress,
+    //     `${newRaffleData.inscriptionId}`,
+    //   );
+    //   const updatedRaffleData = {
+    //     ...newRaffleData,
+    //     nftDepositTransactionId: txid,
+    //   };
+    //   await mutateAsync({ newRaffleData: updatedRaffleData });
+    // }
   };
 
   const saveData = async () => {

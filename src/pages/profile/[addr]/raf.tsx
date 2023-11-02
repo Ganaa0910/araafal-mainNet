@@ -131,7 +131,7 @@ export default function Raf() {
             <div className="flex flex-col items-center h-full col-span-3 gap-6 mt-5">
               <Image alt="smile" width={72} height={72} src={"/smile.svg"} />
               <h1 className="mb-2 text-2xl font-bold text-neutral100 ">
-                You haven`&apos;`t created any raffle bro.
+                You haven&apos;t created any raffle bro.
               </h1>
               <div className="w-[280px]">
                 <Button variant={"primary"} className="w-full">
