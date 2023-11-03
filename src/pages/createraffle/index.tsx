@@ -1,25 +1,21 @@
 import PageTitle from "@/components/atom/page-title";
+import Layout from "@/components/layout/layout";
 import ChooseCurrency from "@/components/modal/choose-currency";
 import ChooseInscription from "@/components/modal/choose-inscription";
-import Layout from "@/components/layout/layout";
 import { Button } from "@/components/ui/button";
 import { Icons } from "@/components/ui/icons";
-import {
-  createRaffle,
-  createWalletForRaffle,
-  getInscriptionsTestnet,
-} from "@/lib/service";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { createWalletForRaffle, getInscriptionsTestnet } from "@/lib/service";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-import { useSelector } from "react-redux";
 import RaffleConfirmation from "@/components/modal/raffle-confirmation";
-import { toast } from "sonner";
 import { InscriptionType, ReduxAccount } from "@/lib/types";
 import { Raffle } from "@/lib/types/dbTypes";
+import { useSelector } from "react-redux";
+import { toast } from "sonner";
 
 export default function CreateRaffle() {
   const queryClient = useQueryClient();
@@ -69,18 +65,18 @@ export default function CreateRaffle() {
     setSelectedTime(time);
   };
 
-  const getCombinedDateTime = (date: Date, time: Date) => {
-    const combinedDateTimeString = new Date(
+  const getCombinedDateTime = (date, time) => {
+    const combinedDateTime = new Date(
       Date.UTC(
-        date.getFullYear(),
-        date.getMonth(),
-        date.getDate(),
-        time.getHours(),
-        time.getMinutes(),
+        date.getUTCFullYear(),
+        date.getUTCMonth(),
+        date.getUTCDate(),
+        time.getUTCHours(),
+        time.getUTCMinutes(),
       ),
     );
-
-    return combinedDateTimeString;
+    console.log(combinedDateTime);
+    return combinedDateTime;
   };
 
   useEffect(() => {
@@ -155,7 +151,7 @@ export default function CreateRaffle() {
         tickets: null, // Add appropriate value for tickets
       };
       setNewRaffleData(newRaffleData);
-
+      console.log("___________--0qs9d90809sa8d" + newRaffleData.endDate);
       await waitOneSecond();
       setRaffleSubmitModal(true);
       setSubmitLoading(false);
@@ -360,7 +356,7 @@ export default function CreateRaffle() {
                 showTimeSelectOnly
                 timeFormat="HH:mm"
                 timeIntervals={15}
-                dateFormat="h:mm"
+                dateFormat="hh:mm"
                 timeCaption="Time"
                 className="w-full px-4 py-3 text-xl rounded-lg bg-brandBlack text-whiteish focus:border focus:border-brand"
                 disabled
