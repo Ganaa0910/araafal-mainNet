@@ -5,8 +5,8 @@ import Router from "next/router";
 
 export default function Navbar() {
   return (
-    <nav className="sticky top-0 w-full backdrop-blur-sm bg-opacity-80">
-      <div className="flex items-center z-50 justify-center flex-shrink-0 h-20 px-28 max-w-[1440px] mx-auto">
+    <nav className="sticky top-0 z-50 w-full backdrop-blur-sm bg-opacity-80">
+      <div className="flex items-center justify-center flex-shrink-0 h-20 px-28 max-w-[1440px] mx-auto">
         <div className="left-0 right-auto flex items-center h-12">
           <Link href={"/"}>
             <Image

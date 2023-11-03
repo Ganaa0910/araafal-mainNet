@@ -42,7 +42,7 @@ export default function RaffleCard({
           featured ? "border-secondaryLinear bg-neutral600" : "border-brand"
         }`}
       >
-        <div className="absolute z-50 left-4 top-4">
+        <div className="absolute z-30 left-4 top-4">
           <div
             className={`px-3 border text-white rounded-lg bg-black/50  ${
               featured ? "border-secondaryLinear" : "border-brand"
