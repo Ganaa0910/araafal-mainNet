@@ -76,7 +76,7 @@ export default function ProfileTabs({ account }: { account: Account }) {
         ))}
       </div>
       <Button className="" variant="plain" onClick={() => handleLogout()}>
-        <Icons.logout className="w-6 h-6 pr-3 transform rotate-180" />
+        {/* <Icons.logout className="w-6 h-6 pr-3 transform rotate-180" /> */}
         Log out
       </Button>
     </div>
