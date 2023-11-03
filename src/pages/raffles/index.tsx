@@ -29,7 +29,7 @@ export default function Index() {
   return (
     <Layout>
       <PageTitle name="Raffles" />
-      <div className="grid grid-cols-4 gap-4">
+      <div className="grid gap-4 lg:grid-cols-3 xl:grid-cols-4">
         {!featuredLoading &&
           featuredRaffles &&
           featuredRaffles.length !== 0 &&
