@@ -65,7 +65,7 @@ export default function CreateRaffle() {
     setSelectedTime(time);
   };
 
-  const getCombinedDateTime = (date, time) => {
+  const getCombinedDateTime = (date: Date, time: Date) => {
     const combinedDateTime = new Date(
       Date.UTC(
         date.getUTCFullYear(),
