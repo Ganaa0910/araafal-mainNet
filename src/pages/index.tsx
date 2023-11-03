@@ -6,12 +6,17 @@ import Footer from "@/components/layout/Footer";
 import Navbar from "@/components/layout/Navbar";
 import Raffles from "@/components/section/featured/Raffles";
 import Image from "next/image";
+import MobileOnlyScreen from "@/components/section/mobile-only";
+import { isMobile } from "react-device-detect";
 
 function App() {
   const { isLoading, isError, data, error } = useQuery({
     queryKey: ["raffles"],
     queryFn: fetchRaffles,
   });
+  if (isMobile) {
+    return <MobileOnlyScreen />;
+  }
 
   return (
     // <Layout>
