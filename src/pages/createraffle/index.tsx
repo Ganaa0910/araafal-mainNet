@@ -198,7 +198,7 @@ export default function CreateRaffle() {
 
   return (
     <Layout>
-      {inscriptions && (
+      {inscriptions && account.connected == true && (
         <ChooseInscription
           show={showInscriptions}
           handleClose={toggleInscriptions}
@@ -319,7 +319,7 @@ export default function CreateRaffle() {
               </h1>
               <h1 className="flex flex-row gap-3 text-2xl font-bold text-whiteish">
                 <Image src={"/psat.svg"} width={36} height={36} alt="psat" />
-                500 PSAT
+                2000 PSAT
               </h1>
 
               <div className="flex flex-row w-full border-2 bg-brandBlack border-brand rounded-xl">
@@ -381,7 +381,7 @@ export default function CreateRaffle() {
                 variant={"primary"}
                 className="w-full"
                 onClick={() => handleSubmit()}
-                disabled={submitLoading}
+                disabled={submitLoading || account.connected == false}
               >
                 {submitLoading && (
                   <Icons.spinner

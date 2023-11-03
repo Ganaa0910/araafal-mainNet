@@ -1,6 +1,6 @@
 import TicketConfirmation from "@/components/modal/ticket-confirmation";
 import { Button } from "@/components/ui/button";
-import { ReduxTicketObject, TicketsByRaffle } from "@/lib/types";
+import { ReduxAccount, ReduxTicketObject, TicketsByRaffle } from "@/lib/types";
 import { Raffle, Ticket } from "@/lib/types/dbTypes";
 import { setTicketAmount } from "@/slices/mainSlice";
 import moment from "moment";
@@ -18,6 +18,7 @@ export default function BuyPanel({
   tickets: { rows: TicketsByRaffle[] };
 }) {
   const ticket = useSelector((state: ReduxTicketObject) => state.ticket);
+  const account = useSelector((state: ReduxAccount) => state.account);
   const dispatch = useDispatch();
 
   const [raffleActive, setRaffleActive] = useState(true);
@@ -175,7 +176,10 @@ export default function BuyPanel({
           <Button
             variant={"secondary"}
             onClick={handleOpenPurchaseOverlay}
-            disabled={raffleDetail?.status !== "RAFFLE_RUNNING"}
+            disabled={
+              raffleDetail?.status !== "RAFFLE_RUNNING" ||
+              account?.connected == false
+            }
           >
             Buy
           </Button>
