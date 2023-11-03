@@ -43,6 +43,10 @@ function ConnectWalletButton() {
       console.log(error);
     },
     onSuccess: (data, variables) => {
+      if (data?.error) {
+        setIsConnecting(false);
+        return toast.error(data?.error);
+      }
       saveToken(data?.auth);
       queryClient.invalidateQueries({ queryKey: ["userProfile"] });
       setIsConnecting(false);
