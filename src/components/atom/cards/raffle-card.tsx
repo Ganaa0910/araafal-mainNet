@@ -1,4 +1,4 @@
-import { getTokenImagePath } from "@/lib/helpers";
+import { getTokenImagePath, utcToLocalTime } from "@/lib/helpers";
 import { getTicketsCountByRaffle } from "@/lib/service";
 import { Raffle } from "@/lib/types/dbTypes";
 import { useQuery } from "@tanstack/react-query";
@@ -35,6 +35,7 @@ export default function RaffleCard({
       );
     }
   };
+
   return (
     <Link href={`/raffles/${raffle.id}`}>
       <div
@@ -48,7 +49,10 @@ export default function RaffleCard({
               featured ? "border-secondaryLinear" : "border-brand"
             }`}
           >
-            <Countdown date={raffle.endDate} renderer={renderer} />
+            <Countdown
+              date={utcToLocalTime(raffle.endDate)}
+              renderer={renderer}
+            />
           </div>
         </div>
         <Image

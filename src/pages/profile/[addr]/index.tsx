@@ -25,7 +25,6 @@ export default function Profile() {
   const [inscriptions, setInscriptions] = useState([]);
   const [copied, setCopied] = useState(false);
   const account = useSelector((state: ReduxAccount) => state.account);
-  console.log("🚀 ~ file: index.tsx:37 ~ Profile ~ account:", account);
 
   const slug = router.query.addr as string;
   const { isLoading, isError, data, error } = useQuery({
@@ -84,7 +83,7 @@ export default function Profile() {
               title="Create raffle"
               points="2 pts"
               description="Create raffle with your inscription"
-              linkTo="/createRaffle"
+              linkTo="/createraffle"
               buttonText="Go"
             />
             <Card
@@ -130,7 +129,7 @@ export default function Profile() {
                     className="h-12 pl-3 text-xl font-medium rounded-md hover:border-brand hover:border-2 grow bg-brandBlack focus:outline-none"
                     placeholder="Search"
                     readOnly
-                    value={`https://www.araafal.com/register?referralCode=${refCode?.code}`}
+                    value={`https://testnet.araafal.com/register?referralCode=${refCode?.code}`}
                   />
                   <Button
                     variant={"primary"}
@@ -138,7 +137,7 @@ export default function Profile() {
                     size={"lg"}
                     onClick={() =>
                       handleCopyButton(
-                        `https://www.araafal.com/register?referralCode=${refCode?.code}`,
+                        `https://testnet.araafal.com/register?referralCode=${refCode?.code}`,
                       )
                     }
                     disabled={referralLoading}

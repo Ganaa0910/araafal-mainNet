@@ -8,6 +8,7 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import Countdown from "react-countdown";
 // import { UseSelector } from "react-redux/es/hooks/useSelector";
+import { utcToLocalTime } from "@/lib/helpers";
 enum TicketStatus {
   TICKET_ENDED,
   TICKET_RUNNING,
@@ -108,7 +109,7 @@ const Tic = () => {
                           )
                         ) : (
                           <Countdown
-                            date={ticket.endDate}
+                            date={utcToLocalTime(new Date(ticket.endDate))}
                             renderer={renderer}
                           />
                         )}

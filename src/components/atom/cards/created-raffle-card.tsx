@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { utcToLocalTime } from "@/lib/helpers";
 import { getTicketsCountByRaffle } from "@/lib/service";
 import { Raffle } from "@/lib/types/dbTypes";
 import { useQuery } from "@tanstack/react-query";
@@ -64,7 +65,10 @@ export default function CreatedRaffleCard({
               raffle?.featured ? "border-secondaryLinear" : "border-brand"
             }`}
           >
-            <Countdown date={raffle.endDate} renderer={renderer} />
+            <Countdown
+              date={utcToLocalTime(raffle.endDate)}
+              renderer={renderer}
+            />
           </div>
         )}
         <div className="rounded-lg">

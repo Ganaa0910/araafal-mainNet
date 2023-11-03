@@ -16,6 +16,7 @@ import { InscriptionType, ReduxAccount } from "@/lib/types";
 import { Raffle } from "@/lib/types/dbTypes";
 import { useSelector } from "react-redux";
 import { toast } from "sonner";
+import moment from "moment";
 
 export default function CreateRaffle() {
   const queryClient = useQueryClient();
@@ -76,12 +77,14 @@ export default function CreateRaffle() {
       ),
     );
     console.log(combinedDateTime);
+    // const utcTime = moment(time).utc().format();
     return combinedDateTime;
   };
 
   useEffect(() => {
     let now = new Date();
-    now.setHours(now.getHours() + 2);
+
+    now.setUTCHours(now.getUTCHours() + 2);
     setSelectedTime(now);
   }, []);
 
@@ -132,12 +135,10 @@ export default function CreateRaffle() {
         inscriptionNumber: String(chosenInscription.inscriptionNumber),
         inscriptionPreviewUrl: `https://testnet.ordinals.com/content/${chosenInscription.inscriptionId}`,
         ownerId: account.address,
-
         nftDepositAddress: walletInfo.nftDepositAddress,
         nftPrivateKey: walletInfo.nftPrivateKey,
         ticketDepositAddress: walletInfo.ticketDepositAddress,
         ticketPrivateKey: walletInfo.ticketPrivateKey,
-
         id: null,
         winnerId: null,
         featuredTransanctionId: null,
@@ -159,7 +160,6 @@ export default function CreateRaffle() {
       //   walletInfo.nftDepositAddress,
       //   `${chosenInscription.inscriptionId}`,
       // );
-
       // if (txid) {
       //   console.log("🚀 ~ file: index.tsx:109 ~ handleSubmit ~ txid:", txid);
       //   const newRaffleData = {
@@ -174,7 +174,6 @@ export default function CreateRaffle() {
       //     inscriptionPreviewUrl: `https://testnet.ordinals.com/content/${chosenInscription.inscriptionId}`,
       //     ownerId: account.address,
       //     nftDepositTransactionId: txid,
-
       //     nftDepositAddress: walletInfo.nftDepositAddress,
       //     nftPrivateKey: walletInfo.nftPrivateKey,
       //     ticketDepositAddress: walletInfo.ticketDepositAddress,
@@ -193,6 +192,9 @@ export default function CreateRaffle() {
     { id: 5, title: "TRAC", imagePath: "/images/trac.png" },
     { id: 6, title: "JOEM", imagePath: "/images/trac.png" },
   ];
+
+  let currentDate = new Date();
+  let minDate = new Date(currentDate.setDate(currentDate.getUTCHours() + 2));
 
   return (
     <Layout>
@@ -347,7 +349,8 @@ export default function CreateRaffle() {
                 dateFormat="dd/MM/yyyy"
                 className="w-full px-4 py-3 text-xl rounded-lg bg-brandBlack text-whiteish active:border active:border-brand"
                 placeholderText="Pick a date"
-                disabled
+                minDate={new Date()}
+                // disabled
               />
               <DatePicker
                 selected={selectedTime}
@@ -359,7 +362,8 @@ export default function CreateRaffle() {
                 dateFormat="hh:mm"
                 timeCaption="Time"
                 className="w-full px-4 py-3 text-xl rounded-lg bg-brandBlack text-whiteish focus:border focus:border-brand"
-                disabled
+                minDate={minDate}
+                // disabled
               />
               <div className="text-center">
                 In testnet launch user can&apos;t choose end date

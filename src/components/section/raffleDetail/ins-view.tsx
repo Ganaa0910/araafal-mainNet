@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { utcToLocalTime } from "@/lib/helpers";
 import { Raffle } from "@/lib/types/dbTypes";
 import moment from "moment";
 import Image from "next/image";
@@ -9,8 +10,6 @@ export default function ViewInscription({
 }: {
   raffleDetail: Raffle;
 }) {
-  const isEnded = moment().isAfter(moment(raffleDetail.endDate));
-
   const renderer = ({ hours, minutes, seconds, completed }: any) => {
     if (completed) {
       // Render a completed state
@@ -33,10 +32,13 @@ export default function ViewInscription({
         width={`2000000`}
         height={`2000000`}
       />
-      <h1 className="text-2xl font-medium mb-5">{raffleDetail.name}</h1>
+      <h1 className="mb-5 text-2xl font-medium">{raffleDetail.name}</h1>
       {/* <h1 className="mb-5 text-cartDesktop"></h1> */}
       <Button variant={"secondary"} className="mx-3">
-        <Countdown date={raffleDetail.endDate} renderer={renderer} />
+        <Countdown
+          date={utcToLocalTime(raffleDetail.endDate)}
+          renderer={renderer}
+        />
       </Button>
     </div>
   );

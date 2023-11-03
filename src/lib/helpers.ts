@@ -17,3 +17,20 @@ export function getTokenImagePath(ticker: string) {
     return "/bitcoin.svg";
   }
 }
+
+export function utcToLocalTime(date: Date) {
+  let utcDate = new Date(date);
+
+  let localDate = new Date();
+
+  // Get the time difference in minutes
+  let timeDiff = localDate.getTimezoneOffset();
+
+  // Convert the time difference from minutes to milliseconds
+  timeDiff *= 60 * 1000;
+
+  // Subtract the time difference from the UTC date
+  localDate = new Date(utcDate.getTime() - timeDiff);
+
+  return localDate;
+}

@@ -3,6 +3,7 @@ import Layout from "@/components/layout/layout";
 import ClaimPrize from "@/components/modal/claim-prize";
 import ProfileTabs from "@/components/profile/profile-tabs";
 import { Button } from "@/components/ui/button";
+import { utcToLocalTime } from "@/lib/helpers";
 import { TransactionWithTicket, getTicketsByUser } from "@/lib/service";
 import { ReduxAccount } from "@/lib/types";
 import { useQuery } from "@tanstack/react-query";
@@ -139,7 +140,10 @@ const Tic = () => {
                           "Ended"
                         )
                       ) : (
-                        <Countdown date={ticket.endDate} renderer={renderer} />
+                        <Countdown
+                          date={utcToLocalTime(new Date(ticket.endDate))}
+                          renderer={renderer}
+                        />
                       )}
                     </div>
                   </div>

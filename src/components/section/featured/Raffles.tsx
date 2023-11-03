@@ -11,7 +11,7 @@ import "swiper/css/pagination";
 import { Navigation, Pagination } from "swiper/modules";
 Swiper.use([Navigation, Pagination]);
 import Countdown from "react-countdown";
-import { getTokenImagePath } from "@/lib/helpers";
+import { getTokenImagePath, utcToLocalTime } from "@/lib/helpers";
 import Link from "next/link";
 
 const Raffles = ({ data }: { data: Raffle[] | undefined }) => {
@@ -68,7 +68,10 @@ const Raffles = ({ data }: { data: Raffle[] | undefined }) => {
             <div className="w-full mx-auto h-[432px]  bg-neutral600 border-2 rounded-2xl border-lightblue flex flex-row p-6 gap-10 bg-two-vector bg-cover relative">
               <div className="absolute top-0 right-0 m-6 bg-secondary-less border rounded border-secondaryLinear w-[168px] h-[44px] grid place-items-center">
                 <div className="text-xl font-normal">
-                  <Countdown date={ins?.endDate} renderer={renderer} />
+                  <Countdown
+                    date={utcToLocalTime(ins?.endDate)}
+                    renderer={renderer}
+                  />
                 </div>
               </div>
 
