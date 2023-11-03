@@ -1,26 +1,23 @@
-import Image from "next/image";
-import { Button } from "../ui/button";
-import { useState } from "react";
 import {
   Dialog,
   DialogClose,
   DialogContent,
-  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
-import { useMutation } from "@tanstack/react-query";
 import { createRaffle } from "@/lib/service";
-import { useQueryClient } from "@tanstack/react-query";
+import { ReduxAccount } from "@/lib/types";
+import { Raffle } from "@/lib/types/dbTypes";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import Image from "next/image";
+import { useRouter } from "next/router";
+import { useState } from "react";
+import { useSelector } from "react-redux";
+import { toast } from "sonner";
+import { Button } from "../ui/button";
 import { Icons } from "../ui/icons";
 import PaymentConfirmation from "./payment-confirmation";
-import { toast } from "sonner";
-import { Raffle } from "@/lib/types/dbTypes";
-import { InscriptionType, ReduxAccount } from "@/lib/types";
-import { useRouter } from "next/router";
-import { useSelector } from "react-redux";
 
 type RaffleConfirmationProps = {
   handleClose: () => void;
@@ -107,7 +104,8 @@ const RaffleConfirmation = ({
       minute: "2-digit",
     };
     const date = new Date(dateString);
-    return date.toLocaleDateString("en-US", options).replace(",", "");
+
+    return date.toLocaleString("en-US", options).replace(",", "");
   };
 
   return (

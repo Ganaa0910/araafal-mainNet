@@ -99,7 +99,7 @@ const Tic = () => {
                     key={ticket.id}
                     className="w-full h-[116px]  rounded-lg  grid grid-cols-3 items-center"
                   >
-                    <div className="flex flex-row items-center justify-start gap-4">
+                    <div className="flex flex-row items-center justify-start gap-4 h-[100px]">
                       <div className="w-[100px] h-[100px] shrink-0">
                         <Image
                           width={100}
@@ -109,10 +109,11 @@ const Tic = () => {
                           alt="img"
                         />
                       </div>
-                      <div className="flex flex-col items-center justify-center h-full">
+                      <div className="flex flex-col justify-center">
                         <h3 className="text-xl">{ticket?.name}</h3>
                       </div>
                     </div>
+
                     {/* ________________________________------------------------------------_____________________________________ */}
                     <div className="flex flex-row items-center justify-center gap-2">
                       <h1 className="text-2xl"> {ticket?.ticketCount}</h1>

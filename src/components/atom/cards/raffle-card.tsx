@@ -54,9 +54,9 @@ export default function RaffleCard({
         <Image
           src={raffle.inscriptionPreviewUrl}
           alt="Profile"
-          height={280}
-          width={280}
-          className={`object-contain w-full rounded-xl z-10 ${
+          height={288}
+          width={288}
+          className={`object-contain w-full rounded-xl z-10 max-h-[288px] ${
             featured ? " shadow-shadowFeatured" : "shadow-shadowBrand"
           }`}
         />

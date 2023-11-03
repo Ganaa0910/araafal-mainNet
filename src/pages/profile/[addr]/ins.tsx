@@ -29,36 +29,51 @@ const MyInscriptions = () => {
         <div className="col-span-9 h-[694px] flex flex-col border-2 border-brand rounded-lg px-6 pt-5 pb-6 gap-5 bg-brandBlack overflow-auto ">
           <div className="text-2xl text-grey-300">My inscriptions</div>
           <div className="grid grid-cols-4 gap-4">
-            {inscriptions?.map((ins) => (
-              <div
-                key={ins.inscriptionId}
-                className="flex flex-col h-[280px] w-[202px] rounded-xl items-center"
-              >
-                <div className="mb-4">
-                  <div className="overflow-hidden rounded-lg w-52 h-52">
-                    <Image
-                      className="w-full rounded-md"
-                      src={`https://testnet.ordinals.com/content/${ins.inscriptionId}`}
-                      alt="Card"
-                      height={100}
-                      width={100}
-                    />
-                  </div>
-                  <div className="pt-3 pb-4 text-center">
-                    <div className="text-base font-medium text-whiteish">
-                      ID. {ins.inscriptionId.substring(0, 5)} ...
-                      {ins.inscriptionId.substring(
-                        ins.inscriptionId.length - 5,
-                        ins.inscriptionId.length - 1,
-                      )}
+            {inscriptions && inscriptions.length > 0 ? (
+              inscriptions.map((ins) => (
+                <div
+                  key={ins.inscriptionId}
+                  className="flex flex-col h-[280px] w-[202px] rounded-xl items-center"
+                >
+                  <div className="mb-4">
+                    <div className="overflow-hidden rounded-lg w-52 h-52">
+                      <Image
+                        className="w-full rounded-md"
+                        src={`https://testnet.ordinals.com/content/${ins.inscriptionId}`}
+                        alt="Card"
+                        height={100}
+                        width={100}
+                      />
                     </div>
-                    <div className="text-xl font-medium text-whiteish">
-                      NO. {ins.inscriptionNumber}
+                    <div className="pt-3 pb-4 text-center">
+                      <div className="text-base font-medium text-whiteish">
+                        ID. {ins.inscriptionId.substring(0, 5)} ...
+                        {ins.inscriptionId.substring(
+                          ins.inscriptionId.length - 5,
+                          ins.inscriptionId.length - 1,
+                        )}
+                      </div>
+                      <div className="text-xl font-medium text-whiteish">
+                        NO. {ins.inscriptionNumber}
+                      </div>
                     </div>
                   </div>
                 </div>
+              ))
+            ) : (
+              <div className="grid col-span-9 text-center items-center h-full col-span-3 gap-6 mt-10">
+                <Image
+                  alt="smile"
+                  width={72}
+                  height={72}
+                  src={"/smile.svg"}
+                  className="mx-auto"
+                />
+                <h1 className="mb-2 text-2xl font-bold text-neutral100 ">
+                  Haven&apos;t inscribed any raffle bro.
+                </h1>
               </div>
-            ))}
+            )}
           </div>
         </div>
       </div>
