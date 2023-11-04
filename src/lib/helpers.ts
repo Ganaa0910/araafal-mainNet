@@ -20,17 +20,30 @@ export function getTokenImagePath(ticker: string) {
 
 export function utcToLocalTime(date: Date) {
   let utcDate = new Date(date);
+  console.log("🚀 ~ file: helpers.ts:23 ~ utcToLocalTime ~ utcDate:", utcDate);
 
   let localDate = new Date();
+  console.log(
+    "🚀 ~ file: helpers.ts:26 ~ utcToLocalTime ~ localDate:",
+    localDate,
+  );
 
   // Get the time difference in minutes
   let timeDiff = localDate.getTimezoneOffset();
 
   // Convert the time difference from minutes to milliseconds
   timeDiff *= 60 * 1000;
+  console.log(
+    "🚀 ~ file: helpers.ts:33 ~ utcToLocalTime ~ timeDiff:",
+    timeDiff,
+  );
 
   // Subtract the time difference from the UTC date
   localDate = new Date(utcDate.getTime() - timeDiff);
+  console.log(
+    "🚀 ~ file: helpers.ts:37 ~ utcToLocalTime ~ localDate:",
+    localDate,
+  );
 
   return localDate;
 }
