@@ -1,7 +1,9 @@
 import React from "react";
 import Head from "next/head";
+import { useRouter } from "next/router";
 
 export default function MainHead() {
+  const router = useRouter();
   const logo = "https://testnet.araafal.com/images/og.png";
   const title = "Araafal";
   const description = "Decentralized Raffling Solution for BRC20s";
