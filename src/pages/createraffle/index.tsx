@@ -350,7 +350,7 @@ export default function CreateRaffle() {
                 className="w-full px-4 py-3 text-xl rounded-lg bg-brandBlack text-whiteish active:border active:border-brand"
                 placeholderText="Pick a date"
                 minDate={new Date()}
-                // disabled
+                disabled
               />
               <DatePicker
                 selected={selectedTime}
@@ -363,7 +363,7 @@ export default function CreateRaffle() {
                 timeCaption="Time"
                 className="w-full px-4 py-3 text-xl rounded-lg bg-brandBlack text-whiteish focus:border focus:border-brand"
                 minDate={minDate}
-                // disabled
+                disabled
               />
               <div className="text-center">
                 In testnet launch user can&apos;t choose end date
