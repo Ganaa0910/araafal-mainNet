@@ -156,32 +156,6 @@ export default function CreateRaffle() {
       await waitOneSecond();
       setRaffleSubmitModal(true);
       setSubmitLoading(false);
-      // let txid = await window.unisat.sendInscription(
-      //   walletInfo.nftDepositAddress,
-      //   `${chosenInscription.inscriptionId}`,
-      // );
-      // if (txid) {
-      //   console.log("🚀 ~ file: index.tsx:109 ~ handleSubmit ~ txid:", txid);
-      //   const newRaffleData = {
-      //     name: name,
-      //     description: desc,
-      //     price: parseFloat(price),
-      //     sellingTokenTicker: "BTC",
-      //     featured: isRaffleFeatured,
-      //     endDate: getCombinedDateTime(selectedDate, selectedTime),
-      //     startDate: new Date().toISOString(),
-      //     inscriptionId: `${chosenInscription.inscriptionId}`,
-      //     inscriptionPreviewUrl: `https://testnet.ordinals.com/content/${chosenInscription.inscriptionId}`,
-      //     ownerId: account.address,
-      //     nftDepositTransactionId: txid,
-      //     nftDepositAddress: walletInfo.nftDepositAddress,
-      //     nftPrivateKey: walletInfo.nftPrivateKey,
-      //     ticketDepositAddress: walletInfo.ticketDepositAddress,
-      //     ticketPrivateKey: walletInfo.ticketPrivateKey,
-      //   };
-      //   setNewRaffleData(newRaffleData);
-      //   // await mutateAsync({ newRaffleData });
-      // }
     }
   };
   const tokens = [

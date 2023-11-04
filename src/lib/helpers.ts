@@ -19,7 +19,11 @@ export function getTokenImagePath(ticker: string) {
 }
 
 export function utcToLocalTime(date: Date) {
-  const nowUtc = new Date().toISOString();
+  if (!date) {
+    return "";
+  }
+  console.log("🚀 ~ file: helpers.ts:26 ~ utcToLocalTime ~ date:", date);
+  const nowUtc = new Date(date).toISOString();
   const nowDate = new Date(nowUtc);
   console.log("🚀 ~ file: helpers.ts:23 ~ utcToLocalTime ~ utcDate:", nowDate);
 
