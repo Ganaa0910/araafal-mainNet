@@ -4,13 +4,16 @@ import Navbar from "./Navbar";
 import { Chakra_Petch } from "next/font/google";
 import { isMobile } from "react-device-detect";
 import MobileOnlyScreen from "../section/mobile-only";
+import MaintainanceScreen from "../section/maintainance";
 
 const chakra = Chakra_Petch({ subsets: ["latin"], weight: ["400", "700"] });
 const subClass = chakra.className;
 
 export default function Layout({ children }: { children: ReactNode }) {
   if (isMobile) {
-    return <MobileOnlyScreen />;
+    return <MaintainanceScreen />;
+  } else {
+    return <MaintainanceScreen />;
   }
   return (
     <>

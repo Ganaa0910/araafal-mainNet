@@ -8,6 +8,7 @@ import Raffles from "@/components/section/featured/Raffles";
 import Image from "next/image";
 import MobileOnlyScreen from "@/components/section/mobile-only";
 import { isMobile } from "react-device-detect";
+import MaintainanceScreen from "@/components/section/maintainance";
 
 function App() {
   const { isLoading, isError, data, error } = useQuery({
@@ -15,7 +16,9 @@ function App() {
     queryFn: fetchRaffles,
   });
   if (isMobile) {
-    return <MobileOnlyScreen />;
+    return <MaintainanceScreen />;
+  } else {
+    return <MaintainanceScreen />;
   }
 
   return (

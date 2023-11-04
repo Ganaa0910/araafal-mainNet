@@ -28,17 +28,9 @@ export function utcToLocalTime(date: Date) {
   console.log("🚀 ~ file: helpers.ts:23 ~ utcToLocalTime ~ utcDate:", nowDate);
 
   let localDate = new Date();
-  console.log(
-    "🚀 ~ file: helpers.ts:26 ~ utcToLocalTime ~ localDate:",
-    localDate,
-  );
 
   // Get the time difference in minutes
   let timeDiff = localDate.getTimezoneOffset();
-  console.log(
-    "🚀 ~ file: helpers.ts:33 ~ utcToLocalTime ~ timeDiff:",
-    timeDiff,
-  );
 
   // Convert the time difference from minutes to milliseconds
   timeDiff *= 60 * 1000;
@@ -54,5 +46,5 @@ export function utcToLocalTime(date: Date) {
     localDate,
   );
 
-  return nowDate;
+  return localDate;
 }

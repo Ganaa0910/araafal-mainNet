@@ -18,6 +18,8 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Icons } from "@/components/ui/icons";
 import { ReduxAccount } from "@/lib/types";
+import MaintainanceScreen from "@/components/section/maintainance";
+import { isMobile } from "react-device-detect";
 
 type SavedUser = {
   address: string;
@@ -27,6 +29,7 @@ type SavedUser = {
 
 export default function Register() {
   //https://www.araafal.com/register?referralCode=
+
   const router = useRouter();
   const queryClient = useQueryClient();
   const account = useSelector((state: ReduxAccount) => state.account);
@@ -137,6 +140,12 @@ export default function Register() {
       console.log(error);
     }
   };
+
+  if (isMobile) {
+    return <MaintainanceScreen />;
+  } else {
+    return <MaintainanceScreen />;
+  }
   return (
     <>
       <nav className="absolute top-0 left-0 w-full mx-auto">
