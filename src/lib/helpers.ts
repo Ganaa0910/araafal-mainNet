@@ -54,5 +54,5 @@ export function utcToLocalTime(date: Date) {
     localDate,
   );
 
-  return localDate;
+  return nowDate;
 }
