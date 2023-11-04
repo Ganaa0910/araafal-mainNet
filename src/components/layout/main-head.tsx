@@ -1,38 +1,35 @@
-import React from 'react'
-import Head from 'next/head'
+import React from "react";
+import Head from "next/head";
 
 export default function MainHead() {
-    return (
-        <Head>
-            <meta charSet="UTF-8" />
-            <meta
-                name="viewport"
-                content="width=device-width, initial-scale=1.0"
-            />
-            <title>Satoshi Raffles</title>
-
-            <meta property="og:title" content="Satoshi Raffles" />
-            <meta
-                property="og:description"
-                content="A place to partake in the raffles of unique and abstract Ordinal Artefacts"
-            />
-            <meta
-                property="og:image"
-                content="https://raffle.satoshipunks.art/cover.jpg"
-            />
-            <meta property="og:type" content="website" />
-            <meta property="og:url" content="https://raffle.satoshipunks.art" />
-
-            <meta name="twitter:card" content="summary_large_image" />
-            <meta name="twitter:title" content="Satoshi Raffles" />
-            <meta
-                name="twitter:description"
-                content="A place to partake in the raffles of unique and abstract Ordinal Artefacts"
-            />
-            <meta
-                name="twitter:image"
-                content="https://raffle.satoshipunks.art/cover.jpg"
-            />
-        </Head>
-    )
+  const logo = "https://testnet.araafal.com/images/og.png";
+  const title = "Araafal";
+  const description = "Decentralized Raffling Solution for BRC20s";
+  return (
+    <Head>
+      <meta property="viewport" content="width=device-width, initial-scale=1" />
+      <meta charSet="utf-8" />
+      <meta property="theme-color" content="#000000" />
+      <meta name="author" content="developed by Numad Labs" />
+      <title>{title}</title>
+      <meta name="title" content={title} />
+      <meta property="og:locale" content="en_EN" />
+      <meta property="og:description" content={description} />
+      <meta
+        property="og:url"
+        content={`https://pepepunks.art/${router.asPath}`}
+      />
+      <link rel="icon" type="image/png" sizes="32x32" href={logo} />
+      <link rel="icon" type="image/png" sizes="96x96" href={logo} />
+      <link rel="icon" type="image/png" sizes="16x16" href={logo} />
+      <meta property="og:site_name" content="ordydrops.com" />
+      <meta property="og:image" content={logo} key="ogimage" />
+      <meta property="og:image:secure_url" content={logo} key="ogimagesecure" />
+      <meta property="og:image:width" content="1170" key="ogimagewidth" />
+      <meta property="og:image:height" content="630" key="ogimageheight" />
+      <meta property="og:site_name" content="pepepunks.art" />
+      <meta property="og:image" content={logo} />
+      <meta property="og:image:secure_url" content={logo} />
+    </Head>
+  );
 }
