@@ -19,8 +19,9 @@ export function getTokenImagePath(ticker: string) {
 }
 
 export function utcToLocalTime(date: Date) {
-  let utcDate = new Date(date);
-  console.log("🚀 ~ file: helpers.ts:23 ~ utcToLocalTime ~ utcDate:", utcDate);
+  const nowUtc = new Date().toISOString();
+  const nowDate = new Date(nowUtc);
+  console.log("🚀 ~ file: helpers.ts:23 ~ utcToLocalTime ~ utcDate:", nowDate);
 
   let localDate = new Date();
   console.log(
@@ -30,6 +31,10 @@ export function utcToLocalTime(date: Date) {
 
   // Get the time difference in minutes
   let timeDiff = localDate.getTimezoneOffset();
+  console.log(
+    "🚀 ~ file: helpers.ts:33 ~ utcToLocalTime ~ timeDiff:",
+    timeDiff,
+  );
 
   // Convert the time difference from minutes to milliseconds
   timeDiff *= 60 * 1000;
@@ -39,7 +44,7 @@ export function utcToLocalTime(date: Date) {
   );
 
   // Subtract the time difference from the UTC date
-  localDate = new Date(utcDate.getTime() - timeDiff);
+  localDate = new Date(nowDate.getTime() - timeDiff);
   console.log(
     "🚀 ~ file: helpers.ts:37 ~ utcToLocalTime ~ localDate:",
     localDate,
