@@ -28,7 +28,7 @@ export default function FeaturedRaffleCard({ ins }: { ins: Raffle }) {
           <div className="w-full h-full">
             <div className="flex flex-col">
               <h1 className="mt-8 text-featured">{ins.name}</h1>
-              {/* <p className="text-blue-400 text-blueFont">{ins.name}</p> */}
+              {/* <p className="text-blue-400 text-blueTitle">{ins.name}</p> */}
             </div>
           </div>
           <div className="w-full h-full">

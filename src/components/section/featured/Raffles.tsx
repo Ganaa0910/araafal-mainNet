@@ -106,7 +106,11 @@ const Raffles = ({ data }: { data: Raffle[] | undefined }) => {
                 <div className="w-full h-full">
                   <div className="flex flex-col">
                     <h1 className="mt-8 text-featured">{ins.name}</h1>
-                    {/* <p className="text-blue-400 text-blueFont">{ins.name}</p> */}
+                    {ins.inscriptionNumber && (
+                      <h3 className="text-secondaryLinear text-blueTitle">
+                        {ins.inscriptionNumber}
+                      </h3>
+                    )}
                   </div>
                 </div>
                 <div className="w-full h-full">

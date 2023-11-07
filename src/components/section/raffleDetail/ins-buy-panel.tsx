@@ -133,6 +133,7 @@ export default function BuyPanel({
                 <button
                   className="p-0 text-xl text-white border-none rounded-l-none rounded-r select-none bg-inherit"
                   onClick={handleIncrement}
+                  disabled={ticket.amount == 10}
                 >
                   +
                 </button>
@@ -164,15 +165,6 @@ export default function BuyPanel({
       <div className="w-full h-[2px] bg-brand"></div>
       {raffleActive && (
         <div className="flex flex-col">
-          {/* <p className="inline-block w-full pb-6 text-base break-all select-all bg-defaultGray text-start">
-              {raffleDetail?.ownerId}
-            </p> */}
-          {/* <button
-            className="text-base bg-defaultGray border-lightGray px-[16px] py-[12px] h-[48px] w-full md:w-auto hover:bg-darkerLightGray hover:border-lightGray"
-            onClick={handleOpenPurchaseOverlay}
-          >
-            Purchase
-          </button> */}
           <Button
             variant={"secondary"}
             onClick={handleOpenPurchaseOverlay}
@@ -183,18 +175,8 @@ export default function BuyPanel({
           >
             Buy
           </Button>
-
-          {/* <PurchaseOverlay
-            isOpen={isPurchaseOverlayOpen}
-            onClose={handleClosePurchaseOverlay}
-            raffleDetail={raffleDetail}
-          /> */}
         </div>
       )}
-      {/* <div className="w-full h-0.5 bg-lightGray"></div>
-      <div className="flex flex-col">
-        <CountdownTimer />
-      </div> */}
     </>
   );
 
@@ -205,7 +187,6 @@ export default function BuyPanel({
           <h1 className="text-2xl">Join the Raffle</h1>
         </div>
 
-        {/* {renderBuyPanel()} */}
         {renderBuyPanel()}
       </div>
     </>

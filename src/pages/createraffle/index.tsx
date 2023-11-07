@@ -69,11 +69,11 @@ export default function CreateRaffle() {
   const getCombinedDateTime = (date: Date, time: Date) => {
     const combinedDateTime = new Date(
       Date.UTC(
-        date.getUTCFullYear(),
-        date.getUTCMonth(),
-        date.getUTCDate(),
-        time.getUTCHours(),
-        time.getUTCMinutes(),
+        date.getFullYear(),
+        date.getMonth(),
+        date.getDate(),
+        time.getHours(),
+        time.getMinutes(),
       ),
     );
     console.log(combinedDateTime);
@@ -262,6 +262,7 @@ export default function CreateRaffle() {
                   <input
                     type="number"
                     placeholder="Enter an amount"
+                    min="0.01"
                     value={price}
                     onChange={(e) => setPrice(e.target.value)}
                     className="px-6 py-3 rounded-lg bg-brandBlack focus:outline-none hover:border hover:border-brand"
@@ -296,7 +297,13 @@ export default function CreateRaffle() {
                 2000 PSAT
               </h1>
 
-              <div className="flex flex-row w-full border-2 bg-brandBlack border-brand rounded-xl">
+              <div
+                className={`flex flex-row w-full border-2 bg-brandBlack rounded-xl ${
+                  isRaffleFeatured === false
+                    ? "border-brand"
+                    : "border-secondaryLinear"
+                }`}
+              >
                 <button
                   className={`w-1/2 px-5 py-4 rounded-lg   ${
                     isRaffleFeatured === false ? "bg-brand" : ""
@@ -307,7 +314,7 @@ export default function CreateRaffle() {
                 </button>
                 <button
                   className={`w-1/2 px-5 py-4 rounded-lg ${
-                    isRaffleFeatured === true ? "bg-brand" : ""
+                    isRaffleFeatured === true ? "bg-secondaryLinear" : ""
                   }`}
                   onClick={() => handleButtonClick(true)}
                 >

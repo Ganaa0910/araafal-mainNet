@@ -32,7 +32,12 @@ export default function ViewInscription({
         width={`2000000`}
         height={`2000000`}
       />
-      <h1 className="mb-5 text-2xl font-medium">{raffleDetail.name}</h1>
+      <h1 className="mb-5 text-2xl font-bold">{raffleDetail.name}</h1>
+      {raffleDetail?.inscriptionNumber && (
+        <h1 className="mb-5 text-cartDesktop font-bold">
+          {raffleDetail?.inscriptionNumber}
+        </h1>
+      )}
       {/* <h1 className="mb-5 text-cartDesktop"></h1> */}
       <Button variant={"secondary"} className="mx-3">
         <Countdown

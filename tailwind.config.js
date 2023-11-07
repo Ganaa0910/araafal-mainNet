@@ -35,7 +35,7 @@ module.exports = {
       aboutUs: ["24px", "36px"],
       faqExtended: ["20px", "28px"],
       featured: ["32px", "44px"],
-      blueFont: ["56px", "68px"],
+      blueTitle: ["56px", "68px"],
       smallTitles: ["16px", "22px"],
     },
 

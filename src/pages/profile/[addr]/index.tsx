@@ -110,6 +110,13 @@ export default function Profile() {
               buttonText="Go"
             />
           </div>
+          <Card
+            title="Create featured raffle"
+            points="5 pts"
+            description="Create raffle with PSAT to make it featured"
+            linkTo="/createraffle"
+            buttonText="Go"
+          />
           <div className="flex flex-col gap-5 p-6 border w-fulls rounded-xl border-brand bg-brandBlack">
             <div className="flex flex-col gap-2">
               <div className="flex justify-between">

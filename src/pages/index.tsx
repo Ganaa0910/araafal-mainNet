@@ -15,15 +15,22 @@ function App() {
     queryKey: ["raffles"],
     queryFn: fetchRaffles,
   });
-  if (isMobile) {
-    return <MaintainanceScreen />;
-  } else {
-    return <MaintainanceScreen />;
-  }
+  // if (isMobile) {
+  //   return <MaintainanceScreen />;
+  // } else {
+  //   return <MaintainanceScreen />;
+  // }
 
   return (
     // <Layout>
     <div>
+      <Image
+        src="/bg.svg"
+        height={1440}
+        width={1440}
+        className="z-0 select-none top-gradient"
+        alt="bg"
+      />
       <Navbar />
       <div
         className={`flex h-screen  mx-auto  z-10 -mt-20 flex-col items-center justify-center `}
