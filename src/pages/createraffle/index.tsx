@@ -69,16 +69,22 @@ export default function CreateRaffle() {
   const getCombinedDateTime = (date: Date, time: Date) => {
     const combinedDateTime = new Date(
       Date.UTC(
-        date.getFullYear(),
-        date.getMonth(),
-        date.getDate(),
-        time.getHours(),
-        time.getMinutes(),
+        date.getUTCFullYear(),
+        date.getUTCMonth(),
+        date.getUTCDate(),
+        time.getUTCHours(),
+        time.getUTCMinutes(),
       ),
     );
-    console.log(combinedDateTime);
-    // const utcTime = moment(time).utc().format();
-    return combinedDateTime;
+
+    // Convert to UNIX timestamp in seconds
+    const unixTimestamp = Math.floor(combinedDateTime.getTime());
+
+    console.log(
+      "🚀 ~ file: index.tsx:85 ~ getCombinedDateTime ~ unixTimestamp:",
+      unixTimestamp,
+    );
+    return unixTimestamp;
   };
 
   useEffect(() => {
@@ -109,6 +115,7 @@ export default function CreateRaffle() {
   };
 
   const handleSubmit = async () => {
+    getCombinedDateTime(selectedDate, selectedTime);
     setSubmitLoading(true);
     if (!name || !desc || !price || !chosenInscription || !chosenCurrency) {
       setSubmitLoading(false);

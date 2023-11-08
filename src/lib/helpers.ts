@@ -18,33 +18,15 @@ export function getTokenImagePath(ticker: string) {
   }
 }
 
-export function utcToLocalTime(date: Date) {
+export function utcToLocalTime(date: any) {
   if (!date) {
     return "";
   }
-  console.log("🚀 ~ file: helpers.ts:26 ~ utcToLocalTime ~ date:", date);
-  const nowUtc = new Date(date).toISOString();
-  const nowDate = new Date(nowUtc);
-  console.log("🚀 ~ file: helpers.ts:23 ~ utcToLocalTime ~ utcDate:", nowDate);
+  const now = new Date(parseInt(date));
+  console.log("🚀 ~ file: index.ts:59 ~ now:", now);
+  const nowUtc = now.toUTCString();
 
-  let localDate = new Date();
+  console.log("🚀 ~ file: helpers.ts:37 ~ utcToLocalTime ~ localDate:", nowUtc);
 
-  // Get the time difference in minutes
-  let timeDiff = localDate.getTimezoneOffset();
-
-  // Convert the time difference from minutes to milliseconds
-  timeDiff *= 60 * 1000;
-  console.log(
-    "🚀 ~ file: helpers.ts:33 ~ utcToLocalTime ~ timeDiff:",
-    timeDiff,
-  );
-
-  // Subtract the time difference from the UTC date
-  localDate = new Date(nowDate.getTime() - timeDiff);
-  console.log(
-    "🚀 ~ file: helpers.ts:37 ~ utcToLocalTime ~ localDate:",
-    localDate,
-  );
-
-  return localDate;
+  return nowUtc;
 }
