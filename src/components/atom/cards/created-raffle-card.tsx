@@ -101,11 +101,16 @@ export default function CreatedRaffleCard({
       </div>
       {raffle.status == "RAFFLE_ENDED" && (
         <div className="flex flex-col gap-2 px-6 pb-4">
-          {!isPublic && (
-            <Button variant={"primary"} onClick={handleButtonClick}>
-              Claim reward
-            </Button>
-          )}
+          {!isPublic &&
+            (ticketCount?.count !== 0 ? (
+              <Button variant={"primary"} onClick={handleButtonClick}>
+                Claim reward
+              </Button>
+            ) : (
+              <Button variant={"secondary"} onClick={handleButtonClick}>
+                Ended
+              </Button>
+            ))}
 
           {isPublic ? (
             <Button variant={"primary"} onClick={handleViewClick}>
@@ -116,7 +121,9 @@ export default function CreatedRaffleCard({
               {raffle?.winnerId
                 ? `Winner : ${raffle?.winnerId?.slice(0, 4)}...
           ${raffle?.winnerId?.slice(-5)}`
-                : "Ended without winner"}
+                : ticketCount?.count !== 0
+                ? "Ended without winner"
+                : "No ticket sold"}
             </Button>
           )}
         </div>

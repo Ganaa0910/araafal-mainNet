@@ -58,12 +58,12 @@ function App() {
             <span className="inline-block w-24 h-2 bg-gradient-to-r from-cyan-500 to-blue-500"></span>
           </div>
 
-          <Raffles data={data} />
+          <Raffles data={data?.raffles} />
         </div>
       </div>
 
       <div className="pb-40 mb-[144px]">
-        <ActiveRaffles data={data} />
+        <ActiveRaffles data={data?.raffles} />
       </div>
       <Footer />
     </div>

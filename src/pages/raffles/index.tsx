@@ -1,14 +1,11 @@
 import RaffleCard from "@/components/atom/cards/raffle-card";
 import PageTitle from "@/components/atom/page-title";
 import Layout from "@/components/layout/layout";
-import {
-  fetchFeaturedRaffles,
-  fetchRaffleById,
-  fetchRaffles,
-} from "@/lib/service";
+import { fetchRaffles } from "@/lib/service";
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import React from "react";
 import { useInView } from "react-intersection-observer";
+import { Icons } from "@/components/ui/icons";
 
 export default function Index() {
   // const { isLoading, isError, data, error } = useQuery({
@@ -58,7 +55,7 @@ export default function Index() {
           </React.Fragment>
         ))}
       </div>
-      <div className="flex justify-center w-full">
+      <div className="flex justify-center w-full pt-16">
         <button
           ref={ref}
           onClick={() => fetchNextPage()}

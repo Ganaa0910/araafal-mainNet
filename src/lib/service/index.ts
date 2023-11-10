@@ -43,7 +43,7 @@ export interface TransactionWithTicket {
 
 export async function fetchRaffles({
   pageParam = 1,
-  limitParam = 6,
+  limitParam = 10,
 }): Promise<{ raffles: Raffle[]; nextPage: number; nextLimit: number }> {
   const response = await axiosClient.get(
     `/api/raffles?page=${pageParam}&limit=${limitParam}`,
