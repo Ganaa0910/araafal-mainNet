@@ -37,7 +37,7 @@ export type Raffle = {
   inscriptionNumber: string | null;
   winner: User | null;
   tickets: Ticket[] | null;
-
+  ticket_count: number | null;
   sellingTokenImage: string | null;
 };
 

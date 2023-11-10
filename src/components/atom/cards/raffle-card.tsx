@@ -14,13 +14,13 @@ export default function RaffleCard({
   raffle: Raffle;
   featured: boolean;
 }) {
-  const { data: ticketCount } = useQuery({
-    queryKey: ["count", raffle.id],
-    queryFn: () => {
-      return getTicketsCountByRaffle(raffle.id as string);
-    },
-    enabled: raffle !== null,
-  });
+  // const { data: ticketCount } = useQuery({
+  //   queryKey: ["count", raffle.id],
+  //   queryFn: () => {
+  //     return getTicketsCountByRaffle(raffle.id as string);
+  //   },
+  //   enabled: raffle !== null,
+  // });
   // const isEnded = moment().isAfter(moment(raffle.endDate));
   const renderer = ({ hours, minutes, seconds, completed }: any) => {
     if (completed) {
@@ -82,7 +82,7 @@ export default function RaffleCard({
         <div className="flex flex-row w-full gap-3 px-6 overflow-hidden h-7">
           <Image src={"ticket.svg"} alt="ticket" width={24} height={24} />
           <p className="text-lg font-normal text-white">
-            {ticketCount?.count} sold
+            {raffle?.ticket_count} sold
           </p>
         </div>
         <Button
