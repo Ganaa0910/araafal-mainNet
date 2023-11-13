@@ -10,7 +10,7 @@ import { useSelector } from "react-redux";
 const MyInscriptions = () => {
   const account = useSelector((state: ReduxAccount) => state.account);
 
-  const { data: inscriptions } = useQuery({
+  const { data: inscriptions, isLoading } = useQuery({
     queryKey: ["inscriptions"],
     queryFn: () => {
       return getInscriptionsTestnet(account.address);
@@ -29,7 +29,9 @@ const MyInscriptions = () => {
         <div className="col-span-9 h-[694px] flex flex-col border-2 border-brand rounded-lg px-6 pt-5 pb-6 gap-5 bg-brandBlack overflow-auto ">
           <div className="text-2xl text-grey-300">My inscriptions</div>
           <div className="grid grid-cols-4 gap-4">
-            {inscriptions && inscriptions.length > 0 ? (
+            {isLoading ? (
+              <div>loading</div>
+            ) : inscriptions && inscriptions.length > 0 ? (
               inscriptions.map((ins) => (
                 <div
                   key={ins.inscriptionId}
@@ -61,7 +63,7 @@ const MyInscriptions = () => {
                 </div>
               ))
             ) : (
-              <div className="grid col-span-9 text-center items-center h-full col-span-3 gap-6 mt-10">
+              <div className="grid items-center h-full col-span-3 col-span-9 gap-6 mt-10 text-center">
                 <Image
                   alt="smile"
                   width={72}

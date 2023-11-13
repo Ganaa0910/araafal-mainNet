@@ -6,6 +6,10 @@ import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import React from "react";
 import { useInView } from "react-intersection-observer";
 import { Icons } from "@/components/ui/icons";
+import { Skeleton } from "@/components/ui/skeleton";
+import { AspectRatio } from "@/components/ui/aspect-ratio";
+import { Button } from "@/components/ui/button";
+import RaffleSkeleton from "@/components/atom/cards/raffle-skeleton";
 
 export default function Index() {
   // const { isLoading, isError, data, error } = useQuery({
@@ -27,7 +31,7 @@ export default function Index() {
   } = useInfiniteQuery(["raffles", 1, 6], fetchRaffles, {
     getNextPageParam: (lastPage, allPages) => {
       // If the last page has less than the limit number of items, there are no more pages.
-      if (lastPage.raffles.length < limit) {
+      if (lastPage?.raffles?.length < limit) {
         return undefined;
       }
 
@@ -44,16 +48,26 @@ export default function Index() {
   return (
     <Layout>
       <PageTitle name="Raffles" />
+
       <div className="grid gap-4 lg:grid-cols-3 xl:grid-cols-4">
+        {/* <RaffleSkeleton /> */}
         {data?.pages.map((page) => (
           <React.Fragment key={page.nextPage}>
-            {page.raffles.map((project) => (
+            {page?.raffles?.map((project) => (
               <div key={project.id}>
                 <RaffleCard raffle={project} featured={project.featured} />
               </div>
             ))}
           </React.Fragment>
         ))}
+        {isFetching && (
+          <>
+            <RaffleSkeleton />
+            <RaffleSkeleton />
+            <RaffleSkeleton />
+            <RaffleSkeleton />
+          </>
+        )}
       </div>
       <div className="flex justify-center w-full pt-16">
         <button
@@ -65,7 +79,7 @@ export default function Index() {
             ? "Loading more..."
             : hasNextPage
             ? "Load Newer"
-            : "Nothing more to load"}
+            : !isFetching && "Nothing more to load"}
         </button>
       </div>
     </Layout>

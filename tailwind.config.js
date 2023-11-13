@@ -51,6 +51,7 @@ module.exports = {
         brandBlack: "var(--Black-less-opacity, rgba(0, 0, 0, 0.50))",
         whiteish: "#E2E1E1",
         neutral100: "#C4C3C2",
+        neutral400: "#4E4B48",
         neutral600: "#141414",
         secondaryLinear: "#464DFF",
       },

@@ -46,17 +46,17 @@ export default function Detail() {
       <div className="h-[850px] ">
         <PageTitle name="Raffle page" />
 
-        <div className="flex flex-row w-full gap-8">
-          <div className="flex flex-col w-[280px] gap-8">
+        <div className="grid grid-cols-12 gap-8 ">
+          <div className="flex flex-col col-span-3 gap-8">
             {raffleDetail && <ViewInscription raffleDetail={raffleDetail} />}
             <InscriptionDetails raffleDetail={raffleDetail} />
           </div>
 
-          <div className="flex flex-col w-[488px] gap-8">
+          <div className="flex flex-col col-span-5 gap-8">
             <BuyPanel raffleDetail={raffleDetail} tickets={tickets} />
             <InsDescription raffleDetail={raffleDetail} />
           </div>
-          <div className="flex flex-col  gap-8 w-[384px]">
+          <div className="flex flex-col col-span-4 gap-8">
             <ProfileBar raffleDetail={raffleDetail} />
             <Leaderboard raffleDetail={raffleDetail} tickets={tickets} />
           </div>

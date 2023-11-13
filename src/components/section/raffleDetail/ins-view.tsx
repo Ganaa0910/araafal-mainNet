@@ -1,3 +1,4 @@
+import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { Button } from "@/components/ui/button";
 import { utcToLocalTime } from "@/lib/helpers";
 import { Raffle } from "@/lib/types/dbTypes";
@@ -25,16 +26,18 @@ export default function ViewInscription({
   };
   return (
     <div className="flex flex-col w-full px-3 pt-3 pb-5 text-center text-white border-2 rounded-xl raffle-gradient border-brand">
-      <Image
-        className="rounded-lg w-full h-full md:w-[256px] md:h-[256px] mx-auto mb-5"
-        src={raffleDetail?.inscriptionPreviewUrl}
-        alt="Inscription image"
-        width={`2000000`}
-        height={`2000000`}
-      />
+      <AspectRatio ratio={1}>
+        <Image
+          className="w-full h-full mx-auto mb-5 rounded-lg"
+          src={raffleDetail?.inscriptionPreviewUrl}
+          alt="Inscription image"
+          width={256}
+          height={256}
+        />
+      </AspectRatio>
       <h1 className="mb-5 text-2xl font-bold">{raffleDetail.name}</h1>
       {raffleDetail?.inscriptionNumber && (
-        <h1 className="mb-5 text-cartDesktop font-bold">
+        <h1 className="mb-5 font-bold text-cartDesktop">
           {raffleDetail?.inscriptionNumber}
         </h1>
       )}

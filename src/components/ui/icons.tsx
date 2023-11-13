@@ -63,6 +63,8 @@ import {
   type LucideProps,
 } from "lucide-react";
 
+import { AvatarIcon, ImageIcon } from "@radix-ui/react-icons";
+
 export type Icon = LucideIcon;
 
 export const Icons = {
@@ -118,7 +120,7 @@ export const Icons = {
   store: ShoppingBag,
   chart: BarChart3,
   upload: UploadCloud,
-  placeholder: Image,
+  // placeholder: Image,
   clothing: Shirt,
   shoes: Footprints,
   share: Share2,
@@ -126,6 +128,7 @@ export const Icons = {
   info: Info,
   shieldCheck: ShieldCheck,
   accessories: HardHat,
+  placeholder: ImageIcon,
   coupon: (props: LucideProps) => (
     <svg
       {...props}

@@ -19,7 +19,8 @@ export type Raffle = {
   sellingTokenTicker: string;
   sellingTicketLimit: number | null;
   featured: boolean;
-  endDate: number;
+  endDate: string;
+  endDateUnix: number;
   startDate: String;
   status: RaffleStatus | null;
   inscriptionId: string;

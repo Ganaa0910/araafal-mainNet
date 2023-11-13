@@ -13,6 +13,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { useSelector } from "react-redux";
+import RaffleSkeleton from "@/components/atom/cards/raffle-skeleton";
 
 export default function Raf() {
   const account = useSelector((state: ReduxAccount) => state.account);
@@ -49,7 +50,13 @@ export default function Raf() {
           <ProfileTabs account={account} />
         </div>
         <div className="grid h-auto col-span-9 gap-5 px-6 pt-5 pb-6 overflow-auto border-2 rounded-lg lg:grid-cols-2 xl:grid-cols-3 border-brand bg-brandBlack">
-          {!isLoading && raffles && raffles?.length > 0 ? (
+          {isLoading ? (
+            <>
+              <RaffleSkeleton />
+              <RaffleSkeleton />
+              <RaffleSkeleton />
+            </>
+          ) : raffles && raffles?.length > 0 ? (
             raffles.map((raffle) => (
               <div key={raffle.id}>
                 <CreatedRaffleCard

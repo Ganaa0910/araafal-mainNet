@@ -23,10 +23,7 @@ export function utcToLocalTime(date: any) {
     return "";
   }
   const now = new Date(parseInt(date));
-  console.log("🚀 ~ file: index.ts:59 ~ now:", now);
   const nowUtc = now.toUTCString();
-
-  console.log("🚀 ~ file: helpers.ts:37 ~ utcToLocalTime ~ localDate:", nowUtc);
 
   return nowUtc;
 }

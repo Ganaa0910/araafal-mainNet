@@ -40,32 +40,36 @@ export default function ChooseInscription({
           <DialogTitle>Choose inscription</DialogTitle>
         </DialogHeader>
         <div className="w-full">
-          <div className="grid w-full h-full grid-cols-4 gap-8 overflow-auto text-center ">
-            {inscriptions?.map((ins) => (
-              <div
-                key={ins.inscriptionId}
-                className={`w-full flex flex-col gap-3 overflow-hidden rounded-xl  ${
-                  selectedCards == ins
-                    ? "border-2 border-red-500 "
-                    : "border-2 border-transparent"
-                }`}
-                onClick={() => setSelectedCards(ins)}
-              >
-                <Image
-                  className={`w-full rounded-md  ${
-                    selectedCards == ins ? "shadow-shadowBrand" : ""
+          {inscriptions?.length == -0 ? (
+            <div> No inscription found</div>
+          ) : (
+            <div className="grid w-full h-full grid-cols-4 gap-8 overflow-auto text-center ">
+              {inscriptions?.map((ins) => (
+                <div
+                  key={ins.inscriptionId}
+                  className={`w-full flex flex-col gap-3 overflow-hidden rounded-xl  ${
+                    selectedCards == ins
+                      ? "border-2 border-red-500 "
+                      : "border-2 border-transparent"
                   }`}
-                  src={`https://testnet.ordinals.com/content/${ins.inscriptionId}`}
-                  alt="Card"
-                  height={100}
-                  width={100}
-                />
-                <div className="pb-5 text-xl font-bold ">
-                  {ins.inscriptionNumber}
+                  onClick={() => setSelectedCards(ins)}
+                >
+                  <Image
+                    className={`w-full rounded-md  ${
+                      selectedCards == ins ? "shadow-shadowBrand" : ""
+                    }`}
+                    src={`https://testnet.ordinals.com/content/${ins.inscriptionId}`}
+                    alt="Card"
+                    height={100}
+                    width={100}
+                  />
+                  <div className="pb-5 text-xl font-bold ">
+                    {ins.inscriptionNumber}
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
         </div>
         <DialogFooter className="sm:justify-start">
           <div className="flex flex-row justify-end w-full h-auto gap-2">
@@ -79,6 +83,7 @@ export default function ChooseInscription({
             variant={"primary"}
             onClick={confirmation}
             className="mt-5 modal-close"
+            disabled={selectedCards == null}
           >
             Confirm
           </Button>
