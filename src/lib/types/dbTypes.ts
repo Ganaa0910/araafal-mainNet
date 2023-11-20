@@ -40,6 +40,14 @@ export type Raffle = {
   tickets: Ticket[] | null;
   ticket_count: number | null;
   sellingTokenImage: string | null;
+  walletAddress?: string;
+  userName?: string | null;
+  profileInscriptionLink?: string | null;
+  twitterHandle?: string | null;
+  discordHandle?: string | null;
+  // createdAt?: Date;
+  contestPoint?: number;
+  email?: string | null;
 };
 
 export type Ticket = {
@@ -77,21 +85,21 @@ export type Notification = {
 };
 
 export type User = {
-  walletAddress: string;
-  userName: string | null;
-  profileInscriptionLink: string | null;
-  twitterHandle: string | null;
-  discordHandle: string | null;
-  createdAt: Date;
-  contestPoint: number;
-  email: string | null;
-  contests: ContestActivity[];
-  notifications: Notification[];
-  myRaffles: Raffle[];
-  winnedRaffles: Raffle[];
-  referral: Referral | null;
-  tickets: Ticket[];
-  transactions: Transaction[];
+  walletAddress?: string;
+  userName?: string | null;
+  profileInscriptionLink?: string | null;
+  twitterHandle?: string | null;
+  discordHandle?: string | null;
+  createdAt?: Date;
+  contestPoint?: number;
+  email?: string | null;
+  contests?: ContestActivity[];
+  notifications?: Notification[];
+  myRaffles?: Raffle[];
+  winnedRaffles?: Raffle[];
+  referral?: Referral | null;
+  tickets?: Ticket[];
+  transactions?: Transaction[];
 };
 
 export type Referral = {

@@ -129,6 +129,7 @@ export const Icons = {
   shieldCheck: ShieldCheck,
   accessories: HardHat,
   placeholder: ImageIcon,
+  userPlaceholder: AvatarIcon,
   coupon: (props: LucideProps) => (
     <svg
       {...props}

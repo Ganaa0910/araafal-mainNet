@@ -18,7 +18,7 @@ const buttonVariants = cva(
         plain: "border-2 border-whiteish text-white py-3 px-5 w-full",
         ghost: "text-oragne-900",
         link: "text-slate-900 underline-offset-4 hover:underline dark:text-slate-50",
-        active: "border-2 bg-brand border-brand font-bold",
+        active: "border-2 primary-gradient-nonhover border-brand font-bold",
         notActive: "border-2 bg-brandBlack border-brand font-bold",
       },
       size: {

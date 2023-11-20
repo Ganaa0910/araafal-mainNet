@@ -94,7 +94,6 @@ export async function getTicketsCountByRaffle(id: string) {
 }
 
 export async function getUserProfile(address: string): Promise<User> {
-  console.log("🚀 ~ file: index.ts:66 ~ getUserProfile ~ address:", address);
   return axiosClient.get(`/api/users/${address}/profile`).then((response) => {
     return response?.data;
   });
@@ -123,10 +122,6 @@ export async function getInscriptions(address: string) {
       },
     });
 
-    console.log(
-      "🚀 ~ file: index.tsx:102 ~ getInscriptions ~ response:",
-      response,
-    );
     const utxo = response.data.utxo;
 
     for (let i = 0; i < utxo.length; i++) {

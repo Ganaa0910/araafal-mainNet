@@ -42,6 +42,23 @@ export async function loginHandler({ walletData }: { walletData: User }) {
     console.log("Error:", error);
   }
 }
+export async function profileUpdateHandler({ userData }: { userData: User }) {
+  try {
+    return axiosClient
+      .put(`/api/users/profile/edit`, JSON.stringify(userData))
+      .then((response) => {
+        console.log(
+          "🚀 ~ file: postRequest.ts:34 ~ .then ~ response:",
+          response,
+        );
+
+        return response.data;
+      });
+  } catch (error) {
+    console.log("Error:", error);
+  }
+}
+
 export async function whitelistLoginHandler({
   walletData,
   whitelistCode,

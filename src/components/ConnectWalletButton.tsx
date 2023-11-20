@@ -8,7 +8,7 @@ import moment from "moment";
 import Link from "next/link";
 import { setAddress, setConnected } from "../slices/mainSlice";
 import { User } from "@/lib/types/dbTypes";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { loginHandler } from "@/lib/service/postRequest";
 import {
   clearToken,
@@ -21,6 +21,8 @@ import { Button } from "./ui/button";
 import { Icons } from "./ui/icons";
 import { useRouter } from "next/router";
 import { ReduxAccount } from "@/lib/types";
+import { getUserProfile } from "@/lib/service";
+import Image from "next/image";
 type SavedUser = {
   address: string;
   signature: string;
@@ -48,6 +50,12 @@ function ConnectWalletButton() {
         data,
       );
     },
+  });
+
+  const { data: profileData } = useQuery({
+    queryKey: ["userProfile", account.address],
+    queryFn: () => getUserProfile(account.address),
+    enabled: account.connected == true,
   });
 
   useEffect(() => {
@@ -183,14 +191,25 @@ function ConnectWalletButton() {
     <div>
       {userProfile && account.connected ? (
         <Link href={`/profile/${account.address}`}>
-          <Button variant="primary">
+          <div className="flex items-center gap-3 text-lg font-bold">
             {account.address?.slice(0, 6) +
               "..." +
               account.address?.slice(
                 account.address?.length - 4,
                 account.address?.length,
               )}
-          </Button>
+            <Image
+              src={
+                profileData?.profileInscriptionLink
+                  ? profileData.profileInscriptionLink
+                  : "/images/profile.png"
+              }
+              height={40}
+              width={40}
+              className="rounded-full p-[1px] border border-white"
+              alt="profile"
+            />
+          </div>
         </Link>
       ) : (
         <Button

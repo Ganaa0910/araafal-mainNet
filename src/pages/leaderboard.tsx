@@ -6,6 +6,7 @@ import { ReduxAccount } from "@/lib/types";
 import { useQuery } from "@tanstack/react-query";
 import React from "react";
 import { useSelector } from "react-redux";
+import Image from "next/image";
 
 export default function Leaderboard() {
   const account = useSelector((state: ReduxAccount) => state.account);
@@ -47,11 +48,24 @@ export default function Leaderboard() {
                 key={lead.walletAddress}
                 className="flex items-center gap-6 px-6 py-2 border-t border-brand/40"
               >
-                <div className="text-2xl">{index + 1}</div>
+                <div className="text-2xl w-[10px]">{index + 1}</div>
                 <div className="flex justify-between w-full text-xl">
-                  <div>
-                    {lead?.walletAddress.slice(0, 4)}...
-                    {lead?.walletAddress.slice(-6)}
+                  <div className="flex gap-4">
+                    <Image
+                      src={
+                        lead?.profileInscriptionLink
+                          ? lead?.profileInscriptionLink
+                          : "/images/profile.png"
+                      }
+                      height={42}
+                      width={42}
+                      className="rounded-full p-[1px] border border-white"
+                      alt="profile"
+                    />
+                    <div>
+                      {lead?.walletAddress.slice(0, 4)}...
+                      {lead?.walletAddress.slice(-6)}
+                    </div>
                   </div>
                   <div>{lead.contestPoint}</div>
                 </div>

@@ -29,7 +29,9 @@ export default function ActiveRaffles({
           {data?.length !== 0 &&
             data
               ?.filter((ins) => ins.featured === false)
+              .reverse()
               .slice(-8)
+              .reverse()
               .map((ins) => (
                 <div key={ins.id}>
                   <RaffleCard raffle={ins} featured={false} />
