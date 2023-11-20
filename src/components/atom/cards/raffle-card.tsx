@@ -6,6 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Countdown from "react-countdown";
 import { Button } from "../../ui/button";
+import { AspectRatio } from "@/components/ui/aspect-ratio";
 
 export default function RaffleCard({
   raffle,
@@ -14,13 +15,13 @@ export default function RaffleCard({
   raffle: Raffle;
   featured: boolean;
 }) {
-  const { data: ticketCount } = useQuery({
-    queryKey: ["count", raffle.id],
-    queryFn: () => {
-      return getTicketsCountByRaffle(raffle.id as string);
-    },
-    enabled: raffle !== null,
-  });
+  // const { data: ticketCount } = useQuery({
+  //   queryKey: ["count", raffle.id],
+  //   queryFn: () => {
+  //     return getTicketsCountByRaffle(raffle.id as string);
+  //   },
+  //   enabled: raffle !== null,
+  // });
   // const isEnded = moment().isAfter(moment(raffle.endDate));
   const renderer = ({ hours, minutes, seconds, completed }: any) => {
     if (completed) {
@@ -39,7 +40,7 @@ export default function RaffleCard({
   return (
     <Link href={`/raffles/${raffle.id}`}>
       <div
-        className={`flex flex-col h-[488px] w-full border-2 relative rounded-2xl gap-4 overflow-hidden ${
+        className={`flex flex-col h-full w-full border-2 relative rounded-2xl gap-4 overflow-hidden ${
           featured ? "border-secondaryLinear bg-neutral600" : "border-brand"
         }`}
       >
@@ -50,20 +51,22 @@ export default function RaffleCard({
             }`}
           >
             <Countdown
-              date={utcToLocalTime(raffle.endDate)}
+              date={utcToLocalTime(raffle.endDateUnix)}
               renderer={renderer}
             />
           </div>
         </div>
-        <Image
-          src={raffle.inscriptionPreviewUrl}
-          alt="Profile"
-          height={288}
-          width={288}
-          className={`object-contain w-full rounded-xl z-10 max-h-[288px] ${
-            featured ? " shadow-shadowFeatured" : "shadow-shadowBrand"
-          }`}
-        />
+        <AspectRatio ratio={1}>
+          <Image
+            src={raffle.inscriptionPreviewUrl}
+            alt="Profile"
+            height={288}
+            width={288}
+            className={`object-contain rounded-xl z-10 h-full w-full ${
+              featured ? " shadow-shadowFeatured" : "shadow-shadowBrand"
+            }`}
+          />
+        </AspectRatio>
         <div className="w-full px-6 overflow-hidden text-xl font-semibold h-7">
           {raffle.name}
         </div>
@@ -82,7 +85,7 @@ export default function RaffleCard({
         <div className="flex flex-row w-full gap-3 px-6 overflow-hidden h-7">
           <Image src={"ticket.svg"} alt="ticket" width={24} height={24} />
           <p className="text-lg font-normal text-white">
-            {ticketCount?.count} sold
+            {raffle?.ticket_count} sold
           </p>
         </div>
         <Button

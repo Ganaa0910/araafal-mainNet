@@ -30,7 +30,7 @@ export interface TransactionWithTicket {
   id: string;
   userId: string;
   raffleId?: string; // This is an optional field, as you mentioned
-  endDate: string;
+  endDateUnix: string;
   inscriptionPreviewUrl: string;
   name: string;
   ticketCount: string;
@@ -41,10 +41,17 @@ export interface TransactionWithTicket {
   raffle: Raffle;
 }
 
-export async function fetchRaffles(): Promise<Raffle[]> {
-  return axiosClient.get(`/api/raffles`).then((response) => {
-    return response?.data;
-  });
+export async function fetchRaffles({
+  pageParam = 1,
+  limitParam = 10,
+}): Promise<{ raffles: Raffle[]; nextPage: number; nextLimit: number }> {
+  const response = await axiosClient.get(
+    `/api/raffles?page=${pageParam}&limit=${limitParam}`,
+  );
+  const raffles = response?.data;
+  const nextPage = pageParam + 1;
+  const nextLimit = limitParam;
+  return { raffles, nextPage, nextLimit };
 }
 
 export async function fetchFeaturedRaffles(): Promise<Raffle[]> {

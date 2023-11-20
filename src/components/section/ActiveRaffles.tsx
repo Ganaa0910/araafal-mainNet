@@ -26,29 +26,16 @@ export default function ActiveRaffles({
 
         {/* this will only show last 8 ins */}
         <div className="grid grid-cols-4 gap-4">
-          {data?.slice(-8).map((ins) => (
-            <div key={ins.id}>
-              <RaffleCard raffle={ins} featured={false} />
-            </div>
-          ))}
+          {data?.length !== 0 &&
+            data
+              ?.filter((ins) => ins.featured === false)
+              .slice(-8)
+              .map((ins) => (
+                <div key={ins.id}>
+                  <RaffleCard raffle={ins} featured={false} />
+                </div>
+              ))}
         </div>
-        {/* <div className="grid grid-cols-4 gap-4">
-          {data?.map((ins) => (
-            <div key={ins.id}>
-              <RaffleCard raffle={ins} />
-            </div>
-          ))}
-        </div> */}
-        {/* <div className="flex flex-col md:flex-row gap-9">
-                <ViewInscription />
-                <InfoSection />
-              </div>
-
-              <div className="flex flex-col gap-8 md:flex-row">
-                <InscriptionDetails />
-                <BuyPanel tokens={tokens} />
-                <Leaderboard tokens={tokens} getAddressDetail={getAddressDetail} />
-              </div> */}
       </div>
     </div>
   );

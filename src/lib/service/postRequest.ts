@@ -1,30 +1,47 @@
 import axiosClient from "../axios";
 import SERVER_SETTINGS from "../serverSettings";
 import { User } from "../types/dbTypes";
+import { toast } from "sonner";
 
 const APIURL = SERVER_SETTINGS.BACKEND_URL;
 
+// export async function loginHandler({ walletData }: { walletData: User }) {
+//   const myHeaders = new Headers();
+//   myHeaders.append("Content-Type", "application/json");
+
+//   const raw = JSON.stringify({
+//     walletAddress: walletData,
+//   });
+
+//   const requestOptions = {
+//     method: "POST",
+//     headers: myHeaders,
+//     body: raw,
+//   };
+
+//   const response = await fetch(`${APIURL}/api/users/auth`, requestOptions);
+
+//   const result = await response.json();
+
+//   return result;
+// }
+
 export async function loginHandler({ walletData }: { walletData: User }) {
-  const myHeaders = new Headers();
-  myHeaders.append("Content-Type", "application/json");
+  try {
+    return axiosClient
+      .post(`/api/users/auth`, JSON.stringify({ walletAddress: walletData }))
+      .then((response) => {
+        console.log(
+          "🚀 ~ file: postRequest.ts:34 ~ .then ~ response:",
+          response,
+        );
 
-  const raw = JSON.stringify({
-    walletAddress: walletData,
-  });
-
-  const requestOptions = {
-    method: "POST",
-    headers: myHeaders,
-    body: raw,
-  };
-
-  const response = await fetch(`${APIURL}/api/users/auth`, requestOptions);
-
-  const result = await response.json();
-
-  return result;
+        return response.data;
+      });
+  } catch (error) {
+    console.log("Error:", error);
+  }
 }
-
 export async function whitelistLoginHandler({
   walletData,
   whitelistCode,

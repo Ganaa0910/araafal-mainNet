@@ -30,7 +30,7 @@ export default function CreateRaffle() {
   const [selectedTime, setSelectedTime] = useState(new Date());
   const [name, setName] = useState("");
   const [desc, setDesc] = useState("");
-  const [price, setPrice] = useState("");
+  const [price, setPrice] = useState(0.01);
   const [chosenInscription, setChosenInscription] =
     useState<InscriptionType | null>(null);
   const [chosenCurrency, setChosenCurrency] = useState({
@@ -44,6 +44,9 @@ export default function CreateRaffle() {
   const [newRaffleData, setNewRaffleData] = useState<Raffle | null>(null);
 
   const toggleInscriptions = () => {
+    if (account.connected !== true) {
+      return toast.error("Please connect your wallet");
+    }
     setShowInscriptions(!showInscriptions);
   };
 
@@ -66,6 +69,22 @@ export default function CreateRaffle() {
     setSelectedTime(time);
   };
 
+  const getCombinedDateTimeUnix = (date: Date, time: Date) => {
+    const combinedDateTime = new Date(
+      Date.UTC(
+        date.getUTCFullYear(),
+        date.getUTCMonth(),
+        date.getUTCDate(),
+        time.getUTCHours(),
+        time.getUTCMinutes(),
+      ),
+    );
+
+    // Convert to UNIX timestamp in seconds
+    const unixTimestamp = Math.floor(combinedDateTime.getTime());
+
+    return unixTimestamp;
+  };
   const getCombinedDateTime = (date: Date, time: Date) => {
     const combinedDateTime = new Date(
       Date.UTC(
@@ -76,9 +95,8 @@ export default function CreateRaffle() {
         time.getUTCMinutes(),
       ),
     );
-    console.log(combinedDateTime);
-    // const utcTime = moment(time).utc().format();
-    return combinedDateTime;
+
+    return combinedDateTime.toISOString();
   };
 
   useEffect(() => {
@@ -125,11 +143,12 @@ export default function CreateRaffle() {
       const newRaffleData = {
         name: name,
         description: desc,
-        price: parseFloat(price),
+        price: parseFloat(price.toString()),
         sellingTokenTicker: chosenCurrency.title,
         sellingTokenImage: chosenCurrency.imagePath,
         featured: isRaffleFeatured,
         endDate: getCombinedDateTime(selectedDate, selectedTime),
+        endDateUnix: getCombinedDateTimeUnix(selectedDate, selectedTime),
         startDate: new Date().toISOString(),
         inscriptionId: `${chosenInscription.inscriptionId}`,
         inscriptionNumber: String(chosenInscription.inscriptionNumber),
@@ -144,15 +163,15 @@ export default function CreateRaffle() {
         featuredTransanctionId: null,
         nftDepositTransactionId: null,
         createdAt: null,
-        sellingTicketLimit: null,
+        sellingTicketLimit: 999,
         status: null,
         featuredTransaction: null, // Add appropriate value for featuredTransaction
         nftTransaction: null, // Add appropriate value for nftTransaction
         winner: null, // Add appropriate value for winner
         tickets: null, // Add appropriate value for tickets
+        ticket_count: null,
       };
       setNewRaffleData(newRaffleData);
-      console.log("___________--0qs9d90809sa8d" + newRaffleData.endDate);
       await waitOneSecond();
       setRaffleSubmitModal(true);
       setSubmitLoading(false);
@@ -170,16 +189,30 @@ export default function CreateRaffle() {
   let currentDate = new Date();
   let minDate = new Date(currentDate.setDate(currentDate.getUTCHours() + 2));
 
+  function handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
+    // Parse the input as a float
+    const number = parseFloat(e.target.value);
+
+    // Check if the parsed number is a number and is greater than or equal to 0.01
+    if (isNaN(number) || number < 0.01) {
+      alert("Value cannot be less than 0.01");
+      return;
+    }
+
+    // If the number is valid, set the price
+    setPrice(number);
+  }
+
   return (
     <Layout>
-      {inscriptions && account.connected == true && (
-        <ChooseInscription
-          show={showInscriptions}
-          handleClose={toggleInscriptions}
-          inscriptions={inscriptions}
-          setChosenInscription={setChosenInscription}
-        />
-      )}
+      {/* {inscriptions && account.connected == true && ( */}
+      <ChooseInscription
+        show={showInscriptions}
+        handleClose={toggleInscriptions}
+        inscriptions={inscriptions}
+        setChosenInscription={setChosenInscription}
+      />
+      {/* )} */}
       <ChooseCurrency
         show={showCurrency}
         handleClose={toggleCurrency}
@@ -262,8 +295,9 @@ export default function CreateRaffle() {
                   <input
                     type="number"
                     placeholder="Enter an amount"
+                    min="0.01"
                     value={price}
-                    onChange={(e) => setPrice(e.target.value)}
+                    onChange={(e) => handleInputChange(e)}
                     className="px-6 py-3 rounded-lg bg-brandBlack focus:outline-none hover:border hover:border-brand"
                   />
                 </div>
@@ -296,7 +330,13 @@ export default function CreateRaffle() {
                 2000 PSAT
               </h1>
 
-              <div className="flex flex-row w-full border-2 bg-brandBlack border-brand rounded-xl">
+              <div
+                className={`flex flex-row w-full border-2 bg-brandBlack rounded-xl ${
+                  isRaffleFeatured === false
+                    ? "border-brand"
+                    : "border-secondaryLinear"
+                }`}
+              >
                 <button
                   className={`w-1/2 px-5 py-4 rounded-lg   ${
                     isRaffleFeatured === false ? "bg-brand" : ""
@@ -307,7 +347,7 @@ export default function CreateRaffle() {
                 </button>
                 <button
                   className={`w-1/2 px-5 py-4 rounded-lg ${
-                    isRaffleFeatured === true ? "bg-brand" : ""
+                    isRaffleFeatured === true ? "bg-secondaryLinear" : ""
                   }`}
                   onClick={() => handleButtonClick(true)}
                 >

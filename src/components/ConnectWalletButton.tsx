@@ -37,20 +37,16 @@ function ConnectWalletButton() {
 
   const [isConnecting, setIsConnecting] = useState(false);
 
-  const { data, error, isLoading, mutateAsync } = useMutation({
+  const { data, error, isLoading, status, mutateAsync } = useMutation({
     mutationFn: loginHandler,
-    onError: () => {
+    onError: (error) => {
       console.log(error);
     },
     onSuccess: (data, variables) => {
-      if (data?.error) {
-        setIsConnecting(false);
-        return toast.error(data?.error);
-      }
-      saveToken(data?.auth);
-      queryClient.invalidateQueries({ queryKey: ["userProfile"] });
-      setIsConnecting(false);
-      toast.success(`Successfully connected`);
+      console.log(
+        "🚀 ~ file: ConnectWalletButton.tsx:46 ~ ConnectWalletButton ~ data:",
+        data,
+      );
     },
   });
 
@@ -94,7 +90,21 @@ function ConnectWalletButton() {
 
       const matching = verifyMessage(pubkey, message, signature);
       if (matching) {
-        await mutateAsync({ walletData: account });
+        const data = await mutateAsync({ walletData: account });
+        console.log(
+          "🚀 ~ file: ConnectWalletButton.tsx:99 ~ sign ~ data:",
+          data,
+        );
+        if (data.error) {
+          setIsConnecting(false);
+          return toast.error(data.error);
+        } else {
+          saveToken(data?.auth);
+
+          queryClient.invalidateQueries({ queryKey: ["userProfile"] });
+          setIsConnecting(false);
+          toast.success(`Successfully connected`);
+        }
         dispatch(setAddress(account));
         dispatch(setConnected(true));
         const item = {

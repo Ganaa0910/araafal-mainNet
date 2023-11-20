@@ -148,6 +148,13 @@ export default function Register() {
   }
   return (
     <>
+      <Image
+        src="/bg.svg"
+        height={1440}
+        width={1440}
+        className="z-0 select-none top-gradient"
+        alt="bg"
+      />
       <nav className="absolute top-0 left-0 w-full mx-auto">
         <div className="flex items-center justify-center flex-shrink-0 h-20 px-28">
           <div className="flex items-center h-12">

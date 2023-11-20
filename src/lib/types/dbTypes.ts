@@ -17,9 +17,10 @@ export type Raffle = {
   createdAt: Date | null;
   price: number;
   sellingTokenTicker: string;
-  sellingTicketLimit: number | null;
+  sellingTicketLimit: number;
   featured: boolean;
-  endDate: Date;
+  endDate: string;
+  endDateUnix: number;
   startDate: String;
   status: RaffleStatus | null;
   inscriptionId: string;
@@ -37,7 +38,7 @@ export type Raffle = {
   inscriptionNumber: string | null;
   winner: User | null;
   tickets: Ticket[] | null;
-
+  ticket_count: number | null;
   sellingTokenImage: string | null;
 };
 

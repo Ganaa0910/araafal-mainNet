@@ -35,7 +35,7 @@ module.exports = {
       aboutUs: ["24px", "36px"],
       faqExtended: ["20px", "28px"],
       featured: ["32px", "44px"],
-      blueFont: ["56px", "68px"],
+      blueTitle: ["56px", "68px"],
       smallTitles: ["16px", "22px"],
     },
 
@@ -51,6 +51,7 @@ module.exports = {
         brandBlack: "var(--Black-less-opacity, rgba(0, 0, 0, 0.50))",
         whiteish: "#E2E1E1",
         neutral100: "#C4C3C2",
+        neutral400: "#4E4B48",
         neutral600: "#141414",
         secondaryLinear: "#464DFF",
       },

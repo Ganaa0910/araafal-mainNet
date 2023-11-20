@@ -1,5 +1,6 @@
+import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { Button } from "@/components/ui/button";
-import { utcToLocalTime } from "@/lib/helpers";
+import { getTokenImagePath, utcToLocalTime } from "@/lib/helpers";
 import { getTicketsCountByRaffle } from "@/lib/service";
 import { Raffle } from "@/lib/types/dbTypes";
 import { useQuery } from "@tanstack/react-query";
@@ -19,13 +20,7 @@ export default function CreatedRaffleCard({
   isPublic?: boolean;
 }) {
   const router = useRouter();
-  const { data: ticketCount } = useQuery({
-    queryKey: ["count", raffle.id],
-    queryFn: () => {
-      return getTicketsCountByRaffle(raffle.id as string);
-    },
-    enabled: raffle !== null,
-  });
+
   const handleViewClick = () => {
     router.push(`/raffles/${raffle.id}`);
   };
@@ -66,14 +61,14 @@ export default function CreatedRaffleCard({
             }`}
           >
             <Countdown
-              date={utcToLocalTime(raffle.endDate)}
+              date={utcToLocalTime(raffle.endDateUnix)}
               renderer={renderer}
             />
           </div>
         )}
-        <div className="rounded-lg">
+        <AspectRatio ratio={1}>
           <Image
-            className={`object-cover w-full h-72 rounded-xl ${
+            className={`object-cover w-full h-full rounded-lg  ${
               raffle?.featured ? " shadow-shadowFeatured" : "shadow-shadowBrand"
             }`}
             width={300}
@@ -81,12 +76,20 @@ export default function CreatedRaffleCard({
             src={raffle.inscriptionPreviewUrl}
             alt="Card"
           />
-        </div>
+        </AspectRatio>
       </div>
       <h3 className="px-6 text-xl font-bold">{raffle.name}</h3>
-      <p className="px-6 font-bold ">
-        {raffle.price} {raffle.sellingTokenTicker}
-      </p>
+      <div className="flex flex-row gap-3 px-6 text-lg text-white">
+        <Image
+          width={24}
+          height={24}
+          alt="BTC"
+          src={getTokenImagePath(raffle.sellingTokenTicker)}
+        />
+        <p className="font-bold ">
+          {raffle.price} {raffle.sellingTokenTicker}
+        </p>
+      </div>
       <div className="flex gap-3 px-6 font-bold ">
         <div className="w-6 h-6">
           <Image
@@ -97,15 +100,20 @@ export default function CreatedRaffleCard({
             className="w-full h-full"
           />
         </div>
-        {ticketCount?.count} sold
+        {raffle?.ticket_count} sold
       </div>
       {raffle.status == "RAFFLE_ENDED" && (
         <div className="flex flex-col gap-2 px-6 pb-4">
-          {!isPublic && (
-            <Button variant={"primary"} onClick={handleButtonClick}>
-              Claim reward
-            </Button>
-          )}
+          {!isPublic &&
+            (raffle?.ticket_count !== 0 ? (
+              <Button variant={"primary"} onClick={handleButtonClick}>
+                Claim reward
+              </Button>
+            ) : (
+              <Button variant={"secondary"} onClick={handleButtonClick}>
+                Ended
+              </Button>
+            ))}
 
           {isPublic ? (
             <Button variant={"primary"} onClick={handleViewClick}>
@@ -116,7 +124,9 @@ export default function CreatedRaffleCard({
               {raffle?.winnerId
                 ? `Winner : ${raffle?.winnerId?.slice(0, 4)}...
           ${raffle?.winnerId?.slice(-5)}`
-                : "Ended without winner"}
+                : raffle?.ticket_count !== 0
+                ? "Ended without winner"
+                : "No ticket sold"}
             </Button>
           )}
         </div>

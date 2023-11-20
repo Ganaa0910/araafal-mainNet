@@ -2,10 +2,25 @@ import Image from "next/image";
 import Link from "next/link";
 import ConnectWalletButton from "../ConnectWalletButton";
 import Router from "next/router";
+import { useEffect, useState } from "react";
 
 export default function Navbar() {
+  const [isTop, setIsTop] = useState(true);
+
+  useEffect(() => {
+    document.addEventListener("scroll", () => {
+      const isTop = window.scrollY < 20;
+
+      setIsTop(isTop);
+    });
+  }, []);
+
   return (
-    <nav className="sticky top-0 z-50 w-full backdrop-blur-sm bg-opacity-80">
+    <nav
+      className={`sticky top-0 z-50 w-full backdrop-blur-sm bg-opacity-80 ${
+        isTop ? "" : "bg-black/30"
+      }`}
+    >
       <div className="flex items-center justify-center flex-shrink-0 h-20 px-28 max-w-[1440px] mx-auto">
         <div className="left-0 right-auto flex items-center h-12">
           <Link href={"/"}>
@@ -20,7 +35,7 @@ export default function Navbar() {
         </div>
         <div className="flex items-center gap-3 mx-auto">
           <Link className="px-5 py-3" href={"/createraffle"}>
-            CreateRaffle
+            Create Raffle
           </Link>
 
           <Link className="px-5 py-3" href={"/raffles"}>

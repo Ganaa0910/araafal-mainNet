@@ -15,15 +15,22 @@ function App() {
     queryKey: ["raffles"],
     queryFn: fetchRaffles,
   });
-  if (isMobile) {
-    return <MaintainanceScreen />;
-  } else {
-    return <MaintainanceScreen />;
-  }
+  // if (isMobile) {
+  //   return <MaintainanceScreen />;
+  // } else {
+  //   return <MaintainanceScreen />;
+  // }
 
   return (
     // <Layout>
     <div>
+      <Image
+        src="/bg.svg"
+        height={1440}
+        width={1440}
+        className="z-0 select-none top-gradient"
+        alt="bg"
+      />
       <Navbar />
       <div
         className={`flex h-screen  mx-auto  z-10 -mt-20 flex-col items-center justify-center `}
@@ -51,12 +58,12 @@ function App() {
             <span className="inline-block w-24 h-2 bg-gradient-to-r from-cyan-500 to-blue-500"></span>
           </div>
 
-          <Raffles data={data} />
+          <Raffles data={data?.raffles} />
         </div>
       </div>
 
       <div className="pb-40 mb-[144px]">
-        <ActiveRaffles data={data} />
+        <ActiveRaffles data={data?.raffles} />
       </div>
       <Footer />
     </div>

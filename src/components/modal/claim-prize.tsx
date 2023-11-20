@@ -33,7 +33,6 @@ export default function ClaimPrize({
 }: ChooseCurrencyProps) {
   const [copied, setCopied] = useState(false);
   const [pk, setPk] = useState("");
-  console.log("🚀 ~ file: claim-prize.tsx:36 ~ pk:", pk);
   const {
     data: pkTicket,
     isLoading: ticketLoading,
@@ -47,7 +46,6 @@ export default function ClaimPrize({
       }
     },
   });
-  console.log("🚀 ~ file: claim-prize.tsx:38 ~ pkTicket:", pkTicket);
   const {
     data: pkNft,
     isLoading: nftLoading,
@@ -61,7 +59,6 @@ export default function ClaimPrize({
       }
     },
   });
-  console.log("🚀 ~ file: claim-prize.tsx:58 ~ pkNft:", pkNft);
   useEffect(() => {
     if (show && action == "TICKET") {
       handleTicket();

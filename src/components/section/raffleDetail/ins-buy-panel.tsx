@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import raffle from "../../../../raffleDetails.json";
 import { getTokenImagePath } from "@/lib/helpers";
+import { toast } from "sonner";
 
 export default function BuyPanel({
   raffleDetail,
@@ -21,7 +22,6 @@ export default function BuyPanel({
   const account = useSelector((state: ReduxAccount) => state.account);
   const dispatch = useDispatch();
 
-  const [raffleActive, setRaffleActive] = useState(true);
   const [isPurchaseOverlayOpen, setIsPurchaseOverlayOpen] = useState(false);
 
   const handleInputChange = (e: any) => {
@@ -30,8 +30,15 @@ export default function BuyPanel({
   };
 
   const handleIncrement = () => {
-    const newAmount = Math.min(ticket.amount + 1, raffle.maxTicketAmount);
-    dispatch(setTicketAmount(newAmount));
+    if (raffleDetail && raffleDetail.sellingTicketLimit) {
+      const newAmount = Math.min(
+        ticket.amount + 1,
+        raffleDetail.sellingTicketLimit,
+      );
+      dispatch(setTicketAmount(newAmount));
+    } else {
+      return;
+    }
   };
 
   const handleDecrement = () => {
@@ -39,21 +46,10 @@ export default function BuyPanel({
     dispatch(setTicketAmount(newAmount));
   };
 
-  useEffect(() => {
-    if (raffleDetail) {
-      const endTime = moment(raffleDetail.endDate, raffle.timeFormat);
-      const currentTime = moment();
-      if (currentTime.isBefore(endTime)) {
-        setRaffleActive(true);
-      }
-    }
-  }, [raffleDetail]);
-
-  const handleCopyDepositAddressButton = () => {
-    navigator.clipboard.writeText(raffle.userAddress);
-  };
-
   const handleOpenPurchaseOverlay = () => {
+    if (account.connected !== true) {
+      return toast.error("Please connect your wallet");
+    }
     setIsPurchaseOverlayOpen(true);
   };
 
@@ -133,6 +129,7 @@ export default function BuyPanel({
                 <button
                   className="p-0 text-xl text-white border-none rounded-l-none rounded-r select-none bg-inherit"
                   onClick={handleIncrement}
+                  disabled={ticket.amount == 10}
                 >
                   +
                 </button>
@@ -162,39 +159,17 @@ export default function BuyPanel({
         </div>
       </div>
       <div className="w-full h-[2px] bg-brand"></div>
-      {raffleActive && (
-        <div className="flex flex-col">
-          {/* <p className="inline-block w-full pb-6 text-base break-all select-all bg-defaultGray text-start">
-              {raffleDetail?.ownerId}
-            </p> */}
-          {/* <button
-            className="text-base bg-defaultGray border-lightGray px-[16px] py-[12px] h-[48px] w-full md:w-auto hover:bg-darkerLightGray hover:border-lightGray"
-            onClick={handleOpenPurchaseOverlay}
-          >
-            Purchase
-          </button> */}
-          <Button
-            variant={"secondary"}
-            onClick={handleOpenPurchaseOverlay}
-            disabled={
-              raffleDetail?.status !== "RAFFLE_RUNNING" ||
-              account?.connected == false
-            }
-          >
-            Buy
-          </Button>
-
-          {/* <PurchaseOverlay
-            isOpen={isPurchaseOverlayOpen}
-            onClose={handleClosePurchaseOverlay}
-            raffleDetail={raffleDetail}
-          /> */}
-        </div>
-      )}
-      {/* <div className="w-full h-0.5 bg-lightGray"></div>
+      {/* {raffleActive && ( */}
       <div className="flex flex-col">
-        <CountdownTimer />
-      </div> */}
+        <Button
+          variant={"secondary"}
+          onClick={handleOpenPurchaseOverlay}
+          disabled={raffleDetail?.status !== "RAFFLE_RUNNING"}
+        >
+          Buy
+        </Button>
+      </div>
+      {/* )} */}
     </>
   );
 
@@ -205,7 +180,6 @@ export default function BuyPanel({
           <h1 className="text-2xl">Join the Raffle</h1>
         </div>
 
-        {/* {renderBuyPanel()} */}
         {renderBuyPanel()}
       </div>
     </>

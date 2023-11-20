@@ -1,51 +1,86 @@
 import RaffleCard from "@/components/atom/cards/raffle-card";
 import PageTitle from "@/components/atom/page-title";
 import Layout from "@/components/layout/layout";
-import {
-  fetchFeaturedRaffles,
-  fetchRaffleById,
-  fetchRaffles,
-} from "@/lib/service";
-import { useQuery } from "@tanstack/react-query";
+import { fetchRaffles } from "@/lib/service";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import React from "react";
+import { useInView } from "react-intersection-observer";
+import { Icons } from "@/components/ui/icons";
+import { Skeleton } from "@/components/ui/skeleton";
+import { AspectRatio } from "@/components/ui/aspect-ratio";
+import { Button } from "@/components/ui/button";
+import RaffleSkeleton from "@/components/atom/cards/raffle-skeleton";
 
 export default function Index() {
-  const { isLoading, isError, data, error } = useQuery({
-    queryKey: ["raffles"],
-    queryFn: fetchRaffles,
-  });
+  // const { isLoading, isError, data, error } = useQuery({
+  //   queryKey: ["raffles"],
+  //   queryFn: fetchRaffles,
+  // });
+  const limit = 2;
 
-  console.log("🚀 ~ file: index.tsx:17 ~ Index ~ data:", data);
+  const { ref, inView } = useInView();
 
-  const { isLoading: featuredLoading, data: featuredRaffles } = useQuery({
-    queryKey: ["featuredRaffles"],
-    queryFn: fetchFeaturedRaffles,
+  const {
+    status,
+    data,
+    error,
+    isFetching,
+    isFetchingNextPage,
+    hasNextPage,
+    fetchNextPage,
+  } = useInfiniteQuery(["raffles", 1, 6], fetchRaffles, {
+    getNextPageParam: (lastPage, allPages) => {
+      // If the last page has less than the limit number of items, there are no more pages.
+      if (lastPage?.raffles?.length < limit) {
+        return undefined;
+      }
+
+      // Otherwise, return the next page number.
+      return lastPage.nextPage;
+    },
   });
-  console.log(
-    "🚀 ~ file: index.tsx:13 ~ Index ~ featuredRaffles:",
-    featuredRaffles,
-  );
+  React.useEffect(() => {
+    if (inView && hasNextPage) {
+      fetchNextPage();
+    }
+  }, [inView, hasNextPage]);
 
   return (
     <Layout>
       <PageTitle name="Raffles" />
+
       <div className="grid gap-4 lg:grid-cols-3 xl:grid-cols-4">
-        {!featuredLoading &&
-          featuredRaffles &&
-          featuredRaffles.length !== 0 &&
-          featuredRaffles.map((ins) => (
-            <div key={ins.id}>
-              <RaffleCard raffle={ins} featured />
-            </div>
-          ))}
-        {!isLoading &&
-          data &&
-          data.length != 0 &&
-          data?.map((ins) => (
-            <div key={ins.id}>
-              <RaffleCard raffle={ins} featured={false} />
-            </div>
-          ))}
+        {/* <RaffleSkeleton /> */}
+        {data?.pages.map((page) => (
+          <React.Fragment key={page.nextPage}>
+            {page?.raffles?.map((project) => (
+              <div key={project.id}>
+                <RaffleCard raffle={project} featured={project.featured} />
+              </div>
+            ))}
+          </React.Fragment>
+        ))}
+        {isFetching && (
+          <>
+            <RaffleSkeleton />
+            <RaffleSkeleton />
+            <RaffleSkeleton />
+            <RaffleSkeleton />
+          </>
+        )}
+      </div>
+      <div className="flex justify-center w-full pt-16">
+        <button
+          ref={ref}
+          onClick={() => fetchNextPage()}
+          disabled={!hasNextPage || isFetchingNextPage}
+        >
+          {isFetchingNextPage
+            ? "Loading more..."
+            : hasNextPage
+            ? "Load Newer"
+            : !isFetching && "Nothing more to load"}
+        </button>
       </div>
     </Layout>
   );

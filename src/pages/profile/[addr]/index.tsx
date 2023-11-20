@@ -22,9 +22,8 @@ export default function Profile() {
   //profile routing ends
   const router = useRouter();
   const queryClient = useQueryClient();
-  const [inscriptions, setInscriptions] = useState([]);
-  const [copied, setCopied] = useState(false);
   const account = useSelector((state: ReduxAccount) => state.account);
+  const [userName, setUserName] = useState("");
 
   const slug = router.query.addr as string;
   const { isLoading, isError, data, error } = useQuery({
@@ -48,26 +47,10 @@ export default function Profile() {
     },
   });
 
-  const { data: refCode, isLoading: refCodeLoading } = useQuery({
-    queryFn: () => getReferralCode(slug),
-    queryKey: ["referralCode"],
-    enabled: !!slug,
-  });
-
-  const { data: position } = useQuery({
-    queryFn: () => getPosition(slug),
-    queryKey: ["position"],
-    enabled: !!slug,
-  });
-
-  const triggerReferral = async () => {
-    await mutateAsync();
+  const handleInputChange = (e: any) => {
+    setUserName(e.target.value);
   };
-
-  const handleCopyButton = (pkey: string) => {
-    navigator.clipboard.writeText(pkey);
-    setCopied(true);
-  };
+  const saveUserName = async () => {};
 
   return (
     <Layout>
@@ -77,106 +60,47 @@ export default function Profile() {
         <div className="col-span-3">
           <ProfileTabs account={account} />
         </div>
-        <div className="flex flex-col col-span-6 gap-8">
-          <div className="grid w-full grid-cols-2 gap-8">
-            <Card
-              title="Create raffle"
-              points="2 pts"
-              description="Create raffle with your inscription"
-              linkTo="/createraffle"
-              buttonText="Go"
-            />
-            <Card
-              title="Buy ticket"
-              points="1 pts"
-              description="Buy a ticket from others’ raffle"
-              linkTo="/raffles"
-              buttonText="Go"
-            />
-          </div>
-          <div className="grid w-full grid-cols-2 gap-8">
-            <Card
-              title="Claim prize"
-              points="5 pts"
-              description="Claim prize of your created raffle"
-              linkTo={`/profile/${account?.address}/raf`}
-              buttonText="Go"
-            />
-            <Card
-              title="Win raffle"
-              points="40 pts"
-              description="Win raffle of others'"
-              linkTo={`/profile/${account?.address}/tic`}
-              buttonText="Go"
-            />
-          </div>
-          <div className="flex flex-col gap-5 p-6 border w-fulls rounded-xl border-brand bg-brandBlack">
-            <div className="flex flex-col gap-2">
-              <div className="flex justify-between">
-                <div className="text-xl font-bold">Invite 3 friends</div>
-                <div className="text-lg font-bold">
-                  {refCode != null ? refCode?.uses : "0"} / 3
-                </div>
-              </div>
-              <div>20 pts</div>
-            </div>
-            <div className="flex justify-center w-full">
-              {refCode !== null ? (
-                <div className="flex w-full gap-6">
-                  <input
-                    type="text"
-                    name="searchWallet"
-                    className="h-12 pl-3 text-xl font-medium rounded-md hover:border-brand hover:border-2 grow bg-brandBlack focus:outline-none"
-                    placeholder="Search"
-                    readOnly
-                    value={`https://testnet.araafal.com/register?referralCode=${refCode?.code}`}
-                  />
-                  <Button
-                    variant={"primary"}
-                    className="grow-0"
-                    size={"lg"}
-                    onClick={() =>
-                      handleCopyButton(
-                        `https://testnet.araafal.com/register?referralCode=${refCode?.code}`,
-                      )
-                    }
-                    disabled={referralLoading}
-                  >
-                    {copied ? "Copied" : "Copy"}
-                  </Button>
-                </div>
-              ) : (
-                <Button
-                  variant={"primary"}
-                  className="grow-0"
-                  onClick={() => triggerReferral()}
-                  disabled={referralLoading}
-                >
-                  {referralLoading && (
-                    <Icons.spinner
-                      className="w-4 h-4 mr-0 md:mr-2 animate-spin "
-                      aria-hidden="true"
-                    />
-                  )}
-                  Create link
-                </Button>
-              )}
+        <div className="flex flex-col col-span-6 gap-8 ">
+          <div className="flex flex-col gap-4 p-6 border bg-brandBlack rounded-xl border-brand">
+            <h1 className="text-2xl font-bolds">User name</h1>
+            <div className="flex flex-row justify-between w-full gap-4">
+              <input
+                type="text"
+                placeholder="Enter user name"
+                value={userName}
+                onChange={(e) => handleInputChange(e)}
+                className="w-full px-6 py-3 rounded-lg bg-brandBlack focus:outline-none hover:border hover:border-brand"
+              />
+              <Button
+                onClick={() => saveUserName()}
+                variant={"secondary"}
+                className="h-full"
+              >
+                Save
+              </Button>
             </div>
           </div>
+          <div className="p-6 border bg-brandBlack rounded-xl border-brand"></div>
         </div>
         <div className="flex flex-col col-span-3 gap-6 p-6 border bg-brandBlack rounded-xl border-brand">
-          <div className="flex flex-col gap-3">
-            <div className="flex gap-3">
-              <div className="text-xl font-bold">My position</div>
-              <Icons.ladder className="w-6 h-6" />
+          <div className="flex flex-col gap-4 ">
+            <h1 className="text-2xl font-bolds">Avatar</h1>
+            <div className="flex flex-col justify-center gap-4">
+              <input
+                type="text"
+                placeholder="Enter user name"
+                value={userName}
+                onChange={(e) => handleInputChange(e)}
+                className="w-full px-6 py-3 rounded-lg bg-brandBlack focus:outline-none hover:border hover:border-brand"
+              />
+              <Button
+                onClick={() => saveUserName()}
+                variant={"secondary"}
+                className="h-full"
+              >
+                Change avatar
+              </Button>
             </div>
-            <div className="text-4xl font-bold">
-              #{position?.currentPosition}
-            </div>
-          </div>
-          <div className="flex flex-col gap-3">
-            My points
-            <div className="text-4xl font-bold">{data?.contestPoint} pts</div>
           </div>
         </div>
       </div>

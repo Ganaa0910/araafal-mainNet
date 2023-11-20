@@ -36,6 +36,10 @@ export default function ProfileTabs({ account }: { account: Account }) {
       href: `/profile/${slug}`,
     },
     {
+      title: `Contest`,
+      href: `/profile/${slug}/con`,
+    },
+    {
       title: `Inscriptions`,
       href: `/profile/${slug}/ins`,
     },
