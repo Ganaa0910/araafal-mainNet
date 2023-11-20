@@ -44,6 +44,9 @@ export default function CreateRaffle() {
   const [newRaffleData, setNewRaffleData] = useState<Raffle | null>(null);
 
   const toggleInscriptions = () => {
+    if (account.connected !== true) {
+      return toast.error("Please connect your wallet");
+    }
     setShowInscriptions(!showInscriptions);
   };
 
@@ -160,7 +163,7 @@ export default function CreateRaffle() {
         featuredTransanctionId: null,
         nftDepositTransactionId: null,
         createdAt: null,
-        sellingTicketLimit: null,
+        sellingTicketLimit: 999,
         status: null,
         featuredTransaction: null, // Add appropriate value for featuredTransaction
         nftTransaction: null, // Add appropriate value for nftTransaction
@@ -169,7 +172,6 @@ export default function CreateRaffle() {
         ticket_count: null,
       };
       setNewRaffleData(newRaffleData);
-      console.log("___________--0qs9d90809sa8d" + newRaffleData.endDate);
       await waitOneSecond();
       setRaffleSubmitModal(true);
       setSubmitLoading(false);
@@ -203,14 +205,14 @@ export default function CreateRaffle() {
 
   return (
     <Layout>
-      {inscriptions && account.connected == true && (
-        <ChooseInscription
-          show={showInscriptions}
-          handleClose={toggleInscriptions}
-          inscriptions={inscriptions}
-          setChosenInscription={setChosenInscription}
-        />
-      )}
+      {/* {inscriptions && account.connected == true && ( */}
+      <ChooseInscription
+        show={showInscriptions}
+        handleClose={toggleInscriptions}
+        inscriptions={inscriptions}
+        setChosenInscription={setChosenInscription}
+      />
+      {/* )} */}
       <ChooseCurrency
         show={showCurrency}
         handleClose={toggleCurrency}

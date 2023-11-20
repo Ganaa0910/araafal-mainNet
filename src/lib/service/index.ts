@@ -30,7 +30,7 @@ export interface TransactionWithTicket {
   id: string;
   userId: string;
   raffleId?: string; // This is an optional field, as you mentioned
-  endDate: string;
+  endDateUnix: string;
   inscriptionPreviewUrl: string;
   name: string;
   ticketCount: string;

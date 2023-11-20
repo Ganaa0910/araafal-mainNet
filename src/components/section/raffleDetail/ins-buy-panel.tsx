@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import raffle from "../../../../raffleDetails.json";
 import { getTokenImagePath } from "@/lib/helpers";
+import { toast } from "sonner";
 
 export default function BuyPanel({
   raffleDetail,
@@ -21,7 +22,6 @@ export default function BuyPanel({
   const account = useSelector((state: ReduxAccount) => state.account);
   const dispatch = useDispatch();
 
-  const [raffleActive, setRaffleActive] = useState(true);
   const [isPurchaseOverlayOpen, setIsPurchaseOverlayOpen] = useState(false);
 
   const handleInputChange = (e: any) => {
@@ -30,8 +30,15 @@ export default function BuyPanel({
   };
 
   const handleIncrement = () => {
-    const newAmount = Math.min(ticket.amount + 1, raffle.maxTicketAmount);
-    dispatch(setTicketAmount(newAmount));
+    if (raffleDetail && raffleDetail.sellingTicketLimit) {
+      const newAmount = Math.min(
+        ticket.amount + 1,
+        raffleDetail.sellingTicketLimit,
+      );
+      dispatch(setTicketAmount(newAmount));
+    } else {
+      return;
+    }
   };
 
   const handleDecrement = () => {
@@ -39,21 +46,10 @@ export default function BuyPanel({
     dispatch(setTicketAmount(newAmount));
   };
 
-  useEffect(() => {
-    if (raffleDetail) {
-      const endTime = moment(raffleDetail.endDate, raffle.timeFormat);
-      const currentTime = moment();
-      if (currentTime.isBefore(endTime)) {
-        setRaffleActive(true);
-      }
-    }
-  }, [raffleDetail]);
-
-  const handleCopyDepositAddressButton = () => {
-    navigator.clipboard.writeText(raffle.userAddress);
-  };
-
   const handleOpenPurchaseOverlay = () => {
+    if (account.connected !== true) {
+      return toast.error("Please connect your wallet");
+    }
     setIsPurchaseOverlayOpen(true);
   };
 
@@ -163,20 +159,17 @@ export default function BuyPanel({
         </div>
       </div>
       <div className="w-full h-[2px] bg-brand"></div>
-      {raffleActive && (
-        <div className="flex flex-col">
-          <Button
-            variant={"secondary"}
-            onClick={handleOpenPurchaseOverlay}
-            disabled={
-              raffleDetail?.status !== "RAFFLE_RUNNING" ||
-              account?.connected == false
-            }
-          >
-            Buy
-          </Button>
-        </div>
-      )}
+      {/* {raffleActive && ( */}
+      <div className="flex flex-col">
+        <Button
+          variant={"secondary"}
+          onClick={handleOpenPurchaseOverlay}
+          disabled={raffleDetail?.status !== "RAFFLE_RUNNING"}
+        >
+          Buy
+        </Button>
+      </div>
+      {/* )} */}
     </>
   );
 

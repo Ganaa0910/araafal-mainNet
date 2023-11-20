@@ -95,7 +95,7 @@ const RaffleConfirmation = ({
   //   return date.toLocaleDateString("en-GB");
   // };
 
-  const formatDate = (dateString: Date) => {
+  const formatDate = (dateString: string) => {
     const options: any = {
       year: "numeric",
       month: "short",

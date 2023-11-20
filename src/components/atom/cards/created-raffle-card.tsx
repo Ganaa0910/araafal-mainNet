@@ -61,7 +61,7 @@ export default function CreatedRaffleCard({
             }`}
           >
             <Countdown
-              date={utcToLocalTime(raffle.endDate)}
+              date={utcToLocalTime(raffle.endDateUnix)}
               renderer={renderer}
             />
           </div>

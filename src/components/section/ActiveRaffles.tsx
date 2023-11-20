@@ -36,23 +36,6 @@ export default function ActiveRaffles({
                 </div>
               ))}
         </div>
-        {/* <div className="grid grid-cols-4 gap-4">
-          {data?.map((ins) => (
-            <div key={ins.id}>
-              <RaffleCard raffle={ins} />
-            </div>
-          ))}
-        </div> */}
-        {/* <div className="flex flex-col md:flex-row gap-9">
-                <ViewInscription />
-                <InfoSection />
-              </div>
-
-              <div className="flex flex-col gap-8 md:flex-row">
-                <InscriptionDetails />
-                <BuyPanel tokens={tokens} />
-                <Leaderboard tokens={tokens} getAddressDetail={getAddressDetail} />
-              </div> */}
       </div>
     </div>
   );

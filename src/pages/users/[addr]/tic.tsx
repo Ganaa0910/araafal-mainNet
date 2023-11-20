@@ -9,6 +9,7 @@ import { useRouter } from "next/router";
 import Countdown from "react-countdown";
 // import { UseSelector } from "react-redux/es/hooks/useSelector";
 import { utcToLocalTime } from "@/lib/helpers";
+import TicketCard from "@/components/atom/cards/ticket-card";
 enum TicketStatus {
   TICKET_ENDED,
   TICKET_RUNNING,
@@ -47,77 +48,9 @@ const Tic = () => {
             </div>
             <hr className="border-brand "></hr>
             {tickets?.rows.length != 0 &&
-              tickets?.rows?.map(
-                (ticket: TransactionWithTicket, index: number) => {
-                  const isEnded = moment().isAfter(moment(ticket.endDate));
-                  const renderer = ({
-                    hours,
-                    minutes,
-                    seconds,
-                    completed,
-                  }: any) => {
-                    if (completed) {
-                      // Render a completed state
-                      return <div>Ended</div>;
-                    } else {
-                      // Render a countdown
-                      return (
-                        <div>
-                          {hours}H : {minutes}M : {seconds}S
-                        </div>
-                      );
-                    }
-                  };
-                  return (
-                    <div
-                      key={ticket.id}
-                      className="w-full h-[116px]  rounded-lg  grid grid-cols-3 items-center"
-                    >
-                      <div className="flex flex-row items-center justify-start gap-4 h-[100px]">
-                        <div className="w-[100px] h-[100px] shrink-0">
-                          <Image
-                            width={100}
-                            height={100}
-                            className="object-cover w-full h-full rounded-lg"
-                            src={ticket?.inscriptionPreviewUrl}
-                            alt="img"
-                          />
-                        </div>
-                        <div className="flex flex-col justify-center">
-                          <h3 className="text-xl">{ticket?.name}</h3>
-                        </div>
-                      </div>
-
-                      {/* ________________________________------------------------------------_____________________________________ */}
-                      <div className="flex flex-row items-center justify-center gap-2">
-                        <h1 className="text-2xl"> {ticket?.ticketCount}</h1>
-                        <Image
-                          src={"/images/ticketGrad.svg"}
-                          width={1}
-                          height={1}
-                          className="w-8 h-8 "
-                          alt="img"
-                        />
-                      </div>
-                      {/* ________________________________------------------------------------_____________________________________ */}
-                      <div className="text-end">
-                        {isEnded ? (
-                          ticket.winnerId == slug ? (
-                            "Ended"
-                          ) : (
-                            "Ended"
-                          )
-                        ) : (
-                          <Countdown
-                            date={utcToLocalTime(new Date(ticket.endDate))}
-                            renderer={renderer}
-                          />
-                        )}
-                      </div>
-                    </div>
-                  );
-                },
-              )}
+              tickets?.rows?.map((ticket: TransactionWithTicket) => (
+                <TicketCard key={ticket.raffleId} ticket={ticket} />
+              ))}
           </div>
         </div>
       </Layout>

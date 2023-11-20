@@ -13,6 +13,7 @@ const nextConfig = {
       "testnet.ordinals.com",
       "ordinals.com",
       "example.com",
+      "static-testnet.unisat.io",
     ],
   },
   publicRuntimeConfig: {

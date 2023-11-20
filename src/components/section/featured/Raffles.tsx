@@ -73,7 +73,7 @@ const Raffles = ({ data }: { data: Raffle[] | undefined }) => {
                   <div className="absolute top-0 right-0 m-6 bg-secondary-less border rounded border-secondaryLinear w-[168px] h-[44px] grid place-items-center">
                     <div className="text-xl font-normal">
                       <Countdown
-                        date={utcToLocalTime(ins?.endDate)}
+                        date={utcToLocalTime(ins?.endDateUnix)}
                         renderer={renderer}
                       />
                     </div>

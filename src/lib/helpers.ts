@@ -18,12 +18,18 @@ export function getTokenImagePath(ticker: string) {
   }
 }
 
-export function utcToLocalTime(date: any) {
-  if (!date) {
+export function utcToLocalTime(unixDate: any) {
+  if (!unixDate) {
     return "";
   }
-  const now = new Date(parseInt(date));
+  console.log(
+    "🚀 ~ file: helpers.ts:25 ~ utcToLocalTime ~ dateUnix:",
+    unixDate,
+  );
+  const now = new Date(unixDate);
+  console.log("🚀 ~ file: helpers.ts:26 ~ utcToLocalTime ~ now:", now);
   const nowUtc = now.toUTCString();
+  console.log("🚀 ~ file: helpers.ts:27 ~ utcToLocalTime ~ nowUtc:", nowUtc);
 
   return nowUtc;
 }

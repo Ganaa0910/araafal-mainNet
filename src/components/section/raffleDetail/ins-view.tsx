@@ -44,7 +44,7 @@ export default function ViewInscription({
       {/* <h1 className="mb-5 text-cartDesktop"></h1> */}
       <Button variant={"secondary"} className="mx-3">
         <Countdown
-          date={utcToLocalTime(raffleDetail.endDate)}
+          date={utcToLocalTime(raffleDetail.endDateUnix)}
           renderer={renderer}
         />
       </Button>
