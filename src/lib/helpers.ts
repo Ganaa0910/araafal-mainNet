@@ -26,7 +26,7 @@ export function utcToLocalTime(unixDate: any) {
     "🚀 ~ file: helpers.ts:25 ~ utcToLocalTime ~ dateUnix:",
     unixDate,
   );
-  const now = new Date(unixDate);
+  const now = new Date(Number(unixDate));
   console.log("🚀 ~ file: helpers.ts:26 ~ utcToLocalTime ~ now:", now);
   const nowUtc = now.toUTCString();
   console.log("🚀 ~ file: helpers.ts:27 ~ utcToLocalTime ~ nowUtc:", nowUtc);
