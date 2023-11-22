@@ -125,6 +125,7 @@ function App() {
                   height={60}
                   width={60}
                   className=""
+                  alt="fire"
                 />
                 <div className="text-5xl font-bold">450k</div>
               </div>
@@ -146,7 +147,12 @@ function App() {
           </div>
           <div className="flex items-center gap-16">
             <div className="bg-neutral500 rounded-2xl flex items-center justify-center w-[350px] h-[350px] shrink-0">
-              <Image src={"/images/psat-fusion.png"} height={384} width={384} />
+              <Image
+                src={"/images/psat-fusion.png"}
+                height={384}
+                width={384}
+                alt="psat"
+              />
             </div>
             <div className="flex items-center h-full gap-6">
               <div className="flex flex-col gap-6">
@@ -178,7 +184,12 @@ function App() {
               </div>
             </div>
             <div className="bg-neutral500 rounded-2xl flex items-center justify-center w-[350px] h-[350px] shrink-0">
-              <Image src={"/images/brc20s.png"} height={384} width={384} />
+              <Image
+                src={"/images/brc20s.png"}
+                height={384}
+                width={384}
+                alt="brc20"
+              />
             </div>
           </div>
           <div className="flex items-center w-full gap-16 ">
@@ -187,6 +198,7 @@ function App() {
                 src={"/images/featured-raffle.png"}
                 height={384}
                 width={384}
+                alt="featured"
               />
             </div>
             <div className="flex items-center h-full gap-6">
@@ -211,6 +223,7 @@ function App() {
               src={"/images/coin-gecko-logo.png"}
               height={120}
               width={120}
+              alt="coingecko"
             />
             <div className="flex flex-col justify-between">
               <div className="text-3xl">CoinGecko</div>
@@ -220,7 +233,12 @@ function App() {
                 className="flex items-center gap-1 text-lg"
               >
                 Visit
-                <Image src={"/images/arrow-right.svg"} height={6} width={7} />
+                <Image
+                  src={"/images/arrow-right.svg"}
+                  height={6}
+                  width={7}
+                  alt="right"
+                />
               </Link>
             </div>
           </div>
@@ -230,6 +248,7 @@ function App() {
               height={120}
               width={120}
               className="bg-white rounded-full"
+              alt="gitbook"
             />
             <div className="flex flex-col justify-between">
               <div className="text-3xl">Gitbook</div>
@@ -239,7 +258,12 @@ function App() {
                 className="flex items-center gap-1 text-lg"
               >
                 Visit
-                <Image src={"/images/arrow-right.svg"} height={6} width={7} />
+                <Image
+                  src={"/images/arrow-right.svg"}
+                  height={6}
+                  width={7}
+                  alt="right"
+                />
               </Link>
             </div>
           </div>
