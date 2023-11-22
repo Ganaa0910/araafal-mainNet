@@ -10,12 +10,9 @@ module.exports = {
   theme: {
     container: {
       center: true,
-      padding: "2rem",
+      padding: "8rem",
       screens: {
         "2xl": "1400px",
-      },
-      linearGradientColors: {
-        "custom-gradient": ["#FF7E5F", "#FEB47B"], // Define your custom gradient colors here
       },
     },
     fontSize: {
@@ -27,6 +24,7 @@ module.exports = {
       "2xl": ["24px", "36px"],
       "3xl": ["32px", "44px"],
       "4xl": ["40px", "54px"],
+      "5xl": ["56px", "58px"],
       "6xl": ["64px", "64px"],
       logoSize: ["40px", "44px"],
       logoMobile: ["20px", "28px"],
@@ -52,6 +50,7 @@ module.exports = {
         whiteish: "#E2E1E1",
         neutral100: "#C4C3C2",
         neutral400: "#4E4B48",
+        neutral500: "#1C1C1C",
         neutral600: "#141414",
         secondaryLinear: "#464DFF",
       },

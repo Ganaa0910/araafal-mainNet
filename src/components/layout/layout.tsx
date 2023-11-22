@@ -11,17 +11,15 @@ const chakra = Chakra_Petch({ subsets: ["latin"], weight: ["400", "700"] });
 const subClass = chakra.className;
 
 export default function Layout({ children }: { children: ReactNode }) {
-  // if (isMobile) {
-  //   return <MaintainanceScreen />;
-  // } else {
-  //   return <MaintainanceScreen />;
-  // }
+  if (isMobile) {
+    return <MobileOnlyScreen />;
+  }
   return (
     <>
+      <Navbar />
       <div
         className={`flex flex-col w-full h-full  min-h-screen max-w-[1440px] mx-auto ${subClass}`}
       >
-        <Navbar />
         <Image
           src="/bg.svg"
           height={1440}

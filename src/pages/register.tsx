@@ -20,6 +20,7 @@ import { Icons } from "@/components/ui/icons";
 import { ReduxAccount } from "@/lib/types";
 import MaintainanceScreen from "@/components/section/maintainance";
 import { isMobile } from "react-device-detect";
+import MobileOnlyScreen from "@/components/section/mobile-only";
 
 type SavedUser = {
   address: string;
@@ -142,9 +143,7 @@ export default function Register() {
   };
 
   if (isMobile) {
-    return <MaintainanceScreen />;
-  } else {
-    return <MaintainanceScreen />;
+    return <MobileOnlyScreen />;
   }
   return (
     <>
