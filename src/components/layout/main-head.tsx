@@ -24,7 +24,7 @@ export default function MainHead() {
       <link rel="icon" type="image/png" sizes="32x32" href={logo} />
       <link rel="icon" type="image/png" sizes="96x96" href={logo} />
       <link rel="icon" type="image/png" sizes="16x16" href={logo} />
-      <meta property="og:site_name" content="ordydrops.com" />
+      <meta property="og:site_name" content="araafal.com" />
       <meta property="og:image" content={logo} key="ogimage" />
       <meta property="og:image:secure_url" content={logo} key="ogimagesecure" />
       <meta property="og:image:width" content="1170" key="ogimagewidth" />
