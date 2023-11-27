@@ -39,6 +39,7 @@ export default function Register() {
   const { whitelistCode } = router.query;
 
   const [isConnecting, setIsConnecting] = useState(false);
+
   const [userProfile, setUserProfile] = useState<SavedUser | null>(null);
   console.log(
     "🚀 ~ file: register.tsx:10 ~ Register ~ whitelistCode:",
@@ -151,7 +152,7 @@ export default function Register() {
         src="/bg.svg"
         height={1440}
         width={1440}
-        className="z-0 select-none top-gradient"
+        className="select-none -z-20 top-gradient"
         alt="bg"
       />
       <nav className="absolute top-0 left-0 w-full mx-auto">
@@ -170,7 +171,7 @@ export default function Register() {
         </div>
       </nav>
       <div
-        className={`flex h-screen max-w-[1440px] mx-auto -mt-20 flex-col items-center justify-center`}
+        className={`flex h-screen max-w-[1440px] relative z-50 mx-auto -mt-20 flex-col items-center justify-center`}
       >
         <div className="relative w-full h-24">
           <Image
