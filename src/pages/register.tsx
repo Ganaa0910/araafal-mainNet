@@ -125,8 +125,16 @@ export default function Register() {
           setIsConnecting(false);
           return toast.error(`URL seems wrong`);
         }
+
         const domain = window.location.host;
         const accounts = await window.unisat.requestAccounts();
+        const res = await window.unisat.getNetwork();
+        if (res == "livenet") {
+          let res = await window.unisat.switchNetwork("testnet");
+          if (res) {
+            toast.success(`Wallet network changed to testnet`);
+          }
+        }
         const account = accounts[0];
         const randomBytes = crypto.randomBytes(8);
         const hexRandom = randomBytes.toString("hex");
