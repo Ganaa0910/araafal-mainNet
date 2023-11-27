@@ -67,31 +67,39 @@ export async function whitelistLoginHandler({
   whitelistCode: string | string[];
 }) {
   try {
-    const myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
+    // const myHeaders = new Headers();
+    // myHeaders.append("Content-Type", "application/json");
 
-    const raw = JSON.stringify({
-      walletAddress: walletData,
-    });
+    // const raw = JSON.stringify({
+    //   walletAddress: walletData,
+    // });
 
-    const requestOptions = {
-      method: "POST",
-      headers: myHeaders,
-      body: raw,
-    };
+    // const requestOptions = {
+    //   method: "POST",
+    //   headers: myHeaders,
+    //   body: raw,
+    // };
 
-    const response = await fetch(
-      `${APIURL}/api/users/register/wl/${whitelistCode}`,
-      requestOptions,
-    );
+    // const response = await fetch(
+    //   `${APIURL}/api/users/register/wl/${whitelistCode}`,
+    //   requestOptions,
+    // );
 
-    if (!response.ok) {
-      throw new Error("Network response was not ok");
-    }
+    // if (!response.ok) {
+    //   throw new Error("Network response was not ok");
+    // }
 
-    const result = await response.json();
+    // const result = await response.json();
 
-    return result;
+    // return result;
+    return axiosClient
+      .post(
+        `/api/users/register/wl/${whitelistCode}`,
+        JSON.stringify({ walletAddress: walletData }),
+      )
+      .then((response) => {
+        return response.data;
+      });
   } catch (error) {
     console.error("Error:", error);
     throw error; // Rethrow the error for handling at a higher level
@@ -106,31 +114,40 @@ export async function referralLoginHandler({
   referralCode: string | string[];
 }) {
   try {
-    const myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
+    // const myHeaders = new Headers();
+    // myHeaders.append("Content-Type", "application/json");
 
-    const raw = JSON.stringify({
-      walletAddress: walletData,
-    });
+    // const raw = JSON.stringify({
+    //   walletAddress: walletData,
+    // });
 
-    const requestOptions = {
-      method: "POST",
-      headers: myHeaders,
-      body: raw,
-    };
+    // const requestOptions = {
+    //   method: "POST",
+    //   headers: myHeaders,
+    //   body: raw,
+    // };
 
-    const response = await fetch(
-      `${APIURL}/api/users/register/${referralCode}`,
-      requestOptions,
-    );
+    // const response = await fetch(
+    //   `${APIURL}/api/users/register/${referralCode}`,
+    //   requestOptions,
+    // );
 
-    if (!response.ok) {
-      throw new Error("Network response was not ok");
-    }
+    // if (!response.ok) {
+    //   throw new Error("Network response was not ok");
+    // }
 
-    const result = await response.json();
+    // const result = await response.json();
 
-    return result;
+    // return result;
+
+    return axiosClient
+      .post(
+        `/api/users/register/${referralCode}`,
+        JSON.stringify({ walletAddress: walletData }),
+      )
+      .then((response) => {
+        return response.data;
+      });
   } catch (error) {
     console.error("Error:", error);
     throw error; // Rethrow the error for handling at a higher level

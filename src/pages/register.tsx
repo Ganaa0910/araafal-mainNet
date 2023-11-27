@@ -41,14 +41,6 @@ export default function Register() {
   const [isConnecting, setIsConnecting] = useState(false);
 
   const [userProfile, setUserProfile] = useState<SavedUser | null>(null);
-  console.log(
-    "🚀 ~ file: register.tsx:10 ~ Register ~ whitelistCode:",
-    whitelistCode,
-  );
-  console.log(
-    "🚀 ~ file: register.tsx:9 ~ Register ~ referralCode:",
-    referralCode,
-  );
 
   const { mutateAsync: whitelistHandler } = useMutation({
     mutationFn: whitelistLoginHandler,
@@ -56,13 +48,7 @@ export default function Register() {
       console.log(error);
       toast.error(`Error when connecting wallet`);
     },
-    onSuccess: (data, variables) => {
-      saveToken(data?.auth);
-      queryClient.invalidateQueries({ queryKey: ["userProfile"] });
-      setIsConnecting(false);
-      toast.success(`Successfully connected`);
-      router.push(`/profile/${data?.user?.walletAddress}`);
-    },
+    onSuccess: (data, variables) => {},
   });
   const { mutateAsync: referralHandler } = useMutation({
     mutationFn: referralLoginHandler,
@@ -70,13 +56,7 @@ export default function Register() {
       console.log(error);
       toast.error(`Error when connecting wallet`);
     },
-    onSuccess: (data, variables) => {
-      saveToken(data?.auth);
-      queryClient.invalidateQueries({ queryKey: ["userProfile"] });
-      setIsConnecting(false);
-      toast.success(`Successfully connected`);
-      router.push(`/profile/${data?.user?.walletAddress}`);
-    },
+    onSuccess: (data, variables) => {},
   });
 
   const sign = async (message: string) => {
@@ -87,13 +67,38 @@ export default function Register() {
       const pubkey = await window.unisat.getPublicKey();
 
       const matching = verifyMessage(pubkey, message, signature);
+      let walletAddress = "";
       if (matching) {
         if (referralCode) {
-          await referralHandler({ walletData: account, referralCode });
+          const data = await referralHandler({
+            walletData: account,
+            referralCode,
+          });
+          walletAddress = data?.user?.walletAddress;
+          if (data.error) {
+            setIsConnecting(false);
+            return toast.error(data.error);
+          }
+          saveToken(data?.auth);
         }
         if (whitelistCode) {
-          await whitelistHandler({ walletData: account, whitelistCode });
+          const data = await whitelistHandler({
+            walletData: account,
+            whitelistCode,
+          });
+
+          walletAddress = data?.user?.walletAddress;
+          if (data.error) {
+            setIsConnecting(false);
+            return toast.error(data.error);
+          }
+          saveToken(data?.auth);
         }
+        queryClient.invalidateQueries({ queryKey: ["userProfile"] });
+        setIsConnecting(false);
+        toast.success(`Successfully connected`);
+
+        router.push(`/profile/${walletAddress}`);
         dispatch(setAddress(account));
         dispatch(setConnected(true));
         const item = {
@@ -155,7 +160,7 @@ export default function Register() {
         className="select-none -z-20 top-gradient"
         alt="bg"
       />
-      <nav className="absolute top-0 left-0 w-full mx-auto">
+      <nav className="absolute top-0 left-0 z-50 w-full mx-auto">
         <div className="flex items-center justify-center flex-shrink-0 h-20 px-28">
           <div className="flex items-center h-12">
             <Link href={"/"}>
@@ -171,7 +176,7 @@ export default function Register() {
         </div>
       </nav>
       <div
-        className={`flex h-screen max-w-[1440px] relative z-50 mx-auto -mt-20 flex-col items-center justify-center`}
+        className={`flex h-screen max-w-[1440px] relative z-40 mx-auto -mt-20 flex-col items-center justify-center`}
       >
         <div className="relative w-full h-24">
           <Image
