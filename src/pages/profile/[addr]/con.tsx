@@ -17,13 +17,13 @@ import { ReduxAccount } from "@/lib/types";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Link from "next/link";
 import { toast } from "sonner";
-import { useWalletState } from "@/slices/store";
+import { useWalletStore } from "@/slices/store";
 export default function Profile() {
   //profile routing ends
   const router = useRouter();
   const queryClient = useQueryClient();
   const { isConnected, connectedAddress, setConnectedAddress, setConnected } =
-    useWalletState();
+    useWalletStore();
   const [inscriptions, setInscriptions] = useState([]);
   const [copied, setCopied] = useState(false);
 

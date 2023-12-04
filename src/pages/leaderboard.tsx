@@ -6,10 +6,10 @@ import { ReduxAccount } from "@/lib/types";
 import { useQuery } from "@tanstack/react-query";
 import React from "react";
 import Image from "next/image";
-import { useWalletState } from "@/slices/store";
+import { useWalletStore } from "@/slices/store";
 
 export default function Leaderboard() {
-  const { isConnected, connectedAddress } = useWalletState();
+  const { isConnected, connectedAddress } = useWalletStore();
   const { isLoading, isError, data, error } = useQuery({
     queryKey: ["userProfile"],
     queryFn: () => getUserProfile(connectedAddress),

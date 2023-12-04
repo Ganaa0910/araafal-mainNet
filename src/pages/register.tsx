@@ -18,7 +18,7 @@ import { Icons } from "@/components/ui/icons";
 import MaintainanceScreen from "@/components/section/maintainance";
 import { isMobile } from "react-device-detect";
 import MobileOnlyScreen from "@/components/section/mobile-only";
-import { useWalletState } from "@/slices/store";
+import { useWalletStore } from "@/slices/store";
 
 type SavedUser = {
   address: string;
@@ -32,7 +32,7 @@ export default function Register() {
   const router = useRouter();
   const queryClient = useQueryClient();
   const { isConnected, connectedAddress, setConnectedAddress, setConnected } =
-    useWalletState();
+    useWalletStore();
   const { referralCode } = router.query;
   const { whitelistCode } = router.query;
 

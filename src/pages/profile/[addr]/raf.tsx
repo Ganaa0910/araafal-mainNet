@@ -13,10 +13,10 @@ import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { useWalletState } from "@/slices/store";
+import { useWalletStore } from "@/slices/store";
 
 export default function Raf() {
-  const { isConnected, connectedAddress } = useWalletState();
+  const { isConnected, connectedAddress } = useWalletStore();
   const router = useRouter();
   const slug = router.query.addr;
 

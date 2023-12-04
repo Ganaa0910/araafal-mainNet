@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import { verifyMessage } from "@unisat/wallet-utils";
 import { Buffer } from "buffer";
@@ -22,7 +22,7 @@ import { Icons } from "./ui/icons";
 import { useRouter } from "next/router";
 import { getUserProfile } from "@/lib/service";
 import Image from "next/image";
-import { useWalletState } from "@/slices/store";
+import { useWalletStore } from "@/slices/store";
 
 type SavedUser = {
   address: string;
@@ -33,7 +33,7 @@ type SavedUser = {
 function ConnectWalletButton() {
   const queryClient = useQueryClient();
   const { isConnected, connectedAddress, setConnectedAddress, setConnected } =
-    useWalletState();
+    useWalletStore();
   const dispatch = useDispatch();
   const router = useRouter();
   const [userProfile, setUserProfile] = useState<SavedUser | null>(null);

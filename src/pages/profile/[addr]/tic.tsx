@@ -5,7 +5,7 @@ import ClaimPrize from "@/components/modal/claim-prize";
 import ProfileTabs from "@/components/profile/profile-tabs";
 import { TransactionWithTicket, getTicketsByUser } from "@/lib/service";
 import { ReduxAccount } from "@/lib/types";
-import { useWalletState } from "@/slices/store";
+import { useWalletStore } from "@/slices/store";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -20,7 +20,7 @@ const Tic = () => {
   //profile routing ends
   const router = useRouter();
 
-  const { isConnected, connectedAddress } = useWalletState();
+  const { isConnected, connectedAddress } = useWalletStore();
 
   const [claimPrizeActive, setClaimPrizeActive] = useState(false);
   const [claimingTicket, setClaimingTicket] = useState<any>(null);

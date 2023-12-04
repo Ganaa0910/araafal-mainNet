@@ -1,14 +1,12 @@
 import TicketConfirmation from "@/components/modal/ticket-confirmation";
 import { Button } from "@/components/ui/button";
-import { ReduxAccount, ReduxTicketObject, TicketsByRaffle } from "@/lib/types";
+import { TicketsByRaffle } from "@/lib/types";
 import { Raffle, Ticket } from "@/lib/types/dbTypes";
-import { setTicketAmount } from "@/slices/mainSlice";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { getTokenImagePath } from "@/lib/helpers";
 import { toast } from "sonner";
-import { useWalletState } from "@/slices/store";
+import { useTicketStore, useWalletStore } from "@/slices/store";
 
 export default function BuyPanel({
   raffleDetail,
@@ -17,32 +15,31 @@ export default function BuyPanel({
   raffleDetail: Raffle | undefined;
   tickets: { rows: TicketsByRaffle[] };
 }) {
-  const { isConnected, connectedAddress } = useWalletState();
-  const ticket = useSelector((state: ReduxTicketObject) => state.ticket);
-  const dispatch = useDispatch();
+  const { isConnected, connectedAddress } = useWalletStore();
+  const { ticketAmount, setTicketAmount } = useTicketStore();
 
   const [isPurchaseOverlayOpen, setIsPurchaseOverlayOpen] = useState(false);
 
   const handleInputChange = (e: any) => {
     const newAmount = parseInt(e.target.value, 10);
-    dispatch(setTicketAmount(newAmount));
+    setTicketAmount(newAmount);
   };
 
   const handleIncrement = () => {
     if (raffleDetail && raffleDetail.sellingTicketLimit) {
       const newAmount = Math.min(
-        ticket.amount + 1,
+        ticketAmount + 1,
         raffleDetail.sellingTicketLimit,
       );
-      dispatch(setTicketAmount(newAmount));
+      setTicketAmount(newAmount);
     } else {
       return;
     }
   };
 
   const handleDecrement = () => {
-    const newAmount = Math.max(ticket.amount - 1, 1);
-    dispatch(setTicketAmount(newAmount));
+    const newAmount = Math.max(ticketAmount - 1, 1);
+    setTicketAmount(newAmount);
   };
 
   const handleOpenPurchaseOverlay = () => {
@@ -121,14 +118,14 @@ export default function BuyPanel({
                   min="1"
                   readOnly
                   max="1000"
-                  value={ticket.amount}
+                  value={ticketAmount}
                   placeholder="1"
                   onChange={(e) => handleInputChange(e)}
                 />
                 <button
                   className="p-0 text-xl text-white border-none rounded-l-none rounded-r select-none bg-inherit"
                   onClick={handleIncrement}
-                  disabled={ticket.amount == 10}
+                  disabled={ticketAmount == 10}
                 >
                   +
                 </button>
@@ -149,7 +146,7 @@ export default function BuyPanel({
                       className="mr-2"
                     />
                   )}
-                  {ticket.amount * raffleDetail?.price}{" "}
+                  {ticketAmount * raffleDetail?.price}{" "}
                   {raffleDetail.sellingTokenTicker}
                 </h2>
               )}

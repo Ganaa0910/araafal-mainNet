@@ -4,7 +4,7 @@ import ProfileTabs from "@/components/profile/profile-tabs";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { getInscriptionsTestnet } from "@/lib/service";
 import { ReduxAccount } from "@/lib/types";
-import { useWalletState } from "@/slices/store";
+import { useWalletStore } from "@/slices/store";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import { useEffect } from "react";
@@ -14,7 +14,7 @@ const MyInscriptions = () => {
   const router = useRouter();
   const slug = router.query.slug;
   const { isConnected, connectedAddress, setConnectedAddress, setConnected } =
-    useWalletState();
+    useWalletStore();
 
   const { data: inscriptions, isLoading } = useQuery({
     queryKey: ["inscriptions"],

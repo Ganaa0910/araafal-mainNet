@@ -15,12 +15,12 @@ import RaffleConfirmation from "@/components/modal/raffle-confirmation";
 import { InscriptionType, ReduxAccount } from "@/lib/types";
 import { Raffle } from "@/lib/types/dbTypes";
 import { toast } from "sonner";
-import { useWalletState } from "@/slices/store";
+import { useWalletStore } from "@/slices/store";
 
 export default function CreateRaffle() {
   const queryClient = useQueryClient();
   const { isConnected, connectedAddress, setConnectedAddress, setConnected } =
-    useWalletState();
+    useWalletStore();
 
   const [showInscriptions, setShowInscriptions] = useState(false);
   const [showCurrency, setShowCurrency] = useState(false);

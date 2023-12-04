@@ -20,12 +20,11 @@ import { useQuery, useMutation } from "@tanstack/react-query";
 import { createRaffle } from "@/lib/service";
 import { useQueryClient } from "@tanstack/react-query";
 import { Icons } from "../ui/icons";
-import { useSelector } from "react-redux";
 import { Raffle, TransactionType } from "@/lib/types/dbTypes";
 import { toast } from "sonner";
-import { ReduxAccount, ReduxTicketObject, UserBrc20Type } from "@/lib/types";
+import { UserBrc20Type } from "@/lib/types";
 import { useRouter } from "next/router";
-import { useWalletState } from "@/slices/store";
+import { useTicketStore, useWalletStore } from "@/slices/store";
 type ChooseCurrencyProps = {
   handleClose: () => void;
   show: boolean;
@@ -47,10 +46,9 @@ export default function PaymentConfirmation({
 }: ChooseCurrencyProps) {
   const router = useRouter();
   const queryClient = useQueryClient();
-  // const account = useSelector((state: ReduxAccount) => state.account);
   const { isConnected, connectedAddress, setConnectedAddress, setConnected } =
-    useWalletState();
-  const ticket = useSelector((state: ReduxTicketObject) => state.ticket);
+    useWalletStore();
+  const { ticketAmount, setTicketAmount } = useTicketStore();
   const [filteredIns, setFilteredIns] = useState<UserBrc20Type[]>([]);
 
   const [selectBrc20, setSelectedBrc20] = useState<UserBrc20Type | null>(null);
@@ -199,7 +197,7 @@ export default function PaymentConfirmation({
           txid = await window.unisat.sendBitcoin(
             newRaffleData.ticketDepositAddress,
             parseInt(
-              (ticket?.amount * newRaffleData?.price * 100000000).toString(),
+              (ticketAmount * newRaffleData?.price * 100000000).toString(),
             ),
           );
         } else {
@@ -212,7 +210,7 @@ export default function PaymentConfirmation({
         if (txid && newRaffleData.id) {
           const variables = {
             transactionId: txid,
-            ticketCount: ticket.amount,
+            ticketCount: ticketAmount,
             raffleId: newRaffleData.id,
             userId: connectedAddress,
             transactionData: {

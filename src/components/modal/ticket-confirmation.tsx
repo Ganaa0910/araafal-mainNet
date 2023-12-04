@@ -14,11 +14,9 @@ import {
 import { useMutation } from "@tanstack/react-query";
 import { createRaffle } from "@/lib/service";
 import { useQueryClient } from "@tanstack/react-query";
-import { Icons } from "../ui/icons";
 import PaymentConfirmation from "./payment-confirmation";
 import { Raffle } from "@/lib/types/dbTypes";
-import { ReduxTicketObject } from "@/lib/types";
-import { useSelector } from "react-redux";
+import { useTicketStore } from "@/slices/store";
 
 type ChooseCurrencyProps = {
   handleClose: () => void;
@@ -31,7 +29,7 @@ export default function TicketConfirmation({
   show,
   newRaffleData,
 }: ChooseCurrencyProps) {
-  const ticket = useSelector((state: ReduxTicketObject) => state.ticket);
+  const { ticketAmount, setTicketAmount } = useTicketStore();
   const [paymentConfModal, setPaymentConfModal] = useState(false);
   const queryClient = useQueryClient();
   const { data, error, isLoading, mutateAsync } = useMutation({
@@ -72,7 +70,7 @@ export default function TicketConfirmation({
         handleClose={triggerClose}
         newRaffleData={newRaffleData}
         paymentToken={newRaffleData?.sellingTokenTicker}
-        paymentAmount={String(newRaffleData?.price * ticket?.amount)}
+        paymentAmount={String(newRaffleData?.price * ticketAmount)}
         paymentTokenImage={
           selectedToken ? selectedToken.imagePath : "/bitcoin.svg"
         }
@@ -129,7 +127,7 @@ export default function TicketConfirmation({
                     <div className="text-xl font-bold">Ticket count</div>
                     <div className="flex gap-3">
                       <h2 className="text-xl font-bold">
-                        {ticket?.amount} tickets
+                        {ticketAmount} tickets
                       </h2>
                     </div>
                   </div>
@@ -149,7 +147,7 @@ export default function TicketConfirmation({
                           className="w-7 h-7"
                         />
                         <h2 className="text-xl font-bold">
-                          {newRaffleData?.price * ticket?.amount}{" "}
+                          {newRaffleData?.price * ticketAmount}{" "}
                           {newRaffleData?.sellingTokenTicker
                             ? newRaffleData?.sellingTokenTicker
                             : "BTC"}

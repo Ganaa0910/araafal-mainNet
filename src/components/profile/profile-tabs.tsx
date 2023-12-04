@@ -9,7 +9,7 @@ import { Icons } from "../ui/icons";
 import { getUserProfile } from "@/lib/service";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
-import { useWalletState } from "@/slices/store";
+import { useWalletStore } from "@/slices/store";
 
 export default function ProfileTabs({
   connectedAddress,
@@ -20,7 +20,7 @@ export default function ProfileTabs({
 
   const router = useRouter();
 
-  const { setConnectedAddress, setConnected } = useWalletState();
+  const { setConnectedAddress, setConnected } = useWalletStore();
   const slug = router.query.addr as string;
   const isActive = (href: string) => router.asPath === href;
 

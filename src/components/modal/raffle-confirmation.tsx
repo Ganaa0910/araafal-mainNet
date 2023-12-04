@@ -17,7 +17,7 @@ import { toast } from "sonner";
 import { Button } from "../ui/button";
 import { Icons } from "../ui/icons";
 import PaymentConfirmation from "./payment-confirmation";
-import { useWalletState } from "@/slices/store";
+import { useWalletStore } from "@/slices/store";
 
 type RaffleConfirmationProps = {
   handleClose: () => void;
@@ -31,7 +31,7 @@ const RaffleConfirmation = ({
   newRaffleData,
 }: RaffleConfirmationProps) => {
   const router = useRouter();
-  const { connectedAddress } = useWalletState();
+  const { connectedAddress } = useWalletStore();
   const [paymentConfModal, setPaymentConfModal] = useState(false);
   const queryClient = useQueryClient();
   const [submitLoading, setSubmitLoading] = useState(false);
