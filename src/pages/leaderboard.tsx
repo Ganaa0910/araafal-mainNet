@@ -2,7 +2,6 @@ import PageTitle from "@/components/atom/page-title";
 import Layout from "@/components/layout/layout";
 import { Icons } from "@/components/ui/icons";
 import { getLeaderboard, getPosition, getUserProfile } from "@/lib/service";
-import { ReduxAccount } from "@/lib/types";
 import { useQuery } from "@tanstack/react-query";
 import React from "react";
 import Image from "next/image";

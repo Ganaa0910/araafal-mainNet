@@ -12,7 +12,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 import RaffleConfirmation from "@/components/modal/raffle-confirmation";
-import { InscriptionType, ReduxAccount } from "@/lib/types";
+import { InscriptionType } from "@/lib/types";
 import { Raffle } from "@/lib/types/dbTypes";
 import { toast } from "sonner";
 import { useWalletStore } from "@/slices/store";
@@ -55,10 +55,6 @@ export default function CreateRaffle() {
   };
 
   const toggleConfirmation = () => {
-    // setName("");
-    // setDesc("");
-    // setPrice("");
-    // setChosenInscription(null);
     setRaffleSubmitModal(!raffleSubmitModal);
   };
   const handleDateChange = (date: Date) => {

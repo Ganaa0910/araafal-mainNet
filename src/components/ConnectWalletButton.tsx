@@ -1,21 +1,13 @@
 import { useEffect, useRef, useState } from "react";
-import { useDispatch } from "react-redux";
 
 import { verifyMessage } from "@unisat/wallet-utils";
-import { Buffer } from "buffer";
 import crypto from "crypto";
 import moment from "moment";
 import Link from "next/link";
 // import { setAddress, setConnected } from "../slices/mainSlice";
-import { User } from "@/lib/types/dbTypes";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { loginHandler } from "@/lib/service/postRequest";
-import {
-  clearToken,
-  getAccessToken,
-  getRefreshToken,
-  saveToken,
-} from "@/lib/auth";
+import { clearToken, saveToken } from "@/lib/auth";
 import { toast } from "sonner";
 import { Button } from "./ui/button";
 import { Icons } from "./ui/icons";
@@ -34,7 +26,6 @@ function ConnectWalletButton() {
   const queryClient = useQueryClient();
   const { isConnected, connectedAddress, setConnectedAddress, setConnected } =
     useWalletStore();
-  const dispatch = useDispatch();
   const router = useRouter();
   const [userProfile, setUserProfile] = useState<SavedUser | null>(null);
 

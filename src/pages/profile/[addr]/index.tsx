@@ -10,7 +10,7 @@ import ProfileTabs from "@/components/profile/profile-tabs";
 import { Icons } from "@/components/ui/icons";
 import { getInscriptionsTestnet, getUserProfile } from "@/lib/service";
 import { profileUpdateHandler } from "@/lib/service/postRequest";
-import { InscriptionType, ReduxAccount } from "@/lib/types";
+import { InscriptionType } from "@/lib/types";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import Image from "next/image";

@@ -1,5 +1,4 @@
 import { useRouter } from "next/router";
-import { useDispatch } from "react-redux";
 import { Button } from "../ui/button";
 import Image from "next/image";
 import { useQuery } from "@tanstack/react-query";
@@ -10,7 +9,6 @@ export default function PublicProfileTabs() {
   //profile routing ends
 
   const router = useRouter();
-  const dispatch = useDispatch();
   const slug = router.query.addr as string;
   const isActive = (href: string) => router.asPath === href;
 

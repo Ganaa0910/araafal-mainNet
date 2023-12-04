@@ -7,8 +7,6 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { createRaffle } from "@/lib/service";
-import { ReduxAccount } from "@/lib/types";
-import { Raffle } from "@/lib/types/dbTypes";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Image from "next/image";
 import { useRouter } from "next/router";
@@ -18,6 +16,7 @@ import { Button } from "../ui/button";
 import { Icons } from "../ui/icons";
 import PaymentConfirmation from "./payment-confirmation";
 import { useWalletStore } from "@/slices/store";
+import { Raffle } from "@/lib/types/dbTypes";
 
 type RaffleConfirmationProps = {
   handleClose: () => void;

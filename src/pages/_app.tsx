@@ -1,8 +1,6 @@
 import "@/styles/globals.css";
 
 import MainHead from "@/components/layout/main-head";
-import { Provider } from "react-redux";
-import { store } from "../slices/store";
 
 import { Toaster } from "@/components/ui/toaster";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -17,12 +15,10 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <>
       <QueryClientProvider client={queryClient}>
-        <Provider store={store}>
-          <MainHead />
-          <Component {...pageProps} />
-          <Toaster />
-          <ReactQueryDevtools initialIsOpen={false} />
-        </Provider>
+        <MainHead />
+        <Component {...pageProps} />
+        <Toaster />
+        <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>
     </>
   );

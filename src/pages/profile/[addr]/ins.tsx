@@ -3,7 +3,6 @@ import Layout from "@/components/layout/layout";
 import ProfileTabs from "@/components/profile/profile-tabs";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { getInscriptionsTestnet } from "@/lib/service";
-import { ReduxAccount } from "@/lib/types";
 import { useWalletStore } from "@/slices/store";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";

@@ -8,7 +8,6 @@ import ClaimPrize from "@/components/modal/claim-prize";
 import ProfileTabs from "@/components/profile/profile-tabs";
 import { Button } from "@/components/ui/button";
 import { getUserRaffles } from "@/lib/service";
-import { ReduxAccount } from "@/lib/types";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import Link from "next/link";

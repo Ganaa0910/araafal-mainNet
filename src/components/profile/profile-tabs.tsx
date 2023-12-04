@@ -1,11 +1,7 @@
 import { clearToken } from "@/lib/auth";
-import { Account } from "@/lib/types";
 // import { setAddress, setConnected } from "@/slices/mainSlice";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
 import { Button } from "../ui/button";
-import { Icons } from "../ui/icons";
 import { getUserProfile } from "@/lib/service";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";

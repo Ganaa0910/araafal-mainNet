@@ -4,12 +4,11 @@ import Layout from "@/components/layout/layout";
 import ClaimPrize from "@/components/modal/claim-prize";
 import ProfileTabs from "@/components/profile/profile-tabs";
 import { TransactionWithTicket, getTicketsByUser } from "@/lib/service";
-import { ReduxAccount } from "@/lib/types";
 import { useWalletStore } from "@/slices/store";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import Countdown from "react-countdown";
+
 enum TicketStatus {
   TICKET_ENDED,
   TICKET_RUNNING,
