@@ -1,27 +1,21 @@
-import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 // import MyInscriptions from '@/components/MyInscriptions'
 import PageTitle from "@/components/atom/page-title";
 import Layout from "@/components/layout/layout";
+import ChooseInscription from "@/components/modal/choose-inscription";
 import ProfileTabs from "@/components/profile/profile-tabs";
 import { Icons } from "@/components/ui/icons";
-import {
-  createReferral,
-  getInscriptionsTestnet,
-  getPosition,
-  getReferralCode,
-  getUserProfile,
-} from "@/lib/service";
+import { getInscriptionsTestnet, getUserProfile } from "@/lib/service";
+import { profileUpdateHandler } from "@/lib/service/postRequest";
 import { InscriptionType, ReduxAccount } from "@/lib/types";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import Image from "next/image";
 import Link from "next/link";
 import { useSelector } from "react-redux";
 import { toast } from "sonner";
-import Image from "next/image";
-import { profileUpdateHandler } from "@/lib/service/postRequest";
-import ChooseInscription from "@/components/modal/choose-inscription";
 export default function Profile() {
   //profile routing ends
   const router = useRouter();
@@ -65,7 +59,16 @@ export default function Profile() {
       }
     }
   }, [data]);
-
+  useEffect(() => {
+    if (typeof slug === "string") {
+      if (
+        (slug && account.address && slug !== account.address) ||
+        !account.connected
+      ) {
+        router.replace(`/users/${slug}/raf`);
+      }
+    }
+  }, [slug, account.address, account.connected]);
   const {
     data: updatedData,
     isLoading: referralLoading,
@@ -316,3 +319,34 @@ export default function Profile() {
     </Layout>
   );
 }
+
+const Card = ({
+  title,
+  points,
+  description,
+  linkTo,
+  buttonText,
+}: {
+  title: string;
+  points: string;
+  description: string;
+  linkTo: string;
+  buttonText: string;
+}) => {
+  return (
+    <div className="flex flex-col justify-between w-full gap-5 p-6 border rounded-xl border-brand bg-brandBlack">
+      <div className="flex flex-col gap-2">
+        <div className="flex justify-between">
+          <div className="text-xl font-bold">{title}</div>
+          <div className="text-lg font-bold">{points}</div>
+        </div>
+        <div>{description}</div>
+      </div>
+      <Link href={linkTo} className="flex w-full">
+        <Button variant={"primary"} className="w-full">
+          {buttonText}
+        </Button>
+      </Link>
+    </div>
+  );
+};

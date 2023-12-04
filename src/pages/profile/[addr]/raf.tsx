@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
 
 import CreatedRaffleCard from "@/components/atom/cards/created-raffle-card";
+import RaffleSkeleton from "@/components/atom/cards/raffle-skeleton";
 import PageTitle from "@/components/atom/page-title";
 import Layout from "@/components/layout/layout";
 import ClaimPrize from "@/components/modal/claim-prize";
@@ -11,9 +12,8 @@ import { ReduxAccount } from "@/lib/types";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import RaffleSkeleton from "@/components/atom/cards/raffle-skeleton";
 
 export default function Raf() {
   const account = useSelector((state: ReduxAccount) => state.account);
@@ -35,7 +35,16 @@ export default function Raf() {
     },
     enabled: !!slug,
   });
-
+  useEffect(() => {
+    if (typeof slug === "string") {
+      if (
+        (slug && account.address && slug !== account.address) ||
+        !account.connected
+      ) {
+        router.replace(`/users/${slug}/raf`);
+      }
+    }
+  }, [slug, account.address, account.connected]);
   return (
     <Layout>
       <ClaimPrize

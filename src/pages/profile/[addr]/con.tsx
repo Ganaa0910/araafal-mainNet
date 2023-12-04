@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 // import MyInscriptions from '@/components/MyInscriptions'
@@ -32,7 +32,16 @@ export default function Profile() {
     queryFn: () => getUserProfile(slug),
     enabled: !!slug && typeof slug === "string",
   });
-
+  useEffect(() => {
+    if (typeof slug === "string") {
+      if (
+        (slug && account.address && slug !== account.address) ||
+        !account.connected
+      ) {
+        router.replace(`/users/${slug}/raf`);
+      }
+    }
+  }, [slug, account.address, account.connected]);
   const {
     data: refData,
     isLoading: referralLoading,

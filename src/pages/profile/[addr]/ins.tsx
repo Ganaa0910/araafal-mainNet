@@ -6,9 +6,12 @@ import { getInscriptionsTestnet } from "@/lib/service";
 import { ReduxAccount } from "@/lib/types";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
 import { useSelector } from "react-redux";
-
 const MyInscriptions = () => {
+  const router = useRouter();
+  const slug = router.query.addr as string;
   const account = useSelector((state: ReduxAccount) => state.account);
 
   const { data: inscriptions, isLoading } = useQuery({
@@ -18,7 +21,16 @@ const MyInscriptions = () => {
     },
     enabled: account.connected == true,
   });
-
+  useEffect(() => {
+    if (typeof slug === "string") {
+      if (
+        (slug && account.address && slug !== account.address) ||
+        !account.connected
+      ) {
+        router.replace(`/users/${slug}/raf`);
+      }
+    }
+  }, [slug, account.address, account.connected]);
   return (
     <Layout>
       <PageTitle name="Profile" />

@@ -3,16 +3,11 @@ import PageTitle from "@/components/atom/page-title";
 import Layout from "@/components/layout/layout";
 import ClaimPrize from "@/components/modal/claim-prize";
 import ProfileTabs from "@/components/profile/profile-tabs";
-import { Button } from "@/components/ui/button";
-import { utcToLocalTime } from "@/lib/helpers";
 import { TransactionWithTicket, getTicketsByUser } from "@/lib/service";
 import { ReduxAccount } from "@/lib/types";
 import { useQuery } from "@tanstack/react-query";
-import moment from "moment";
-import Image from "next/image";
 import { useRouter } from "next/router";
-import { useState } from "react";
-import Countdown from "react-countdown";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 enum TicketStatus {
   TICKET_ENDED,
@@ -51,7 +46,16 @@ const Tic = () => {
       (prevClaimActive: boolean): boolean => !prevClaimActive,
     );
   };
-
+  useEffect(() => {
+    if (typeof slug === "string") {
+      if (
+        (slug && account.address && slug !== account.address) ||
+        !account.connected
+      ) {
+        router.replace(`/users/${slug}/raf`);
+      }
+    }
+  }, [slug, account.address, account.connected]);
   return (
     <Layout>
       <ClaimPrize
