@@ -82,7 +82,7 @@ export default function Raf() {
               </h1>
               <div className="w-[280px]">
                 <Button variant={"primary"} className="w-full">
-                  <Link href={"/createraffle"}>Create raffle</Link>
+                  <Link href={"/createRaffle"}>Create raffle</Link>
                 </Button>
               </div>
             </div>

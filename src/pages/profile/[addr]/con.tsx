@@ -93,7 +93,7 @@ export default function Profile() {
               title="Create raffle"
               points="2 pts"
               description="Create raffle with your inscription"
-              linkTo="/createraffle"
+              linkTo="/createRaffle"
               buttonText="Go"
             />
             <Card
@@ -124,7 +124,7 @@ export default function Profile() {
             title="Create featured raffle"
             points="5 pts"
             description="Create raffle with PSAT to make it featured"
-            linkTo="/createraffle"
+            linkTo="/createRaffle"
             buttonText="Go"
           />
           <div className="flex flex-col gap-5 p-6 border w-fulls rounded-xl border-brand bg-brandBlack">

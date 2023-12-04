@@ -34,7 +34,7 @@ export default function Navbar() {
           </Link>
         </div>
         <div className="flex items-center gap-3 mx-auto">
-          <Link className="px-5 py-3" href={"/createraffle"}>
+          <Link className="px-5 py-3" href={"/createRaffle"}>
             Create Raffle
           </Link>
 
