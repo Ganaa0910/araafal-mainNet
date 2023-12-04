@@ -36,13 +36,13 @@ export default function Profile() {
   useEffect(() => {
     if (typeof slug === "string") {
       if (
-        (slug && account.address && slug !== account.address) ||
-        !account.connected
+        (slug && connectedAddress && slug !== connectedAddress) ||
+        !isConnected
       ) {
         router.replace(`/users/${slug}/raf`);
       }
     }
-  }, [slug, account.address, account.connected]);
+  }, [slug, connectedAddress, isConnected]);
   const {
     data: refData,
     isLoading: referralLoading,
