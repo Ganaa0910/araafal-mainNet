@@ -16,7 +16,7 @@ import {
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Link from "next/link";
 import { toast } from "sonner";
-import { useWalletStore } from "@/slices/store";
+import { useWalletStore } from "@/slices/walletStore";
 
 export default function Profile() {
   //profile routing ends

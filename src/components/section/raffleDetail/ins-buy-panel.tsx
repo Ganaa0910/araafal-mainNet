@@ -6,7 +6,8 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { getTokenImagePath } from "@/lib/helpers";
 import { toast } from "sonner";
-import { useTicketStore, useWalletStore } from "@/slices/store";
+import { useWalletStore } from "@/slices/walletStore";
+import { useTicketStore } from "@/slices/ticketStore";
 
 export default function BuyPanel({
   raffleDetail,

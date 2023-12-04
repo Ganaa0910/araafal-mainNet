@@ -14,7 +14,7 @@ import { Icons } from "./ui/icons";
 import { useRouter } from "next/router";
 import { getUserProfile } from "@/lib/service";
 import Image from "next/image";
-import { useWalletStore } from "@/slices/store";
+import { useWalletStore } from "@/slices/walletStore";
 
 type SavedUser = {
   address: string;

@@ -18,7 +18,7 @@ import { Icons } from "@/components/ui/icons";
 import MaintainanceScreen from "@/components/section/maintainance";
 import { isMobile } from "react-device-detect";
 import MobileOnlyScreen from "@/components/section/mobile-only";
-import { useWalletStore } from "@/slices/store";
+import { useWalletStore } from "@/slices/walletStore";
 
 type SavedUser = {
   address: string;

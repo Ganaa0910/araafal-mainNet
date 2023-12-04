@@ -5,7 +5,7 @@ import { getLeaderboard, getPosition, getUserProfile } from "@/lib/service";
 import { useQuery } from "@tanstack/react-query";
 import React from "react";
 import Image from "next/image";
-import { useWalletStore } from "@/slices/store";
+import { useWalletStore } from "@/slices/walletStore";
 
 export default function Leaderboard() {
   const { isConnected, connectedAddress } = useWalletStore();

@@ -12,7 +12,7 @@ import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { useWalletStore } from "@/slices/store";
+import { useWalletStore } from "@/slices/walletStore";
 
 export default function Raf() {
   const { isConnected, connectedAddress } = useWalletStore();

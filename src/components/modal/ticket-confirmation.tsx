@@ -16,7 +16,7 @@ import { createRaffle } from "@/lib/service";
 import { useQueryClient } from "@tanstack/react-query";
 import PaymentConfirmation from "./payment-confirmation";
 import { Raffle } from "@/lib/types/dbTypes";
-import { useTicketStore } from "@/slices/store";
+import { useTicketStore } from "@/slices/ticketStore";
 
 type ChooseCurrencyProps = {
   handleClose: () => void;

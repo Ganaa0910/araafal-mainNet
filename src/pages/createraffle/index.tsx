@@ -15,7 +15,7 @@ import RaffleConfirmation from "@/components/modal/raffle-confirmation";
 import { InscriptionType } from "@/lib/types";
 import { Raffle } from "@/lib/types/dbTypes";
 import { toast } from "sonner";
-import { useWalletStore } from "@/slices/store";
+import { useWalletStore } from "@/slices/walletStore";
 
 export default function CreateRaffle() {
   const queryClient = useQueryClient();

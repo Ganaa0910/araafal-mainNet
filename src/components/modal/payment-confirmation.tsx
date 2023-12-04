@@ -24,7 +24,9 @@ import { Raffle, TransactionType } from "@/lib/types/dbTypes";
 import { toast } from "sonner";
 import { UserBrc20Type } from "@/lib/types";
 import { useRouter } from "next/router";
-import { useTicketStore, useWalletStore } from "@/slices/store";
+import { useWalletStore } from "@/slices/walletStore";
+import { useTicketStore } from "@/slices/ticketStore";
+
 type ChooseCurrencyProps = {
   handleClose: () => void;
   show: boolean;

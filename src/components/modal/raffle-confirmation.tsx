@@ -15,7 +15,7 @@ import { toast } from "sonner";
 import { Button } from "../ui/button";
 import { Icons } from "../ui/icons";
 import PaymentConfirmation from "./payment-confirmation";
-import { useWalletStore } from "@/slices/store";
+import { useWalletStore } from "@/slices/walletStore";
 import { Raffle } from "@/lib/types/dbTypes";
 
 type RaffleConfirmationProps = {
