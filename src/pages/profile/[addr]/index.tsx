@@ -12,15 +12,16 @@ import { getInscriptionsTestnet, getUserProfile } from "@/lib/service";
 import { profileUpdateHandler } from "@/lib/service/postRequest";
 import { InscriptionType, ReduxAccount } from "@/lib/types";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { toast } from "sonner";
 import Image from "next/image";
 import Link from "next/link";
-import { useSelector } from "react-redux";
-import { toast } from "sonner";
+import { useWalletState } from "@/slices/store";
 export default function Profile() {
   //profile routing ends
   const router = useRouter();
   const queryClient = useQueryClient();
-  const account = useSelector((state: ReduxAccount) => state.account);
+  const { isConnected, connectedAddress, setConnectedAddress, setConnected } =
+    useWalletState();
   const [userName, setUserName] = useState("");
   const [twitterUserName, setTwitterUserName] = useState("");
   const [discordUserName, setDiscordUserName] = useState("");
@@ -33,11 +34,11 @@ export default function Profile() {
   const slug = router.query.addr as string;
 
   const { data: inscriptions } = useQuery({
-    queryKey: ["inscriptions", account],
+    queryKey: ["inscriptions", connectedAddress],
     queryFn: () => {
-      return getInscriptionsTestnet(account.address);
+      return getInscriptionsTestnet(connectedAddress);
     },
-    enabled: account.connected == true,
+    enabled: isConnected == true,
   });
   const { isLoading, isError, data, error } = useQuery({
     queryKey: ["userProfile", slug],
@@ -62,13 +63,13 @@ export default function Profile() {
   useEffect(() => {
     if (typeof slug === "string") {
       if (
-        (slug && account.address && slug !== account.address) ||
-        !account.connected
+        (slug && connectedAddress && slug !== connectedAddress) ||
+        !isConnected
       ) {
         router.replace(`/users/${slug}/raf`);
       }
     }
-  }, [slug, account.address, account.connected]);
+  }, [slug, connectedAddress, isConnected]);
   const {
     data: updatedData,
     isLoading: referralLoading,
@@ -139,7 +140,7 @@ export default function Profile() {
     }
   };
   const toggleInscriptions = () => {
-    if (account.connected !== true) {
+    if (isConnected !== true) {
       return toast.error("Please connect your wallet");
     }
     setShowInscriptions(!showInscriptions);
@@ -180,7 +181,7 @@ export default function Profile() {
       {/* <div className="py-[48px] md:py-[64px] px-4 md:px-[40px] w-full grid grid-cols-1 gap-8 justify-start items-center bg-red-600"> */}
       <div className="grid items-start justify-start w-full h-auto grid-cols-12 gap-8">
         <div className="col-span-3">
-          <ProfileTabs account={account} />
+          <ProfileTabs connectedAddress={connectedAddress} />
         </div>
         <div className="flex flex-col col-span-5 gap-8 ">
           <div className="flex flex-col gap-4 p-6 border bg-brandBlack rounded-xl border-brand">

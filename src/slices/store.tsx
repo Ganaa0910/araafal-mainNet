@@ -11,7 +11,7 @@ import {
   persistStore,
 } from "redux-persist";
 
-import { ticketReducer, accountReducer } from "./mainSlice";
+import { ticketReducer, accountReducer, setConnected } from "./mainSlice";
 
 const persistConfig = {
   key: "root",
@@ -38,3 +38,19 @@ export const store = configureStore({
 });
 
 export const persistor = persistStore(store);
+
+import { create } from "zustand";
+type State = {
+  isConnected: boolean;
+  setConnected: (isConnected: boolean) => void;
+  connectedAddress: string;
+  setConnectedAddress: (connectedAddress: string) => void;
+};
+export const useWalletState = create<State>((set) => ({
+  isConnected: false,
+  setConnected: () =>
+    set((state) => ({ ...state, isConnected: !state.isConnected })),
+  connectedAddress: "",
+  setConnectedAddress: (data) =>
+    set((state) => ({ ...state, connectedAddress: data })),
+}));

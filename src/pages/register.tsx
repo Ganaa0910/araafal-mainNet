@@ -10,17 +10,15 @@ import {
   whitelistLoginHandler,
 } from "@/lib/service/postRequest";
 import { verifyMessage } from "@unisat/wallet-utils";
-import { useSelector, useDispatch } from "react-redux";
-import { setAddress, setConnected } from "@/slices/mainSlice";
 import moment from "moment";
 import crypto from "crypto";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Icons } from "@/components/ui/icons";
-import { ReduxAccount } from "@/lib/types";
 import MaintainanceScreen from "@/components/section/maintainance";
 import { isMobile } from "react-device-detect";
 import MobileOnlyScreen from "@/components/section/mobile-only";
+import { useWalletState } from "@/slices/store";
 
 type SavedUser = {
   address: string;
@@ -33,8 +31,8 @@ export default function Register() {
 
   const router = useRouter();
   const queryClient = useQueryClient();
-  const account = useSelector((state: ReduxAccount) => state.account);
-  const dispatch = useDispatch();
+  const { isConnected, connectedAddress, setConnectedAddress, setConnected } =
+    useWalletState();
   const { referralCode } = router.query;
   const { whitelistCode } = router.query;
 
@@ -99,8 +97,8 @@ export default function Register() {
         toast.success(`Successfully connected`);
 
         router.push(`/profile/${walletAddress}`);
-        dispatch(setAddress(account));
-        dispatch(setConnected(true));
+        setConnectedAddress(account);
+        setConnected(true);
         const item = {
           address: account,
           signature: signature,

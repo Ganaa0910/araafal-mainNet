@@ -1,6 +1,6 @@
 import { clearToken } from "@/lib/auth";
 import { Account } from "@/lib/types";
-import { setAddress, setConnected } from "@/slices/mainSlice";
+// import { setAddress, setConnected } from "@/slices/mainSlice";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
@@ -9,20 +9,26 @@ import { Icons } from "../ui/icons";
 import { getUserProfile } from "@/lib/service";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
+import { useWalletState } from "@/slices/store";
 
-export default function ProfileTabs({ account }: { account: Account }) {
+export default function ProfileTabs({
+  connectedAddress,
+}: {
+  connectedAddress: string;
+}) {
   //profile routing ends
 
   const router = useRouter();
-  const dispatch = useDispatch();
+
+  const { setConnectedAddress, setConnected } = useWalletState();
   const slug = router.query.addr as string;
   const isActive = (href: string) => router.asPath === href;
 
   // console.log("hello" + router.pathname);
-  const shortAddress = `${account?.address.slice(
+  const shortAddress = `${connectedAddress?.slice(
     0,
     4,
-  )}...${account?.address.slice(-6)}`;
+  )}...${connectedAddress?.slice(-6)}`;
 
   const { isLoading, isError, data, error } = useQuery({
     queryKey: ["userProfile", slug],
@@ -54,8 +60,8 @@ export default function ProfileTabs({ account }: { account: Account }) {
     },
   ];
   const handleLogout = () => {
-    dispatch(setAddress(""));
-    dispatch(setConnected(false));
+    setConnectedAddress("");
+    setConnected(false);
     window.localStorage.removeItem("userProfile");
     clearToken();
     router.push("/");

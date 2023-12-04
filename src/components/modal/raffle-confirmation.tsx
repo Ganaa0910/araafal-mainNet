@@ -13,11 +13,11 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { useSelector } from "react-redux";
 import { toast } from "sonner";
 import { Button } from "../ui/button";
 import { Icons } from "../ui/icons";
 import PaymentConfirmation from "./payment-confirmation";
+import { useWalletState } from "@/slices/store";
 
 type RaffleConfirmationProps = {
   handleClose: () => void;
@@ -31,7 +31,7 @@ const RaffleConfirmation = ({
   newRaffleData,
 }: RaffleConfirmationProps) => {
   const router = useRouter();
-  const account = useSelector((state: ReduxAccount) => state.account);
+  const { connectedAddress } = useWalletState();
   const [paymentConfModal, setPaymentConfModal] = useState(false);
   const queryClient = useQueryClient();
   const [submitLoading, setSubmitLoading] = useState(false);
@@ -46,7 +46,7 @@ const RaffleConfirmation = ({
       setSubmitLoading(false);
       toast.success("Successfully created raffle");
       queryClient.invalidateQueries({ queryKey: ["raffles"] });
-      router.push(`/profile/${account?.address}/raf`);
+      router.push(`/profile/${connectedAddress}/raf`);
     },
   });
 

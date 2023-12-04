@@ -9,7 +9,6 @@ import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 
 export default function Raf() {
-  // const account = useSelector((state: ReduxAccount) => state.account);
   const router = useRouter();
   const slug = router.query.addr;
 

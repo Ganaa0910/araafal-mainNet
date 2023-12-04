@@ -4,44 +4,46 @@ import ProfileTabs from "@/components/profile/profile-tabs";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { getInscriptionsTestnet } from "@/lib/service";
 import { ReduxAccount } from "@/lib/types";
+import { useWalletState } from "@/slices/store";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
-import { useRouter } from "next/router";
 import { useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useRouter } from "next/router";
+
 const MyInscriptions = () => {
   const router = useRouter();
-  const slug = router.query.addr as string;
-  const account = useSelector((state: ReduxAccount) => state.account);
+  const slug = router.query.slug;
+  const { isConnected, connectedAddress, setConnectedAddress, setConnected } =
+    useWalletState();
 
   const { data: inscriptions, isLoading } = useQuery({
     queryKey: ["inscriptions"],
     queryFn: () => {
-      return getInscriptionsTestnet(account.address);
+      return getInscriptionsTestnet(connectedAddress);
     },
-    enabled: account.connected == true,
+    enabled: isConnected == true,
   });
   useEffect(() => {
     if (typeof slug === "string") {
       if (
-        (slug && account.address && slug !== account.address) ||
-        !account.connected
+        (slug && connectedAddress && slug !== connectedAddress) ||
+        !isConnected
       ) {
         router.replace(`/users/${slug}/raf`);
       }
     }
-  }, [slug, account.address, account.connected]);
+  }, [slug, connectedAddress, isConnected]);
   return (
     <Layout>
       <PageTitle name="Profile" />
       <div className="grid h-auto grid-cols-12 gap-8">
         <div className="col-span-3">
-          <ProfileTabs account={account} />
+          <ProfileTabs connectedAddress={connectedAddress} />
         </div>
 
         <div className="col-span-9 min-h-[694px] flex flex-col border-2 border-brand rounded-lg px-6 pt-5 pb-6 gap-5 bg-brandBlack ">
           <div className="text-2xl text-grey-300">My inscriptions</div>
-          <div className="grid grid-cols-4 lg:grid-cols-2 xl:grid-cols-3 gap-4">
+          <div className="grid grid-cols-4 gap-4 lg:grid-cols-2 xl:grid-cols-3">
             {isLoading ? (
               <div>loading</div>
             ) : inscriptions && inscriptions.length > 0 ? (
@@ -51,10 +53,10 @@ const MyInscriptions = () => {
                   className="flex flex-col min-h-[280px] w-[202px] rounded-xl items-center"
                 >
                   <div className="mb-4">
-                    <div className=" rounded-lg w-52 h-52">
+                    <div className="rounded-lg w-52 h-52">
                       <AspectRatio ratio={1}>
                         <Image
-                          className="w-full rounded-md h-full object-contain"
+                          className="object-contain w-full h-full rounded-md"
                           src={`https://testnet.ordinals.com/content/${ins.inscriptionId}`}
                           alt="Card"
                           height={100}
@@ -78,7 +80,7 @@ const MyInscriptions = () => {
                 </div>
               ))
             ) : (
-              <div className="grid items-center h-full col-span-3 col-span-9 gap-6 mt-10 text-center">
+              <div className="grid items-center h-full col-span-9 gap-6 mt-10 text-center">
                 <Image
                   alt="smile"
                   width={72}

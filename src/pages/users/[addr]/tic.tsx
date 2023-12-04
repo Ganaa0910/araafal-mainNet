@@ -7,7 +7,6 @@ import moment from "moment";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import Countdown from "react-countdown";
-// import { UseSelector } from "react-redux/es/hooks/useSelector";
 import { utcToLocalTime } from "@/lib/helpers";
 import TicketCard from "@/components/atom/cards/ticket-card";
 enum TicketStatus {

@@ -25,7 +25,7 @@ import { Raffle, TransactionType } from "@/lib/types/dbTypes";
 import { toast } from "sonner";
 import { ReduxAccount, ReduxTicketObject, UserBrc20Type } from "@/lib/types";
 import { useRouter } from "next/router";
-
+import { useWalletState } from "@/slices/store";
 type ChooseCurrencyProps = {
   handleClose: () => void;
   show: boolean;
@@ -47,7 +47,9 @@ export default function PaymentConfirmation({
 }: ChooseCurrencyProps) {
   const router = useRouter();
   const queryClient = useQueryClient();
-  const account = useSelector((state: ReduxAccount) => state.account);
+  // const account = useSelector((state: ReduxAccount) => state.account);
+  const { isConnected, connectedAddress, setConnectedAddress, setConnected } =
+    useWalletState();
   const ticket = useSelector((state: ReduxTicketObject) => state.ticket);
   const [filteredIns, setFilteredIns] = useState<UserBrc20Type[]>([]);
 
@@ -59,7 +61,7 @@ export default function PaymentConfirmation({
     onError: () => {
       toast.error("We faced error when creating ticket");
       setSubmitLoading(false);
-      console.log(error);
+      // console.log(error);
     },
     onSuccess: () => {
       setSubmitLoading(false);
@@ -68,39 +70,40 @@ export default function PaymentConfirmation({
       handleClose();
     },
   });
-
-  const { data: userbrc20s, isLoading: brc20Loading } = useQuery({
-    queryKey: ["userbrc20", account],
-    queryFn: () => {
-      return getUserBRC20Balance(account.address);
-    },
-    enabled: account.connected == true && show == true,
-  });
-  const { data: bitcoinBalance } = useQuery({
-    queryKey: ["userbitcoin", account],
-    queryFn: () => {
-      return getUserBitcoinBalance(account.address);
-    },
-    enabled: account.connected == true,
-  });
-
   const { data, error, isLoading, mutateAsync } = useMutation({
     mutationFn: createRaffle,
     onError: () => {
       toast.error("We faced error when creating raffle");
       setSubmitLoading(false);
-      console.log(error);
+      // console.log(error);
     },
     onSuccess: async () => {
       toast.success("Successfully created raffle");
       setSubmitLoading(false);
       queryClient.invalidateQueries({ queryKey: ["raffles"] });
-      router.push(`/profile/${account?.address}/raf`);
+      router.push(`/profile/${connectedAddress}/raf`);
     },
   });
 
+  const { data: userbrc20s, isLoading: brc20Loading } = useQuery({
+    queryKey: ["userbrc20", connectedAddress],
+    queryFn: () => {
+      return getUserBRC20Balance(connectedAddress);
+    },
+    enabled: isConnected == true && show == true,
+  });
+  const { data: bitcoinBalance } = useQuery({
+    queryKey: ["userbitcoin", connectedAddress],
+    queryFn: () => {
+      return getUserBitcoinBalance(connectedAddress);
+    },
+    enabled: isConnected == true,
+  });
+
   useEffect(() => {
-    queryClient.invalidateQueries({ queryKey: ["userbrc20", account] });
+    queryClient.invalidateQueries({
+      queryKey: ["userbrc20", connectedAddress],
+    });
   }, [show]);
 
   useEffect(() => {
@@ -168,10 +171,7 @@ export default function PaymentConfirmation({
           "tb1pk4dzxehzkcmqk3c685gukuhjamvcs690tdlemrcrvttjy273gqmsrh2us5",
           selectBrc20?.inscriptionId as string,
         );
-        console.log(
-          "🚀 ~ file: payment-confirmation.tsx:139 ~ transferInscription ~ psattx:",
-          psattx,
-        );
+
         await waitOneSecond();
 
         let txid = await window.unisat.sendInscription(
@@ -185,7 +185,6 @@ export default function PaymentConfirmation({
           nftDepositTransactionId: txid,
         };
         if (psattx && txid) {
-          console.log("successs");
           await mutateAsync({ newRaffleData: updatedRaffleData });
         }
       } catch (error) {
@@ -210,16 +209,12 @@ export default function PaymentConfirmation({
           );
         }
 
-        console.log(
-          "🚀 ~ file: PurchaseOverlay.tsx:160 ~ transferInscription ~ txid:",
-          txid,
-        );
         if (txid && newRaffleData.id) {
           const variables = {
             transactionId: txid,
             ticketCount: ticket.amount,
             raffleId: newRaffleData.id,
-            userId: account.address,
+            userId: connectedAddress,
             transactionData: {
               transactionNonce: "1",
               transactionType: "TICKET_TRANSACTION",

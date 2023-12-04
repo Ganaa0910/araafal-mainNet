@@ -6,7 +6,7 @@ import { Buffer } from "buffer";
 import crypto from "crypto";
 import moment from "moment";
 import Link from "next/link";
-import { setAddress, setConnected } from "../slices/mainSlice";
+// import { setAddress, setConnected } from "../slices/mainSlice";
 import { User } from "@/lib/types/dbTypes";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { loginHandler } from "@/lib/service/postRequest";
@@ -20,9 +20,10 @@ import { toast } from "sonner";
 import { Button } from "./ui/button";
 import { Icons } from "./ui/icons";
 import { useRouter } from "next/router";
-import { ReduxAccount } from "@/lib/types";
 import { getUserProfile } from "@/lib/service";
 import Image from "next/image";
+import { useWalletState } from "@/slices/store";
+
 type SavedUser = {
   address: string;
   signature: string;
@@ -31,8 +32,8 @@ type SavedUser = {
 
 function ConnectWalletButton() {
   const queryClient = useQueryClient();
-  const account = useSelector((state: ReduxAccount) => state.account);
-
+  const { isConnected, connectedAddress, setConnectedAddress, setConnected } =
+    useWalletState();
   const dispatch = useDispatch();
   const router = useRouter();
   const [userProfile, setUserProfile] = useState<SavedUser | null>(null);
@@ -53,9 +54,9 @@ function ConnectWalletButton() {
   });
 
   const { data: profileData } = useQuery({
-    queryKey: ["userProfile", account.address],
-    queryFn: () => getUserProfile(account.address),
-    enabled: account.connected == true,
+    queryKey: ["userProfile", connectedAddress],
+    queryFn: () => getUserProfile(connectedAddress),
+    enabled: isConnected == true,
   });
 
   useEffect(() => {
@@ -75,10 +76,10 @@ function ConnectWalletButton() {
               return;
             }
 
-            setUserProfile(detailsJson);
+            setUserProfile(detailsJson.address);
 
-            dispatch(setAddress(accounts[0]));
-            dispatch(setConnected(true));
+            setConnectedAddress(accounts[0]);
+            setConnected(true);
           }
         }
       } catch (error) {
@@ -113,8 +114,8 @@ function ConnectWalletButton() {
           setIsConnecting(false);
           toast.success(`Successfully connected`);
         }
-        dispatch(setAddress(account));
-        dispatch(setConnected(true));
+        setConnectedAddress(account);
+        setConnected(true);
         const item = {
           address: account,
           signature: signature,
@@ -169,8 +170,8 @@ function ConnectWalletButton() {
   useEffect(() => {
     try {
       window.unisat.on("accountsChanged", () => {
-        dispatch(setAddress(""));
-        dispatch(setConnected(false));
+        setConnectedAddress("");
+        setConnected(false);
         window.localStorage.removeItem("userProfile");
         router.push("/");
       });
@@ -180,8 +181,8 @@ function ConnectWalletButton() {
   });
 
   const handleLogout = () => {
-    dispatch(setAddress(""));
-    dispatch(setConnected(false));
+    setConnectedAddress("");
+    setConnected(false);
     window.localStorage.removeItem("userProfile");
     router.push("/");
     clearToken();
@@ -189,14 +190,14 @@ function ConnectWalletButton() {
 
   return (
     <div>
-      {userProfile && account.connected ? (
-        <Link href={`/profile/${account.address}`}>
+      {userProfile && isConnected ? (
+        <Link href={`/profile/${connectedAddress}`}>
           <div className="flex items-center gap-3 text-lg font-bold">
-            {account.address?.slice(0, 6) +
+            {connectedAddress?.slice(0, 6) +
               "..." +
-              account.address?.slice(
-                account.address?.length - 4,
-                account.address?.length,
+              connectedAddress?.slice(
+                connectedAddress?.length - 4,
+                connectedAddress?.length,
               )}
             <Image
               src={

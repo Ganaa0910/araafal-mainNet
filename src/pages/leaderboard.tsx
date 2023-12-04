@@ -5,16 +5,15 @@ import { getLeaderboard, getPosition, getUserProfile } from "@/lib/service";
 import { ReduxAccount } from "@/lib/types";
 import { useQuery } from "@tanstack/react-query";
 import React from "react";
-import { useSelector } from "react-redux";
 import Image from "next/image";
+import { useWalletState } from "@/slices/store";
 
 export default function Leaderboard() {
-  const account = useSelector((state: ReduxAccount) => state.account);
-
+  const { isConnected, connectedAddress } = useWalletState();
   const { isLoading, isError, data, error } = useQuery({
     queryKey: ["userProfile"],
-    queryFn: () => getUserProfile(account.address),
-    enabled: !!account && account.connected == true,
+    queryFn: () => getUserProfile(connectedAddress),
+    enabled: isConnected == true,
   });
 
   const { isLoading: leaderLoading, data: leaderData } = useQuery({
@@ -23,7 +22,7 @@ export default function Leaderboard() {
   });
 
   const { data: position } = useQuery({
-    queryFn: () => getPosition(account?.address),
+    queryFn: () => getPosition(connectedAddress),
     queryKey: ["position"],
     enabled: !!data,
   });

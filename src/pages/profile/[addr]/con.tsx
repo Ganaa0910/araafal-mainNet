@@ -16,15 +16,16 @@ import {
 import { ReduxAccount } from "@/lib/types";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Link from "next/link";
-import { useSelector } from "react-redux";
 import { toast } from "sonner";
+import { useWalletState } from "@/slices/store";
 export default function Profile() {
   //profile routing ends
   const router = useRouter();
   const queryClient = useQueryClient();
+  const { isConnected, connectedAddress, setConnectedAddress, setConnected } =
+    useWalletState();
   const [inscriptions, setInscriptions] = useState([]);
   const [copied, setCopied] = useState(false);
-  const account = useSelector((state: ReduxAccount) => state.account);
 
   const slug = router.query.addr as string;
   const { isLoading, isError, data, error } = useQuery({
@@ -84,7 +85,7 @@ export default function Profile() {
       {/* <div className="py-[48px] md:py-[64px] px-4 md:px-[40px] w-full grid grid-cols-1 gap-8 justify-start items-center bg-red-600"> */}
       <div className="grid items-start justify-start w-full h-auto grid-cols-12 gap-8">
         <div className="col-span-3">
-          <ProfileTabs account={account} />
+          <ProfileTabs connectedAddress={connectedAddress} />
         </div>
         <div className="flex flex-col col-span-6 gap-8">
           <div className="grid w-full grid-cols-2 gap-8">
@@ -108,14 +109,14 @@ export default function Profile() {
               title="Claim prize"
               points="5 pts"
               description="Claim prize of your created raffle"
-              linkTo={`/profile/${account?.address}/raf`}
+              linkTo={`/profile/${connectedAddress}/raf`}
               buttonText="Go"
             />
             <Card
               title="Win raffle"
               points="40 pts"
               description="Win raffle of others'"
-              linkTo={`/profile/${account?.address}/tic`}
+              linkTo={`/profile/${connectedAddress}/tic`}
               buttonText="Go"
             />
           </div>

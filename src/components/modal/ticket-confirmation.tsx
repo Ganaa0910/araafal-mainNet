@@ -34,7 +34,6 @@ export default function TicketConfirmation({
   const ticket = useSelector((state: ReduxTicketObject) => state.ticket);
   const [paymentConfModal, setPaymentConfModal] = useState(false);
   const queryClient = useQueryClient();
-  const [inscribeModal, setInscribeModal] = useState(false);
   const { data, error, isLoading, mutateAsync } = useMutation({
     mutationFn: createRaffle,
     onError: () => {
@@ -48,60 +47,12 @@ export default function TicketConfirmation({
   const handleConfirm = async () => {
     handleClose();
     setPaymentConfModal(true);
-    // if (newRaffleData.featured == true) {
-    //   console.log(
-    //     "🚀 ~ file: ticket-confirmation.tsx:47 ~ handleConfirm ~ newRaffleData:",
-    //     newRaffleData,
-    //   );
-    //   handleClose();
-    //   setPaymentConfModal(true);
-    // } else {
-    //   console.log(
-    //     "🚀 ~ file: ticket-confirmation.tsx:56 ~ handleConfirm ~ newRaffleData.nftDepositAddress:",
-    //     newRaffleData.nftDepositAddress,
-    //   );
-    //   console.log(
-    //     "🚀 ~ file: ticket-confirmation.tsx:62 ~ handleConfirm ~ newRaffleData.inscriptionId:",
-    //     newRaffleData.inscriptionId,
-    //   );
-
-    //   let txid = await window.unisat.sendInscription(
-    //     newRaffleData.nftDepositAddress,
-    //     `${newRaffleData.inscriptionId}`,
-    //   );
-    //   const updatedRaffleData = {
-    //     ...newRaffleData,
-    //     nftDepositTransactionId: txid,
-    //   };
-    //   await mutateAsync({ newRaffleData: updatedRaffleData });
-    // }
   };
 
-  const saveData = async () => {
-    await mutateAsync({ newRaffleData });
-  };
   const triggerClose = () => {
     setPaymentConfModal(false);
   };
-  // const formattedDate = newRaffleData?.endDate?.toLocaleString(    "en-US", {
-  //   year: "numeric",
-  //   month: "long",
-  //   day: "numeric",
-  //   hour: "numeric",
-  //   minute: "numeric",
-  //   second: "numeric",
-  //   timeZoneName: "short",
-  // });
 
-  // const renderHumanReadableDate = (dateString: string) => {
-  //   console.log(
-  //     "🚀 ~ file: raffle-confirmation.tsx:53 ~ renderHumanReadableDate ~ dateString:",
-  //     dateString,
-  //   );
-  //   const date = new Date(dateString);
-
-  //   return date.toLocaleDateString("en-GB");
-  // };
   const tokens = [
     { id: 1, title: "BTC", imagePath: "/bitcoin.svg" },
     { id: 2, title: "ORDI", imagePath: "/images/ordi.png" },

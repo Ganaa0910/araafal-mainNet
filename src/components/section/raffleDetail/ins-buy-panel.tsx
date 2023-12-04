@@ -3,13 +3,12 @@ import { Button } from "@/components/ui/button";
 import { ReduxAccount, ReduxTicketObject, TicketsByRaffle } from "@/lib/types";
 import { Raffle, Ticket } from "@/lib/types/dbTypes";
 import { setTicketAmount } from "@/slices/mainSlice";
-import moment from "moment";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import raffle from "../../../../raffleDetails.json";
 import { getTokenImagePath } from "@/lib/helpers";
 import { toast } from "sonner";
+import { useWalletState } from "@/slices/store";
 
 export default function BuyPanel({
   raffleDetail,
@@ -18,8 +17,8 @@ export default function BuyPanel({
   raffleDetail: Raffle | undefined;
   tickets: { rows: TicketsByRaffle[] };
 }) {
+  const { isConnected, connectedAddress } = useWalletState();
   const ticket = useSelector((state: ReduxTicketObject) => state.ticket);
-  const account = useSelector((state: ReduxAccount) => state.account);
   const dispatch = useDispatch();
 
   const [isPurchaseOverlayOpen, setIsPurchaseOverlayOpen] = useState(false);
@@ -47,7 +46,7 @@ export default function BuyPanel({
   };
 
   const handleOpenPurchaseOverlay = () => {
-    if (account.connected !== true) {
+    if (isConnected !== true) {
       return toast.error("Please connect your wallet");
     }
     setIsPurchaseOverlayOpen(true);

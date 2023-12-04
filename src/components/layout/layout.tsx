@@ -20,13 +20,13 @@ export default function Layout({ children }: { children: ReactNode }) {
       <div
         className={`flex flex-col w-full h-full  min-h-screen max-w-[1440px] mx-auto ${subClass}`}
       >
-        <Image
+        {/* <Image
           src="/bg.svg"
           height={1440}
           width={1440}
           className="z-0 select-none top-gradient"
           alt="bg"
-        />
+        /> */}
         <div className="pt-16  px-[112px] pb-40 mb-[144px] z-10">
           {children}
         </div>

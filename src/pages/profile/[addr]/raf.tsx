@@ -13,10 +13,10 @@ import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useWalletState } from "@/slices/store";
 
 export default function Raf() {
-  const account = useSelector((state: ReduxAccount) => state.account);
+  const { isConnected, connectedAddress } = useWalletState();
   const router = useRouter();
   const slug = router.query.addr;
 
@@ -38,13 +38,13 @@ export default function Raf() {
   useEffect(() => {
     if (typeof slug === "string") {
       if (
-        (slug && account.address && slug !== account.address) ||
-        !account.connected
+        (slug && connectedAddress && slug !== connectedAddress) ||
+        !isConnected
       ) {
         router.replace(`/users/${slug}/raf`);
       }
     }
-  }, [slug, account.address, account.connected]);
+  }, [slug, connectedAddress, isConnected]);
   return (
     <Layout>
       <ClaimPrize
@@ -56,7 +56,7 @@ export default function Raf() {
       <PageTitle name="Profile" />
       <div className="grid h-auto grid-cols-12 gap-8 ">
         <div className="col-span-3">
-          <ProfileTabs account={account} />
+          <ProfileTabs connectedAddress={connectedAddress} />
         </div>
         <div className="grid h-auto col-span-9 gap-5 px-6 pt-5 pb-6 overflow-auto border-2 rounded-lg lg:grid-cols-2 xl:grid-cols-3 border-brand bg-brandBlack">
           {isLoading ? (

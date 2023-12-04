@@ -14,13 +14,13 @@ import "react-datepicker/dist/react-datepicker.css";
 import RaffleConfirmation from "@/components/modal/raffle-confirmation";
 import { InscriptionType, ReduxAccount } from "@/lib/types";
 import { Raffle } from "@/lib/types/dbTypes";
-import { useSelector } from "react-redux";
 import { toast } from "sonner";
-import moment from "moment";
+import { useWalletState } from "@/slices/store";
 
 export default function CreateRaffle() {
   const queryClient = useQueryClient();
-  const account = useSelector((state: ReduxAccount) => state.account);
+  const { isConnected, connectedAddress, setConnectedAddress, setConnected } =
+    useWalletState();
 
   const [showInscriptions, setShowInscriptions] = useState(false);
   const [showCurrency, setShowCurrency] = useState(false);
@@ -44,7 +44,7 @@ export default function CreateRaffle() {
   const [newRaffleData, setNewRaffleData] = useState<Raffle | null>(null);
 
   const toggleInscriptions = () => {
-    if (account.connected !== true) {
+    if (isConnected !== true) {
       return toast.error("Please connect your wallet");
     }
     setShowInscriptions(!showInscriptions);
@@ -107,11 +107,11 @@ export default function CreateRaffle() {
   }, []);
 
   const { data: inscriptions } = useQuery({
-    queryKey: ["inscriptions", account],
+    queryKey: ["inscriptions", connectedAddress],
     queryFn: () => {
-      return getInscriptionsTestnet(account.address);
+      return getInscriptionsTestnet(connectedAddress);
     },
-    enabled: account.connected == true,
+    enabled: isConnected == true,
   });
 
   const handleButtonClick = (status: boolean) => {
@@ -153,7 +153,7 @@ export default function CreateRaffle() {
         inscriptionId: `${chosenInscription.inscriptionId}`,
         inscriptionNumber: String(chosenInscription.inscriptionNumber),
         inscriptionPreviewUrl: `https://testnet.ordinals.com/content/${chosenInscription.inscriptionId}`,
-        ownerId: account.address,
+        ownerId: connectedAddress,
         nftDepositAddress: walletInfo.nftDepositAddress,
         nftPrivateKey: walletInfo.nftPrivateKey,
         ticketDepositAddress: walletInfo.ticketDepositAddress,
@@ -395,7 +395,7 @@ export default function CreateRaffle() {
                 variant={"primary"}
                 className="w-full"
                 onClick={() => handleSubmit()}
-                disabled={submitLoading || account.connected == false}
+                disabled={submitLoading || isConnected == false}
               >
                 {submitLoading && (
                   <Icons.spinner

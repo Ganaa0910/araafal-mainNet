@@ -5,10 +5,11 @@ import ClaimPrize from "@/components/modal/claim-prize";
 import ProfileTabs from "@/components/profile/profile-tabs";
 import { TransactionWithTicket, getTicketsByUser } from "@/lib/service";
 import { ReduxAccount } from "@/lib/types";
+import { useWalletState } from "@/slices/store";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import Countdown from "react-countdown";
 enum TicketStatus {
   TICKET_ENDED,
   TICKET_RUNNING,
@@ -19,7 +20,7 @@ const Tic = () => {
   //profile routing ends
   const router = useRouter();
 
-  const account = useSelector((state: ReduxAccount) => state.account);
+  const { isConnected, connectedAddress } = useWalletState();
 
   const [claimPrizeActive, setClaimPrizeActive] = useState(false);
   const [claimingTicket, setClaimingTicket] = useState<any>(null);
@@ -49,13 +50,13 @@ const Tic = () => {
   useEffect(() => {
     if (typeof slug === "string") {
       if (
-        (slug && account.address && slug !== account.address) ||
-        !account.connected
+        (slug && connectedAddress && slug !== connectedAddress) ||
+        !isConnected
       ) {
         router.replace(`/users/${slug}/raf`);
       }
     }
-  }, [slug, account.address, account.connected]);
+  }, [slug, connectedAddress, isConnected]);
   return (
     <Layout>
       <ClaimPrize
@@ -67,7 +68,7 @@ const Tic = () => {
       <PageTitle name="Profile" />
       <div className="grid h-auto grid-cols-12 gap-8 ">
         <div className="col-span-3">
-          <ProfileTabs account={account} />
+          <ProfileTabs connectedAddress={connectedAddress} />
         </div>
 
         <div className="col-span-9 min-h-[694px] flex flex-col border-2 border-brand rounded-xl px-6 pt-5 pb-6 gap-3 overflow-auto">

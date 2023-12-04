@@ -4,8 +4,6 @@ import { configure } from "axios-hooks";
 // import LRU from "lru-cache";
 import { LRUCache } from "lru-cache";
 import { clearToken, getAccessToken, getRefreshToken, saveToken } from "./auth";
-import { useDispatch } from "react-redux";
-import { setAddress, setConnected } from "@/slices/mainSlice";
 
 const BACKEND_URL = SERVER_SETTINGS.BACKEND_URL;
 const instance = axios.create({
