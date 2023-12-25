@@ -1,9 +1,8 @@
+import ProfileHeader from "@/components/profile/header";
+import { Button } from "@/components/ui/button";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-
-import { Button } from "@/components/ui/button";
 // import MyInscriptions from '@/components/MyInscriptions'
-import PageTitle from "@/components/atom/page-title";
 import Layout from "@/components/layout/layout";
 import ChooseInscription from "@/components/modal/choose-inscription";
 import ProfileTabs from "@/components/profile/profile-tabs";
@@ -11,11 +10,11 @@ import { Icons } from "@/components/ui/icons";
 import { getInscriptionsTestnet, getUserProfile } from "@/lib/service";
 import { profileUpdateHandler } from "@/lib/service/postRequest";
 import { InscriptionType } from "@/lib/types";
+import { useWalletStore } from "@/slices/walletStore";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { toast } from "sonner";
 import Image from "next/image";
 import Link from "next/link";
-import { useWalletStore } from "@/slices/walletStore";
+import { toast } from "sonner";
 export default function Profile() {
   //profile routing ends
   const router = useRouter();
@@ -32,7 +31,6 @@ export default function Profile() {
     useState<InscriptionType | null>(null);
 
   const slug = router.query.addr as string;
-
   const { data: inscriptions } = useQuery({
     queryKey: ["inscriptions", connectedAddress],
     queryFn: () => {
@@ -60,16 +58,19 @@ export default function Profile() {
       }
     }
   }, [data]);
+
   useEffect(() => {
     if (typeof slug === "string") {
       if (
         (slug && connectedAddress && slug !== connectedAddress) ||
         !isConnected
       ) {
-        router.replace(`/users/${slug}/raf`);
+        // router.replace(`/users/${slug}/raf`);
+        console.log(isConnected);
       }
     }
   }, [slug, connectedAddress, isConnected]);
+
   const {
     data: updatedData,
     isLoading: referralLoading,
@@ -177,7 +178,8 @@ export default function Profile() {
         inscriptions={inscriptions}
         setChosenInscription={setChosenInscription}
       />
-      <PageTitle name="Profile" />
+      {/* <PageTitle name="Profile" /> */}
+      <ProfileHeader username="Lord Satoshi" walledAddress={connectedAddress} />
       {/* <div className="py-[48px] md:py-[64px] px-4 md:px-[40px] w-full grid grid-cols-1 gap-8 justify-start items-center bg-red-600"> */}
       <div className="grid items-start justify-start w-full h-auto grid-cols-12 gap-8">
         <div className="col-span-3">

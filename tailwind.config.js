@@ -20,6 +20,7 @@ module.exports = {
       sm: ["12px", "16px"],
       md: ["14px", "18px"],
       lg: ["17px", "24px"],
+      lg2: ["16px", "20px"],
       xl: ["20px", "28px"],
       "2xl": ["24px", "36px"],
       "3xl": ["32px", "44px"],
@@ -35,6 +36,7 @@ module.exports = {
       featured: ["32px", "44px"],
       blueTitle: ["56px", "68px"],
       smallTitles: ["16px", "22px"],
+      profileTitle: ["28px", "36px"],
     },
 
     extend: {

@@ -1,11 +1,10 @@
 import { clearToken } from "@/lib/auth";
 // import { setAddress, setConnected } from "@/slices/mainSlice";
+import { getUserProfile } from "@/lib/service";
+import { useWalletStore } from "@/slices/walletStore";
+import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { Button } from "../ui/button";
-import { getUserProfile } from "@/lib/service";
-import { useQuery } from "@tanstack/react-query";
-import Image from "next/image";
-import { useWalletStore } from "@/slices/walletStore";
 
 export default function ProfileTabs({
   connectedAddress,
@@ -43,15 +42,15 @@ export default function ProfileTabs({
       href: `/profile/${slug}/con`,
     },
     {
-      title: `Inscriptions`,
+      title: `My Inscriptions`,
       href: `/profile/${slug}/ins`,
     },
     {
-      title: `My created Raffles`,
+      title: `Raffles Created`,
       href: `/profile/${slug}/raf`,
     },
     {
-      title: `My tickets`,
+      title: `Raffles Entered`,
       href: `/profile/${slug}/tic`,
     },
   ];
@@ -66,7 +65,7 @@ export default function ProfileTabs({
   return (
     <div className="flex flex-col h-auto gap-8">
       <div className="flex flex-col w-full h-auto gap-[12px] p-[12px] border-lighterGray border-2 border-brand rounded-lg bg-gradient-to-r from-[#fc9446]/[0.5] to-[#fe6272]/[0.5]">
-        <Button
+        {/* <Button
           variant={isActive(`/profile/${slug}`) ? "active" : "notActive"}
           onClick={() => router.push(`/profile/${slug}`)}
           className="justify-start h-full px-4 py-4"
@@ -92,7 +91,7 @@ export default function ProfileTabs({
               {data?.userName && <div className="text-lg ">{shortAddress}</div>}
             </div>
           </div>
-        </Button>
+        </Button> */}
         {Buttons.map((button, index) => (
           <Button
             key={index}
@@ -106,7 +105,7 @@ export default function ProfileTabs({
       </div>
       <Button className="" variant="plain" onClick={() => handleLogout()}>
         {/* <Icons.logout className="w-6 h-6 pr-3 transform rotate-180" /> */}
-        Log out
+        Sign out
       </Button>
     </div>
   );
