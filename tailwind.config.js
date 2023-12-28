@@ -57,7 +57,7 @@ module.exports = {
         secondaryLinear: "#464DFF",
       },
       backgrounds: {
-        primaryBrandGrad: "",
+        primaryBrandGrad: ["FE6272", "FC9446"],
       },
       boxShadow: {
         shadowBrand: "0 0 240px 0 #FD7C5B",
@@ -72,10 +72,15 @@ module.exports = {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: 0 },
         },
+        "slide-up": {
+          from: { transform: "translateY(100%)" },
+          to: { transform: "translateY(0)" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "slide-up": "slide-up 0.5s ease-out",
       },
     },
   },
