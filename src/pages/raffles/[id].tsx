@@ -45,7 +45,6 @@ export default function Detail() {
     <Layout>
       <div className="h-[850px] ">
         <PageTitle name="Raffle page" />
-
         <div className="grid grid-cols-12 gap-8 ">
           <div className="flex flex-col col-span-3 gap-8">
             {raffleDetail && <ViewInscription raffleDetail={raffleDetail} />}

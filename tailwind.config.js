@@ -45,6 +45,9 @@ module.exports = {
         "secondary-less":
           "var(--secondary-less-opacity, linear-gradient(266deg, rgba(70, 77, 255, 0.50) 0%, rgba(91, 195, 253, 0.50) 100%))",
       },
+      fontFamily: {
+        'Chakra-Petch': ['"Chakra Petch"', 'sans-serif']
+      },
       colors: {
         lightblue: "#467AFF",
         brand: "#FD7C5B",
@@ -80,7 +83,7 @@ module.exports = {
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
-        "slide-up": "slide-up 0.5s ease-out",
+        "slide-up": "slide-up 0.5s ease-in-out",
       },
     },
   },

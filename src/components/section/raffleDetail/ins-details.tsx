@@ -8,7 +8,7 @@ export default function InscriptionDetails({
   raffleDetail: Raffle | undefined;
 }) {
   return (
-    <div className="w-full border-2 rounded-xl border-brand raffle-gradient">
+    <div className="w-full h-full rounded-xl bg-neutral-800">
       <div className="flex flex-col w-full h-auto px-6 pb-6 pt-5">
         <div className="mb-3">
           <h1 className="text-2xl font-bold">Inscription detail</h1>
@@ -54,11 +54,11 @@ export default function InscriptionDetails({
             target="_blank"
           >
             <Button
-              variant={"secondary"}
-              className="w-full mx-auto mb-0 primary-gradient"
+              variant={"default"}
+              className="w-full tracking-widest text-md font-semibold text-neutral-200 mx-auto mb-0 border border-neutral-500 bg-transparent"
             >
               {" "}
-              View Inscriptions
+              View Inscription
             </Button>
           </a>
           {/* <div className="flex justify-between px-6 py-4">

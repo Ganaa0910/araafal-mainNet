@@ -13,10 +13,9 @@ export default function ProfileBar({
     : "";
 
   return (
-    <div className="flex flex-row  items-center border-2 rounded-xl border-brand raffle-gradient w-full h-[104px] py-5 px-6 gap-4">
-      <h1 className="text-2xl font-bold ">Created by</h1>
+    <div className="flex flex-row  items-center rounded-xl bg-neutral-800 w-full h-[104px] py-5 px-6 gap-4">
+      <h1 className="text-2xl font-bold">Created by</h1>
       <div className="flex flex-row items-center gap-2 p-2 rounded-s-full rounded-e-lg bg-brandBlack ">
-        {/* <p className="text-lg">Horny Micheal</p> */}
         <Link href={`/users/${ownerId}/raf`} className="flex gap-2">
           {raffleDetail && (
             <Image
@@ -36,8 +35,9 @@ export default function ProfileBar({
               {raffleDetail?.userName ? raffleDetail?.userName : shortAddress}
             </div>
             {raffleDetail?.userName && (
-              <div className="text-lg ">{shortAddress}</div>
+              <div className="font-semibold">{shortAddress}</div>
             )}
+            
             {/* <p className="text-lg text-whiteish">{shortAddress}</p> */}
           </div>
         </Link>
