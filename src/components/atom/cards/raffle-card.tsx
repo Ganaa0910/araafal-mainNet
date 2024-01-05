@@ -40,15 +40,12 @@ export default function RaffleCard({
   return (
     <Link href={`/raffles/${raffle.id}`}>
       <div
-        className={`flex flex-col h-full w-full border-2 relative rounded-2xl gap-4 overflow-hidden ${
-          featured ? "border-secondaryLinear bg-neutral600" : "border-brand"
-        }`}
+        className={`flex group flex-col h-full w-full relative rounded-2xl gap-4 overflow-hidden bg-neutral500`}
       >
         <div className="absolute z-30 left-4 top-4">
           <div
-            className={`px-3 border text-white rounded-lg bg-black/50  ${
-              featured ? "border-secondaryLinear" : "border-brand"
-            }`}
+            className={`px-3 text-white rounded-lg bg-black/50  ${raffle?.winnerId ? "bg-brand text-white" : ""
+              }`}
           >
             <Countdown
               date={utcToLocalTime(raffle.endDateUnix)}
@@ -56,18 +53,19 @@ export default function RaffleCard({
             />
           </div>
         </div>
-        <AspectRatio ratio={1}>
-          <Image
-            src={raffle.inscriptionPreviewUrl}
-            alt="Profile"
-            height={288}
-            width={288}
-            className={`object-contain rounded-xl z-10 h-full w-full ${
-              featured ? " shadow-shadowFeatured" : "shadow-shadowBrand"
-            }`}
-          />
-        </AspectRatio>
-        <div className="w-full px-6 overflow-hidden text-xl font-semibold h-7">
+        <div className="relative">
+          <AspectRatio ratio={1}>
+            <Image
+              src={raffle.inscriptionPreviewUrl}
+              alt="Profile"
+              height={288}
+              width={288}
+              className={`object-contain rounded-xl z-10 h-full w-full `}
+            />
+          </AspectRatio>
+          <p className={`absolute bottom-0 right-0 bg-brand font-bold p-2 rounded-tl-xl group-hover:bg-neutral-50 group-hover:text-neutral-800 transition-colors duration-300 rounded-br-xl ${featured ? "block" : "hidden"}`}>Featured</p>
+        </div>
+        <div className="w-full px-6 overflow-hidden text-xl text-neutral100 font-semibold h- group-hover:text-neutral-50">
           {raffle.name}
         </div>
         <div className="flex flex-row gap-3 px-6 text-lg text-white">
@@ -78,23 +76,25 @@ export default function RaffleCard({
             src={getTokenImagePath(raffle.sellingTokenTicker)}
           />
 
-          <p className="text-lg">
+          <p className="text-lg font-bold">
             {raffle.price} {raffle.sellingTokenTicker}
           </p>
         </div>
         <div className="flex flex-row w-full gap-3 px-6 overflow-hidden h-7">
           <Image src={"ticket.svg"} alt="ticket" width={24} height={24} />
-          <p className="text-lg font-normal text-white">
+          <p className="text-lg text-white font-bold">
             {raffle?.ticket_count} sold
           </p>
         </div>
+        <div className="hidden animate-slide-up group-hover:block p-5 absolute bottom-0 w-full h-[8vh] bg-neutral500">          
         <Button
-          variant={featured ? "featured" : "primary"}
-          className="z-10 mx-5 mb-5"
-        >
-          View
-        </Button>
+            className="z-10 mb-5 w-full bg-brand hover:bg-brand/80 hover:transition-opacity hover:duration-300"
+          >
+            <p>{raffle?.winnerId ? "Claim inscription" : "View"}</p>
+          </Button>
+        </div>
       </div>
     </Link>
   );
 }
+

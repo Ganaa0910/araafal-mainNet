@@ -1,17 +1,18 @@
-import PageTitle from "@/components/atom/page-title";
 import Layout from "@/components/layout/layout";
+import ProfileHeader from "@/components/profile/header";
 import ProfileTabs from "@/components/profile/profile-tabs";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { getInscriptionsTestnet } from "@/lib/service";
 import { useWalletStore } from "@/slices/walletStore";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
-import { useEffect } from "react";
 import { useRouter } from "next/router";
+import { useEffect } from "react";
 
 const MyInscriptions = () => {
   const router = useRouter();
   const slug = router.query.slug;
+
   const { isConnected, connectedAddress, setConnectedAddress, setConnected } =
     useWalletStore();
 
@@ -34,7 +35,7 @@ const MyInscriptions = () => {
   }, [slug, connectedAddress, isConnected]);
   return (
     <Layout>
-      <PageTitle name="Profile" />
+      <ProfileHeader username="Lord Satoshi" walledAddress={connectedAddress} />
       <div className="grid h-auto grid-cols-12 gap-8">
         <div className="col-span-3">
           <ProfileTabs connectedAddress={connectedAddress} />

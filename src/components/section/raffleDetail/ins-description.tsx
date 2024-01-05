@@ -6,9 +6,9 @@ export default function InsDescription({
   raffleDetail: Raffle | undefined;
 }) {
   return (
-    <div className="flex flex-col w-full gap-3 px-6 pt-5 pb-6 border-2 rounded-xl border-brand raffle-gradient">
+    <div className="flex flex-col w-full h-full gap-3 px-6 pt-5 pb-6 rounded-xl bg-neutral-800">
       <h1 className="text-2xl font-bold">Description</h1>
-      <div className="px-5 py-3 text-xl border-2 rounded-lg border-brand bg-brandBlack">
+      <div className="px-5 py-3 text-xl h-full border border-neutral-700 rounded-lg  bg-brandBlack">
         {raffleDetail?.description}
       </div>
     </div>

@@ -20,6 +20,7 @@ module.exports = {
       sm: ["12px", "16px"],
       md: ["14px", "18px"],
       lg: ["17px", "24px"],
+      lg2: ["16px", "20px"],
       xl: ["20px", "28px"],
       "2xl": ["24px", "36px"],
       "3xl": ["32px", "44px"],
@@ -35,6 +36,7 @@ module.exports = {
       featured: ["32px", "44px"],
       blueTitle: ["56px", "68px"],
       smallTitles: ["16px", "22px"],
+      profileTitle: ["28px", "36px"],
     },
 
     extend: {
@@ -42,6 +44,9 @@ module.exports = {
         "two-vector": "url('/twovector.svg')", // Replace with your SVG path
         "secondary-less":
           "var(--secondary-less-opacity, linear-gradient(266deg, rgba(70, 77, 255, 0.50) 0%, rgba(91, 195, 253, 0.50) 100%))",
+      },
+      fontFamily: {
+        'Chakra-Petch': ['"Chakra Petch"', 'sans-serif']
       },
       colors: {
         lightblue: "#467AFF",
@@ -55,7 +60,7 @@ module.exports = {
         secondaryLinear: "#464DFF",
       },
       backgrounds: {
-        primaryBrandGrad: "",
+        primaryBrandGrad: ["FE6272", "FC9446"],
       },
       boxShadow: {
         shadowBrand: "0 0 240px 0 #FD7C5B",
@@ -70,10 +75,15 @@ module.exports = {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: 0 },
         },
+        "slide-up": {
+          from: { transform: "translateY(100%)" },
+          to: { transform: "translateY(0)" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "slide-up": "slide-up 0.5s ease-in-out",
       },
     },
   },

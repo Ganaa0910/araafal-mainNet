@@ -1,10 +1,10 @@
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
 // import MyInscriptions from '@/components/MyInscriptions'
-import PageTitle from "@/components/atom/page-title";
 import Layout from "@/components/layout/layout";
+import ProfileHeader from "@/components/profile/header";
 import ProfileTabs from "@/components/profile/profile-tabs";
 import { Icons } from "@/components/ui/icons";
 import {
@@ -13,10 +13,10 @@ import {
   getReferralCode,
   getUserProfile,
 } from "@/lib/service";
+import { useWalletStore } from "@/slices/walletStore";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Link from "next/link";
 import { toast } from "sonner";
-import { useWalletStore } from "@/slices/walletStore";
 
 export default function Profile() {
   //profile routing ends
@@ -33,16 +33,16 @@ export default function Profile() {
     queryFn: () => getUserProfile(slug),
     enabled: !!slug && typeof slug === "string",
   });
-  useEffect(() => {
-    if (typeof slug === "string") {
-      if (
-        (slug && connectedAddress && slug !== connectedAddress) ||
-        !isConnected
-      ) {
-        router.replace(`/users/${slug}/raf`);
-      }
-    }
-  }, [slug, connectedAddress, isConnected]);
+  // useEffect(() => {
+  //   if (typeof slug === "string") {
+  //     if (
+  //       (slug && connectedAddress && slug !== connectedAddress) ||
+  //       !isConnected
+  //     ) {
+  //       router.replace(`/users/${slug}/raf`);
+  //     }
+  //   }
+  // }, [slug, connectedAddress, isConnected]);
   const {
     data: refData,
     isLoading: referralLoading,
@@ -81,7 +81,7 @@ export default function Profile() {
 
   return (
     <Layout>
-      <PageTitle name="Profile" />
+      <ProfileHeader username="Lord Satoshi" walledAddress={connectedAddress} />
       {/* <div className="py-[48px] md:py-[64px] px-4 md:px-[40px] w-full grid grid-cols-1 gap-8 justify-start items-center bg-red-600"> */}
       <div className="grid items-start justify-start w-full h-auto grid-cols-12 gap-8">
         <div className="col-span-3">

@@ -17,9 +17,8 @@ export default function Navbar() {
 
   return (
     <nav
-      className={`sticky top-0 z-50 w-full backdrop-blur-sm bg-opacity-80 ${
-        isTop ? "" : "bg-black/30"
-      }`}
+      className={`sticky top-0 z-50 w-full backdrop-blur-sm bg-opacity-80 ${isTop ? "" : "bg-black/30"
+        }`}
     >
       <div className="flex items-center justify-center flex-shrink-0 h-20 px-28 max-w-[1440px] mx-auto">
         <div className="left-0 right-auto flex items-center h-12">
@@ -34,15 +33,18 @@ export default function Navbar() {
           </Link>
         </div>
         <div className="flex items-center gap-3 mx-auto">
-          <Link className="px-5 py-3" href={"/createRaffle"}>
-            Create Raffle
+          <Link className="group transition duration-300 px-5 py-3 " href={"/createRaffle"}>
+            <p className="shadow-white duration-300 text-featuredRaffles">Create Raffle</p>
+            <span className="block max-w-0 group-hover:max-w-full transition-all duration-500 h-1 bg-brand"></span>
           </Link>
-
-          <Link className="px-5 py-3" href={"/raffles"}>
+          <Link className="group transition duration-300 px-5 py-3" href={"/raffles"}>
             Raffles
+            <span className="block max-w-0 group-hover:max-w-full transition-all duration-500 h-1 bg-brand"></span>
+
           </Link>
-          <Link className="px-5 py-3" href={"/leaderboard"}>
+          <Link className="group transition px-5 py-3" href={"/leaderboard"}>
             Leaderboard
+            <span className="block max-w-0 group-hover:max-w-full transition-all duration-500 h-1 bg-brand"></span>
           </Link>
         </div>
         <div className="right-0 left-auto hidden md:block">
