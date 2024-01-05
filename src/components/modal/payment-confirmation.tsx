@@ -109,7 +109,7 @@ export default function PaymentConfirmation({
   useEffect(() => {
     if (userbrc20s && userbrc20s?.length !== 0) {
       const filteredArray = userbrc20s.filter(
-        (item) => item.ticker === paymentToken && item.amount == paymentAmount,
+        (item) => item.tick === paymentToken && item.amt == paymentAmount,
       );
       setFilteredIns(filteredArray);
       setSelectedBrc20(filteredArray[0]);
@@ -289,7 +289,7 @@ export default function PaymentConfirmation({
                               height={28}
                               className="w-7 h-7"
                             />
-                            {ins.amount} {ins.ticker}
+                            {ins.amt} {ins.tick}
                           </button>
                         </div>
                       ))}
@@ -334,8 +334,8 @@ export default function PaymentConfirmation({
             {paymentToken != "BTC" && filteredIns.length == 0 ? (
               <Button
                 variant={"primary"}
-                onClick={handleInscribeButtonClick}
                 className="mt-5 modal-close"
+                onClick={handleInscribeButtonClick}
                 disabled={submitLoading}
               >
                 {submitLoading && (
