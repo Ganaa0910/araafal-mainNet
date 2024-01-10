@@ -141,7 +141,7 @@ export default function CreateRaffle() {
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
     console.log("🚀 ~ file: index.tsx:135 ~ onSubmit ~ data:", data);
     setSubmitLoading(true);
-    const { name, desc, price } = data;
+    const { name, desc, price, sellingTicketLimit } = data;
     if (!name || !desc || !price || !chosenInscription || !chosenCurrency) {
       setSubmitLoading(false);
       toast.error("Please fill all the fields");
@@ -177,7 +177,7 @@ export default function CreateRaffle() {
         featuredTransanctionId: null,
         nftDepositTransactionId: null,
         createdAt: null,
-        sellingTicketLimit: 999,
+        sellingTicketLimit: sellingTicketLimit,
         status: null,
         featuredTransaction: null, // Add appropriate value for featuredTransaction
         nftTransaction: null, // Add appropriate value for nftTransaction

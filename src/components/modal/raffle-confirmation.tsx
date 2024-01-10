@@ -41,14 +41,6 @@ const RaffleConfirmation = ({
       toast.error("We faced error when creating ticket");
       console.log(error);
     },
-    onSuccess: (data) => {
-      console.log("🚀 ~ file: raffle-confirmation.tsx:51 ~ data:", data);
-
-      setSubmitLoading(false);
-      toast.success("Successfully created raffle");
-      queryClient.invalidateQueries({ queryKey: ["raffles"] });
-      router.push(`/createRaffle/${data?.data.id}/makeFeat`);
-    },
   });
 
   const handleConfirm = async () => {
@@ -58,15 +50,17 @@ const RaffleConfirmation = ({
     } else {
       try {
         setSubmitLoading(true);
-        let txid = await window.unisat.sendInscription(
-          newRaffleData.nftDepositAddress,
-          `${newRaffleData.inscriptionId}`,
-        );
-        const updatedRaffleData = {
-          ...newRaffleData,
-          nftDepositTransactionId: txid,
-        };
-        await mutateAsync({ newRaffleData: updatedRaffleData });
+
+        const response = await mutateAsync({ newRaffleData });
+        if (response && !response.data.error) {
+          setSubmitLoading(false);
+          toast.success("Successfully created raffle");
+          queryClient.invalidateQueries({ queryKey: ["raffles"] });
+          router.push(`/createRaffle/${response?.data.id}/makeFeat`);
+        } else if (response && response.data.error) {
+          toast.error(response.data.error);
+          setSubmitLoading(false);
+        }
       } catch {
         setSubmitLoading(false);
       }

@@ -208,6 +208,22 @@ export async function createRaffle({
   }
 }
 
+export async function updateRaffle({
+  newRaffleData,
+}: {
+  newRaffleData: Raffle;
+}) {
+  try {
+    return axiosClient
+      .put(`/api/raffles/${newRaffleData.id}`, newRaffleData)
+      .then((response) => {
+        return response;
+      });
+  } catch (error) {
+    console.log("Error:", error);
+  }
+}
+
 export async function createTicket({
   newTicketData,
 }: {
