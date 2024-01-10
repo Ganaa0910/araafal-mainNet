@@ -83,43 +83,42 @@ export default function Profile() {
     <Layout>
       <ProfileHeader username="Lord Satoshi" walledAddress={connectedAddress} />
       {/* <div className="py-[48px] md:py-[64px] px-4 md:px-[40px] w-full grid grid-cols-1 gap-8 justify-start items-center bg-red-600"> */}
-      <div className="grid items-start justify-start w-full h-auto grid-cols-12 gap-8">
+      <div className="grid items-strectch justify-between w-full h-auto grid-cols-12 ">
         <div className="col-span-3">
           <ProfileTabs connectedAddress={connectedAddress} />
         </div>
-        <div className="flex flex-col col-span-6 gap-8">
-          <div className="grid w-full grid-cols-2 gap-8">
-            <Card
-              title="Create raffle"
-              points="2 pts"
-              description="Create raffle with your inscription"
-              linkTo="/createRaffle"
-              buttonText="Go"
-            />
-            <Card
-              title="Buy ticket"
-              points="1 pts"
-              description="Buy a ticket from others’ raffle"
-              linkTo="/raffles"
-              buttonText="Go"
-            />
-          </div>
-          <div className="grid w-full grid-cols-2 gap-8">
-            <Card
-              title="Claim prize"
-              points="5 pts"
-              description="Claim prize of your created raffle"
-              linkTo={`/profile/${connectedAddress}/raf`}
-              buttonText="Go"
-            />
-            <Card
-              title="Win raffle"
-              points="40 pts"
-              description="Win raffle of others'"
-              linkTo={`/profile/${connectedAddress}/tic`}
-              buttonText="Go"
-            />
-          </div>
+        <div className="col-span-1"></div>
+        <div className="flex flex-col col-span-8 bg-neutral-500">
+          <Card2
+            title="Create raffle"
+            points="2 pts"
+            description="Create raffle with your inscription"
+            linkTo="/createRaffle"
+            buttonText="Go"
+          />
+          <Card
+            title="Buy ticket"
+            points="1 pts"
+            description="Buy a ticket from others’ raffle"
+            linkTo="/raffles"
+            buttonText="Go"
+          />
+
+          <Card
+            title="Claim prize"
+            points="5 pts"
+            description="Claim prize of your created raffle"
+            linkTo={`/profile/${connectedAddress}/raf`}
+            buttonText="Go"
+          />
+          <Card
+            title="Win raffle"
+            points="40 pts"
+            description="Win raffle of others'"
+            linkTo={`/profile/${connectedAddress}/tic`}
+            buttonText="Go"
+          />
+
           <Card
             title="Create featured raffle"
             points="5 pts"
@@ -127,7 +126,7 @@ export default function Profile() {
             linkTo="/createRaffle"
             buttonText="Go"
           />
-          <div className="flex flex-col gap-5 p-6 border w-fulls rounded-xl border-brand bg-brandBlack">
+          <div className="flex flex-col gap-5 p-6 border w-fulls rounded-xl border-brand">
             <div className="flex flex-col gap-2">
               <div className="flex justify-between">
                 <div className="text-xl font-bold">Invite 3 friends</div>
@@ -181,7 +180,7 @@ export default function Profile() {
             </div>
           </div>
         </div>
-        <div className="flex flex-col col-span-3 gap-6 p-6 border bg-brandBlack rounded-xl border-brand">
+        {/* <div className="flex flex-col col-span-3 gap-6 p-6 border bg-brandBlack rounded-xl border-brand">
           <div className="flex flex-col gap-3">
             <div className="flex gap-3">
               <div className="text-xl font-bold">My position</div>
@@ -195,7 +194,7 @@ export default function Profile() {
             My points
             <div className="text-4xl font-bold">{data?.contestPoint} pts</div>
           </div>
-        </div>
+        </div> */}
       </div>
     </Layout>
   );
@@ -215,7 +214,7 @@ const Card = ({
   buttonText: string;
 }) => {
   return (
-    <div className="flex flex-col justify-between w-full gap-5 p-6 border rounded-xl border-brand bg-brandBlack">
+    <div className="flex flex-col justify-between w-full gap-5 p-6 border rounded-xl border-brand">
       <div className="flex flex-col gap-2">
         <div className="flex justify-between">
           <div className="text-xl font-bold">{title}</div>
@@ -225,6 +224,37 @@ const Card = ({
       </div>
       <Link href={linkTo} className="flex w-full">
         <Button variant={"primary"} className="w-full">
+          {buttonText}
+        </Button>
+      </Link>
+    </div>
+  );
+};
+
+const Card2 = ({
+  title,
+  points,
+  description,
+  linkTo,
+  buttonText,
+}: {
+  title: string;
+  points: string;
+  description: string;
+  linkTo: string;
+  buttonText: string;
+}) => {
+  return (
+    <div className="flex flex-row w-full gap-5 p-6  bg-brandBlack">
+      <div className="text-lg2 font-bold w-[84px] h-[36px] bg-brand px-3 py-2 rounded-lg">
+        {points}
+      </div>
+      <div className="flex flex-col w-full">
+        <div className="text-xl font-bold">{title}</div>
+        <div className="text-lg2">{description}</div>
+      </div>
+      <Link href={linkTo} className="flex w-[160px]">
+        <Button variant={"con"} className="w-full">
           {buttonText}
         </Button>
       </Link>

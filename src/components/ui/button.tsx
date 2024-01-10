@@ -20,6 +20,7 @@ const buttonVariants = cva(
         link: "text-slate-900 underline-offset-4 hover:underline dark:text-slate-50",
         active: "border-2 primary-gradient-nonhover border-brand font-bold",
         notActive: "border-2 bg-brandBlack border-brand font-bold",
+        con: "border-2 bg-brandBlack border-neutral400 font-bold text-lg px-6 py-4",
       },
       size: {
         default: "h-10 px-5 py-3",

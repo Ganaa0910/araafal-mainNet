@@ -46,7 +46,7 @@ module.exports = {
           "var(--secondary-less-opacity, linear-gradient(266deg, rgba(70, 77, 255, 0.50) 0%, rgba(91, 195, 253, 0.50) 100%))",
       },
       fontFamily: {
-        'Chakra-Petch': ['"Chakra Petch"', 'sans-serif']
+        "Chakra-Petch": ['"Chakra Petch"', "sans-serif"],
       },
       colors: {
         lightblue: "#467AFF",
@@ -55,12 +55,14 @@ module.exports = {
         whiteish: "#E2E1E1",
         neutral100: "#C4C3C2",
         neutral400: "#4E4B48",
-        neutral500: "#1C1C1C",
+
+        neutral500: "#2B2B2B",
         neutral600: "#141414",
         secondaryLinear: "#464DFF",
       },
       backgrounds: {
-        primaryBrandGrad: ["FE6272", "FC9446"],
+        primaryBrandGrad: "",
+        neutral500: "#2B2B2B",
       },
       boxShadow: {
         shadowBrand: "0 0 240px 0 #FD7C5B",
