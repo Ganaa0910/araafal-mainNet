@@ -34,18 +34,20 @@ const RaffleConfirmation = ({
   const [paymentConfModal, setPaymentConfModal] = useState(false);
   const queryClient = useQueryClient();
   const [submitLoading, setSubmitLoading] = useState(false);
-  const { data, error, isLoading, mutateAsync } = useMutation({
+  const { error, isLoading, mutateAsync } = useMutation({
     mutationFn: createRaffle,
     onError: () => {
       setSubmitLoading(false);
       toast.error("We faced error when creating ticket");
       console.log(error);
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
+      console.log("🚀 ~ file: raffle-confirmation.tsx:51 ~ data:", data);
+
       setSubmitLoading(false);
       toast.success("Successfully created raffle");
       queryClient.invalidateQueries({ queryKey: ["raffles"] });
-      router.push(`/profile/${connectedAddress}/raf`);
+      router.push(`/createRaffle/${data?.data.id}/makeFeat`);
     },
   });
 

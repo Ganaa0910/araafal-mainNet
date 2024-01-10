@@ -17,6 +17,7 @@ import { Raffle } from "@/lib/types/dbTypes";
 import { toast } from "sonner";
 import { useWalletStore } from "@/slices/walletStore";
 import { useForm, SubmitHandler } from "react-hook-form";
+import RaffleStep from "@/components/ui/raffle-step";
 
 // import useForm
 
@@ -24,6 +25,7 @@ type FormValues = {
   name: string;
   desc: string;
   price: number;
+  sellingTicketLimit: number;
 };
 
 export default function CreateRaffle() {
@@ -44,9 +46,7 @@ export default function CreateRaffle() {
 
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [selectedTime, setSelectedTime] = useState(new Date());
-  const [name, setName] = useState("");
-  const [desc, setDesc] = useState("");
-  const [price, setPrice] = useState(0.01);
+
   const [chosenInscription, setChosenInscription] =
     useState<InscriptionType | null>(null);
   const [chosenCurrency, setChosenCurrency] = useState({
@@ -141,6 +141,7 @@ export default function CreateRaffle() {
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
     console.log("🚀 ~ file: index.tsx:135 ~ onSubmit ~ data:", data);
     setSubmitLoading(true);
+    const { name, desc, price } = data;
     if (!name || !desc || !price || !chosenInscription || !chosenCurrency) {
       setSubmitLoading(false);
       toast.error("Please fill all the fields");
@@ -202,20 +203,6 @@ export default function CreateRaffle() {
   let currentDate = new Date();
   let minDate = new Date(currentDate.setDate(currentDate.getUTCHours() + 2));
 
-  function handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
-    // Parse the input as a float
-    const number = parseFloat(e.target.value);
-
-    // Check if the parsed number is a number and is greater than or equal to 0.01
-    if (isNaN(number) || number < 0.01) {
-      alert("Value cannot be less than 0.01");
-      return;
-    }
-
-    // If the number is valid, set the price
-    setPrice(number);
-  }
-
   return (
     <Layout>
       {/* {inscriptions && account.connected == true && ( */}
@@ -239,12 +226,14 @@ export default function CreateRaffle() {
           newRaffleData={newRaffleData}
         />
       )}
-      <PageTitle name="Create Raffle" />
+      {/* <PageTitle name="Create Raffle" /> */}
 
-      <div className="w-full h-[574px] flex flex-row gap-8 mb-52">
+      <RaffleStep step={1} />
+
+      <div className="w-full h-[574px] grid grid-cols-12 gap-8 mb-52">
         {chosenInscription ? (
           <div
-            className="flex flex-col items-center justify-center w-1/3 overflow-hidden border-2 h-5/6 border-lightGray rounded-xl border-brand"
+            className="flex flex-col items-center justify-center col-span-4 overflow-hidden border-2 h-5/6 border-lightGray rounded-xl border-brand"
             onClick={toggleInscriptions}
           >
             <Image
@@ -269,7 +258,7 @@ export default function CreateRaffle() {
           </div>
         ) : (
           <div
-            className="flex flex-col items-center justify-center w-1/3 border-2 h-[464px] border-brand rounded-xl primary-gradient"
+            className="flex flex-col items-center justify-center col-span-4 border-2 h-[464px] border-brand rounded-xl primary-gradient"
             onClick={toggleInscriptions}
           >
             <Image
@@ -283,70 +272,83 @@ export default function CreateRaffle() {
             </h1>
           </div>
         )}
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="flex flex-row w-2/3 h-full gap-8">
-            <div className="flex flex-col w-2/3 gap-8 h-5/6">
-              <div className="flex flex-col w-full px-6 pt-5 pb-6 border-2 h-[144px] border-brand rounded-xl raffle-gradient">
-                <h1 className="text-2xl font-bolds">Ticket price</h1>
-                <div className="flex flex-row justify-between w-full mt-auto mb-0 h-1/2">
-                  <div
-                    className="flex flex-row items-center justify-center gap-4"
-                    onClick={() => setShowCurrency(true)}
-                  >
-                    <Image
-                      src={chosenCurrency.imagePath}
-                      alt="Your Image"
-                      width={32}
-                      height={32}
-                      className="w-10 h-10"
-                    />
-                    <h2 className="text-2xl font-bold">
-                      {chosenCurrency ? chosenCurrency.title : "BTC"}
-                    </h2>
-                    <Icons.chevronDown className="w-6 h-6 " />
-                  </div>
-                  <div className="ml-4">
-                    <input
-                      type="number"
-                      // name="amount"
-                      placeholder="Enter an amount"
-                      // min="0.01"
-                      // value={price}
-                      // onChange={(e) => handleInputChange(e)}
-                      className="px-6 py-3 rounded-lg bg-brandBlack focus:outline-none hover:border hover:border-brand"
-                      {...register("price", {
-                        required: { value: true, message: "Price is required" },
-                        min: {
-                          value: 0.01,
-                          message: "Price need to be higher than 0.01",
-                        },
-                      })}
-                    />
-                    {errors.price &&
-                      typeof errors.price.message === "string" && (
-                        <p className="text-sm text-red-600">
-                          {errors.price.message}
-                        </p>
-                      )}
-                  </div>
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="grid grid-cols-8 col-span-8 gap-8"
+        >
+          {/* <div className="flex flex-row w-2/3 h-full gap-8"> */}
+          <div className="flex flex-col col-span-5 gap-8 h-5/6">
+            <div className="flex flex-col w-full px-6 pt-5 pb-6 border-2 border-brand rounded-xl raffle-gradient">
+              <h1 className="text-2xl font-bolds">Ticket price</h1>
+              <div className="flex flex-row justify-between w-full mt-auto mb-0 h-1/2">
+                <div
+                  className="flex flex-row items-center justify-center gap-4"
+                  onClick={() => setShowCurrency(true)}
+                >
+                  <Image
+                    src={chosenCurrency.imagePath}
+                    alt="Your Image"
+                    width={32}
+                    height={32}
+                    className="w-10 h-10"
+                  />
+                  <h2 className="text-2xl font-bold">
+                    {chosenCurrency ? chosenCurrency.title : "BTC"}
+                  </h2>
+                  <Icons.chevronDown className="w-6 h-6 " />
+                </div>
+                <div className="flex flex-col gap-1 ml-4">
+                  <input
+                    type="number"
+                    // name="amount"
+                    placeholder="Enter an amount"
+                    // min="0.01"
+                    // value={price}
+                    // onChange={(e) => handleInputChange(e)}
+                    className="px-6 py-3 rounded-lg bg-brandBlack focus:outline-none hover:border hover:border-brand"
+                    {...register("price", {
+                      required: { value: true, message: "Price is required" },
+                      min: {
+                        value: 0.01,
+                        message: "Price need to be higher than 0.01",
+                      },
+                    })}
+                  />
+                  {errors.price && typeof errors.price.message === "string" ? (
+                    <p className="mb-5 text-sm text-red-600">
+                      {errors.price.message}
+                    </p>
+                  ) : (
+                    <p className="mb-5 text-sm text-neutral200">
+                      Input need to be higher than 0.01
+                    </p>
+                  )}
                 </div>
               </div>
-              <div className="flex flex-col w-full gap-4 px-6 pt-5 pb-6 border-2 border-brand raffle-gradient rounded-xl">
-                <h1 className="text-2xl">Name</h1>
+            </div>
+            <div className="flex flex-col w-full gap-4 px-6 pt-5 pb-6 border-2 border-brand raffle-gradient rounded-xl">
+              <h1 className="text-2xl">Name</h1>
+              <div className="flex flex-col gap-1">
                 <input
                   className="w-full px-5 py-3 text-xl font-medium bg-brandBlack focus:outline-none hover:border hover:border-brand rounded-xl"
                   {...register("name", {
                     required: { value: true, message: "Name is required" },
                     minLength: {
-                      value: 2,
+                      value: 3,
                       message: "Name need to be longer",
                     },
                   })}
                 />
-                {errors.name && typeof errors.name.message === "string" && (
+                {errors.name && typeof errors.name.message === "string" ? (
                   <p className="text-sm text-red-600">{errors.name.message}</p>
+                ) : (
+                  <p className="text-sm text-neutral200">
+                    Please input at least 3 characters
+                  </p>
                 )}
-                <h1 className="text-2xl">Description</h1>
+              </div>
+              <h1 className="text-2xl">Description</h1>
+              <div className="flex flex-col gap-1">
                 <textarea
                   className="w-full h-full px-5 py-3 text-xl font-medium bg-brandBlack focus:outline-none hover:border hover:border-brand rounded-xl"
                   {...register("desc", {
@@ -355,109 +357,113 @@ export default function CreateRaffle() {
                       message: "Description is required",
                     },
                     minLength: {
-                      value: 2,
-                      message: "Name need to be longer",
+                      value: 3,
+                      message: "Description need to be longer",
                     },
                   })}
                 />
-                {errors.desc && typeof errors.desc.message === "string" && (
+                {errors.desc && typeof errors.desc.message === "string" ? (
                   <p className="text-sm text-red-600">{errors.desc.message}</p>
+                ) : (
+                  <p className="text-sm text-neutral200">
+                    Please input at least 3 characters
+                  </p>
                 )}
               </div>
             </div>
-            {/* ________________________________________________________________________________________________________________________ */}
-            <div className="flex flex-col w-[320px] h-full justify-between">
-              <div className="w-full border-2 h-[216px] border-brand raffle-gradient rounded-xl px-6 pt-5 pb-6 flex flex-col gap-5">
-                <h1 className="flex flex-row justify-between text-2xl font-bold">
-                  Make it Featured
-                  <Image src={"/icon.svg"} width={28} height={28} alt="icon" />
-                </h1>
-                <h1 className="flex flex-row gap-3 text-2xl font-bold text-whiteish">
-                  <Image src={"/psat.svg"} width={36} height={36} alt="psat" />
-                  2000 PSAT
-                </h1>
-
-                <div
-                  className={`flex flex-row w-full border-2 bg-brandBlack rounded-xl ${
-                    isRaffleFeatured === false
-                      ? "border-brand"
-                      : "border-secondaryLinear"
-                  }`}
-                >
-                  <button
-                    className={`w-1/2 px-5 py-4 rounded-lg   ${
-                      isRaffleFeatured === false ? "bg-brand" : ""
-                    }`}
-                    onClick={() => handleButtonClick(false)}
-                  >
-                    Default
-                  </button>
-                  <button
-                    className={`w-1/2 px-5 py-4 rounded-lg ${
-                      isRaffleFeatured === true ? "bg-secondaryLinear" : ""
-                    }`}
-                    onClick={() => handleButtonClick(true)}
-                  >
-                    Featured
-                  </button>
-                </div>
-              </div>
-              <div className="w-full border-2 h-[256px] border-brand raffle-gradient rounded-xl flex flex-col gap-4 px-6 pb-6 pt-5">
-                <h1 className="text-xl">End Date</h1>
-                <DatePicker
-                  selected={selectedDate}
-                  onChange={handleDateChange}
-                  dateFormat="dd/MM/yyyy"
-                  className="w-full px-4 py-3 text-xl rounded-lg bg-brandBlack text-whiteish active:border active:border-brand"
-                  placeholderText="Pick a date"
-                  minDate={new Date()}
-                  disabled
+          </div>
+          {/* ________________________________________________________________________________________________________________________ */}
+          <div className="flex flex-col h-full col-span-3 gap-8">
+            <div className="flex flex-col w-full gap-5 px-6 pt-5 pb-6 border-2 border-brand raffle-gradient rounded-xl">
+              <h1 className="flex flex-row justify-between text-2xl font-bold">
+                Ticket supply
+              </h1>
+              <div className="flex flex-col gap-1">
+                <input
+                  className="w-full px-5 py-3 text-xl font-medium bg-brandBlack focus:outline-none hover:border hover:border-brand rounded-xl"
+                  {...register("sellingTicketLimit", {
+                    required: {
+                      value: true,
+                      message: "Tickey supply is required",
+                    },
+                    min: {
+                      value: 10,
+                      message: "Tickey supply need to higher than 10",
+                    },
+                    max: {
+                      value: 999,
+                      message: "Tickey supply need to below than 999",
+                    },
+                  })}
                 />
-                <DatePicker
-                  selected={selectedTime}
-                  onChange={handleTimeChange}
-                  showTimeSelect
-                  showTimeSelectOnly
-                  timeFormat="HH:mm"
-                  timeIntervals={15}
-                  dateFormat="hh:mm"
-                  timeCaption="Time"
-                  className="w-full px-4 py-3 text-xl rounded-lg bg-brandBlack text-whiteish focus:border focus:border-brand"
-                  minDate={minDate}
-                  disabled
-                />
-                <div className="text-center">
-                  In testnet launch user can&apos;t choose end date
-                </div>
+                {errors.sellingTicketLimit &&
+                typeof errors.sellingTicketLimit.message === "string" ? (
+                  <p className="text-sm text-red-600">
+                    {errors.sellingTicketLimit.message}
+                  </p>
+                ) : (
+                  <p className="text-sm text-neutral200">
+                    Tickey supply need to higher than 10
+                  </p>
+                )}
               </div>
+            </div>
+            <div className="w-full border-2 h-[256px] border-brand raffle-gradient rounded-xl flex flex-col gap-4 px-6 pb-6 pt-5">
+              <h1 className="text-xl">End Date</h1>
+              <DatePicker
+                selected={selectedDate}
+                onChange={handleDateChange}
+                dateFormat="dd/MM/yyyy"
+                className="w-full px-4 py-3 text-xl rounded-lg bg-brandBlack text-whiteish active:border active:border-brand"
+                placeholderText="Pick a date"
+                minDate={new Date()}
+                disabled
+              />
+              <DatePicker
+                selected={selectedTime}
+                onChange={handleTimeChange}
+                showTimeSelect
+                showTimeSelectOnly
+                timeFormat="HH:mm"
+                timeIntervals={15}
+                dateFormat="hh:mm"
+                timeCaption="Time"
+                className="w-full px-4 py-3 text-xl rounded-lg bg-brandBlack text-whiteish focus:border focus:border-brand"
+                minDate={minDate}
+                disabled
+              />
+              <div className="text-center">
+                In testnet launch user can&apos;t choose end date
+              </div>
+            </div>
 
-              <div className="w-full">
-                {/* <button
+            <div className="w-full">
+              {/* <button
                 className={`text-base w-full h-full bg-defaultGray border-lightGray px-[16px] py-[12px] h-[48px] hover:border-white`}
                 onClick={() => handleSubmit()}
               >
                 Submit
               </button> */}
-                <Button
-                  variant={"primary"}
-                  className="w-full"
-                  type="submit"
-                  // onClick={() => handleSubmit()}
-                  // disabled={submitLoading || isConnected == false}
-                >
-                  {submitLoading && (
-                    <Icons.spinner
-                      className="w-4 h-4 mr-0 md:mr-2 animate-spin "
-                      aria-hidden="true"
-                    />
-                  )}
-                  Submit
-                </Button>
-                {/* <Button onClick={handleTestButtoon}>testast5sa</Button>
+              <Button
+                variant={"primary"}
+                className="w-full"
+                type="submit"
+                // onClick={() => handleSubmit()}
+                // disabled={submitLoading || isConnected == false}
+              >
+                {submitLoading && (
+                  <Icons.spinner
+                    className="w-4 h-4 mr-0 md:mr-2 animate-spin "
+                    aria-hidden="true"
+                  />
+                )}
+                Continue
+              </Button>
+              {/* <Button onClick={handleTestButtoon}>testast5sa</Button>
               <Button onClick={handleNotTestButtoon}>asdasd</Button> */}
-              </div>
             </div>
           </div>
+          {/* </div> */}
         </form>
       </div>
     </Layout>

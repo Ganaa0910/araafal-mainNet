@@ -28,7 +28,7 @@ export type InscriptionType = {
 };
 
 export type UserBrc20Type = {
-  amount: string;
+  amt: string;
   inscriptionId: string;
   inscriptionNumber: number;
   isBRC20: boolean;
@@ -36,7 +36,7 @@ export type UserBrc20Type = {
   offset: number;
   operation: string;
   sequence: number;
-  ticker: string;
+  tick: string;
   type: string;
 };
 
