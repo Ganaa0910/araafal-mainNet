@@ -33,7 +33,7 @@ export default function Navbar() {
           </Link>
         </div>
         <div className="flex items-center gap-3 mx-auto">
-          <Link className="group transition duration-300 px-5 py-3 " href={"/createRaffle"}>
+          <Link className="group transition duration-300 px-5 py-3 " href={"/createraffle"}>
             <p className="shadow-white duration-300 text-featuredRaffles">Create Raffle</p>
             <span className="block max-w-0 group-hover:max-w-full transition-all duration-500 h-1 bg-brand"></span>
           </Link>

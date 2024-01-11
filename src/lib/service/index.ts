@@ -46,70 +46,70 @@ export async function fetchRaffles({
   limitParam = 10,
 }): Promise<{ raffles: Raffle[]; nextPage: number; nextLimit: number }> {
   const response = await axiosClient.get(
-    `/api/raffles?page=${pageParam}&limit=${limitParam}`,
+    `/api/mainNet/raffles?page=${pageParam}&limit=${limitParam}`,
   );
-  const raffles = response?.data;
+  const raffles = response?.data.data;
   const nextPage = pageParam + 1;
   const nextLimit = limitParam;
   return { raffles, nextPage, nextLimit };
 }
 
 export async function fetchFeaturedRaffles(): Promise<Raffle[]> {
-  return axiosClient.get(`/api/raffles/featured`).then((response) => {
-    return response?.data;
+  return axiosClient.get(`/api/mainNet/raffles/featured`).then((response) => {
+    return response?.data.data;
   });
 }
 
 export async function fetchRaffleById(id: string): Promise<Raffle> {
-  return axiosClient.get(`/api/raffles/${id}`).then((response) => {
-    return response?.data;
+  return axiosClient.get(`/api/mainNet/raffles/${id}`).then((response) => {
+    return response?.data.data;
   });
 }
 
 export async function getTicketsByUser(
   id: string,
 ): Promise<{ rows: TransactionWithTicket[] }> {
-  return axiosClient.get(`/api/tickets/user/${id}`).then((response) => {
-    return response?.data;
+  return axiosClient.get(`/api/mainNet/tickets/user/${id}`).then((response) => {
+    return response?.data.data;
   });
 }
 
 export async function getUserRaffles(id: string): Promise<Raffle[]> {
-  return axiosClient.get(`/api/users/${id}/myRaffles`).then((response) => {
-    return response?.data;
+  return axiosClient.get(`/api/mainNet/users/${id}/myRaffles`).then((response) => {
+    return response?.data.data;
   });
 }
 
 export async function getTicketsByRaffle(id: string) {
-  return axiosClient.get(`/api/raffles/${id}/tickets`).then((response) => {
-    return response?.data;
+  return axiosClient.get(`/api/mainNet/raffles/${id}/tickets`).then((response) => {
+    return response?.data.data;
   });
 }
 export async function getTicketsCountByRaffle(id: string) {
   return axiosClient
-    .get(`/api/raffles/${id}/tickets/count`)
+    .get(`/api/mainNet/raffles/${id}/tickets/count`)
     .then((response) => {
-      return response?.data;
+      return response?.data.data;
     });
 }
 
 export async function getUserProfile(address: string): Promise<User> {
-  return axiosClient.get(`/api/users/${address}/profile`).then((response) => {
-    return response?.data;
+  return axiosClient.get(`/api/mainNet/users/${address}/profile`).then((response) => {
+    return response?.data.data;
   });
 }
 
 export async function getUserWonRaffles(id: string) {
-  return axiosClient.get(`/api/users/${id}/wonRaffles`).then((response) => {
-    return response?.data;
+  return axiosClient.get(`/api/mainNet/users/${id}/wonRaffles`).then((response) => {
+    return response?.data.data;
   });
 }
 
 export async function getUserParticipated(id: string) {
   return axiosClient
-    .get(`/api/users/${id}/participatedRaffles`)
+    .get(`/api/mainNet/users/${id}/participatedRaffles`)
     .then((response) => {
-      return response?.data;
+      return response?.data.data;
     });
 }
 
@@ -139,58 +139,58 @@ export async function getInscriptionsTestnet(
   address: string,
 ): Promise<InscriptionType[]> {
   return axiosClient
-    .get(`/api/users/${address}/inscriptions`)
+    .get(`/api/mainNet/users/${address}/inscriptions`)
     .then((response) => {
-      return response?.data;
+      return response?.data.data;
     });
 }
 export async function decryptPrivateKeyNft(
   privateKey: string,
 ): Promise<{ decryptedPrivateKey: string }> {
   return axiosClient
-    .post(`/api/raffles/decryptPrivateKey/${privateKey}/nft`)
+    .post(`/api/mainNet/raffles/decryptPrivateKey/${privateKey}/nft`)
     .then((response) => {
-      return response?.data;
+      return response?.data.data;
     });
 }
 export async function decryptPrivateKeyTicket(
   privateKey: string,
 ): Promise<{ decryptedPrivateKey: string }> {
   return axiosClient
-    .post(`/api/raffles/decryptPrivateKey/${privateKey}/ticket`)
+    .post(`/api/mainNet/raffles/decryptPrivateKey/${privateKey}/ticket`)
     .then((response) => {
-      return response?.data;
+      return response?.data.data;
     });
 }
 export async function getUserBRC20Balance(
   address: string,
 ): Promise<UserBrc20Type[]> {
-  return axiosClient.get(`/api/users/${address}/brc20`).then((response) => {
-    return response?.data;
+  return axiosClient.get(`/api/mainNet/users/${address}/brc20`).then((response) => {
+    return response?.data.data;
   });
 }
 export async function getUserBitcoinBalance(address: string) {
-  return axiosClient.get(`/api/users/${address}/bitcoin`).then((response) => {
-    return response?.data;
+  return axiosClient.get(`/api/mainNet/users/${address}/bitcoin`).then((response) => {
+    return response?.data.data;
   });
 }
 export async function getReferralCode(address: string) {
-  return axiosClient.get(`/api/users/${address}/referral`).then((response) => {
-    return response?.data;
+  return axiosClient.get(`/api/mainNet/users/${address}/referral`).then((response) => {
+    return response?.data.data;
   });
 }
 
 export async function getPosition(address: string) {
   return axiosClient
-    .get(`/api/users/${address}/leaderboardPosition`)
+    .get(`/api/mainNet/users/${address}/leaderboardPosition`)
     .then((response) => {
-      return response?.data;
+      return response?.data.data;
     });
 }
 
 export async function getLeaderboard(): Promise<LeaderboardEachUserType[]> {
-  return axiosClient.get(`/api/leaderboard`).then((response) => {
-    return response?.data;
+  return axiosClient.get(`/api/mainNet/leaderboard`).then((response) => {
+    return response?.data.data;
   });
 }
 
@@ -200,7 +200,7 @@ export async function createRaffle({
   newRaffleData: Raffle;
 }) {
   try {
-    return axiosClient.post(`/api/raffles`, newRaffleData).then((response) => {
+    return axiosClient.post(`/api/mainNet/raffles`, newRaffleData).then((response) => {
       return response;
     });
   } catch (error) {
@@ -215,7 +215,7 @@ export async function updateRaffle({
 }) {
   try {
     return axiosClient
-      .put(`/api/raffles/${newRaffleData.id}`, newRaffleData)
+      .put(`/api/mainNet/raffles/${newRaffleData.id}`, newRaffleData)
       .then((response) => {
         return response;
       });
@@ -230,7 +230,7 @@ export async function createTicket({
   newTicketData: TransactionType;
 }) {
   try {
-    return axiosClient.post(`/api/tickets`, newTicketData).then((response) => {
+    return axiosClient.post(`/api/mainNet/tickets`, newTicketData).then((response) => {
       return response;
     });
   } catch (error) {
@@ -240,7 +240,7 @@ export async function createTicket({
 
 export async function createReferral() {
   try {
-    return axiosClient.post(`/api/users/referral`).then((response) => {
+    return axiosClient.post(`/api/mainNet/users/referral`).then((response) => {
       return response;
     });
   } catch (error) {
@@ -250,7 +250,7 @@ export async function createReferral() {
 
 export async function createWalletForRaffle() {
   try {
-    return axiosClient.post(`/api/raffles/generateWallet`).then((response) => {
+    return axiosClient.post(`/api/mainNet/raffles/generateWallet`).then((response) => {
       return response;
     });
   } catch (error) {
