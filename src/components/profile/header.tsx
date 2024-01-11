@@ -25,7 +25,7 @@ export default function ProfileHeader({
     enabled: !!slug && typeof slug === "string",
   });
   return (
-    <div className="flex flex-row gap-6 h-[160px] bg-neutral500 mb-8 p-6 rounded-xl relative">
+    <div className="flex flex-row gap-6 h-[160px] bg-neutral-800 mb-8 p-6 rounded-xl relative">
       <div className="h-full w-auto">
         <Image
           src={
