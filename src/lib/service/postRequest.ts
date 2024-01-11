@@ -19,7 +19,7 @@ const APIURL = SERVER_SETTINGS.BACKEND_URL;
 //     body: raw,
 //   };
 
-//   const response = await fetch(`${APIURL}/api/users/auth`, requestOptions);
+//   const response = await fetch(`${APIURL}/api/mainNet/users/auth`, requestOptions);
 
 //   const result = await response.json();
 
@@ -29,14 +29,14 @@ const APIURL = SERVER_SETTINGS.BACKEND_URL;
 export async function loginHandler({ walletData }: { walletData: User }) {
   try {
     return axiosClient
-      .post(`/api/users/auth`, JSON.stringify({ walletAddress: walletData }))
+      .post(`/api/mainNet/users/auth`, JSON.stringify({ walletAddress: walletData }))
       .then((response) => {
         console.log(
           "🚀 ~ file: postRequest.ts:34 ~ .then ~ response:",
           response,
         );
 
-        return response.data;
+        return response.data.data;
       });
   } catch (error) {
     console.log("Error:", error);
@@ -45,14 +45,14 @@ export async function loginHandler({ walletData }: { walletData: User }) {
 export async function profileUpdateHandler({ userData }: { userData: User }) {
   try {
     return axiosClient
-      .put(`/api/users/profile/edit`, JSON.stringify(userData))
+      .put(`/api/mainNet/users/profile/edit`, JSON.stringify(userData))
       .then((response) => {
         console.log(
           "🚀 ~ file: postRequest.ts:34 ~ .then ~ response:",
           response,
         );
 
-        return response.data;
+        return response.data.data;
       });
   } catch (error) {
     console.log("Error:", error);
@@ -81,7 +81,7 @@ export async function whitelistLoginHandler({
     // };
 
     // const response = await fetch(
-    //   `${APIURL}/api/users/register/wl/${whitelistCode}`,
+    //   `${APIURL}/api/mainNet/users/register/wl/${whitelistCode}`,
     //   requestOptions,
     // );
 
@@ -94,11 +94,11 @@ export async function whitelistLoginHandler({
     // return result;
     return axiosClient
       .post(
-        `/api/users/register/wl/${whitelistCode}`,
+        `/api/mainNet/users/register/wl/${whitelistCode}`,
         JSON.stringify({ walletAddress: walletData }),
       )
       .then((response) => {
-        return response.data;
+        return response.data.data;
       });
   } catch (error) {
     console.error("Error:", error);
@@ -128,7 +128,7 @@ export async function referralLoginHandler({
     // };
 
     // const response = await fetch(
-    //   `${APIURL}/api/users/register/${referralCode}`,
+    //   `${APIURL}/api/mainNet/users/register/${referralCode}`,
     //   requestOptions,
     // );
 
@@ -142,11 +142,11 @@ export async function referralLoginHandler({
 
     return axiosClient
       .post(
-        `/api/users/register/${referralCode}`,
+        `/api/mainNet/users/register/${referralCode}`,
         JSON.stringify({ walletAddress: walletData }),
       )
       .then((response) => {
-        return response.data;
+        return response.data.data;
       });
   } catch (error) {
     console.error("Error:", error);
