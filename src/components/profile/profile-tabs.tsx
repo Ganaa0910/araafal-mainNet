@@ -64,7 +64,7 @@ export default function ProfileTabs({
 
   return (
     <div className="flex flex-col h-auto gap-8">
-      <div className="flex flex-col w-full h-auto gap-[12px] p-[12px] border-lighterGray border-2 border-brand rounded-lg bg-gradient-to-r from-[#fc9446]/[0.5] to-[#fe6272]/[0.5]">
+      <div className="flex flex-col w-full h-auto gap-[12px] p-[12px] bg-neutral-800 rounded-lg  ">
         {/* <Button
           variant={isActive(`/profile/${slug}`) ? "active" : "notActive"}
           onClick={() => router.push(`/profile/${slug}`)}

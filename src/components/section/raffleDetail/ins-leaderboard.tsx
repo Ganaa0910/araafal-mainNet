@@ -77,7 +77,7 @@ export default function Leaderboard({
             <h5>Wallet</h5>
             <h5>Tickets</h5>
           </div>
-          <div className="group h-full w-full overflow-y-auto bg-brandBlack ">
+          <div className="h-full w-full overflow-y-auto bg-brandBlack ">
             {tickets?.rows.length > 0 &&
               tickets?.rows
                 .filter((token) =>
@@ -87,7 +87,7 @@ export default function Leaderboard({
                 )
                 .map((token, key) => (
                   <li
-                    className={`flex justify-between px-5 py-3 font-light text-lg border-b-2 border-neutral-600 group-hover:border-neutral-500 ${raffleDetail?.winnerId == token.userId &&
+                    className={`group flex justify-between px-5 py-3 font-light text-lg border-b-2 border-neutral-600 hover:border-neutral-500 ${raffleDetail?.winnerId == token.userId &&
                       "bg-brandBlack"
                       }`}
                     key={key}
