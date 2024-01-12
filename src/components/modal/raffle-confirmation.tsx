@@ -52,11 +52,12 @@ const RaffleConfirmation = ({
         setSubmitLoading(true);
 
         const response = await mutateAsync({ newRaffleData });
+        console.log(response);
         if (response && !response.data.error) {
           setSubmitLoading(false);
           toast.success("Successfully created raffle");
           queryClient.invalidateQueries({ queryKey: ["raffles"] });
-          router.push(`/createRaffle/${response?.data.id}/makeFeat`);
+          router.push(`/createRaffle/${response?.data.data.id}/makeFeat`);
         } else if (response && response.data.error) {
           toast.error(response.data.error);
           setSubmitLoading(false);

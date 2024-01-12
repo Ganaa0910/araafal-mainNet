@@ -49,6 +49,7 @@ export async function fetchRaffles({
     `/api/mainNet/raffles?page=${pageParam}&limit=${limitParam}`,
   );
   const raffles = response?.data.data;
+
   const nextPage = pageParam + 1;
   const nextLimit = limitParam;
   return { raffles, nextPage, nextLimit };
